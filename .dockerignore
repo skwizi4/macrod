@@ -1,0 +1,14 @@
+.git
+.env
+*.session
+config.yaml
+bin/
+data/
+logs/
+backups/
+img.png
+.DS_Store
+.idea/
+.vscode/
+secrets/
+site/

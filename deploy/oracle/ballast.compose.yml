@@ -1,0 +1,15 @@
+# Memory ballast, separate from macrod (decision of the owner, 2026-11-08).
+# On the server:  docker compose -f deploy/oracle/ballast.compose.yml up -d --build
+# Size: change --vm-bytes below; memswap_limit = mem_limit keeps it out of swap.
+services:
+  ballast:
+    build: ./ballast
+    image: macro-ballast:latest
+    command: ["--vm-bytes", "400M"]
+    restart: unless-stopped
+    mem_limit: 480m
+    memswap_limit: 480m
+    cpus: 0.1
+    logging:
+      driver: json-file
+      options: { max-size: "1m", max-file: "2" }

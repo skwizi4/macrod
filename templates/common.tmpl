@@ -1,0 +1,48 @@
+{{define "front" -}}
+---
+region: {{.Region}}
+agent: {{.Agent}}
+{{if .File}}file: {{.File}}
+{{end}}iso_week: {{.ISOWeek}}
+period: {{period .Period}}
+generated_at: {{rfc3339 .GeneratedAt}}
+kind: {{.Kind}}
+sources_ok: {{list .SourcesOK}}
+sources_failed: {{list .SourcesFailed}}
+{{if isSet .StaleSeries}}stale_series: {{list .StaleSeries}}
+{{end}}{{end}}
+
+{{- define "front_end" -}}
+---
+
+# {{.Title}}
+
+{{end}}
+
+{{- define "header" -}}
+{{template "front" .}}{{template "front_end" .}}{{end}}
+
+{{- define "missing" -}}
+{{range .Stale}}- {{.ID}} ({{.Label}}, последнее наблюдение {{obsDate .LastObs .Freq}}) — {{if .NextRelease}}следующий релиз: {{.NextRelease}} — {{date .NextDate}}{{else}}следующего релиза нет в календаре{{end}}.
+{{else}}- Устаревших рядов нет.
+{{end}}{{range .Failures}}- Источник {{.Key}}: ошибка с {{minute .Since}} — {{.Error}}.
+{{else}}- Источников с ошибками нет.
+{{end}}{{end}}
+
+{{- define "released" -}}
+## 1. Что вышло за неделю
+
+{{if .}}| Дата (ET) | Релиз | Показатель | Факт | Пред. | Изменение | Ревизия пред. |
+|---|---|---|---|---|---|---|
+{{range .}}| {{releaseWhen .}} | {{.Name}} | {{.SeriesID}} | {{factCurrent .}} | {{factPrevious .}} | {{factChange .}} | {{factRevision .}} |
+{{end}}
+{{else}}Новых релизов за неделю не было.
+
+{{end}}{{end}}
+
+{{- define "document" -}}
+{{documentHeading .}}
+{{.Excerpt}}
+{{if .URL}}Ссылка: {{.URL}}
+{{end}}
+{{end}}

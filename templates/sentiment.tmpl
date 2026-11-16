@@ -1,0 +1,172 @@
+{{define "sentiment" -}}
+{{template "header" .Header -}}
+Что делает рынок рядом с тем, что пишут каналы: реакция цен на события, крупнейшие дневные движения, режим, волатильность, ширина, позиции, рынки предсказаний, темы недели.
+
+## 1. Реакция рынка на события
+
+{{template "sent_reaction" .Reaction -}}
+## 2. Крупнейшие дневные движения недели
+
+{{template "sent_moves" .Moves -}}
+{{template "sent_regime" .Regime -}}
+{{template "sent_volatility" .Volatility -}}
+## 5. Ширина и ротация
+
+Отношение цен закрытия ETF; Δ1w / Δ4w — изменение отношения в %. Рост RSP/SPY и QQEW/QQQ — рынок расширяется (растут не только крупнейшие); рост XLU/XLP к SPY — уход в защиту; SMH/QQQ — лидерство полупроводников.
+
+{{if .Breadth}}| Отношение | Дата | Уровень | Δ1w | Δ4w |
+|---|---|---|---|---|
+{{range .Breadth}}| {{.Label}} | {{obsDate .Date "d"}} | {{val3 .Level}} | {{signedPct1 .Change1W}} | {{signedPct1 .Change4W}} |
+{{end}}
+{{else}}Отношения не настроены (sentiment.ratios).
+
+{{end -}}
+{{template "sent_positioning" .Positioning -}}
+{{template "sent_predictions" .Predictions -}}
+## 8. Пропущенные / устаревшие данные
+{{template "missing" .Missing}}{{end}}
+
+{{- define "sent_reaction" -}}
+{{if .Configured}}Изменение за первые {{.WindowMinutes}} мин после события и до закрытия 16:00 ET (событие после 16:00 — до закрытия следующего дня); цены — 1-минутные бары фьючерсов Yahoo. 2Y ≈ б.п. — из цены фьючерса ZT=F через дюрацию (приближённо). Сюрприз — строки «факт (ожидание)» из постов (E2), не проверены.
+
+{{if .Rows}}{{$w := .WindowMinutes}}| Событие | Время (ET) | Сюрприз{{range .Symbols}} | {{.}} {{$w}} мин / close{{end}} |
+|---|---|---{{range .Symbols}}|---{{end}}|
+{{range .Rows}}| {{join .Labels " + "}} | {{etShort .At}} | {{surpriseCell .Surprises}}{{range .Moves}} | {{reactionCell .First}} / {{reactionCell .Full}}{{end}} |
+{{end}}{{if .NoBars}}
+«—» — нет баров: Yahoo хранит 1-минутные бары 30 дней, демон грузит их после закрытия; рынок закрыт или закрытие после конца недели.
+{{end}}
+{{else}}Событий из списка за неделю не было.
+
+{{end}}{{else}}Не настроено (sentiment.reaction).
+
+{{end}}{{end}}
+
+{{- define "sent_moves" -}}
+{{if .Configured}}Изменение цены закрытия к закрытию предыдущего торгового дня, в %; 2Y — ≈ изменение доходности в б.п. по фьючерсу ZT=F (−Δцены% / дюрация × 100). Самое крупное по модулю за неделю — **жирным**; не зависит от календаря событий.
+
+{{if .Days}}{{$days := .Days}}| Инструмент{{range .Days}} | {{moveDay .}}{{end}} | Крупнейшее |
+|---{{range .Days}}|---{{end}}|---|
+{{range .Rows}}| {{.Label}}{{dailyCells . $days}} | {{dailyTop .}} |
+{{end}}
+{{end}}{{else}}Инструменты не настроены (sentiment.daily_moves).
+
+{{end}}{{end}}
+
+{{- define "sent_regime" -}}
+## 3. Режим рынка: акции vs ставки
+
+Корреляция {{.CorrDays}} торговых дней: дневные доходности NASDAQ 100 (%) и изменения UST 10Y (б.п.). r < −{{printf "%.1f" .Threshold}} — рынок боится инфляции и ставок (доходности вверх, акции вниз); r > +{{printf "%.1f" .Threshold}} — боится роста (доходности и акции падают вместе).
+
+| Показатель | Дата | r | Режим | Неделю назад |
+|---|---|---|---|---|
+| r(NDX, Δ UST 10Y) | {{obsDate .Date "d"}} | {{signed2 .R}} | {{regimeName .R .Threshold}} | {{signed2 .RWeekAgo}} ({{regimeName .RWeekAgo .Threshold}}) |
+
+{{end}}
+
+{{- define "sent_volatility" -}}
+## 4. Волатильность и защита
+
+VIX — ожидаемая волатильность S&P 500 на 30 дней, VIX3M — на 3 месяца; VIX/VIX3M > 1 (инверсия) — страх «здесь и сейчас». SKEW — цена защиты от обвала (выше — дороже хвостовая защита). MOVE — ожидаемая волатильность Treasuries на месяц. Δ — в пунктах; `z` — за 52 нед.
+
+| Показатель | Дата | Уровень | Δ1w | Δ4w | z | Флаги |
+|---|---|---|---|---|---|---|
+{{range .Rows}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{marketChange .Kind .Change1W}} | {{marketChange .Kind .Change4W}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}| {{.Ratio.Label}} | {{obsDate .Ratio.Date "d"}} | {{val2 .Ratio.Level}} | {{signed2 .Ratio.Change1W}} | {{signed2 .Ratio.Change4W}} | — | {{flags .Ratio.Flags}} |
+
+{{if isSet .PutCall}}Put/call Cboe — объём путов к коллам за день; рост — покупают защиту. Среднее за 5 торговых дней сглаживает экспирации; `z` — дневного значения за 52 нед.
+
+| Показатель | Дата | За день | Среднее 5д | Среднее 5д неделю назад | z | Флаги |
+|---|---|---|---|---|---|---|
+{{range .PutCall}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{val2 .Avg5}} | {{val2 .Avg5WeekAgo}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}
+{{end}}{{end}}
+
+{{- define "sent_positioning" -}}
+## 6. Позиционирование
+
+CFTC COT, TFF — Futures Only: данные на вторник, публикация в пятницу 15:30 ET. Нетто = long − short, в контрактах; `z` — z-score нетто за 52 нед. Leveraged Funds — хедж-фонды и CTA (быстрые деньги), Asset Managers — институционалы.
+
+{{if .Contracts}}| Контракт | Дата отчёта | Leveraged Funds нетто | Δ1w | z | Asset Managers нетто | Δ1w | z | Open interest |
+|---|---|---|---|---|---|---|---|---|
+{{range .Contracts}}| {{.Name}} | {{obsDate .Date "w"}} | {{signedInt .LevNet}} | {{signedInt .LevChange}} | {{z .LevZ}} | {{signedInt .AMNet}} | {{signedInt .AMChange}} | {{z .AMZ}} | {{whole .OpenInterest}} |
+{{end}}{{else}}Контракты CFTC не настроены.
+{{end}}{{with .MMF}}
+Фонды денежного рынка — деньги «на берегу»: рост — уход в кэш, отток — деньги идут в рискованные активы. Только розничные фонды (ФРС H.6), данные с лагом ~4 недели; ICI (все фонды) не отдаёт данные программе.
+
+| Показатель | Дата | Уровень | Δ1w | Δ4w | Флаги |
+|---|---|---|---|---|---|
+| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{change .Kind .Change1W true}} | {{change .Kind .Change4W true}} | {{flags .Flags}} |
+{{end}}
+{{end}}
+
+{{- define "sent_predictions" -}}
+## 7. Рынки предсказаний
+
+{{if .Enabled}}{{if .Questions}}Одна строка — вопрос на одной площадке. Распределение: исход, вероятность = последняя цена «да» (за $1 выплаты), в скобках Δ1w / Δ4w в п.п.; исходы — по убыванию вероятности. Kalshi и Polymarket — разные площадки: расхождение — неопределённость или разная формулировка вопроса.
+
+| Тема | Вопрос | Площадка | Дата | Распределение |
+|---|---|---|---|---|
+{{range .Questions}}| {{.Topic}} | {{.Title}} | {{.Source}} | {{obsDate .Date .Freq}} | {{predictionCell .}} |
+{{end}}
+{{with .Hike}}**P(повышение ставки) на заседании {{date .Meeting}}:** {{hikeCells .}}. ZQ — из траектории фьючерсов (USA Monetary, цены на {{date .PriceDate}}); на площадках — сумма исходов с повышением.
+
+{{end}}{{else}}Одна строка — вопрос на одной площадке. Распределение: исход, вероятность = последняя цена «да» (за $1 выплаты), в скобках Δ1w / Δ4w в п.п.; исходы — по убыванию вероятности. Kalshi и Polymarket — разные площадки: расхождение — неопределённость или разная формулировка вопроса.
+
+Нет открытых рынков на конец недели.
+
+{{end}}{{else}}Не настроены (prediction_markets).
+
+{{end}}{{end}}
+
+{{- define "sentiment_eu" -}}
+{{template "header" .Header -}}
+Что делает рынок Европы рядом с тем, что пишут каналы: реакция цен на события, крупнейшие дневные движения, режим, волатильность. Посты и темы недели — в `current_week.md` (файл новостей общий с USA News). Put/call и ширины рынка по Европе бесплатных нет; COT Euro FX — в `markets_eu.md` EU Master.
+
+## 1. Реакция рынка на события
+
+{{template "sent_reaction_eu" .Reaction -}}
+## 2. Крупнейшие дневные движения недели
+
+{{if .Moves.Configured}}Изменение цены закрытия к закрытию предыдущего торгового дня, в %; Bund 10Y — изменение доходности в б.п. (Бундесбанк). Самое крупное по модулю за неделю — **жирным**; не зависит от календаря событий.
+
+{{if .Moves.Days}}{{$days := .Moves.Days}}| Инструмент{{range .Moves.Days}} | {{moveDay .}}{{end}} | Крупнейшее |
+|---{{range .Moves.Days}}|---{{end}}|---|
+{{range .Moves.Rows}}| {{.Label}}{{dailyCells . $days}} | {{dailyTop .}} |
+{{end}}
+{{end}}{{else}}Инструменты не настроены (sentiment.daily_moves).
+
+{{end -}}
+## 3. Режим рынка: акции vs ставки
+
+Корреляция {{.Regime.CorrDays}} торговых дней: дневные доходности GER40 (%) и изменения Bund 10Y (б.п.). r < −{{printf "%.1f" .Regime.Threshold}} — рынок боится инфляции и ставок (доходности вверх, акции вниз); r > +{{printf "%.1f" .Regime.Threshold}} — боится роста (доходности и акции падают вместе).
+
+| Показатель | Дата | r | Режим | Неделю назад |
+|---|---|---|---|---|
+| r(GER40, Δ Bund 10Y) | {{obsDate .Regime.Date "d"}} | {{signed2 .Regime.R}} | {{regimeName .Regime.R .Regime.Threshold}} | {{signed2 .Regime.RWeekAgo}} ({{regimeName .Regime.RWeekAgo .Regime.Threshold}}) |
+
+## 4. Волатильность
+
+VDAX-NEW — ожидаемая волатильность DAX на 30 дней, VSTOXX — Euro Stoxx 50 (STOXX). VDAX/VIX > 1 — страх в Европе выше, чем в США. Δ — в пунктах; `z` — за 52 нед.
+
+| Показатель | Дата | Уровень | Δ1w | Δ4w | z | Флаги |
+|---|---|---|---|---|---|---|
+{{range .Volatility.Rows}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{marketChange .Kind .Change1W}} | {{marketChange .Kind .Change4W}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}| {{.Volatility.Ratio.Label}} | {{obsDate .Volatility.Ratio.Date "d"}} | {{val2 .Volatility.Ratio.Level}} | {{signed2 .Volatility.Ratio.Change1W}} | {{signed2 .Volatility.Ratio.Change4W}} | — | {{flags .Volatility.Ratio.Flags}} |
+
+## 5. Пропущенные / устаревшие данные
+{{template "missing" .Missing}}{{end}}
+
+{{- define "sent_reaction_eu" -}}
+{{if .Configured}}{{$daily := .Daily}}Изменение за первые {{.WindowMinutes}} мин после события и до закрытия Xetra {{.Close}} (CET/CEST; событие после закрытия — до закрытия следующего дня); цены — 1-минутные бары Yahoo. Bund 10Y — минутных цен нет: изменение доходности за день закрытия (Бундесбанк), в б.п. Сюрприз — строки «факт (ожидание)» из постов (E2), не проверены.
+
+{{if .Rows}}{{$w := .WindowMinutes}}| Событие | Время (CET/CEST) | Сюрприз{{range .Symbols}} | {{.}}{{if inList $daily .}} — / за день{{else}} {{$w}} мин / close{{end}}{{end}} |
+|---|---|---{{range .Symbols}}|---{{end}}|
+{{range .Rows}}| {{join .Labels " + "}} | {{etShort .At}} | {{surpriseCell .Surprises}}{{range .Moves}} | {{reactionCell .First}} / {{reactionCell .Full}}{{end}} |
+{{end}}{{if .NoBars}}
+«—» — нет баров: Yahoo хранит 1-минутные бары 30 дней, демон грузит их после закрытия; рынок закрыт или закрытие после конца недели.
+{{end}}
+{{else}}Событий из списка за неделю не было.
+
+{{end}}{{else}}Не настроено (sentiment.reaction).
+
+{{end}}{{end}}

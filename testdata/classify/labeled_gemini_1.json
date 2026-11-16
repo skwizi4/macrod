@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "[\n  {\n    \"id\": \"1\",\n    \"is_junk\": false,\n    \"primary\": \"usa_micro\",\n    \"reason\": \"OpenAI revenue, valuation, and Nasdaq reaction to AI economics.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_micro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"2\",\n    \"is_junk\": false,\n    \"primary\": \"usa_micro\",\n    \"reason\": \"AI infrastructure companies and IPO valuations.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.9,\n        \"tag\": \"usa_micro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"3\",\n    \"is_junk\": false,\n    \"primary\": \"usa_micro\",\n    \"reason\": \"SoftBank credit risk and its AI financing impact.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.85,\n        \"tag\": \"usa_micro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"4\",\n    \"is_junk\": false,\n    \"primary\": \"usa_fiscal\",\n    \"reason\": \"Treasury buybacks, term premium, and global duration selloff.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_fiscal\"\n      }\n    ]\n  },\n  {\n    \"id\": \"5\",\n    \"is_junk\": false,\n    \"primary\": \"usa_micro\",\n    \"reason\": \"Nvidia guidance, AI capex, and supply chain bottlenecks.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_micro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"6\",\n    \"is_junk\": false,\n    \"primary\": \"usa_monetary\",\n    \"reason\": \"US CPI release, Fed rate expectations, and curve reaction.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_monetary\"\n      },\n      {\n        \"confidence\": 0.8,\n        \"tag\": \"usa_fiscal\"\n      }\n    ]\n  },\n  {\n    \"id\": \"7\",\n    \"is_junk\": false,\n    \"primary\": \"usa_monetary\",\n    \"reason\": \"Fed policy credibility, term premium, and bond vigilantes.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_monetary\"\n      },\n      {\n        \"confidence\": 0.9,\n        \"tag\": \"usa_fiscal\"\n      }\n    ]\n  },\n  {\n    \"id\": \"8\",\n    \"is_junk\": false,\n    \"primary\": \"usa_fiscal\",\n    \"reason\": \"Intel equity issuance and corporate capex funding.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.85,\n        \"tag\": \"usa_fiscal\"\n      },\n      {\n        \"confidence\": 0.8,\n        \"tag\": \"usa_micro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"9\",\n    \"is_junk\": false,\n    \"primary\": \"usa_monetary\",\n    \"reason\": \"USDJPY intervention, interest rate differentials, and US real yields.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.75,\n        \"tag\": \"usa_monetary\"\n      }\n    ]\n  },\n  {\n    \"id\": \"10\",\n    \"is_junk\": false,\n    \"primary\": \"usa_fiscal\",\n    \"reason\": \"AI capex borrowing competing with Treasury issuance on long end.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_fiscal\"\n      },\n      {\n        \"confidence\": 0.6,\n        \"tag\": \"usa_micro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"11\",\n    \"is_junk\": false,\n    \"primary\": \"usa_monetary\",\n    \"reason\": \"Federal Reserve communication, inflation data, and growth outlook.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_monetary\"\n      }\n    ]\n  },\n  {\n    \"id\": \"12\",\n    \"is_junk\": false,\n    \"primary\": null,\n    \"reason\": \"Crypto only.\",\n    \"tags\": []\n  },\n  {\n    \"id\": \"13\",\n    \"is_junk\": true,\n    \"primary\": null,\n    \"reason\": \"Giveaway advertising.\",\n    \"tags\": []\n  },\n  {\n    \"id\": \"14\",\n    \"is_junk\": true,\n    \"primary\": null,\n    \"reason\": \"Good morning greeting with no macro content.\",\n    \"tags\": []\n  },\n  {\n    \"id\": \"15\",\n    \"is_junk\": false,\n    \"primary\": \"eu_ecb\",\n    \"reason\": \"ECB rate decision and Lagarde's inflation comments.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"eu_ecb\"\n      }\n    ]\n  },\n  {\n    \"id\": \"16\",\n    \"is_junk\": false,\n    \"primary\": \"eu_macro\",\n    \"reason\": \"German Ifo index and European industry data.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"eu_macro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"17\",\n    \"is_junk\": false,\n    \"primary\": \"eu_micro\",\n    \"reason\": \"SAP earnings, cloud revenue, and guidance raise.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"eu_micro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"18\",\n    \"is_junk\": false,\n    \"primary\": \"usa_monetary\",\n    \"reason\": \"US jobless claims and Fed rate cut expectations.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_monetary\"\n      }\n    ]\n  }\n]",
+            "thoughtSignature": "EmAKXgFpFH0TllTsZtay5q/AnY3S60Hb5R+46QF5Ta+1UMemTF5nScO/R7m/l9RkP5iu/u43tOngKZu5J/LRZNOsvIBXLFWyQsYJl0RboFU0EwgsCtKKZo42b9Oqe9BCAec="
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 8295,
+    "candidatesTokenCount": 1560,
+    "totalTokenCount": 9855,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 8295
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "zxreaojyJaG1xN8PuKjPiAU"
+}

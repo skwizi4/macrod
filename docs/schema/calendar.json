@@ -1,0 +1,363 @@
+{
+  "$defs": {
+    "CalendarDaily": {
+      "additionalProperties": false,
+      "properties": {
+        "et": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "local": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "local",
+        "et"
+      ],
+      "type": "object"
+    },
+    "CalendarMissed": {
+      "additionalProperties": false,
+      "properties": {
+        "at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "at"
+      ],
+      "type": "object"
+    },
+    "CalendarPrevious": {
+      "additionalProperties": false,
+      "properties": {
+        "btc": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "code": {
+          "type": "string"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "form": {
+          "type": "string"
+        },
+        "freq": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "index",
+            "rate",
+            "pct",
+            "bn",
+            "thous",
+            "count",
+            "usd",
+            "ratio",
+            "bp",
+            "px",
+            "usd0",
+            "bn_eur",
+            "eur",
+            "fx"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "form",
+        "name",
+        "code",
+        "kind",
+        "value",
+        "btc",
+        "date",
+        "freq"
+      ],
+      "type": "object"
+    },
+    "CalendarReport": {
+      "additionalProperties": false,
+      "properties": {
+        "daily": {
+          "items": {
+            "$ref": "#/$defs/CalendarDaily"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "expiration": {
+          "$ref": "#/$defs/Expiration"
+        },
+        "header": {
+          "$ref": "#/$defs/Header"
+        },
+        "hour_diffs": {
+          "items": {
+            "type": "integer"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "missed": {
+          "items": {
+            "$ref": "#/$defs/CalendarMissed"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/CalendarRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "tz_label": {
+          "type": "string"
+        },
+        "usual_hour_diff": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "header",
+        "tz_label",
+        "usual_hour_diff",
+        "hour_diffs",
+        "rows",
+        "daily",
+        "expiration",
+        "missed"
+      ],
+      "type": "object"
+    },
+    "CalendarRow": {
+      "additionalProperties": false,
+      "properties": {
+        "et": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "highlight": {
+          "type": "boolean"
+        },
+        "importance": {
+          "type": "string"
+        },
+        "local": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "previous": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/CalendarPrevious"
+            }
+          ]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "local",
+        "et",
+        "title",
+        "highlight",
+        "importance",
+        "previous"
+      ],
+      "type": "object"
+    },
+    "Expiration": {
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "this_week": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "date",
+        "this_week"
+      ],
+      "type": "object"
+    },
+    "Header": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "iso_week": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "region": {
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "sources_failed": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sources_ok": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stale_series": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "region",
+        "agent",
+        "iso_week",
+        "period",
+        "generated_at",
+        "kind",
+        "sources_ok",
+        "sources_failed",
+        "stale_series",
+        "title"
+      ],
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "to": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "tz": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "tz"
+      ],
+      "type": "object"
+    },
+    "Quantity": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "percent",
+            "bp",
+            "pp",
+            "usd_bn",
+            "usd",
+            "eur_bn",
+            "eur",
+            "thousands_persons",
+            "count",
+            "index",
+            "ratio",
+            "sigma",
+            "moves_25bp",
+            "correlation",
+            "times"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ],
+      "type": "object"
+    }
+  },
+  "$ref": "#/$defs/CalendarReport",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "calendar"
+}

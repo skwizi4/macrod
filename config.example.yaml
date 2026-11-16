@@ -1,0 +1,863 @@
+timezone: "Europe/Bratislava"
+data_dir: "./data"   # БД, логи, exchange/, reports/; относительный путь — от папки этого файла
+# приоритет: флаг --data-dir > env MACRO_DATA_DIR > data_dir здесь > ./data (D17)
+db_path: "${data_dir}/macro.db"
+history_start: "2000-01-01"
+
+export:
+  exchange_dir: "${data_dir}/exchange"
+  reports_dir: "${data_dir}/reports"
+  # prompts_dir: "prompts" # промпты агентов <регион>/<агент>.md → instructions.md в папке агента (ТЗ §21.5);
+  #   относительный путь — от папки этого файла: при ./data/config.yaml искать будет ./data/prompts
+  weekly_cron: "0 16 * * 0"          # воскресенье 16:00 Europe/Bratislava
+  lookback_days: 7
+  max_file_chars: 60000
+  event_export: immediate             # FOMC/ЕЦБ — экспорт сразу после появления документа
+
+# Шаблоны: встроены в бинарник; файлы *.tmpl из этой папки заменяют одноимённые {{define}} (путь — от папки конфига).
+# templates_dir: "./my-templates"
+
+# Регионы и агенты (ТЗ §21.3). id региона — папка в exchange/ и reports/ и значение region у постов и событий.
+# У агента: id (agent в шапке, reports/<регион>/<неделя>/<id>.md), folder (по умолчанию = id),
+# series_tags (значения поля agent: у рядов), texts (fed, treasury), companies (тикеры edgar.companies),
+# channels (handle/имя ленты; пусто — все источники региона), reports (файлы).
+# У отчёта: report (тип: monetary, fiscal_liquidity, micro, news, sentiment, markets, calendar, key_metrics, fomc_diff),
+# file, title, template (по умолчанию = report), таблицы типа — все обязательны, пустая пишется [].
+regions:
+  - id: usa
+    title: "США"            # в сообщении доставки: «Недельный экспорт 2026-W46 — США готов»
+    index: "^NDX"
+    yahoo_poll: "22:30"     # Europe/Bratislava, после закрытия США
+    agents:
+      - id: monetary
+        series_tags: [usa_monetary]
+        texts: [fed]
+        reports:
+          - report: monetary
+            file: current_week.md
+            title: "USA Monetary"
+            tables:
+              growth: [GDPC1, GDPNOW, GDP, GDPDEF, PCE, NETEXP, PSAVERT]
+              sentiment: [UMCSENT, MICH]
+              labor: [UNRATE, PAYEMS, ICSA, CCSA, JTSJOL, JTSJOR, U_V, JTSQUR, JTSHIL, CES0500000003, ECIALLCIV, ULCNFB, OPHNFB]
+              inflation: [CPIAUCSL, CPILFESL, CUSR0000SAH1, CUSR0000SASL2RS, STICKCPIM159SFRBATL, PPIFIS, PPIFES, WPSFD49116, PCEPI, PCEPILFE]
+              expectations: [T5YIE, T5YIFR, T10YIE]
+              fed: [DFF, DGS2, M2SL]
+              energy: ["CL=F", "NG=F"]
+          - { report: fomc_diff, file: fomc_diff.md, title: "USA Monetary" }
+      - id: fiscal_liquidity
+        series_tags: [usa_fiscal]
+        texts: [treasury]
+        reports:
+          - report: fiscal_liquidity
+            file: current_week.md
+            title: "USA Fiscal & Liquidity"
+            tables:
+              liquidity: [WALCL, WDTGAL, TGA_DTS, RRPONTSYD, WRESBAL, NET_LIQUIDITY]
+              funding: [SOFR, IORB, SOFR_IORB, RPONTSYD]
+              budget: [MTSDS133FMS, MTS_RECEIPTS, MTS_OUTLAYS, GFDEGDQ188S, A091RC1Q027SBEA, GCE]
+              curve: [DGS3MO, DGS2, DGS10, DGS30, DFII10, THREEFYTP10, UST_2S10S, UST_3M10Y]
+              derived: [NET_LIQUIDITY, SOFR_IORB, UST_2S10S, UST_3M10Y]
+      - id: micro
+        series_tags: [usa_micro]
+        companies: [MSFT, GOOGL, AMZN, META, AAPL, NVDA, AVGO, TSLA]
+        reports:
+          - { report: micro, file: current_week.md, title: "USA Micro" }
+      - id: news
+        series_tags: [usa_news]
+        reports:
+          - report: news
+            file: current_week.md
+            title: "USA News"
+            filtered_file: news_filtered.md
+            uncategorized_file: uncategorized.md
+            shared: true            # общий файл новостей всех регионов (фаза 11): тот же блок — у EU News
+            own_tag_prefixes: ["usa_", "eu_"]
+            tag_topics: { usa_monetary: fed, usa_fiscal: fiscal, usa_politics: politics, energy_geopolitics: energy, usa_micro: earnings,
+                          eu_ecb: europe, eu_fiscal: europe, eu_macro: europe, eu_micro: europe }
+          - { report: sentiment, file: sentiment.md, title: "USA Sentiment" }
+      - id: master
+        series_tags: [usa_master]
+        reports:
+          - report: markets
+            file: markets_usa.md
+            title: "USA Markets"
+            tables:
+              rows: ["^NDX", "NQ=F", "^GSPC", "^VIX", "^MOVE", BAMLH0A0HYM2, BAMLC0A0CM, "DX-Y.NYB", "GC=F", "HG=F", "BTC-USD"]
+          - report: calendar
+            file: calendar_usa.md
+            title: "USA Calendar"
+            previous:   # релиз FRED → ряд, чьё последнее значение показать как «прошлое»
+              10:  { series: CPIAUCSL, code: yoy, name: "CPI YoY" }
+              11:  { series: ECIALLCIV, code: yoy, name: "ECI YoY" }
+              20:  { series: WALCL, code: level, name: "WALCL" }
+              46:  { series: PPIFIS, code: yoy, name: "PPI YoY" }
+              50:  { series: PAYEMS, code: diff, name: "NFP" }
+              53:  { series: GDPC1, code: qoqa, name: "Real GDP QoQa" }
+              54:  { series: PCEPILFE, code: yoy, name: "Core PCE YoY" }
+              91:  { series: UMCSENT, code: level, name: "UMCSENT" }
+              180: { series: ICSA, code: level, name: "ICSA" }
+              192: { series: JTSJOL, code: level, name: "JOLTS" }
+              363: { series: MTSDS133FMS, code: level, name: "дефицит" }
+              386: { series: GDPNOW, code: level, name: "GDPNow" }
+          - report: key_metrics
+            file: key_metrics_usa.md
+            title: "USA Key Metrics"
+            sentiment_rows: true   # + VIX/VIX3M, put/call акций, RSP/SPY, P(рецессия, Kalshi) — из sentiment.md
+            rows:
+              - { label: "Net Liquidity", id: NET_LIQUIDITY }
+              - { label: "Fed Funds (эффективная)", id: DFF }
+              - { label: "Траектория ставки (ZQ)", id: FED_PATH }
+              - { label: "UST 2Y", id: DGS2 }
+              - { label: "UST 10Y", id: DGS10 }
+              - { label: "Real Yield 10Y", id: DFII10 }
+              - { label: "Term Premium 10Y", id: THREEFYTP10 }
+              - { label: "Core PCE 3mA", id: PCEPILFE, code: a3m }
+              - { label: "Core CPI 3mA", id: CPILFESL, code: a3m }
+              - { label: "Unemployment Rate", id: UNRATE }
+              - { label: "Initial Claims", id: ICSA }
+              - { label: "HY-спред", id: BAMLH0A0HYM2 }
+              - { label: "VIX", id: "^VIX" }
+              - { label: "MOVE", id: "^MOVE" }
+              - { label: "NASDAQ 100", id: "^NDX" }
+    # Страницы дашборда (ТЗ §21.4), порядок = порядок меню. kind: line | bar | curve.
+    # ref — source/id ряда из этого конфига, transform — код из metrics (по умолчанию level).
+    dashboard:
+      pages:
+        - id: overview
+          title: "Обзор"
+          views: [{ view: key_metrics }, { view: status }]
+        - id: liquidity
+          title: "Ликвидность"
+          charts:
+            - { title: "Net Liquidity", kind: line, series: [{ ref: derived/NET_LIQUIDITY }] }
+            - title: "Составляющие"
+              kind: line
+              series: [{ ref: fred/WALCL }, { ref: fred/WDTGAL }, { ref: fred/RRPONTSYD }, { ref: fred/WRESBAL }]
+            - { title: "SOFR − IORB", kind: line, series: [{ ref: derived/SOFR_IORB }] }
+        - id: rates
+          title: "Ставки"
+          charts:
+            - title: "Кривая UST: сейчас и 4 недели назад"
+              kind: curve
+              compare_days: 28
+              series:
+                - { ref: fred/DGS3MO, label: "3M" }
+                - { ref: fred/DGS2, label: "2Y" }
+                - { ref: fred/DGS10, label: "10Y" }
+                - { ref: fred/DGS30, label: "30Y" }
+            - title: "Доходности"
+              kind: line
+              series: [{ ref: fred/DGS2 }, { ref: fred/DGS10 }, { ref: fred/DFII10 }, { ref: fred/THREEFYTP10 }]
+            - { title: "Спред 2s10s", kind: line, series: [{ ref: derived/UST_2S10S }] }
+          views: [{ view: fed_path }]
+        - id: inflation-labor
+          title: "Инфляция и труд"
+          charts:
+            - title: "Инфляция, YoY"
+              kind: line
+              series:
+                - { ref: fred/CPIAUCSL, transform: yoy, label: "CPI" }
+                - { ref: fred/CPILFESL, transform: yoy, label: "Core CPI" }
+                - { ref: fred/PCEPILFE, transform: yoy, label: "Core PCE" }
+            - title: "Инфляция, 3 мес. в годовом выражении"
+              kind: line
+              series:
+                - { ref: fred/CPILFESL, transform: a3m, label: "Core CPI 3mA" }
+                - { ref: fred/PCEPILFE, transform: a3m, label: "Core PCE 3mA" }
+            - { title: "Безработица", kind: line, series: [{ ref: fred/UNRATE }] }
+            - title: "Заявки на пособие"
+              kind: line
+              series:
+                - { ref: fred/ICSA, label: "Initial Claims" }
+                - { ref: fred/ICSA, transform: avg4w, label: "Initial Claims, 4 нед." }
+            - { title: "U/V", kind: line, series: [{ ref: derived/U_V }] }
+        - id: fiscal
+          title: "Фискал"
+          charts:
+            - { title: "Дефицит бюджета, сумма за 12 мес.", kind: bar, series: [{ ref: fred/MTSDS133FMS, transform: sum12m }] }
+            - { title: "Процентные выплаты", kind: line, series: [{ ref: fred/A091RC1Q027SBEA }] }
+          views: [{ view: supply }, { view: auctions }]
+        - id: micro
+          title: "Micro"
+          views: [{ view: capex }, { view: financials }]
+        - id: reactions
+          title: "Реакции"
+          views: [{ view: event_reactions }, { view: reactions }, { view: surprises }]
+        - id: news-sentiment
+          title: "News и Sentiment"
+          charts:
+            - { title: "Волатильность", kind: line, series: [{ ref: "yahoo/^VIX" }, { ref: "yahoo/^MOVE" }] }
+            - { title: "Ширина рынка: RSP/SPY", kind: line, series: [{ ref: "ratio/RSP:SPY" }] }
+          views: [{ view: news_feed }, { view: topics }]
+        - id: calendar
+          title: "Календарь"
+          views: [{ view: calendar }]
+        - id: reports
+          title: "Отчёты"
+          views: [{ view: reports }]
+
+# Статический сайт: ряды, которые macroctl site --demo вправе публиковать (D21, D24).
+# Только source/id с проверенной лицензией; всё остальное закрывается плашкой.
+# Проверено по тегам FRED API /fred/series/tags 2026-11-08: public domain, кроме RRPONTSYD
+# и SOFR внутри SOFR_IORB (FRB NY: copyrighted, citation required — источник назван в подвале сайта).
+# Pre-approval (BAML*, NASDAQCOM), UMich, Yahoo и другие цены — не добавлять.
+dashboard:
+  demo_allow:
+    - fred/WALCL
+    - fred/WDTGAL
+    - fred/WRESBAL
+    - fred/RRPONTSYD
+    - fred/DFF
+    - fred/DGS3MO
+    - fred/DGS2
+    - fred/DGS10
+    - fred/DGS30
+    - fred/DFII10
+    - fred/THREEFYTP10
+    - fred/CPIAUCSL
+    - fred/CPILFESL
+    - fred/PCEPILFE
+    - fred/UNRATE
+    - fred/ICSA
+    - fred/MTSDS133FMS
+    - fred/A091RC1Q027SBEA
+    - derived/NET_LIQUIDITY
+    - derived/SOFR_IORB
+    - derived/UST_2S10S
+    - derived/U_V
+
+git:
+  # доставка exchange/ в приватный репо после каждого экспорта (ТЗ §12.10, D10);
+  # ключ — env GIT_SSH_KEY_PATH (deploy key с правом записи только в этот репо)
+  enabled: false
+  repo: "you/macro_exchange"
+  branch: main
+  # remote: "git@github.com:you/macro_exchange.git"   # по умолчанию — из repo
+  author_name: "macro-collector"
+  author_email: "macro-collector@localhost"
+  commit_message: "export {iso_week} {region} {kind}"   # {region} — id региона: у каждого региона свой коммит
+
+site:
+  # публичный демо-сайт на GitHub Pages (D24): после недельного экспорта демон собирает
+  # site --demo (только dashboard.demo_allow и открытые блоки), проверяет и пушит в site.repo;
+  # вручную — macroctl site --publish. Ключ — env SITE_SSH_KEY_PATH (свой deploy key с правом
+  # записи только в этот публичный репозиторий, не ключ git.repo)
+  enabled: false
+  repo: "you/macro-site"
+  branch: main
+  # url: "https://you.github.io/macro-site/"   # по умолчанию — из repo
+  # dir: "${data_dir}/site"                     # рабочая копия репозитория сайта
+  commit_message: "site {iso_week}"
+
+notify:
+  telegram_bot: false   # TG_BOT_TOKEN, TG_CHAT_ID в env (ТЗ §12.11)
+  source_down_after: 24h   # «Источник X недоступен > 24 ч»
+
+# Webhook (фаза 14, ТЗ §21.6): POST JSON о каждом экспорте на WEBHOOK_URL (env; URL может содержать токен).
+# WEBHOOK_SECRET (env, необязательно) — заголовок X-Macro-Signature: sha256=<HMAC-SHA256 тела>. Формат — README «Webhook».
+webhook:
+  enabled: false
+  timeout: 10s   # одна попытка
+  retries: 3     # повторы при сетевой ошибке, 429 и 5xx (0 — без повторов); 4xx — без повтора
+
+backup:
+  cron: "30 3 * * *"   # ежедневно, VACUUM INTO ${data_dir}/backups/ (ТЗ §14)
+  keep: 7
+
+metrics:
+  zscore_window_daily_weekly: 52w
+  zscore_window_monthly_quarterly: 5y
+
+# =====================================================================
+# ЧИСЛОВЫЕ РЯДЫ. Храним уровни. transforms — что считает Go.
+# agent: usa_monetary | usa_fiscal | usa_master | eu_monetary | eu_fiscal | eu_master
+# =====================================================================
+fred:
+  # api_key: env FRED_API_KEY
+  # расписание релизов определяется автоматически: fred/series/release + fred/release/dates
+  series:
+    # --- USA Monetary: рост ---
+    - { id: GDPC1,      agent: usa_monetary, label: "Real GDP",                 transforms: [qoqa, yoy] }
+    - { id: GDPNOW,     agent: usa_monetary, label: "GDPNow",                   transforms: [level, d] }
+    - { id: GDP,        agent: usa_monetary, label: "Nominal GDP",              transforms: [qoqa, yoy] }
+    - { id: GDPDEF,     agent: usa_monetary, label: "GDP Deflator",             transforms: [qoqa, yoy] }
+    - { id: PCE,        agent: usa_monetary, label: "Personal Consumption",     transforms: [mom, yoy, a3m] }
+    - { id: NETEXP,     agent: usa_monetary, label: "Net Exports",              transforms: [level, d] }
+    - { id: PSAVERT,    agent: usa_monetary, label: "Personal Saving Rate",     transforms: [level, d] }
+    # --- USA Monetary: сентимент ---
+    - { id: UMCSENT,    agent: usa_monetary, label: "UMich Sentiment",          transforms: [level, d, z] }
+    - { id: MICH,       agent: usa_monetary, label: "UMich Inflation Exp 1Y",   transforms: [level, d] }
+    # --- USA Monetary: труд ---
+    - { id: UNRATE,     agent: usa_monetary, label: "Unemployment Rate",        transforms: [level, d] }
+    - { id: JTSJOL,     agent: usa_monetary, label: "Job Openings",             transforms: [level, yoy] }
+    - { id: JTSJOR,     agent: usa_monetary, label: "Job Openings Rate",        transforms: [level] }
+    - { id: UNEMPLOY,   agent: usa_monetary, label: "Unemployed",               transforms: [], hidden: true }
+    - { id: CES0500000003, agent: usa_monetary, label: "Avg Hourly Earnings",   transforms: [yoy, a3m] }
+    - { id: ECIALLCIV,  agent: usa_monetary, label: "Employment Cost Index",    transforms: [yoy, qoqa] }
+    - { id: JTSHIL,     agent: usa_monetary, label: "Hires",                    transforms: [level, yoy] }
+    - { id: JTSQUR,     agent: usa_monetary, label: "Quits Rate",               transforms: [level, d] }
+    - { id: ULCNFB,     agent: usa_monetary, label: "Unit Labor Costs",         transforms: [yoy] }
+    - { id: OPHNFB,     agent: usa_monetary, label: "Labour Productivity",      transforms: [yoy] }
+    - { id: PAYEMS,     agent: usa_monetary, label: "Nonfarm Payrolls",         transforms: [diff, avg3] }
+    - { id: ICSA,       agent: usa_monetary, label: "Initial Claims",           transforms: [level, avg4w, z] }
+    - { id: CCSA,       agent: usa_monetary, label: "Continued Claims",         transforms: [level, avg4w, z] }
+    # --- USA Monetary: инфляция ---
+    - { id: CPIAUCSL,   agent: usa_monetary, label: "CPI",                      transforms: [yoy, mom, a3m, a6m] }
+    - { id: CPILFESL,   agent: usa_monetary, label: "Core CPI",                 transforms: [yoy, mom, a3m, a6m] }
+    - { id: CUSR0000SAH1, agent: usa_monetary, label: "Shelter CPI",            transforms: [yoy, a3m] }
+    - { id: CUSR0000SASL2RS, agent: usa_monetary, label: "Supercore CPI (услуги без жилья)", transforms: [yoy, mom, a3m, a6m] }
+    - { id: STICKCPIM159SFRBATL, agent: usa_monetary, label: "Sticky CPI",      transforms: [level] }
+    - { id: PPIFIS,     agent: usa_monetary, label: "PPI Final Demand",         transforms: [yoy, mom] }
+    - { id: PPIFES,     agent: usa_monetary, label: "Core PPI",                 transforms: [yoy, mom] }
+    - { id: WPSFD49116, agent: usa_monetary, label: "Core PPI ex trade",        transforms: [yoy, mom] }
+    - { id: PCEPI,      agent: usa_monetary, label: "PCE Price Index",          transforms: [yoy, a3m] }
+    - { id: PCEPILFE,   agent: usa_monetary, label: "Core PCE",                 transforms: [yoy, mom, a3m, a6m] }
+    # --- USA Monetary: ожидания и ФРС ---
+    - { id: T5YIE,      agent: usa_monetary, label: "5Y Breakeven",             transforms: [level, d1w, d4w] }
+    - { id: T5YIFR,     agent: usa_monetary, label: "5Y5Y Forward",             transforms: [level, d1w, d4w] }
+    - { id: T10YIE,     agent: usa_monetary, label: "10Y Breakeven",            transforms: [level, d1w, d4w] }
+    - { id: DFF,        agent: usa_monetary, label: "Fed Funds",                transforms: [level] }
+    - { id: DGS2,       agent: usa_monetary, label: "UST 2Y",                   transforms: [level, d1w, d4w] }
+    - { id: M2SL,       agent: usa_monetary, label: "M2",                       transforms: [yoy, a3m] }
+    - { id: DCOILWTICO, agent: usa_monetary, label: "WTI (FRED, запас)",        transforms: [], fallback_for: "CL=F" }
+    - { id: DHHNGSP,    agent: usa_monetary, label: "Henry Hub (FRED, запас)",  transforms: [], fallback_for: "NG=F" }
+    # --- USA Fiscal & Liquidity ---
+    - { id: WALCL,      agent: usa_fiscal, label: "Fed Balance Sheet",          transforms: [level, d1w, d4w] }
+    - { id: WDTGAL,     agent: usa_fiscal, label: "TGA (Wed)",                  transforms: [level, d1w, d4w] }
+    - { id: RRPONTSYD,  agent: usa_fiscal, label: "ON RRP",                     transforms: [level, d1w, d4w] }
+    - { id: WRESBAL,    agent: usa_fiscal, label: "Bank Reserves",              transforms: [level, d1w, d4w] }
+    - { id: SOFR,       agent: usa_fiscal, label: "SOFR",                       transforms: [level] }
+    - { id: IORB,       agent: usa_fiscal, label: "IORB",                       transforms: [level] }
+    - { id: RPONTSYD,   agent: usa_fiscal, label: "Standing Repo Facility",     transforms: [level], flag_if_gt: 0 }
+    - { id: MTSDS133FMS, agent: usa_fiscal, label: "Federal Deficit/Surplus",   transforms: [level, sum12m, sum12m_yoy] }
+    - { id: GFDEGDQ188S, agent: usa_fiscal, label: "Debt-to-GDP",               transforms: [level, d] }
+    - { id: A091RC1Q027SBEA, agent: usa_fiscal, label: "Interest Payments",     transforms: [yoy] }
+    - { id: GCE,        agent: usa_fiscal, label: "Government Spending",        transforms: [yoy] }
+    - { id: DGS3MO,     agent: usa_fiscal, label: "UST 3M",                     transforms: [level, d1w] }
+    - { id: DGS10,      agent: usa_fiscal, label: "UST 10Y",                    transforms: [level, d1w, d4w, z] }
+    - { id: DGS30,      agent: usa_fiscal, label: "UST 30Y",                    transforms: [level, d1w, d4w] }
+    - { id: DFII10,     agent: usa_fiscal, label: "Real Yield 10Y",             transforms: [level, d1w, d4w] }
+    - { id: THREEFYTP10, agent: usa_fiscal, label: "Term Premium 10Y",          transforms: [level, d1w, d4w] }
+    # CMT для «≈tail» аукционов (high yield − CMT того же срока за день аукциона; решение 2026-10-24)
+    - { id: DGS3,       agent: usa_fiscal, label: "UST 3Y (для ≈tail)",         transforms: [], hidden: true }
+    - { id: DGS5,       agent: usa_fiscal, label: "UST 5Y (для ≈tail)",         transforms: [], hidden: true }
+    - { id: DGS7,       agent: usa_fiscal, label: "UST 7Y (для ≈tail)",         transforms: [], hidden: true }
+    - { id: DGS20,      agent: usa_fiscal, label: "UST 20Y (для ≈tail)",        transforms: [], hidden: true }
+    # --- USA Master (markets) ---
+    - { id: BAMLH0A0HYM2, agent: usa_master, label: "HY Spread",                transforms: [level, d1w, d4w, z] }
+    - { id: BAMLC0A0CM, agent: usa_master, label: "IG Spread",                  transforms: [level, d1w, d4w] }
+    - { id: DTWEXBGS,   agent: usa_master, label: "Dollar Broad (запас)",       transforms: [], fallback_for: "DX-Y.NYB" }
+    - { id: NASDAQCOM,  agent: usa_master, label: "NASDAQ Composite (запас)",   transforms: [], fallback_for: "^NDX" }
+    # --- USA News: sentiment (FIXES_W44 F5, D16) ---
+    - { id: WRMFNS,     agent: usa_news,   label: "Розничные фонды денежного рынка", transforms: [level, d1w, d4w] }
+
+yahoo:
+  # некритичный источник; опрос раз в день после закрытия + в недельный экспорт
+  # неофициальный API, без cookie/crumb; ответ chart.result[0] (LOOKUP Y1, 2026-10-24)
+  # символы собираются по регионам: тег agent → regions[].agents[].series_tags; время опроса — regions[].yahoo_poll
+  endpoint: "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
+  symbols:
+    - { symbol: "^NDX",     agent: usa_master,  label: "NASDAQ 100",  transforms: [level, d1w, d4w, ma50, ma200] }
+    - { symbol: "NQ=F",     agent: usa_master,  label: "NASDAQ fut",  transforms: [level, d1w] }
+    - { symbol: "^GSPC",    agent: usa_master,  label: "S&P 500",     transforms: [level, d1w, d4w] }
+    - { symbol: "^VIX",     agent: usa_master,  label: "VIX",         transforms: [level, d1w, d4w, z] }
+    - { symbol: "^MOVE",    agent: usa_master,  label: "MOVE",        transforms: [level, d1w, d4w, z] }
+    - { symbol: "DX-Y.NYB", agent: usa_master,  label: "Dollar Index", transforms: [level, d1w, d4w] }
+    - { symbol: "GC=F",     agent: usa_master,  label: "Gold",        transforms: [level, d1w, d4w] }
+    - { symbol: "HG=F",     agent: usa_master,  label: "Copper",      transforms: [level, d1w, d4w] }
+    - { symbol: "BTC-USD",  agent: usa_master,  label: "Bitcoin",     transforms: [level, d1w, d4w] }
+    - { symbol: "CL=F",     agent: usa_monetary, label: "WTI",        transforms: [level, d1w, d4w, yoy] }
+    - { symbol: "NG=F",     agent: usa_monetary, label: "Henry Hub",  transforms: [level, d1w, d4w] }
+    # Sentiment (FIXES_W44 F3/F4, D16): волатильность и ширина рынка → usa/news/sentiment.md
+    - { symbol: "ZT=F",     agent: usa_news,    label: "2Y fut (ZT=F)", transforms: [level] }   # G4b: дневные движения 2Y
+    - { symbol: "^VIX3M",   agent: usa_news,    label: "VIX 3M",      transforms: [level, d1w, d4w, z] }
+    - { symbol: "^SKEW",    agent: usa_news,    label: "SKEW",        transforms: [level, d1w, d4w, z] }
+    - { symbol: "SPY",      agent: usa_news,    label: "SPY",         transforms: [level, d1w, d4w] }
+    - { symbol: "RSP",      agent: usa_news,    label: "RSP (S&P 500 equal weight)", transforms: [level, d1w, d4w] }
+    - { symbol: "QQQ",      agent: usa_news,    label: "QQQ",         transforms: [level, d1w, d4w] }
+    - { symbol: "QQEW",     agent: usa_news,    label: "QQEW (NASDAQ-100 equal weight)", transforms: [level, d1w, d4w] }
+    - { symbol: "IWM",      agent: usa_news,    label: "IWM (Russell 2000)", transforms: [level, d1w, d4w] }
+    - { symbol: "SMH",      agent: usa_news,    label: "SMH (полупроводники)", transforms: [level, d1w, d4w] }
+    - { symbol: "XLU",      agent: usa_news,    label: "XLU (коммунальные)", transforms: [level, d1w, d4w] }
+    - { symbol: "XLP",      agent: usa_news,    label: "XLP (потреб. товары первой необходимости)", transforms: [level, d1w, d4w] }
+    - { symbol: "XLE",      agent: usa_news,    label: "XLE (энергетика)", transforms: [level, d1w, d4w] }
+  fed_funds_futures:
+    # траектория ставки (замена FedWatch): ближайшие N месячных контрактов
+    # ZQ<код месяца CME><YY>.CBT, напр. ZQX26.CBT = ноябрь 2026 (LOOKUP Y3)
+    symbol_format: "ZQ{month}{yy}.CBT"
+    months_ahead: 12
+    agent: usa_monetary
+
+treasury:
+  # Fiscal Data: DTS, MTS, байбэки, календарь публикаций; TreasuryDirect TA_WS: результаты и
+  # предстоящие аукционы (в Fiscal Data результаты появляются только к дате выпуска). LOOKUP T1–T9.
+  fiscal_data_url: "https://api.fiscaldata.treasury.gov/services/api/fiscal_service"
+  release_calendar_url: "https://api.fiscaldata.treasury.gov/services/calendar/release"
+  treasurydirect_url: "https://www.treasurydirect.gov/TA_WS/securities"
+  datasets:
+    - { name: dts_operating_cash, agent: usa_fiscal, enabled: true }    # TGA ежедневно
+    - { name: dts_public_debt,    agent: usa_fiscal, enabled: true }    # DTS: выпуск/погашение рыночных бумаг → чистое размещение
+    - { name: mts,                agent: usa_fiscal, enabled: true }    # Monthly Treasury Statement
+    - { name: auctions,           agent: usa_fiscal, enabled: true, security_types: ["Bill","Note","Bond"] }
+    - { name: upcoming_auctions,  agent: usa_master, enabled: true }    # для календаря
+    - { name: buybacks,           agent: usa_fiscal, enabled: true }
+  quarterly_refunding_url: "https://home.treasury.gov/policy-issues/financing-the-government/quarterly-refunding/most-recent-quarterly-refunding-documents"
+
+# Европа (ЕЦБ, Бундесбанк, Eurostat, STOXX, ZEW, ручной ввод Ifo, тикеры и спреды) — пресет presets/eu-equities.yaml
+
+# PMI (США, еврозона, Германия, Китай), Conference Board — нет бесплатного API:
+# берутся из текстов (новости/TG) через классификатор, отдельного числового источника нет
+
+cftc:
+  enabled: true
+  # TFF — Futures Only (Socrata); нетто Leveraged Funds + Asset Managers (решение 2026-10-24). LOOKUP C1–C3.
+  endpoint: "https://publicreporting.cftc.gov/resource/gpe5-46if.json"
+  # публикация пт 15:30 ET, бывают переносы на пн → проверка нового отчёта каждый будний вечер
+  check_cron: "0 22 * * 1-5"          # Europe/Bratislava
+  contracts:
+    # код — cftc_contract_market_code (названия рынков менялись в 2022, ищем только по коду)
+    # позиционирование — у News (D16, FIXES_W44 F5); Euro FX в USA sentiment, EU — фаза 7
+    - { name: "Nasdaq-100 E-mini", code: "209742", agent: usa_news }
+    - { name: "10Y T-Note",        code: "043602", agent: usa_news }
+    - { name: "Euro FX",           code: "099741", agent: usa_news }
+
+cboe:
+  # put/call (FIXES_W44 F3): JSON страницы Cboe Daily Market Statistics, один файл на торговый день,
+  # блок ratios; день без файла (выходной, праздник, ещё не вышел) — 403. Не документированный API → некритичный (D7)
+  enabled: true
+  endpoint: "https://cdn.cboe.com/data/us/options/market_statistics/daily/{date}_daily_options"
+  poll_cron: "0 2 * * 2-6"           # Europe/Bratislava: ~20:00 ET прошлого торгового дня
+  history_days: 400                   # backfill: z за 52 нед. + запас
+  agent: usa_news
+
+prediction_markets:
+  # рынки предсказаний (FIXES_W44 F6, LOOKUP 2026-11-02): данные без ключа. Некритичный источник (D7).
+  # Вероятность = последняя цена «да» (0–1) → хранится в %. Ряд: "<тема>|<тикер или slug рынка>".
+  enabled: true
+  kalshi_endpoint: "https://api.elections.kalshi.com/trade-api/v2"
+  polymarket_gamma: "https://gamma-api.polymarket.com"
+  polymarket_clob: "https://clob.polymarket.com"
+  poll_cron: "30 22 * * *"            # Europe/Bratislava, раз в день
+  history_days: 35                    # первая загрузка рынка: история для Δ1w/Δ4w
+  agent: usa_news
+  topics:
+    - { name: recession, label: "Рецессия в США",              kalshi_series: KXRECSSNBER, polymarket_slugs: [us-recession-by-end-of-2026] }
+    - { name: fed_next,  label: "Решение ФРС, ближайшее заседание", kalshi_series: KXFEDDECISION, kalshi_nearest: true, polymarket_search: "Fed Decision in" }
+    - { name: house,     label: "Палата представителей (выборы 2026)", kalshi_series: CONTROLH, kalshi_event: CONTROLH-2026, polymarket_slugs: [which-party-will-win-the-house-in-2026] }
+    - { name: senate,    label: "Сенат (выборы 2026)",          kalshi_series: CONTROLS, kalshi_event: CONTROLS-2026, polymarket_slugs: [which-party-will-win-the-senate-in-2026] }
+    - { name: shutdown,  label: "Шатдаун правительства",       kalshi_series: KXGOVTSHUTDOWN, polymarket_slugs: [government-shutdown-by] }
+
+# =====================================================================
+# ПРОИЗВОДНЫЕ РЯДЫ (считает Go)
+# =====================================================================
+derived:
+  - { name: NET_LIQUIDITY, formula: "WALCL - WDTGAL - RRPONTSYD", agent: usa_fiscal, transforms: [level, d1w, d4w, z], note: "привести единицы (млн/млрд) и частоту к недельной" }
+  - { name: U_V,           formula: "UNEMPLOY / JTSJOL",          agent: usa_monetary, transforms: [level, d] }
+  - { name: SOFR_IORB,     formula: "SOFR - IORB",                agent: usa_fiscal, unit: bp, flag_if_gt: 0 }
+  - { name: UST_2S10S,     formula: "DGS10 - DGS2",               agent: usa_fiscal, unit: bp, transforms: [level, d] }
+  - { name: UST_3M10Y,     formula: "DGS10 - DGS3MO",             agent: usa_fiscal, unit: bp, transforms: [level, d] }
+  - { name: FED_PATH,      formula: "из фьючерсов ZQ: 100 - цена → implied rate по месяцам; кол-во снижений/повышений по 25 б.п. vs DFF", agent: usa_monetary }
+
+# =====================================================================
+# ТЕКСТЫ
+# =====================================================================
+fed_texts:
+  # FOMC statements, minutes, SEP, речи и testimony членов Board, Beige Book.
+  # Только federalreserve.gov: speeches.xml содержит речи Board (все 7 — голосующие в 2026);
+  # региональные ФРБ не подключаем (решение 2026-10-24). LOOKUP 2026-10-24.
+  base_url: "https://www.federalreserve.gov"
+  feeds:
+    - { name: press_monetary, url: "https://www.federalreserve.gov/feeds/press_monetary.xml" }   # statement, minutes, SEP
+    - { name: speeches,       url: "https://www.federalreserve.gov/feeds/speeches.xml" }
+    - { name: testimony,      url: "https://www.federalreserve.gov/feeds/testimony.xml" }
+  fomc_calendar: "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+  beige_book: "https://www.federalreserve.gov/monetarypolicy/publications/beige-book-default.htm"
+  poll_interval: 15m          # RSS: речи, testimony и прочее вне календаря
+  agent: usa_monetary
+
+calendar:
+  # releases обновляется раз в сутки на horizon_days вперёд (ТЗ §8.1)
+  horizon_days: 14
+  refresh_cron: "0 5 * * *"   # Europe/Bratislava
+  # FRED release/dates отдаёт только дату; время выхода — по release_id (LOOKUP 2026-10-24,
+  # официальные календари BLS/BEA/ФРС/NY Fed/DOL/UMich). Нет в списке — default_release_time.
+  release_timezone: "America/New_York"
+  default_release_time: "08:30"
+  release_times:
+    10: "08:30"    # CPI (BLS)
+    11: "08:30"    # Employment Cost Index (BLS)
+    17: "16:15"    # H.10, понедельник (ФРС)
+    18: "16:15"    # H.15 (ФРС)
+    20: "16:30"    # H.4.1, четверг (ФРС)
+    21: "13:00"    # H.6, 4-й вторник (ФРС)
+    46: "08:30"    # PPI (BLS)
+    47: "08:30"    # Productivity and Costs (BLS)
+    50: "08:30"    # Employment Situation (BLS)
+    53: "08:30"    # GDP (BEA)
+    54: "08:30"    # Personal Income and Outlays (BEA)
+    91: "10:00"    # Surveys of Consumers (UMich)
+    180: "08:30"   # UI Weekly Claims, четверг (DOL)
+    192: "10:00"   # JOLTS (BLS)
+    263: "08:30"   # Debt to GDP (вместе с GDP)
+    304: "16:15"   # Interest Rate Spreads (из H.15)
+    313: "08:30"   # Sticky Price CPI (в день CPI)
+    379: "13:15"   # Temporary OMO / RRP (окно операции 12:45–13:15)
+    445: "08:00"   # SOFR (NY Fed)
+  # важность релизов FRED для calendar_usa.md — по ★ в DATA_MAP; нет в списке — low
+  release_importance:
+    10: high       # CPI ★
+    11: medium     # Employment Cost Index ★
+    20: medium     # H.4.1: WALCL, TGA, резервы ★
+    46: high       # PPI ★
+    50: high       # Employment Situation: NFP, безработица ★
+    53: high       # GDP ★
+    54: high       # Personal Income and Outlays: PCE ★
+    91: high       # UMich ★
+    180: high      # Initial / Continued Claims ★
+    192: high      # JOLTS ★
+    363: medium    # Monthly Treasury Statement: дефицит ★
+    386: medium    # GDPNow ★
+
+# Посты Telegram и RSS (фаза 4). Новый канал или лента — одна строка ниже;
+# демон подхватит её при перезапуске и сам загрузит историю за history_days.
+# Проверить источник до включения: macroctl source-check tg:<handle> | rss:<url>
+posts:
+  poll_interval: 15m
+  history_days: 30          # история при первом опросе нового источника (переопределяется в строке источника)
+
+telegram:
+  enabled: false            # включите и добавьте свои каналы в channels
+  mode: web                 # публичные каналы через t.me/s/<handle> (D12); mtproto не реализован
+  base_url: "https://t.me"
+  channels:
+    # handle — имя из ссылки t.me/<handle>; region: usa | eu ; type: news | opinion
+    # default_tag: "" | usa_monetary | usa_fiscal | usa_micro | usa_politics | energy_geopolitics | eu_ecb | eu_fiscal | eu_macro | eu_micro
+    # history_days: необязательно, по умолчанию posts.history_days
+    # - { handle: your_channel, region: usa, type: news, default_tag: "", profile: "short description of the channel for the classifier" }
+    []
+
+rss_feeds: []
+  # name — латиница/цифры/_ (источник в БД: rss:<name>); остальные поля — как у каналов
+  # формат: - { name: <имя>, url: "<лента>", region: usa, type: opinion, default_tag: "", profile: "<кто автор>" }
+  # macro_letter убран 2026-11-06 (решение пользователя): лента пуста с 2026-07-13, ноль статей за всё время.
+  # Substack иногда отвечает 403 с заглушкой Cloudflare («Just a moment…») — источник попадает в sources_failed.
+
+# =====================================================================
+# КОМПАНИИ
+# =====================================================================
+edgar:
+  # SEC EDGAR (USA Micro). Числа (выручка, EPS, capex, фин. показатели) — ТОЛЬКО из JSON XBRL company facts;
+  # 10-K/10-Q не скачиваются. Из HTML читается лишь пресс-релиз 8-K (Ex-99.1) — ради Outlook и цитат.
+  enabled: true
+  user_agent: "macro-collector you@example.com"   # SEC требует реальный контакт (e-mail); без него — 403; doctor проверяет
+  data_url: "https://data.sec.gov"                            # submissions, api/xbrl/companyfacts
+  archives_url: "https://www.sec.gov/Archives/edgar/data"     # index-headers и Ex-99.1 подач 8-K
+  requests_per_second: 8      # лимит SEC — 10 в секунду на пользователя
+  form_types: ["8-K", "10-Q", "10-K"]
+  history_start: "2024-01-01" # 8+ кварталов для YoY
+  concepts:                   # us-gaap теги по приоритету (LOOKUP E3, 2026-10-25); компания может переопределить
+    revenue: [RevenueFromContractWithCustomerExcludingAssessedTax, Revenues]
+    eps:     [EarningsPerShareDiluted]
+    capex:   [PaymentsToAcquirePropertyPlantAndEquipment, PaymentsToAcquireProductiveAssets]
+    # Фаза 5b (LOOKUP T1–T5, 2026-10-30). Список в списке ([[A], [B]]) — сумма компонентов.
+    operating_income:       [OperatingIncomeLoss]
+    net_income:             [NetIncomeLoss, ProfitLoss]
+    gross_profit:           [GrossProfit]
+    cost_of_revenue:        []   # только у компаний без GrossProfit: валовая = выручка − себестоимость (META, GOOGL)
+    da:                     [DepreciationDepletionAndAmortization]
+    operating_cash_flow:    [NetCashProvidedByUsedInOperatingActivities]
+    buybacks:               [PaymentsForRepurchaseOfCommonStock]
+    dividends:              [PaymentsOfDividends, PaymentsOfDividendsCommonStock]
+    cash:                   [CashAndCashEquivalentsAtCarryingValue]
+    short_term_investments: [MarketableSecuritiesCurrent]   # нет факта на дату — 0 (у AVGO нет)
+    debt:                   [LongTermDebt]                  # с текущей частью; первый компонент обязателен, остальные — 0, если нет
+    diluted_shares:         [WeightedAverageNumberOfDilutedSharesOutstanding]
+    # Фаза 5c (LOOKUP C1–C3, 2026-10-30). Прочие = прибыль до налога − операционная.
+    pretax_income:          [IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest]
+    income_tax:             [IncomeTaxExpenseBenefit]
+    rpo:                    [RevenueRemainingPerformanceObligation]   # нет у AAPL, AMZN, META
+  companies:                  # CIK — sec.gov/files/company_tickers.json (LOOKUP E1); importance — в календаре
+    - ticker: NVDA
+      cik: "0001045810"
+      importance: high
+      concepts:
+        revenue: [Revenues]
+        capex: [PaymentsToAcquireProductiveAssets]
+        short_term_investments: [DebtSecuritiesCurrent, MarketableSecuritiesCurrent]   # сменила тег в 2026
+    - ticker: MSFT
+      cik: "0000789019"
+      importance: high
+      concepts:
+        da: [Depreciation]                     # строка «Depreciation, amortization, and other»
+        dividends: [PaymentsOfDividendsCommonStock]
+        short_term_investments: [ShortTermInvestments]
+    - ticker: AAPL
+      cik: "0000320193"
+      importance: medium
+      concepts:
+        debt: [[LongTermDebt], [CommercialPaper]]
+    - ticker: AMZN
+      cik: "0001018724"
+      importance: high
+      not_paid: [buybacks, dividends]          # байбэков нет с Q2 2024, дивидендов нет
+      concepts:
+        capex: [PaymentsToAcquireProductiveAssets]
+        debt: [[LongTermDebtNoncurrent], [LongTermDebtCurrent], [ShortTermBorrowings]]   # LongTermDebt у AMZN — номинал
+        pretax_income: [IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments]
+    - ticker: META
+      cik: "0001326801"
+      importance: high
+      concepts:
+        cost_of_revenue: [CostOfRevenue]
+        debt: [[LongTermDebtNoncurrent], [LongTermDebtCurrent]]
+    - ticker: GOOGL
+      cik: "0001652044"
+      importance: high
+      concepts:
+        revenue: [Revenues]
+        cost_of_revenue: [CostOfRevenue]
+        da: [Depreciation]                     # только основные средства
+        dividends: [PaymentsOfOrdinaryDividends, PaymentsOfDividends]   # сменила тег в 2026
+        debt: [[LongTermDebtNoncurrent, LongTermDebtAndCapitalLeaseObligations], [LongTermDebtCurrent], [CommercialPaper]]
+    - ticker: AVGO
+      cik: "0001730168"
+      importance: medium
+      concepts:
+        da: [[Depreciation], [AmortizationOfIntangibleAssets]]
+        debt: [[LongTermDebtNoncurrent, LongTermDebtAndCapitalLeaseObligations], [LongTermDebtCurrent]]
+    - ticker: TSLA
+      cik: "0001318605"
+      importance: medium
+      not_paid: [buybacks, dividends]
+      concepts:
+        revenue: [Revenues]
+        da: [Depreciation]                     # «Depreciation, amortization and impairment»
+        short_term_investments: [ShortTermInvestments]
+        debt: [[LongTermDebt], [DebtCurrent]]  # LongTermDebt у TSLA — без текущей части
+  capex_companies: [MSFT, GOOGL, AMZN, META]
+  one_off:                    # ⚠ разовые (ТЗ §19.1, правило 2026-10-31)
+    rate_change_pp: 15         # Δ эффективной ставки налога к году назад, п.п.
+    other_share_change_pp: 15  # Δ доли «Прочих» в прибыли до налога, п.п.
+    materiality_pct: 10        # и искажение чистой прибыли больше, %
+  macro_signals:              # предложения о макро из 8-K и расшифровок недели (ТЗ §19.4, уточнено 2026-10-31); регистр не важен
+    enabled: true
+    min_chars: 30
+    max_chars: 400
+    per_company: 6
+    per_company_topic: 2
+    max: 25
+    exclude: ['non-GAAP', 'forward-looking', 'safe harbor', 'not allocated', 'risks and uncertainties', 'supply chains?', 'days of supply']
+    strong: ['exceeds? (available )?supply', '\bdelay', 'constrain', '\bshortages?\b', 'price increases?', '\btariffs?\b', 'voluntary (exit|separation|retirement)', '\blayoffs?\b', 'headcount', 'higher memory']
+    topics:              # порядок = приоритет (FIXES_W44 D2); FX не используется: шаблон, а не сигнал (ревью W44)
+      - { name: спрос,    patterns: ['demand (continues to |that )?exceeds?', '\b(strong|stronger|weak|weaker|weakening|huge) demand', 'consumer (demand|spending)', 'demand environment'] }
+      - { name: мощности, patterns: ['\bsupply\b', '(capacity|supply)[-‑ ]constrain', 'capacity deliveries', 'third[-‑ ]party (compute|capacity)', '\bshortages?\b'] }
+      - { name: цены,     patterns: ['price increases?', 'raise prices', 'higher prices', 'pricing (pressure|environment)'] }
+      - { name: найм,     patterns: ['headcount', '\blayoffs?\b', 'voluntary (exit|separation|retirement)', '\bseverance\b', 'workforce reduction', 'hiring freeze'] }
+      - { name: тарифы,   patterns: ['\btariffs?\b'] }
+      - { name: Китай,    patterns: ['\bChina\b', '\bChinese\b'] }
+      - { name: память,   patterns: ['\b(memory|DRAM|HBM)\b'] }
+  capex_guidance:             # ТЗ §19.3a: только где guidance = наш capex (покупка ОС без фин. аренды); вносится вручную после отчёта
+    - { ticker: GOOGL, year: 2026, low: 195, high: 205, given: 2026-10-28, source: "звонок GOOGL 2026-10-28, официальная расшифровка" }
+  guidance_tickers: [GOOGL]   # фаза 14b: кандидаты guidance из звонков и 8-K (только где определение = наш capex); подтверждение — macroctl guidance или кнопка бота
+  segments:                   # фаза 5d: сегменты из XBRL-инстанса 10-Q/10-K (LOOKUP S1–S4, 2026-11-01); член оси — без префикса
+    NVDA:  { revenue: Revenues, profit: OperatingIncomeLoss, members: [
+               { member: ComputeAndNetworkingSegmentMember, label: "Compute & Networking" },
+               { member: GraphicsSegmentMember, label: "Graphics" } ] }
+    MSFT:  { revenue: RevenueFromContractWithCustomerExcludingAssessedTax, profit: OperatingIncomeLoss, members: [
+               { member: AgentsAndInfraMember, label: "Agents & Infra" },               # с FY27
+               { member: DevicesAndConsumerMember, label: "Devices & Consumer" },
+               { member: ProductivityAndBusinessProcessesMember, label: "Productivity & Business Processes" },   # до FY26
+               { member: IntelligentCloudMember, label: "Intelligent Cloud" },
+               { member: MorePersonalComputingMember, label: "More Personal Computing" } ] }
+    AAPL:  { revenue: RevenueFromContractWithCustomerExcludingAssessedTax, profit: OperatingIncomeLoss, members: [   # регионы
+               { member: AmericasSegmentMember, label: "Americas" },
+               { member: EuropeSegmentMember, label: "Europe" },
+               { member: GreaterChinaSegmentMember, label: "Greater China" },
+               { member: JapanSegmentMember, label: "Japan" },
+               { member: RestOfAsiaPacificSegmentMember, label: "Rest of Asia Pacific" } ] }
+    AMZN:  { revenue: RevenueFromContractWithCustomerExcludingAssessedTax, profit: OperatingIncomeLoss, members: [
+               { member: NorthAmericaSegmentMember, label: "North America" },
+               { member: InternationalSegmentMember, label: "International" },
+               { member: AmazonWebServicesSegmentMember, label: "AWS" } ] }
+    META:  { revenue: RevenueFromContractWithCustomerExcludingAssessedTax, profit: OperatingIncomeLoss, members: [
+               { member: FamilyOfAppsMember, label: "Family of Apps" },
+               { member: RealityLabsMember, label: "Reality Labs" } ] }
+    GOOGL: { revenue: RevenueFromContractWithCustomerExcludingAssessedTax, profit: OperatingIncomeLoss, members: [
+               { member: GoogleServicesMember, label: "Google Services" },
+               { member: GoogleCloudMember, label: "Google Cloud" },
+               { member: AllOtherSegmentsMember, label: "Other Bets" } ] }
+    AVGO:  { revenue: RevenueFromContractWithCustomerExcludingAssessedTax, profit: OperatingIncomeLoss, members: [
+               { member: SemiconductorSolutionsMember, label: "Semiconductor Solutions" },
+               { member: InfrastructureSoftwareMember, label: "Infrastructure Software" } ] }
+    TSLA:  { revenue: Revenues, profit: GrossProfit, gross: true, members: [   # опер. прибыль сегментов не раскрывает
+               { member: AutomotiveSegmentMember, label: "Automotive" },
+               { member: EnergyGenerationAndStorageSegmentMember, label: "Energy Generation & Storage" } ] }
+  transcripts:                # официальные расшифровки звонков на сайтах IR (LOOKUP R1–R3, 2026-10-30); только текст Outlook
+    enabled: true
+    request_interval: 10s     # robots.txt: Crawl-delay 10
+    retry_every: 1h           # пока расшифровки нет — не чаще раза в час на отчёт
+    window_days: 4            # после 8-K
+    companies:                # только те, у кого guidance лишь на звонке, а расшифровка — открытый HTML
+      - { ticker: MSFT,  page: "https://www.microsoft.com/en-us/investor/events/fy-{fy}/earnings-fy-{fy}-q{q}" }
+      - { ticker: GOOGL, feed: "https://abc.xyz/feed/FinancialReport.svc/GetFinancialReportList?LanguageId=1&year={fy}" }
+
+earnings_calendar:
+  # Даты будущих отчётов — Nasdaq API (решение пользователя 2026-10-25; у Yahoo нужен crumb, LOOKUP E5).
+  # «estimated» у Nasdaq — оценка алгоритма, помечается в экспорте. Время — calendar.release_timezone (ET).
+  enabled: true
+  endpoint: "https://api.nasdaq.com/api/analyst/{ticker}/earnings-date"
+  after_close_time: "16:00"   # ожидаемая подача 8-K при отчёте после закрытия
+  pre_market_time: "07:00"
+  unknown_time: "16:00"
+
+# =====================================================================
+# КЛАССИФИКАЦИЯ
+# =====================================================================
+classify:
+  # Запасной путь (если Gemini недоступен). Регистр не важен; «слово*» — любое окончание
+  # (ставк* → ставка, ставки, ставку); фраза совпадает, если слова идут подряд.
+  # Укр./рус. слова утверждены пользователем 2026-10-25.
+  min_score: 2
+  # Теги постов; тот же набор — в rules и в prompts/classify.md. Порядок разрешает ничьи.
+  tags: [usa_monetary, usa_fiscal, usa_micro, usa_politics, energy_geopolitics, eu_ecb, eu_fiscal, eu_macro, eu_micro]
+  rules:
+    usa_monetary: ["FOMC","Fed","Warsh","Powell","fed funds","rate cut","rate hike","dot plot","CPI","PCE","PPI","payrolls","NFP","jobless claims","unemployment","inflation","QT",
+                   "ФРС","Ворш*","Пауелл*","Пауэлл*","ставк* ФРС","зниження ставки","снижени* ставки","підвищення ставки","повышени* ставки",
+                   "інфляц*","инфляц*","безробітт*","безработиц*","зайнятіст*","занятост*","заявки на допомогу","заявки на пособи*",
+                   "ВВП США","роздрібн* продаж*","розничн* продаж*","споживч* настр*","потребительск* настро*"]
+    usa_fiscal:   ["Treasury","TGA","auction","refunding","deficit","debt ceiling","Bessent","bills","coupons","term premium","RRP","reserves","SOFR","repo",
+                   "Мінфін* США","Минфин* США","казначейств*","Бессент*","аукціон*","аукцион*","дефіцит*","дефицит*","держборг*","госдолг*",
+                   "борг* США","долг* США","облігаці*","облигаци*","трежеріс","трежерис","дохідніст*","доходност*","ліквідніст*","ликвидност*","репо","шатдаун*"]
+    usa_micro:    ["earnings","guidance","revenue","EPS","capex","NVDA","Nvidia","MSFT","Microsoft","AAPL","Apple","AMZN","Amazon","META","GOOGL","Alphabet","AVGO","Broadcom","TSLA","Tesla",
+                   "звітніст*","отчетност*","виручк*","выручк*","прибут*","прибыл*","гайденс*","капекс","Mag7","напівпровідник*","полупроводник*","OpenAI"]
+    usa_politics: ["election*","Congress*","midterm*","White House","Trump*","Hassett*","shutdown*","tariff*",
+                   "вибор*","выбор*","конгрес*","біл* дім","біл* дом*","бел* дом*","Трамп*","Хассет*","мідтерм*","тариф*","мита","мито","митами","пошлин*"]
+    energy_geopolitics: ["oil","Brent","WTI","OPEC*","Iran*","Israel*","Russia*","sanction*",
+                   "нафт*","нефт*","ОПЕК*","Іран*","Иран*","Ізраїл*","Израил*","Росі*","Росси*","санкц*"]
+    eu_ecb:       ["ECB","Lagarde","deposit rate","HICP","eurozone inflation","ЕЦБ","ЄЦБ","Лагард*","депозитн* ставк*","єврозон* інфляц*","еврозон* инфляц*"]
+    eu_fiscal:    ["Bund","BTP","OAT","spread","Schuldenbremse","debt brake","German budget","defense spending",
+                   "Бунд*","бюджет* Франці*","бюджет* Франци*","Італі*","Итали*","кредитн* рейтинг*","боргов* гальм*","долгов* тормоз*","оборонн* витрат*","оборонн* расход*"]
+    eu_macro:     ["Ifo","ZEW","PMI","Destatis","German industry","TTF","China",
+                   "Німеччин*","Германи*","єврозон*","еврозон*","EUR/USD","Brent","Китай*"]
+    eu_micro:     ["SAP","Siemens","Allianz","Deutsche Telekom","Airbus","Mercedes","DAX","Stoxx"]
+  drop_if_contains: ["розыгрыш","промокод","реклама","подписывайтесь","скидка","розіграш","підпишись","підписуйтесь","знижк*"]
+  # Основной классификатор (D14). Ключ — только env GEMINI_API_KEY. Без ключа, при ошибке,
+  # квоте или невалидном ответе пакет размечается ключевыми словами (rules выше).
+  gemini:
+    enabled: false   # включите вместе с telegram; ключ — GEMINI_API_KEY
+    endpoint: "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+    model: gemini-3.5-flash-lite      # LOOKUP M2, подтверждено 2026-10-25
+    prompt: "prompts/classify.md"     # путь от папки config.yaml; правится без пересборки
+    batch_size: 20
+    min_confidence: 0.5
+    timeout: 60s
+    daily_request_limit: 200          # свой предел в сутки (по Тихоокеанскому времени), ниже квоты AI Studio
+
+# Чистка постов в News (FIXES_W44, батч E). Слова и фразы — как в classify.rules: целые слова без учёта
+# регистра, «слово*» — любое окончание.
+news:
+  min_text_chars: 40          # пост короче (после чистки, без эмодзи) — картинка с подписью, не экспортируется
+  signature_share: 0.5        # строка в ≥50% постов канала за неделю — подпись канала, вырезается
+  signature_min_posts: 4      # при меньшем числе постов канала подписи не ищутся
+  promo_words: ["спільнот*","підписник*","трансляці*","подкаст*","читать бесплатно","join","subscribe*","Market News Bureau"]   # строка с ними вырезается
+  opinion_markers: ["я бы","для меня","на мой взгляд","я думаю","базовий сценарій","I think","my view","IMO"]   # пост с ними — «мнение», иначе тип канала
+  calendar_posts: ["Основні події на ринках сьогодні","Основні події тижня","Основные события дня","Основные события недели","Главные события дня","Главные события недели"]   # начало анонса календаря — в экспорт не идёт
+  global_max: 5               # постов в разделе «Глобально»
+  views_refresh: true         # перед недельным экспортом перечитать просмотры (и флаг фото) постов недели с t.me/s
+  # Новый экспорт USA News (2026-11-03): посты не обрезаются, шум убирается целиком.
+  caption_max_chars: 300      # пост с фото короче (без эмодзи), со словом из drop_keywords.caption и без маркеров мнения — подпись к графику, не экспортируется
+  opinions_per_channel: 6     # мнений канала целиком (по резонансу за неделю); остальные — строкой «первая фраза + ссылка» в «Ещё мнения (кратко)»; 0 — все. У канала — свой лимит opinions_full
+  drop_keywords:              # пост с этими словами (и без строки «факт (ожидание)») не экспортируется; причина — в счётчике
+    announce: ["вже за","уже через","скоро вийде","скоро выйдет","незабаром","stay tuned","coming soon","нагадуємо","напоминаем",
+               "пряма трансляці*","прямая трансляци*","дивитись тут","смотреть тут","новий випуск","новый выпуск","свіжий випуск","свежий выпуск"]
+    caption:  ["у додаток до теми","в дополнение к теме","ліворуч","праворуч","слева","справа","на графіку","на графике","динаміка","динамика","хроніка","хроника","chart",
+               "лідирують","лідирує","лидируют","лидирует","найсильніший","слабейший","лузери сесії","лідери сесії","heatmap","теплова карта"]   # только для поста с фото короче caption_max_chars
+    product:  ["представила","представив","презентувала","презентовала","релізить","unveil*","iPad","iPhone","MacBook","iMac","GTA"]   # ещё без «%» и только в AI/отчётах/без тега
+  topics:                     # темы, которых нет среди тегов классификатора
+    ai:     ["AI","ШІ","ИИ","АІ","OpenAI","Anthropic","ChatGPT","Gemini","DeepMind","LLM","Nvidia","NVDA","напівпровідник*","полупроводник*","chip*","чіп*","чип*",
+             "дата центр*","датацентр*","data center*","datacenter*","hyperscaler*","гіперскейлер*","гиперскейлер*","AI capex","Mag7", "memory","DRAM","HBM","NAND","памʼяттю","памʼяті","пам'яттю","пам'яті","пам’яттю","пам’яті","памяти","памятью"]   # usa_micro с ними → «AI и техсектор»
+    market: ["позиціонуванн*","позиционировани*","positioning","CTA","COT","СоТ","flows","потоки","buyback*","байбек*","VIX","breadth","ширина ринку","ширина рынка",
+             "пре-маркет","премаркет","pre-market","premarket","risk on","risk off","small cap*","розкореляці*","ротаці*","rotation","S&P 500","Nasdaq100","Nasdaq 100",
+             "Kalshi","Polymarket","prediction market*","BTC","біткоїн*","биткоин*","bitcoin","crypto*","крипто*","stablecoin*","стейбл*","Binance","Coinbase","Tether","USDT"]   # usa_micro или без тега → «Рынок и позиционирование»
+    global: ["НБУ","BoJ","Уеда","Японі*","Япони*","Банк Англії","Банк Англии","Bank of England","Британі*","Британи*","Commonwealth","содружеств*","співдружност*"]   # → «Глобально»
+  mention_topics_top: 3       # «Растут» — топ-N тем по приросту к прошлой неделе
+  mention_topics:             # Обзор → «Темы недели в каналах»: посты USA News недели (после чистки), где есть слово темы; синтаксис как classify.rules
+    - { name: "Рецессия",           words: ["recession*", "рецесі*", "рецесс*", "hard landing", "жорстк* посадк*", "жестк* посадк*"] }
+    - { name: "Повышение ставки",   words: ["rate hike*", "hike*", "hiking", "підвищен* ставк*", "підвищит* ставк*", "повышен* ставк*", "повысит* ставк*", "повысить ставку"] }
+    - { name: "Снижение ставки",    words: ["rate cut*", "cut rates", "cutting rates", "знижен* ставк*", "знизит* ставк*", "снижен* ставк*", "снизит* ставк*", "снизить ставку"] }
+    - { name: "AI bubble / AI capex", words: ["ai bubble", "ai capex", "capex", "капекс*", "бульбашк* ші", "бульбашк* ai", "пузыр* ии", "пузыр* ai", "дата центр*", "data center*", "datacenter*"] }
+    - { name: "Нефть",              words: ["oil", "нафт*", "нефт*", "brent", "wti", "opec*", "опек*"] }
+    - { name: "Тарифы",             words: ["tariff*", "тариф*", "мито", "мита", "митами", "пошлин*"] }
+    - { name: "Выборы",             words: ["election*", "midterm*", "вибор*", "выбор*"] }
+    - { name: "Шатдаун",            words: ["shutdown*", "шатдаун*"] }
+    - { name: "Кредитный стресс",   words: ["credit spread*", "high yield", "junk bond*", "private credit", "default*", "дефолт*", "кредитн* спред*", "кредитн* стрес*", "приватн* кредит*", "частн* кредит*"] }
+  surprise_facts:             # «Сюрпризы недели»: факт из нашего ряда FRED, если он вышел за неделю; первое совпадение по подписи показателя. Иначе — факт из поста. label — имя показателя в строке поста-ожидания (+ m/m, y/y)
+    - { label: "Core CPI", words: ["core cpi","базов* ІСЦ","базов* ИПЦ"], when: ["yoy","y y","р р","г г"], series: CPILFESL, transform: yoy, unit: "%" }
+    - { label: "Core CPI", words: ["core cpi","базов* ІСЦ","базов* ИПЦ"], series: CPILFESL, transform: mom, unit: "%" }
+    - { label: "CPI", words: ["cpi","ІСЦ","ИПЦ"], when: ["yoy","y y","р р","г г"], series: CPIAUCSL, transform: yoy, unit: "%" }
+    - { label: "CPI", words: ["cpi","ІСЦ","ИПЦ"], series: CPIAUCSL, transform: mom, unit: "%" }
+    - { label: "PPI", words: ["ppi","ррі","ІЦВ"], unless: ["core"], when: ["yoy","y y","р р","г г"], series: PPIFIS, transform: yoy, unit: "%" }
+    - { label: "PPI", words: ["ppi","ррі","ІЦВ"], unless: ["core"], series: PPIFIS, transform: mom, unit: "%" }
+    - { label: "Core PCE", words: ["core pce"], when: ["yoy","y y","р р","г г"], series: PCEPILFE, transform: yoy, unit: "%" }
+    - { label: "Core PCE", words: ["core pce"], series: PCEPILFE, transform: mom, unit: "%" }
+    - { label: "PCE", words: ["pce"], when: ["yoy","y y","р р","г г"], series: PCEPI, transform: yoy, unit: "%" }
+    - { label: "Nonfarm Payrolls", words: ["nonfarm payrolls","nfp","non farm payrolls"], unless: ["private"], series: PAYEMS, transform: diff, unit: "K" }
+    - { label: "Unemployment Rate", words: ["unemployment rate","рівень безробіття","уровень безработицы"], series: UNRATE, transform: level, unit: "%" }
+    - { label: "Initial Claims", words: ["ijc","initial jobless","jobless claims","initial claims"], series: ICSA, transform: level, scale: 0.001, unit: "K" }
+    - { label: "GDP", words: ["gdp","ВВП"], unless: ["gdpnow"], series: GDPC1, transform: qoqa, unit: "%" }
+    - { label: "JOLTS", words: ["jolts"], series: JTSJOL, transform: level, scale: 0.001, unit: "M" }
+
+# =====================================================================
+# SENTIMENT — usa/news/sentiment.md (FIXES_W44 батч F, D16)
+# =====================================================================
+sentiment:
+  corr_days: 20               # F2: корреляция дневных доходностей ^NDX и изменений DGS10 за N торговых дней
+  regime_threshold: 0.3       # F2: r < −0.3 — «боится инфляции / ставок», r > +0.3 — «боится роста», иначе нейтрально
+  ratios:                     # F4: ширина и ротация (отношение цен закрытия), Δ1w / Δ4w в %
+    - { num: RSP,  den: SPY, label: "RSP/SPY (равный вес / S&P 500)" }
+    - { num: QQEW, den: QQQ, label: "QQEW/QQQ (равный вес / NASDAQ-100)" }
+    - { num: IWM,  den: SPY, label: "IWM/SPY (малые / большие)" }
+    - { num: SMH,  den: QQQ, label: "SMH/QQQ (полупроводники / NASDAQ-100)" }
+    - { num: XLU,  den: SPY, label: "XLU/SPY (коммунальные)" }
+    - { num: XLP,  den: SPY, label: "XLP/SPY (товары первой необходимости)" }
+    - { num: XLE,  den: SPY, label: "XLE/SPY (энергетика)" }
+  reaction:                   # F1: реакция цен на события календаря по 1-минутным барам Yahoo (хранятся keep_days)
+    symbols:
+      - { symbol: "NQ=F",     label: "NDX (NQ=F)" }
+      - { symbol: "ZT=F",     label: "2Y ≈б.п. (ZT=F)", duration: 1.9 }   # Δдох. ≈ −Δцены% / дюрация × 100 (решение 2026-11-02)
+      - { symbol: "DX-Y.NYB", label: "DXY" }
+      - { symbol: "CL=F",     label: "WTI" }
+    window: 30m                 # первая реакция: цена через 30 мин против цены в момент события
+    keep_days: 60               # бары старше — удаляются (Yahoo отдаёт 1m только за 30 дней)
+    fetch_delay: 20m            # бары грузятся через 20 мин после close, до которого считается реакция
+    check_every: 30m            # демон: раз в 30 мин ищет события, бары которых пора загрузить
+    earnings: true              # отчёты компаний Micro из календаря; сюрприз — строки «$TICKER …»
+    events:                     # имя события в календаре → подпись и слова показателя в «Сюрпризах недели» (E2)
+      - { name: "Consumer Price Index",  label: "CPI",   aliases: ["CPI", "ІСЦ", "ИПЦ"] }
+      - { name: "Producer Price Index",  label: "PPI",   aliases: ["PPI", "ІЦВ"] }
+      - { name: "Employment Situation",  label: "NFP",   aliases: ["NFP", "Nonfarm", "Non-Farm", "Payrolls", "Unemployment Rate"] }
+      - { name: "Personal Income and Outlays", label: "PCE", aliases: ["PCE"] }
+      - { name: "Gross Domestic Product", label: "GDP",  aliases: ["GDP", "ВВП"] }
+      - { name: "Unemployment Insurance Weekly Claims Report", label: "Claims", aliases: ["IJC", "Initial Jobless", "Jobless Claims"] }
+      - { name: "Job Openings and Labor Turnover Survey", label: "JOLTS", aliases: ["JOLTS"] }
+      - { name: "FOMC decision",         label: "FOMC",  aliases: ["Fed Funds", "FOMC"] }
+  daily_moves:                # G4b: «Крупнейшие дневные движения недели» по дневным закрытиям Yahoo, без календаря
+    - { symbol: "^NDX",     label: "NDX" }
+    - { symbol: "ZT=F",     label: "2Y ≈б.п. (ZT=F)", duration: 1.9 }   # как в reaction
+    - { symbol: "DX-Y.NYB", label: "DXY" }
+    - { symbol: "CL=F",     label: "WTI" }
+
+# =====================================================================
+# ПРОГНОЗЫ (фаза 13): лог прогнозов мастера — блок forecast: в reports/<регион>/<неделя>/<agent>.md
+# разбирается при недельном экспорте (и macroctl forecast import), через неделю сверяется с ценой
+# (macroctl forecast score) → exchange/<регион>/<папка мастера>/forecast_scorecard.md.
+# Оценка: опорная цена — последнее закрытие недели отчёта, итог — последнее закрытие следующей недели;
+# up/down — знак изменения; range — |Δ| < range_pct %; любое дневное закрытие за уровнем invalidation — invalidated.
+# =====================================================================
+forecast:
+  enabled: true
+  agent: master          # id агента с блоком forecast: (по умолчанию master)
+  range_pct: 1.0         # range — попадание, если за неделю |Δ| < 1 %
+  instruments:           # name — как в блоке; price/fallback — настроенные ряды (fallback — если у price нет закрытия; уровень не проверяется)
+    - { name: NASDAQ, price: "^NDX",   fallback: NASDAQCOM }

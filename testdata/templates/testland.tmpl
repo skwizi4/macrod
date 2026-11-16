@@ -1,0 +1,8 @@
+{{define "testland_markets" -}}
+# {{.Header.Title}}
+
+region={{.Header.Region}} agent={{.Header.Agent}} week={{.Header.ISOWeek}}
+
+{{range .Rows}}- {{.Label}}: {{level .Kind .Level}}
+{{end}}
+{{- end}}

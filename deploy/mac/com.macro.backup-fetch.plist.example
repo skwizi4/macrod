@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Weekly copy of the newest DB backup from the server, 3 kept (phase 6).
+     launchd may not run scripts from ~/Desktop, ~/Documents or ~/Downloads (macOS privacy):
+     install -m 755 deploy/mac/fetch-backup.sh ~/.local/bin/macro-backup-fetch.sh
+     Replace REPLACE_HOME, REPLACE_BACKUPS (local folder) and REPLACE_HOST (user@host), REPLACE_KEY (ssh key),
+     REPLACE_REMOTE (backups folder on the server, from its home),
+     save as ~/Library/LaunchAgents/com.macro.backup-fetch.plist, then:
+     launchctl load ~/Library/LaunchAgents/com.macro.backup-fetch.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.macro.backup-fetch</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/sh</string>
+    <string>REPLACE_HOME/.local/bin/macro-backup-fetch.sh</string>
+    <string>REPLACE_BACKUPS</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>DEPLOY_HOST</key><string>REPLACE_HOST</string>
+    <key>DEPLOY_KEY</key><string>REPLACE_KEY</string>
+    <key>REMOTE_BACKUP_DIR</key><string>REPLACE_REMOTE</string>
+    <key>KEEP</key><string>3</string>
+  </dict>
+  <!-- Monday 09:00 -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>1</integer>
+    <key>Hour</key><integer>9</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>StandardOutPath</key><string>/tmp/macro-backup-fetch.log</string>
+  <key>StandardErrorPath</key><string>/tmp/macro-backup-fetch.log</string>
+</dict>
+</plist>

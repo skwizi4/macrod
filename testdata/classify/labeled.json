@@ -1,0 +1,400 @@
+[
+ {
+  "id": "marketnews_ua/37227",
+  "channel": "marketnews_ua",
+  "text": "🔽📖$META -7%\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_micro",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "single US stock move"
+ },
+ {
+  "id": "marketnews_ua/37228",
+  "channel": "marketnews_ua",
+  "text": "🏦Ймовірність утримання ставки ФРС наступного тижня через оцінку жовтневих фʼючерсів вже 92% проти 84% вчора, 70% тиждень тому та 44% місяць тому.",
+  "primary": "usa_monetary",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "Fed hold probability"
+ },
+ {
+  "id": "marketnews_ua/37231",
+  "channel": "marketnews_ua",
+  "text": "📉🪙BTC - найгірший день з 5 червня.\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "crypto only"
+ },
+ {
+  "id": "marketnews_ua/37232",
+  "channel": "marketnews_ua",
+  "text": "😺OpenAI близька до раунду із залученням $30 млрд за оцінки $1.25 трлн, - CNBC\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_micro",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "OpenAI funding round"
+ },
+ {
+  "id": "marketnews_ua/37233",
+  "channel": "marketnews_ua",
+  "text": "Основні події на ринках сьогодні:\n\n🔎 На що звернути увагу:\n🇺🇸 S&P Global Manufacturing PMI (Prelim) - 16:45\n  - попередній показник: 55.9\n🇺🇸 S&P Global Services PMI (Prelim) - 16:45\n  - попередній показник: 58.8\n\nПоказники:\n🇦🇺 Flash Manufacturing/Services PMI - 01:00\n🇯🇵 Flash Manufacturing/Services PMI - 02:30\n🇪🇺 Flash Manufacturing/Services PMI - 11:00\n🇬🇧 Flash Manufacturing/Services PMI - 11:30\n🇨🇦 Retail Sales - 15:30\n🇺🇸 Michigan 1y+5y Inflation Expectations - 17:00\n🇺🇸 Michigan Consumer Sentiment  + Current Conditions - 17:00\n🛢️🇺🇸 Baker Hughes Oil Rig Count - 20:00\n🌍 CFTC Report - 22:30",
+  "primary": "usa_monetary",
+  "accept": [
+   "eu_macro"
+  ],
+  "junk": false,
+  "junk_any": false,
+  "note": "daily calendar, US and EU PMI"
+ },
+ {
+  "id": "marketnews_ua/37234",
+  "channel": "marketnews_ua",
+  "text": "📈BlackRock апгрейдить бонди та даунгрейдить акції. \n\nПояснюється це зростанням частки реальної дохідності (рожевим) та трендом на позитивний term premium (помаранчовим). \n\nНа відміну від ситуацій, де дохідності зростають на інфляційній складовій (зеленим), наразі утворилось реальне зростання, що, на думку BlackRock, вже зараз сприятиме ротації капіталу з акцій у бонди.",
+  "primary": "usa_fiscal",
+  "accept": [
+   "usa_monetary"
+  ],
+  "junk": false,
+  "junk_any": false,
+  "note": "real yields, term premium"
+ },
+ {
+  "id": "marketnews_ua/37237",
+  "channel": "marketnews_ua",
+  "text": "❗️Напівпровідники увійшли у зону корекції, сформувавши падіння на понад 20%.",
+  "primary": "usa_micro",
+  "accept": [
+   ""
+  ],
+  "junk": false,
+  "junk_any": false,
+  "note": "semiconductor stocks correction"
+ },
+ {
+  "id": "marketnews_ua/37239",
+  "channel": "marketnews_ua",
+  "text": "😒Трамп: \nМи можемо забрати усю іранську нафту собі!\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "geopolitics, Iran oil quote"
+ },
+ {
+  "id": "marketnews_ua/37242",
+  "channel": "marketnews_ua",
+  "text": "❗️😒Трамп вперше відкрито заявив про можливість проведення ще однієї великої операції проти Ірану.\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "geopolitics, Iran"
+ },
+ {
+  "id": "marketnews_ua/37243",
+  "channel": "marketnews_ua",
+  "text": "🇫🇷 Moody’s зберегло кредитний рейтинг Франції на рівні «Aa3». \n\nГоловна умова збереження рейтингу - ухвалення бюджету зі скороченням дефіциту до 2027 року.\n\n💸 Новина додала трішки спекулятивного апсайду для EUR, втім це не стане фактором для лонгів з наступного тижня.\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "eu_fiscal",
+  "accept": [
+   "eu_macro"
+  ],
+  "junk": false,
+  "junk_any": false,
+  "note": "France rating and deficit"
+ },
+ {
+  "id": "marketnews_ua/37244",
+  "channel": "marketnews_ua",
+  "text": "🎞Традиційна суботня добірка YouTube:\n\n➣ WSJ Podcasts - CEO JPMorgan Chase Джеймі Даймон про найбільші ризики для світової економіки\n\n➣ DWS News - CEO Nvidia Дженсен Хуанг та Канцлер Фрідріх Мерц про німецьку економіку та АІ\n\n➣ The Builders - CEO Tesla & SpaceX Ілон Маск про АІ & майбутнє роботи та грошей\n\n➣ David Senra - СЕО Corient, найбільшого multi family office світу\n\n➣ Morgan Stanley - Hard Lessons. CIO PIMCO & Сo-president Morgan Stanley\n\n➣ Alex Kantrowitz - СЕО Google Сундар Пічай\n\n➣ All-In Podcast - Кен Гріффін, РНР та Франція\n\n➣ David Lin - Автор Capital Wars Майкл Гауелл про боргове навантаження та глобальну ліквідність\n\n➣ Goldman Sachs - The Markets. Чому інвестори знижують АІ експозицію\n\n➣ Barron’s - Керуючий партнер Skybrigde Capital Ентоні Скарамучі про Трампа й вибори\n\n➣ Dwarkesh Patel - Як чипи виглядатимуть у 2045\n\n➣ NBIM - In Good Company. Ех-СЕО Google Ерік Шмідт про потенціал AI\n\n➣ Bloomberg Podcasts - CEO Citadel Кен Гріффін. Гучні заяви про бульбашку АІ\n\nПриємного перегляду та гарного вікенду!\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "",
+  "accept": [],
+  "junk": false,
+  "junk_any": true,
+  "note": "weekend YouTube digest"
+ },
+ {
+  "id": "marketnews_ua/37245",
+  "channel": "marketnews_ua",
+  "text": "🔥Ініціатива щодо Starlink все ж належала Маску, а не Трампу!\n\nІлон пояснив, що росія як агресор, котрий проводить наступальні дії проти іншої держави, не має доступу до мережі через політику SpaceX, котра формувалась задовго до початку повномасштабного вторгнення. У той же час дронові атаки по інфраструктурі від України вглиб російської території проводилися із використанням Starlink, що кваліфікувалося аналогічно, на відміну від цілей оборони від зовнішньої агресії, на основі яких ЗСУ мають перевагу в обличчі мережі Starlink. Отже, Україна порушила положення угоди користувача. Щодо Starshield він зазначив, що він повністю контролюється урядом та технічні особливості використання залишаються на розсуд США.\n\nМаск наголосив, що без покриття Starlink українська армія давно б терпіла суттєві невдачі, адже мережа дає великий гандикап у боротьбі проти росіян, а наявність Starlink надалі забезпечить звʼязок з ціллю оборони від загарбників.",
+  "primary": "",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "Starlink and the war, no macro"
+ },
+ {
+  "id": "macro_views/360",
+  "channel": "macro_views",
+  "text": "Одно из фундаментальных знаний для любого участника рынка - понимание макро экономических событий, в том числе экономического календаря. Поняв азы - можно двигаться дальше и углубляться в более узкие понятия, поэтому заходим на БЕСПЛАТНЫЙ КУРС и усваиваем информацию. Для тех, кто уже знает базу, но хочет развиваться дальше, то есть два курса Макроэкономики - 1️⃣ключевой и 2️⃣операционная модель.\n\nПадает листва, но пусть не падает депо.\n\nЕсли остались вопросы, то сюда.\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "",
+  "accept": [],
+  "junk": true,
+  "junk_any": false,
+  "note": "free course advertising"
+ },
+ {
+  "id": "macro_views/351",
+  "channel": "macro_views",
+  "text": "Лутай 30% OFF любого курса и бандла по промокоду RECESSION до окончания сегодняшнего дня. \n\nВопросы - @decipher_support",
+  "primary": "",
+  "accept": [],
+  "junk": true,
+  "junk_any": false,
+  "note": "promo code"
+ },
+ {
+  "id": "macro_views/361",
+  "channel": "macro_views",
+  "text": "5% по UST10Y меняет risk-curve для всего рынка. Это уже уровень, где Treasury начинает конкурировать с equities за капитал без необходимости брать equity risk.\n\nРынок одновременно прайсит три вещи:\n🛑Inflation / energy shock. Нефть возвращает inflation premium в long end. Для Fed проблема в том, что слабый ответ легко превращается в потерю credibility. Поэтому даже hike может оказаться недостаточно hawkish для бондов.\n🛑Fiscal premium. Огромный Treasury supply встречает более слабый structural bid: QE-покупателя нет, foreign official demand слабее, дефицит приходится финансировать более price-sensitive капиталом. Это повышает term premium и делает старую механику «Fed tightening → потом long bonds rally» менее надежной.\n🛑Competition for capital. AI capex финансируется корпоративным долгом одновременно с гигантским sovereign issuance. Капитал становится дороже именно тогда, когда экономика остается достаточно сильной, чтобы не заставить Fed быстро капитулировать.\n\nСамый неприятный сценарий - dovish hike. Fed формально повышает ставку, но dots/Warsh дают рынку мягкую траекторию. Тогда front end может успокоиться, а long end продолжит selloff: curve steepening через рост term premium. Это плохая комбинация для duration assets.\n\nДля equities 5% - важнее самого решения Fed. При 10Y около 5% hurdle rate резко выше: long-duration tech, expensive growth и leveraged balance sheets получают compression по multiples. Если 10Y закрепляется выше 5% без заметного ухудшения экономики, equity market должен либо показать существенно более высокий earnings growth, либо принять более низкие valuations.\n\nИ здесь появляется реальный tail risk. 6% перестает быть абстрактной цифрой, если нефть продолжает расти, Treasury supply остается тяжелым, а marginal buyer требует больше compensation. Путь 5% → 6% был бы уже полноценным tightening финансовых условий через mortgages, corporate credit и discount rates.\n\nКлючевой сигнал после Fed - не сам hike. Смотрю на UST10Y после пресс-конференции, 2s10s, term premium, breakevens и oil. Если Fed становится hawkish, а 10Y все равно не может уйти ниже 5%, рынок фактически говорит, что проблема переместилась из monetary policy в fiscal/inflation risk premium. Вот такой режим для risk assets существенно опаснее.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_fiscal",
+  "accept": [
+   "usa_monetary"
+  ],
+  "junk": false,
+  "junk_any": false,
+  "note": "UST10Y at 5%"
+ },
+ {
+  "id": "macro_views/364",
+  "channel": "macro_views",
+  "text": "Fed переписал reaction function. Рынок получил не одиночный insurance hike, а подтверждение, что устойчивый рост экономики больше не является аргументом держать policy мягкой.\n\nСтавку подняли на 25 bps до 3.75–4.00%, решение 12–0. При этом median dot на конец 2026 поднялся с 3.8% до 4.1%. Еще важнее макро-комбинация: прогноз роста ВВП на 2026 - 2.3%, безработицы - 4.1%, PCE - 3.7%. Fed фактически говорит: экономика выдерживает более высокий real-rate regime, поэтому инфляции дадут меньше пространства. \n\nДля рынка это меняет несколько вещей:\n🛑Front-end. Основной repricing идет здесь. 2Y около 4.7% показывает, что рынок начинает закладывать более длинный hiking cycle. Старый сценарий «следующий большой move — cuts» становится существенно дороже держать.\n🛑Long end. 10Y выше 5% - более неприятная история. Перед заседанием yield уже находился около максимумов с 2007 года. Если Fed tightening идет одновременно с высоким term premium и fiscal supply, финансовые условия могут ужесточаться быстрее, чем предполагает сама ставка. \n🛑Equities. Здесь проблема через valuation. Strong growth пока поддерживает earnings, но ставка дисконтирования снова растет. Особенно уязвимы long-duration assets и компании, где multiple держится на далеком cash flow. Для broad index критичен вопрос, сможет ли earnings growth компенсировать дальнейший рост real yields.\n🛑USD. Hawkish repricing дает доллару поддержку через rate differentials. Но дальнейший upside зависит уже от того, насколько aggressively рынок перепрайсит terminal rate. Первый hike был почти полностью ожидаем; важнее теперь траектория.\n🛑Gold. Самый интересный cross-asset сигнал. Высокие real yields обычно создают давление на non-yielding assets, но если золото продолжит держаться при 10Y >5%, рынок торгует уже не только monetary easing. Тогда в цене остается debasement / sovereign-risk premium.\n\nПолитический шум вокруг Трампа вторичен для ближайшего price action. Его требование ставки около 1% находится очень далеко от текущей функции реакции FOMC. Для risk premium важнее другое: Fed демонстрирует готовность ужесточать policy при одновременно сильном growth и политическом давлении.\n\nСамая важная деталь - 2% inflation теперь ожидается только в 2029 году. Это признание, что higher-for-longer может оказаться структурным режимом, а не коротким эпизодом. SEP действительно показывает PCE 3.7% → 2.3% → 2.1% → 2.0% в 2026–29. \n\nПоэтому следующий макро-сетап строится вокруг rates volatility, а не самого сегодняшнего hike. Слежу за 2s10s, 10Y real yield, DXY и тем, выдержит ли Nasdaq дальнейший рост discount rate. Если 10Y закрепляется выше 5% без заметного deterioration в growth data, рынок получает совершенно другую risk-curve.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_monetary",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "Fed hike 25 bp, dots"
+ },
+ {
+  "id": "macro_views/366",
+  "channel": "macro_views",
+  "text": "Рынок увидел dovish hike. Ставка 1.25% сама по себе hawkish, но price action в USDJPY говорит, что рынок торговал не факт повышения, а ожидание ускорения цикла.\n\nДва голоса против - ключевой сигнал. Внутри BOJ появляется политический brake на дальнейшую нормализацию. При почти полностью priced-in сентябрьском hike и высокой вероятности декабря, hurdle для нового hawkish repricing становится выше.\n\n🛑JPY. Реакция до ~157.5 после повышения ставки выглядит плохо для yen bulls. Чтобы развернуть структуру, BOJ теперь нужен либо более жесткий guidance, либо данные по wages/CPI, которые заставят рынок поднять terminal rate. Иначе carry продолжит работать против иены.\n🛑Rates. 1.25% уже входит в нижнюю часть оценки neutral rate BOJ. Следующие 25bp становятся качественно сложнее: рынок переходит от normalization к вопросу, насколько restrictive BOJ действительно готов стать. Здесь важнее terminal rate, чем календарь одного следующего hike.\n🛑Japan equities. Nikkei получает механическую поддержку через слабую иену и exporters. Financials - более сложная история: более высокие rates помогают NIM, но ускорение tightening одновременно давит на duration и domestic growth. Поэтому divergence Nikkei/Topix логичен.\n🛑Global liquidity. BOJ + Fed + ECB повышают ставки в одном месяце. Для global risk это неприятнее японской истории самой по себе. Один из последних крупных источников дешевого funding постепенно дорожает. Это повышает sensitivity crowded carry trades к volatility.\n\nОтдельно интересен Bessent. Американское давление фактически добавило FX reaction function в японскую monetary policy. Если USDJPY снова пойдет к июльским экстремумам, рынок будет прайсить смесь BOJ hikes и intervention risk. Это делает верхнюю часть USDJPY increasingly convex: carry привлекательный, но policy tail risk растет.\n\nКлючевой market tell: BOJ ускоряет hikes, а JPY все равно продают. Пока эта дивергенция сохраняется, рынок говорит, что 1.25% недостаточно для изменения relative-rate story.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "Bank of Japan, USDJPY"
+ },
+ {
+  "id": "macro_views/368",
+  "channel": "macro_views",
+  "text": "Евро наконец начал замечать то, что уже несколько недель происходит во французских bonds.\n\nEURUSD сегодня падал на 0.8% до $1.1161, минимум с мая 2025. Но интереснее здесь OAT-Bund spread: доходность французских 10Y уже на 152bp выше немецких. Таких уровней не было с 2011 года.\n\nИ это уже неприятная ассоциация.\n\nЕвропа снова начинает торговать sovereign risk.\n\nФранция здесь главный источник проблем. Большой дефицит, высокий долг, слабая политическая способность провести нормальную fiscal consolidation. Теперь сверху добавляется риск выборов 2027 года, где рынок уже смотрит на сценарий Le Pen vs Mélenchon во втором туре.\n\nИспания со snap elections 29 ноября добавила еще немного политического шума, но пока это скорее фон. Цена формируется во Франции.\n\nСамое интересное, что FX до последнего почти игнорировал движение в OATs. JPMorgan прямо пишет, что EUR еще не полностью отражает widening французских spreads и связанные tail risks.\n\nТеперь этот gap начинает закрываться.\n\nOptions тоже становятся заметно bearish по EUR. Risk reversals около самых негативных уровней с марта 2025, fast money в Азии продавал евро против доллара, а пробой уровней запустил дополнительный options-related selling.\n\nНо полноценного euro crisis рынок пока не торгует.\n\nBunds остаются спокойными. Немецкие yields сегодня даже немного снизились. То есть рынок пока разделяет France risk и общий euro-area systemic risk.\n\nВот за этим я бы и смотрел.\n\nПока французские spreads расширяются, а Bund остается safe haven внутри Европы, downside по EUR может быть контролируемым.\n\nЕсли stress перекинется на Bunds, Италии и остальные sovereign spreads, история станет совсем другой.\n\n152bp по OAT-Bund уже заставляют вспомнить 2011-й. Следующий вопрос - останется ли Франция локальной проблемой или рынок снова начнет торговать contagion.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "eu_fiscal",
+  "accept": [
+   "eu_macro"
+  ],
+  "junk": false,
+  "junk_any": false,
+  "note": "OAT-Bund spread, EURUSD"
+ },
+ {
+  "id": "macro_views/369",
+  "channel": "macro_views",
+  "text": "Ray Dalio снова говорит о долговом кризисе в США. Но интереснее здесь не очередной страшный прогноз про госдолг, а вопрос: кто будет покупать весь новый supply?\n\nОколо трети американского долга зависит от иностранного капитала. Два крупнейших исторических кредитора США постепенно отходят в сторону.\n\nКитай сократил официальные holdings Treasuries с $1.3 трлн в 2013 году примерно до $618 млрд. Частично бумаги могли просто переехать в другие юрисдикции, поэтому цифра не идеальна. Но направление понятно.\n\nУ Японии около $1.1 трлн Treasuries, но здесь другая проблема. Слабая иена периодически заставляет Минфин вмешиваться в FX, а для интервенций нужны доллары. Один из очевидных источников - иностранные активы.\n\nИ вот здесь начинается неприятная математика.\n\nUS Treasury продолжает выпускать огромный объем долга. Если marginal buyer становится менее активным, цену приходится находить через более высокую доходность.\n\n10Y уже около 5.3%, максимумы с 2002 года.\n\nBessent говорит, что рост экономики и ограничение расходов позволят быстро начать “bending the curve” по госдолгу. Возможно. Но пока bond market просит доказательства.\n\nПричем проблема уже шире США. Французский sovereign debt тоже попал под давление, а Dalio считает, что страна практически дошла до своего borrowing limit.\n\nПолучается довольно интересная конструкция: государствам нужно занимать много именно в момент, когда крупнейшие владельцы капитала становятся более чувствительными к цене и риску.\n\nПоэтому я бы смотрел меньше на сам размер американского долга и больше на спрос на очередных Treasury auctions.\n\nПри дефиците покупателей fiscal problem довольно быстро превращается в rates problem. А 5%+ по длинным Treasuries уже начинает менять математику почти для всего остального рынка.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_fiscal",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "US debt and foreign buyers"
+ },
+ {
+  "id": "macro_views/370",
+  "channel": "macro_views",
+  "text": "Nvidia снова на ATH и уже почти $6 трлн капитализации. Но самое интересное здесь даже не размер компании.\n\nNvidia сейчас стоит около 17x forward earnings. Это почти минимум за 10 лет и дешевле S&P 500, который торгуется примерно по 19x.\n\nПри этом рынок ждет удвоения net income в FY2027 и роста выручки примерно на 90%. В предыдущем отчете компания вообще дала ориентир на +70% sales в FY2028 против ожидавшихся рынком +45%.\n\nТо есть multiple сжимается быстрее, чем растет цена. Earnings догоняют капитализацию.\n\nДобавьте сюда еще $150 млрд нового buyback. Для Big Tech сейчас это довольно необычная история: остальные продолжают заливать огромные суммы в AI capex, а Nvidia генерирует достаточно cash, чтобы одновременно финансировать рост и возвращать капитал акционерам.\n\nИ это происходит на фоне 10Y Treasury выше 5%.\n\nОбычно такой rates backdrop должен сильнее всего бить именно по дорогому long-duration tech. Но Nvidia постепенно превращается в другую историю. Высокие ставки пока почти не влияют на спрос hyperscalers на AI infrastructure, а собственная valuation уже далеко не выглядит экстремальной.\n\nЕсть и обратная сторона. При капитализации почти $6 трлн компании становится физически сложнее двигаться теми же темпами. Nvidia +28% YTD, тогда как semiconductor index вырос на 86%.\n\nПожалуй, это и есть главный парадокс Nvidia сейчас: компания становится все больше, а по earnings multiple выглядит все дешевле.\n\nЕсли рынок действительно ошибается, искать ошибку стоит уже не в valuation. Нужно искать ее в будущих earnings.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_micro",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "Nvidia valuation"
+ },
+ {
+  "id": "macro_views/372",
+  "channel": "macro_views",
+  "text": "OpenAI рассчитывает выйти на $70 млрд annualized revenue к концу года. Ещё в сентябре было около $50 млрд.\n\nПри этом компания обсуждает привлечение новых $30 млрд при оценке $1,4 трлн.\n\nЕсли брать эти цифры, инвесторы готовы платить около 20x annualized revenue. И это за компанию, которая пока продолжает активно сжигать капитал на инфраструктуру и вычисления.\n\nНо есть нюанс.\n\nAnnualized revenue - это текущая выручка, пересчитанная на год. Если в сентябре компания заработала условные $4,2 млрд за месяц, получается $50 млрд в годовом выражении. Фактическая выручка за последние 12 месяцев может быть существенно ниже.\n\nЕщё интереснее сравнение с Anthropic. Компания сообщала о $65 млрд annualized revenue уже в июле, однако методологии учёта продаж через облачных провайдеров различаются. Поэтому прямое сравнение двух цифр может вводить в заблуждение.\n\nРынок на эту неопределённость отреагировал довольно нервно. Nasdaq 100 потерял 1,4%, индекс производителей чипов упал на 3,4%.\n\nМеня здесь больше интересует другое.\n\nПри оценке $1,4 трлн OpenAI должна не просто поддерживать высокий рост выручки. Ей нужно доказать, что рост потребления токенов со временем превращается в устойчивую маржу, а затраты на inference и инфраструктуру не съедают всю экономику.\n\nПока инвесторы готовы финансировать этот рост авансом. Но чем выше valuation, тем меньше пространства для ошибок в unit economics.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_micro",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "OpenAI revenue and valuation"
+ },
+ {
+  "id": "macro_views/375",
+  "channel": "macro_views",
+  "text": "AI-компания показывает рост выручки на 200%, выходит на IPO и в первый же день теряет 33% стоимости.\n\nЮжнокорейская Elice привлекла $151 млн, разместившись по верхней границе ценового диапазона. Спрос среди розничных инвесторов превышал предложение в 400 раз.\n\nКазалось бы, идеальные условия для IPO.\n\nНо акции обвалились с 90 500 до 61 000 вон практически сразу после открытия торгов.\n\nИ это уже начинает напоминать тенденцию.\n\nАвстралийская Firmus отменила IPO из-за разногласий по valuation. CoreWeave потеряла более половины стоимости с майского пика. AirTrunk откладывает размещение, Nscale сталкивается с сопротивлением инвесторов по оценке бизнеса.\n\nУ рынка постепенно меняется отношение к AI infrastructure.\n\nПоследние несколько лет инвесторам было достаточно услышать про GPU, дата-центры и растущий спрос на вычислительные мощности.\n\nТеперь всё чаще возникают вопросы о стоимости капитала, загрузке мощностей, амортизации оборудования и реальной доходности инвестиций.\n\nИ здесь есть интересный момент.\n\nВыручка Elice за первое полугодие выросла втрое, компания вышла на операционную прибыль. То есть бизнес действительно демонстрирует рост.\n\nНо даже такие результаты не убедили инвесторов платить предложенную цену.\n\nМне кажется, рынок начинает разделять две вещи, которые долго воспринимались как одно целое: рост спроса на AI и способность инфраструктурных компаний зарабатывать на этом росте.\n\nМожно быть абсолютно правым относительно будущего искусственного интеллекта и при этом сильно переплатить за компании, которые строят инфраструктуру для него.\n\nОсобенно если большая часть будущих денежных потоков уже заложена в valuation, а расходы на оборудование и финансирование приходится нести сегодня.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "Korean AI IPO"
+ },
+ {
+  "id": "macro_views/376",
+  "channel": "macro_views",
+  "text": "Пока инвесторы обсуждают триллионы долларов будущей выручки от AI, кредитный рынок начинает задавать вопросы о том, кто всё это будет финансировать.\n\nПятилетние CDS японской SoftBank выросли до 432bp, максимума с ноября 2022 года.\n\nДля сравнения, это более чем на 130bp выше, чем у Nissan, следующей по уровню кредитного риска крупной японской компании.\n\nАкции SoftBank тем временем потеряли около 50% стоимости с июньского пика.\n\nПричина вполне понятная.\n\nМасаёси Сон продолжает агрессивно инвестировать в AI, но масштаб вложений начинает создавать давление на баланс компании.\n\nBloomberg Intelligence ожидает отток денежных средств минимум на $6 млрд в финансовом году до марта 2027-го. Потенциальное приобретение Allied Universal потребует дополнительного финансирования, а loan-to-value может приблизиться к установленному самой SoftBank лимиту в 25%.\n\nМне здесь интереснее реакция credit market, чем падение акций.\n\nEquity инвесторы могут годами платить высокие multiples за ожидания будущего роста.\n\nКредиторов интересует более приземлённая математика: сколько компания должна, сколько денег генерирует и сможет ли рефинансировать обязательства без продажи активов.\n\nИменно поэтому widening CDS заслуживает внимания.\n\nУ SoftBank значительная часть финансовой гибкости зависит от стоимости инвестиционного портфеля. Если AI valuations продолжат снижаться, LTV будет расти даже без новых заимствований. А привлекать капитал станет дороже как раз тогда, когда он нужен больше всего.\n\nЭто пока не означает, что SoftBank столкнулась с кризисом ликвидности.\n\nНо рынок уже требует существенно большую премию за её кредитный риск.\n\nИ если проблемы с финансированием начнут распространяться на других крупных инвесторов в AI infrastructure, вопрос о доходности триллионных инвестиций станет гораздо актуальнее, чем очередной прогноз роста спроса на вычислительные мощности.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_micro",
+  "accept": [
+   ""
+  ],
+  "junk": false,
+  "junk_any": false,
+  "note": "SoftBank CDS, financing of US AI (prompt ex2)"
+ },
+ {
+  "id": "macro_views/357",
+  "channel": "macro_views",
+  "text": "Treasury начал управлять term premium административно. Удвоение buybacks по long-end - сильный circuit breaker, но фундаментально проблема duration никуда не делась.\n\nРынок получил сигнал: Washington нервничает из-за стоимости фондирования и готов сглаживать dislocation в UST. Отсюда синхронный squeeze в глобальном duration - JGB, Gilts, Bunds, Australia. Но уже через сутки long-end снова продают. Это важнее первого импульса.\n\nЧто здесь вижу:\n🛑Fiscal dominance. Когда Treasury приходится активнее поддерживать ликвидность собственного long-end, это говорит о масштабе fiscal pressure. Buybacks улучшают market plumbing, но не уменьшают deficit и будущий net issuance.\n🛑Curve steepening остается главным macro regime. Sticky inflation + большие fiscal deficits + растущий supply = инвестору нужна более высокая компенсация за duration. Поэтому long-end структурно уязвим даже при dovish ожиданиях по front-end.\n🛑UST получает относительное преимущество. У США появился policy backstop, которого сейчас нет у Gilts, Bunds или JGB. Поэтому глобальный bond selloff может стать менее синхронным: американский long-end получает искусственную поддержку, остальные рынки продолжают переваривать собственный fiscal risk.\n🛑UK выглядит особенно чувствительно. 30Y около 5.8% при отсутствии аналогичного policy signal - неприятная комбинация. Здесь sovereign risk premium может расширяться быстрее, если глобальный duration снова попадет под давление.\n🛑Japan остается хвостовым риском. Падение 30Y JGB почти на 9 bps после движения UST показывает, насколько crowded был short-duration trade. Но 30Y около 4% - это уже другой режим стоимости капитала для экономики, десятилетиями жившей с почти бесплатным funding.\n\nСамое интересное - сама функция реакции властей. Рынок теперь знает, что около определенного уровня long yields Treasury становится некомфортно. Значит, появляется потенциальный Bessent put на long-end. Проблема в том, что каждый такой put одновременно подтверждает рынку масштаб fiscal vulnerability.\n\nПоэтому вчерашний rally больше похож на position washout, чем на начало устойчивого bull market в duration. Для настоящего разворота нужны либо падение inflation expectations, либо серьезное ухудшение growth, либо снижение ожидаемого Treasury supply. Buybacks сами по себе этого не дают.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_fiscal",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "Treasury buybacks, term premium"
+ },
+ {
+  "id": "macro_views/359",
+  "channel": "macro_views",
+  "text": "Рынок получил подтверждение, что AI capex cycle пока не ломается. Guidance Nvidia на FY2028 около +70% revenue growth против consensus ~45% - это слишком большой разрыв, чтобы списать его на обычный beat-and-raise.\n\nНо внутри цифр есть более интересная история.\n🛑Demand > Supply. Nvidia утверждает, что ограничением остается supply, причем клиенты сами повышают forecasts. Если это подтверждается заказами, bottleneck AI-цикла смещается дальше по цепочке: HBM, advanced packaging, power, networking, cooling. Это поддерживает весь AI infrastructure complex, а не только NVDA.\n🛑Memory становится toll collector. Revenue растет взрывными темпами, но gross margin временно падает с ~74% к 71–72% из-за стоимости памяти. SK Hynix, Micron и Samsung получают pricing power именно потому, что bottleneck невозможно быстро закрыть новым capacity. Рынок начинает платить premium за дефицит физической инфраструктуры.\n🛑Pricing power Nvidia сохраняется. Компания уже перекладывает рост input costs на клиентов и ожидает стабилизацию margin около 72–73%. Это важнее headline revenue: hyperscalers пока готовы принимать более высокую стоимость compute. Значит ROI discipline еще не начал серьезно душить capex.\n🛑Bubble risk никуда не исчез. Circular financing, инвестиционные commitments Nvidia и концентрация спроса у hyperscalers делают качество этого роста критичным. Пока revenue конвертируется в реальный cash flow у конечных клиентов, структура работает. Если monetization AI начнет отставать от depreciation и financing costs инфраструктуры, рынок очень быстро пересчитает весь complex.\n🛑Главный tail risk - собственные ASIC клиентов. Amazon, Google и другие hyperscalers экономически заинтересованы снижать Nvidia tax. Чем больше становится AI capex, тем сильнее incentive вертикально интегрироваться. Vera Rubin защищает технологический moat сегодня; вопрос FY2028–FY2030 - сколько economics Nvidia сможет оставить себе.\n\nPre-market +6.4% выглядит логично, но expectations теперь снова подняты. После 16 кварталов beats рынок уже практически капитализирует execution как базовый сценарий. Это делает valuation чувствительной не столько к следующему revenue beat, сколько к любому признаку замедления orders, hyperscaler capex или gross margin.\n\nМакроимпликация шире NVDA: тезис о скором окончании AI capex boom получил серьезный удар. Пока bottleneck остается физическим supply, AI trade сохраняет momentum. Одновременно risk-curve становится жестче - чем выше рынок поднимает FY2028 expectations, тем меньше tolerance к обычным корпоративным проблемам.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_micro",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "Nvidia guidance"
+ },
+ {
+  "id": "macro_views/349",
+  "channel": "macro_views",
+  "text": "Asymmetry CPI. Рынок стоит почти ровно 50/50 по сентябрьскому hike, но распределение реакции далеко не симметричное. Hot print способен быстро перепрайсить front-end выше; soft print уже частично заложен слабым payrolls и предыдущим CPI.\n\nОтсюда интереснее сама структура:\n🛑Front-end - эпицентр риска. 2Y сейчас фактически торгует спор между sticky inflation и weakening labor market. Core CPI выше consensus возвращает сценарий September hike и поднимает terminal-rate expectations.\n🛑Soft CPI открывает bull steepener. После слабого jobs report Fed получает пространство ждать. Тогда наиболее перегруженный hawkish pricing в 2–5Y начинает разматываться быстрее long end.\n🛑Long end живет своей жизнью. 10Y около 4.7%, 30Y выше 5% - это уже не только Fed. Здесь term premium, fiscal supply и sovereign debt risk. Поэтому даже хороший CPI не гарантирует мощного duration rally: front-end может падать по yield значительно быстрее 30Y.\n🛑Positioning усиливает convexity. Trend-followers накопили bond shorts после квартального selloff. Cooler CPI способен запустить механический short-covering. Но upside CPI surprise опаснее: рынок находится всего в одном сильном print от превращения 50% hike probability в гораздо более уверенный hawkish сценарий.\n\nСамая важная деталь - bar for the Fed изменился. После слабого payrolls одного умеренно горячего CPI может оказаться недостаточно. Нужен print, который убедительно показывает, что disinflation снова застопорился. Зато core около 0.1–0.2% MoM резко укрепляет аргумент за hold.\n\nПолучается редкий setup: macro direction может определиться одним числом, а лучшая информация будет в реакции curve, а не в headline CPI. Если 2Y агрессивно реагирует, а long end остается тяжелым, рынок продолжает разделять monetary-policy risk и fiscal/term-premium risk.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_monetary",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "CPI and the next hike"
+ },
+ {
+  "id": "macro_views/346",
+  "channel": "macro_views",
+  "text": "Рынок больше не спорит с риторикой. Он спорит с credibility.\n\nПосле заседания Fed произошел классический bear steepening: front-end rally, long-end selloff. Это один из самых неприятных сценариев для центрального банка. Если бы рынок поверил Warsh, росли бы прежде всего короткие ставки - через ожидания скорого hike. Вместо этого инвесторы потребовали более высокую term premium на длинном конце.\n\nЭто означает несколько вещей.\n🛑Inflation expectations снова становятся фактором ценообразования. Рост breakevens одновременно с падением доллара — плохая комбинация для любого инфляционного режима.\n🛑The bond vigilantes are back. Длинные облигации начинают дисциплинировать политику самостоятельно. Рынок говорит Fed: если вы не ужесточаете финансовые условия через Fed Funds, это сделаем мы через long-end.\n🛑Policy credibility под вопросом. Hawkish коммуникация без действий работает ограниченное время. После нескольких заседаний рынок начинает дисконтировать не слова, а вероятность того, что Fed снова окажется behind the curve.\n\nОсобенно показателен разрыв между 2Y и 30Y.\n\n➡️2-летние Treasuries снизились, потому что рынок убрал ожидания немедленного hike. Но одновременно ➡️30-летние доходности обновляют многолетние максимумы. Это уже не история про ближайшее заседание. Это репрайсинг долгосрочного инфляционного риска и стоимости капитала.\n\nЕсть и второй слой.\n\nРост long-end сегодня отражает не только инфляцию. В цену входят:\n🛑растущая term premium;\n🛑увеличение предложения Treasury на фоне дефицита бюджета;\n🛑масштабные корпоративные заимствования для финансирования AI capex;\n🛑сомнения в независимости Fed после политического давления со стороны Белого дома.\n\nИменно поэтому 30-летняя доходность выглядит гораздо менее чувствительной к ожиданиям по Fed Funds, чем несколько лет назад.\n\nДля других рынков последствия тоже очевидны.\n\nВысокие real yields традиционно становятся встречным ветром для большинства risk assets. Одновременно слабый доллар поддерживает сырьевые активы и золото. Если же long-end продолжит расти быстрее, чем инфляционные ожидания, финансовые условия будут ужесточаться независимо от решений FOMC.\n\nСамая важная деталь - Warsh фактически признал, что рост рыночных ставок выполняет часть работы Fed. Это опасная конструкция. Пока рынок делает работу центрального банка, всё выглядит управляемо. Если инфляция ускорится, а long-end перестанет эффективно охлаждать спрос, пространство для мягких решений быстро исчезнет.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_monetary",
+  "accept": [
+   "usa_fiscal"
+  ],
+  "junk": false,
+  "junk_any": false,
+  "note": "Fed meeting, bear steepening"
+ },
+ {
+  "id": "macro_views/347",
+  "channel": "macro_views",
+  "text": "$100 млрд спроса на $20 млрд нового equity. Рынок спокойно абсорбирует огромную эмиссию Intel даже после +164% YTD. Это сильный сигнал по liquidity regime вокруг AI.\n\nIntel использует окно правильно: $95 pricing, дисконт 6.5%, объем сделки увеличен с $15 до $20 млрд. Когда компания после такого rally может напечатать столько акций и получить 5x oversubscription, dilution перестает быть главным риском. Capital markets фактически субсидируют CapEx.\n\nЧто вижу шире:\n🛑AI превращается в capital-raising cycle. Intel $20 млрд, Alphabet до $85 млрд, Oracle планирует $20 млрд ATM. Компании монетизируют высокий multiple и направляют equity обратно в инфраструктуру.\n🛑Это reflexive loop. Высокие valuations → дешевый equity capital → больше дата-центров/fabs → больше заказов по всей AI supply chain → поддержка earnings expectations → высокие valuations.\n🛑Intel - особенно интересный индикатор risk appetite. Компания остается слабее Nvidia/AMD непосредственно в AI accelerators и одновременно несет тяжелую foundry/capex историю. Если рынок готов дать ей $20 млрд после +164%, hurdle rate для качественных AI names сейчас крайне низкий.\n🛑Supply становится риском для индекса. Десятки миллиардов новых акций пока легко перевариваются. Если issuance продолжит ускоряться, marginal buyer в какой-то момент начнет требовать больший discount. Именно здесь можно увидеть ранний сигнал насыщения AI trade раньше, чем он появится в earnings.\n\nПадение Intel на ~1% premarket после размещения выглядит почти косметическим относительно 6.5% offering discount. Absorption важнее headline dilution.\n\nЭто уже похоже на фазу, где Wall Street снова научился печатать tickets быстрее, чем индустрия успевает строить дата-центры. Пока liquidity позволяет - цикл сам себя финансирует. Проблема начнется, когда $100 млрд книги спроса перестанут появляться на каждый крупный deal.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_micro",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "Intel equity offering"
+ },
+ {
+  "id": "macro_views/348",
+  "channel": "macro_views",
+  "text": "Интервенция купила время, но не изменила macro setup.\n\nUSDJPY снова около 159.4, хотя 31 июля США и Япония провели первую coordinated intervention с 1998 года. Движение было мощным: примерно 164 → 155. Но рынок уже забрал почти половину этого укрепления иены обратно.\n\nЭто важный сигнал.\n🛑160 - политический уровень. Выше него intervention risk резко возрастает. После совместной операции credibility выше обычного: рынок знает, что Tokyo потенциально действует не один.\n🛑Но фундаментал остается против JPY. Wide US-Japan rate differential, японский fiscal risk и слабая привлекательность JPY carry-adjusted никуда не исчезли. Пока этот spread сохраняется, интервенции приходится бороться с постоянным фундаментальным потоком.\n🛑Получается интересная асимметрия. Чем ближе USDJPY к 160–164, тем хуже становится чистый risk-reward для продолжения движения вверх: потенциальный upside сталкивается с tail risk внезапной интервенции. Но устойчивый bearish USDJPY trend тоже требует изменения rates story, а не очередного заявления Минфина.\n🛑Главный тест - реакция рынка на следующую интервенцию. Первая дала почти 9 фигур укрепления иены. Если следующий официальный удар даст существенно меньший эффект или будет быстрее выкуплен, рынок начнет прайсить ограниченность firepower властей. Это уже проблема credibility.\n\nПо сути, 160 превращается в battle line между carry и государственным балансом. Спекулянты получают положительный carry, власти - необходимость периодически делать этот trade болезненным.\n\nОсобенно интересны здесь US real yields и front-end rates. Без снижения американских yields устойчиво сильная иена требует все больших усилий со стороны Tokyo.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "USDJPY intervention"
+ },
+ {
+  "id": "macro_views/355",
+  "channel": "macro_views",
+  "text": "AI-бум начинает работать как отдельный макро-фактор, который держит long-end yields выше даже при попытках Treasury облегчить рынок.\n\nHyperscalers превращаются из cash-rich tech в крупных эмитентов duration. Около $200 млрд заимствований крупнейших tech-компаний уже эквивалентны примерно 25% net Treasury issuance notes & bonds в private hands. Причем корпоративный supply тяжелее смещен в long maturities. Для рынка важен DV01, а не только face value.\n\nМеханика неприятная:\n🛑Portfolio substitution. Когда Alphabet дает почти 6.4% на 30 лет при +115 bps к Treasury, real-money manager получает нормальную компенсацию за переход из UST в IG credit. Treasury приходится конкурировать за тот же marginal dollar.\n🛑Term premium. Bessent может финансировать дефицит через bills и ограничивать issuance 10Y/30Y, но это не убирает duration из системы. Barclays ожидает снижение net Treasury notes/bonds supply примерно на $440 млрд против 2025 года, одновременно corporate net supply растет примерно на $474 млрд. Частный сектор практически заполняет освободившееся пространство.\n🛑Fed cuts становятся менее эффективны для long end. Даже dovish Fed способен опустить front-end, пока 10Y/30Y остаются под давлением fiscal deficits + AI capex + MBS supply. Это повышает вероятность дальнейшего steepening вместо классического параллельного снижения curve.\n🛑AI trade меняет характер. Раньше это был equity multiple/capex story. Теперь это еще и fixed-income story. JPMorgan оценивает AI infrastructure spending до 2030 года в $5.5 трлн. Если значительная часть финансируется debt, AI фактически создает новый структурный источник спроса на капитал.\n\nОсобенно интересна оценка BofA: дополнительный corporate и MBS issuance мог добавить около 30 bps к 10Y yield только в этом году. Для rates это уже material, а не noise.\n\nИ здесь появляется feedback loop. Высокий long-end → дороже AI financing → выше hurdle rate для новых дата-центров → больше scrutiny по ROIC → одновременно выше discount rate для самих tech equities. Пока earnings/cash flow перекрывают этот эффект. При замедлении monetization рынок быстро начнет смотреть на AI capex как на leveraged infrastructure cycle.\n\nМакро-вывод: neutral rate может быть менее важен для long-end, чем совокупный supply duration. Огромный sovereign borrower теперь конкурирует с крупнейшим private capex cycle последних десятилетий.\n\nLearn ◽️ Explore ◽️ Channel\n  \n    Please open Telegram to view this post\n    VIEW IN TELEGRAM",
+  "primary": "usa_fiscal",
+  "accept": [
+   "usa_micro"
+  ],
+  "junk": false,
+  "junk_any": false,
+  "note": "hyperscaler borrowing, long-end yields"
+ },
+ {
+  "id": "macro_letter/1",
+  "channel": "macro_letter",
+  "text": "The Maradona Theory of Interest Rates\n\nHi everyone, Alf here - I am back with another research piece for you. As always, the idea is to share some of the frameworks I use to run my macro strategy. If you want to be in touch with me: alf@palinurocapital.com I hereby present the Maradona theory of interest rates from Mervyn King (credit to my friend Mario Baronci): This week, the Fed announced various nominees for the task forces Warsh has set up. Former BoE chief Mervyn King was chosen to lead the new ‘’communications task force’’. Back when he was at the helm of the BoE, King proposed the Maradona approach to Central Bank communication: pretend to go right (be hawkish), pretend to go left (be dovish), and in the end get to your final objective without really moving much. And given the output of the macro models I use to look at US growth, labor market and inflation the Maradona approach to interest rates could be the best fit. What if Warsh says something hawkish now, something dovish later, and in the end Fed Funds just stay where they are for a while longer? Consider the two charts below: The top chart shows how US real consumer spending (blue) is running below its 10-year average, and US companies are not hiring workers in cyclical industries at a rapid pace (orange). The hiring plans for the foreseeable future are also pretty weak (black). The bottom chart is a valuable, real-time proxy for nominal income growth coming from labor – US withheld income taxes are growing just in line with the last 10 years. The two engines of core US growth – the labor market and consumer spending – are far from being hot. And when that’s the case, the odds of sticky inflationary pressures are also much lower: The left chart shows how US core goods inflationary pressures have risen in line with our PCA-based prediction model – no major inflationary impulse left in the tank there , especially as the USD has stopped depreciating against major trade partners and hence imported core goods prices are set to slow down a bit. The right chart shows how Zillow and the Cleveland NTRR tend to anticipate changes in Shelter CPI. I didn’t even bother to fit a lead/lag timeline there as it’s quite obvious that official housing CPI in the US lags real-time rent measures due to the statistical methodology used to calculate shelter CPI. And if anything, there should be some mild disinflationary pressures in the US housing market. This leaves us with the following: - The core engines of US real growth running at trend levels (~2% real annualized); - A far from hot US labor market - Real-time indicators of wage growth and nominal labor income growth being disinflationary; - No major inflationary pressures in the pipeline; - Pretty much Goldilocks! In the meantime, the option-implied distribution for Fed Funds in 12 months from now looks like this: The median expectation remains for 2-3 hikes, but the biggest mispricing against the macro environment I just described sits in the hawkish tail of this distribution. The mark",
+  "primary": "usa_monetary",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "Warsh, Fed on hold vs hikes"
+ },
+ {
+  "id": "synthetic/1",
+  "channel": "marketnews_ua",
+  "text": "#Crypto 📉 $ETH -8% за добу, ліквідації на $600 млн, фонд Ethereum ETF зафіксував відтік.",
+  "primary": "",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "crypto only"
+ },
+ {
+  "id": "synthetic/2",
+  "channel": "marketnews_ua",
+  "text": "🎁 РОЗІГРАШ! Підпишись на канал партнера та виграй iPhone. Умови в закріпі 👇",
+  "primary": "",
+  "accept": [],
+  "junk": true,
+  "junk_any": false,
+  "note": "giveaway"
+ },
+ {
+  "id": "synthetic/3",
+  "channel": "macro_views",
+  "text": "Доброе утро! ☀️",
+  "primary": "",
+  "accept": [],
+  "junk": true,
+  "junk_any": false,
+  "note": "greeting, no information"
+ },
+ {
+  "id": "synthetic/4",
+  "channel": "marketnews_ua",
+  "text": "🇪🇺 ЄЦБ залишив депозитну ставку на рівні 2%. Лагард: інфляція в єврозоні близька до цілі, подальші кроки залежатимуть від даних.",
+  "primary": "eu_ecb",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "ECB decision"
+ },
+ {
+  "id": "synthetic/5",
+  "channel": "marketnews_ua",
+  "text": "🇩🇪 Індекс Ifo впав до 86.2 проти очікуваних 87.5 — німецька промисловість ще не відновилася.",
+  "primary": "eu_macro",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "Ifo"
+ },
+ {
+  "id": "synthetic/6",
+  "channel": "marketnews_ua",
+  "text": "🇩🇪 SAP: виручка від хмарних сервісів +27%, компанія підвищила прогноз на рік; акції +5% на премаркеті.",
+  "primary": "eu_micro",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "SAP earnings"
+ },
+ {
+  "id": "synthetic/7",
+  "channel": "marketnews_ua",
+  "text": "🇺🇸 Первинні заявки на допомогу з безробіття: 241 тис. проти 230 тис. очікувань. Ринок закладає ще одне зниження ставки ФРС у грудні.",
+  "primary": "usa_monetary",
+  "accept": [],
+  "junk": false,
+  "junk_any": false,
+  "note": "jobless claims"
+ }
+]

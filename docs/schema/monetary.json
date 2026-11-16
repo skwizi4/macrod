@@ -1,0 +1,1358 @@
+{
+  "$defs": {
+    "DerivedRow": {
+      "additionalProperties": false,
+      "properties": {
+        "change": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "freq": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "index",
+            "rate",
+            "pct",
+            "bn",
+            "thous",
+            "count",
+            "usd",
+            "ratio",
+            "bp",
+            "px",
+            "usd0",
+            "bn_eur",
+            "eur",
+            "fx"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "level": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quality": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "z": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "label",
+        "date",
+        "freq",
+        "kind",
+        "flags",
+        "quality",
+        "level",
+        "change",
+        "z"
+      ],
+      "type": "object"
+    },
+    "DocumentItem": {
+      "additionalProperties": false,
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "doc_type": {
+          "type": "string"
+        },
+        "excerpt": {
+          "type": "string"
+        },
+        "published": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "published",
+        "doc_type",
+        "source",
+        "author",
+        "title",
+        "excerpt",
+        "url"
+      ],
+      "type": "object"
+    },
+    "ECBCouncil": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision"
+      ],
+      "type": "object"
+    },
+    "ECBTexts": {
+      "additionalProperties": false,
+      "properties": {
+        "documents": {
+          "items": {
+            "$ref": "#/$defs/DocumentItem"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "held": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ECBCouncil"
+            }
+          ]
+        },
+        "next": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ECBCouncil"
+            }
+          ]
+        }
+      },
+      "required": [
+        "documents",
+        "held",
+        "next"
+      ],
+      "type": "object"
+    },
+    "EnergyRow": {
+      "additionalProperties": false,
+      "properties": {
+        "change_1w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "change_4w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "freq": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "index",
+            "rate",
+            "pct",
+            "bn",
+            "thous",
+            "count",
+            "usd",
+            "ratio",
+            "bp",
+            "px",
+            "usd0",
+            "bn_eur",
+            "eur",
+            "fx"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "level": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quality": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "yoy": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "label",
+        "date",
+        "freq",
+        "kind",
+        "flags",
+        "quality",
+        "level",
+        "change_1w",
+        "change_4w",
+        "yoy"
+      ],
+      "type": "object"
+    },
+    "FOMCMeeting": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "meeting": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "meeting",
+        "decision"
+      ],
+      "type": "object"
+    },
+    "FactValue": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "current": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "previous": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "previous_first": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "code",
+        "current",
+        "previous",
+        "previous_first"
+      ],
+      "type": "object"
+    },
+    "FedPathReport": {
+      "additionalProperties": false,
+      "properties": {
+        "cuts": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "cuts_week_ago": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "horizon": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "horizon_week_ago": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "near_bp": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "near_bp_week_ago": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "near_meeting": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "near_meetings": {
+          "type": "integer"
+        },
+        "path_bp": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "path_bp_week_ago": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "price_date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/FedPathRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "rows",
+        "price_date",
+        "horizon",
+        "horizon_week_ago",
+        "path_bp",
+        "path_bp_week_ago",
+        "cuts",
+        "cuts_week_ago",
+        "near_meetings",
+        "near_meeting",
+        "near_bp",
+        "near_bp_week_ago"
+      ],
+      "type": "object"
+    },
+    "FedPathRow": {
+      "additionalProperties": false,
+      "properties": {
+        "implied": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "meeting": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "meeting_bp": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "month": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "new": {
+          "type": "boolean"
+        },
+        "no_trades": {
+          "type": "boolean"
+        },
+        "thin": {
+          "type": "boolean"
+        },
+        "vs_dff": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "week_ago": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "month",
+        "meeting",
+        "implied",
+        "vs_dff",
+        "meeting_bp",
+        "week_ago",
+        "no_trades",
+        "thin",
+        "new"
+      ],
+      "type": "object"
+    },
+    "FedTexts": {
+      "additionalProperties": false,
+      "properties": {
+        "documents": {
+          "items": {
+            "$ref": "#/$defs/DocumentItem"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "held": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/FOMCMeeting"
+            }
+          ]
+        },
+        "next": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/FOMCMeeting"
+            }
+          ]
+        }
+      },
+      "required": [
+        "documents",
+        "held",
+        "next"
+      ],
+      "type": "object"
+    },
+    "GrowthRow": {
+      "additionalProperties": false,
+      "properties": {
+        "a3m": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "freq": {
+          "type": "string"
+        },
+        "growth": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/Tagged"
+            }
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "index",
+            "rate",
+            "pct",
+            "bn",
+            "thous",
+            "count",
+            "usd",
+            "ratio",
+            "bp",
+            "px",
+            "usd0",
+            "bn_eur",
+            "eur",
+            "fx"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "level": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quality": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "z": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "label",
+        "date",
+        "freq",
+        "kind",
+        "flags",
+        "quality",
+        "level",
+        "growth",
+        "yoy",
+        "a3m",
+        "z"
+      ],
+      "type": "object"
+    },
+    "Header": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "iso_week": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "region": {
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "sources_failed": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sources_ok": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stale_series": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "region",
+        "agent",
+        "iso_week",
+        "period",
+        "generated_at",
+        "kind",
+        "sources_ok",
+        "sources_failed",
+        "stale_series",
+        "title"
+      ],
+      "type": "object"
+    },
+    "InflationRow": {
+      "additionalProperties": false,
+      "properties": {
+        "a3m": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "a6m": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "freq": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "index",
+            "rate",
+            "pct",
+            "bn",
+            "thous",
+            "count",
+            "usd",
+            "ratio",
+            "bp",
+            "px",
+            "usd0",
+            "bn_eur",
+            "eur",
+            "fx"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "mom": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quality": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "yoy": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "label",
+        "date",
+        "freq",
+        "kind",
+        "flags",
+        "quality",
+        "yoy",
+        "mom",
+        "a3m",
+        "a6m"
+      ],
+      "type": "object"
+    },
+    "LaborRow": {
+      "additionalProperties": false,
+      "properties": {
+        "average": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/Tagged"
+            }
+          ]
+        },
+        "change": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/Tagged"
+            }
+          ]
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "freq": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "index",
+            "rate",
+            "pct",
+            "bn",
+            "thous",
+            "count",
+            "usd",
+            "ratio",
+            "bp",
+            "px",
+            "usd0",
+            "bn_eur",
+            "eur",
+            "fx"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "level": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quality": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "z": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "label",
+        "date",
+        "freq",
+        "kind",
+        "flags",
+        "quality",
+        "level",
+        "change",
+        "yoy",
+        "average",
+        "z"
+      ],
+      "type": "object"
+    },
+    "MissingSection": {
+      "additionalProperties": false,
+      "properties": {
+        "failures": {
+          "items": {
+            "$ref": "#/$defs/SourceFailure"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stale": {
+          "items": {
+            "$ref": "#/$defs/StaleSeries"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "stale",
+        "failures"
+      ],
+      "type": "object"
+    },
+    "MonetaryReport": {
+      "additionalProperties": false,
+      "properties": {
+        "credit": {
+          "items": {
+            "$ref": "#/$defs/GrowthRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "derived": {
+          "items": {
+            "$ref": "#/$defs/DerivedRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "ecb_texts": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ECBTexts"
+            }
+          ]
+        },
+        "energy": {
+          "items": {
+            "$ref": "#/$defs/EnergyRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "expectations": {
+          "items": {
+            "$ref": "#/$defs/RateRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "fed": {
+          "items": {
+            "$ref": "#/$defs/RateRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "fed_path": {
+          "$ref": "#/$defs/FedPathReport"
+        },
+        "fed_texts": {
+          "$ref": "#/$defs/FedTexts"
+        },
+        "growth": {
+          "items": {
+            "$ref": "#/$defs/GrowthRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "header": {
+          "$ref": "#/$defs/Header"
+        },
+        "inflation": {
+          "items": {
+            "$ref": "#/$defs/InflationRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "labor": {
+          "items": {
+            "$ref": "#/$defs/LaborRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "missing": {
+          "$ref": "#/$defs/MissingSection"
+        },
+        "released": {
+          "items": {
+            "$ref": "#/$defs/ReleaseRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sentiment": {
+          "items": {
+            "$ref": "#/$defs/SentimentRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "header",
+        "released",
+        "growth",
+        "sentiment",
+        "labor",
+        "inflation",
+        "expectations",
+        "fed",
+        "credit",
+        "fed_path",
+        "energy",
+        "derived",
+        "fed_texts",
+        "missing"
+      ],
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "to": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "tz": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "tz"
+      ],
+      "type": "object"
+    },
+    "Quantity": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "percent",
+            "bp",
+            "pp",
+            "usd_bn",
+            "usd",
+            "eur_bn",
+            "eur",
+            "thousands_persons",
+            "count",
+            "index",
+            "ratio",
+            "sigma",
+            "moves_25bp",
+            "correlation",
+            "times"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ],
+      "type": "object"
+    },
+    "RateRow": {
+      "additionalProperties": false,
+      "properties": {
+        "change": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "change_1w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "change_4w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "freq": {
+          "type": "string"
+        },
+        "growth": {
+          "items": {
+            "$ref": "#/$defs/Tagged"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "index",
+            "rate",
+            "pct",
+            "bn",
+            "thous",
+            "count",
+            "usd",
+            "ratio",
+            "bp",
+            "px",
+            "usd0",
+            "bn_eur",
+            "eur",
+            "fx"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "level": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quality": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "label",
+        "date",
+        "freq",
+        "kind",
+        "flags",
+        "quality",
+        "level",
+        "change_1w",
+        "change_4w",
+        "change",
+        "growth"
+      ],
+      "type": "object"
+    },
+    "ReleaseRow": {
+      "additionalProperties": false,
+      "properties": {
+        "at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "fact": {
+          "items": {
+            "$ref": "#/$defs/FactValue"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "has_previous": {
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "index",
+            "rate",
+            "pct",
+            "bn",
+            "thous",
+            "count",
+            "usd",
+            "ratio",
+            "bp",
+            "px",
+            "usd0",
+            "bn_eur",
+            "eur",
+            "fx"
+          ],
+          "type": "string"
+        },
+        "level_change": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "name": {
+          "type": "string"
+        },
+        "revised": {
+          "type": "boolean"
+        },
+        "saar": {
+          "type": "boolean"
+        },
+        "series_id": {
+          "type": "string"
+        },
+        "timed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "at",
+        "timed",
+        "name",
+        "series_id",
+        "kind",
+        "saar",
+        "fact",
+        "has_previous",
+        "revised",
+        "level_change"
+      ],
+      "type": "object"
+    },
+    "SentimentRow": {
+      "additionalProperties": false,
+      "properties": {
+        "change": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "freq": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "index",
+            "rate",
+            "pct",
+            "bn",
+            "thous",
+            "count",
+            "usd",
+            "ratio",
+            "bp",
+            "px",
+            "usd0",
+            "bn_eur",
+            "eur",
+            "fx"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "level": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quality": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "z": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "label",
+        "date",
+        "freq",
+        "kind",
+        "flags",
+        "quality",
+        "level",
+        "change",
+        "z"
+      ],
+      "type": "object"
+    },
+    "SourceFailure": {
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "since": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "since",
+        "error"
+      ],
+      "type": "object"
+    },
+    "StaleSeries": {
+      "additionalProperties": false,
+      "properties": {
+        "freq": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "last_obs": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "next_date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "next_release": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "last_obs",
+        "freq",
+        "next_release",
+        "next_date"
+      ],
+      "type": "object"
+    },
+    "Tagged": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "code",
+        "value"
+      ],
+      "type": "object"
+    }
+  },
+  "$ref": "#/$defs/MonetaryReport",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "monetary"
+}

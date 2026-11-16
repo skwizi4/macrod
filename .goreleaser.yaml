@@ -1,0 +1,58 @@
+# GoReleaser v2 config: https://goreleaser.com/customization/
+# Local check:    goreleaser check
+# Local snapshot: goreleaser release --snapshot --clean   (output in dist/)
+version: 2
+
+project_name: macrod
+
+builds:
+  - id: macrod
+    main: ./cmd/macrod
+    binary: macrod
+    env:
+      - CGO_ENABLED=0
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+  - id: macroctl
+    main: ./cmd/macroctl
+    binary: macroctl
+    env:
+      - CGO_ENABLED=0
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+
+archives:
+  - id: macrod
+    ids: [macrod, macroctl]
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - README.md
+      - config.example.yaml
+      - presets/*.yaml
+      - prompts/*.md # "**/*" alone skips files at the top of prompts/
+      - prompts/**/*
+
+checksum:
+  name_template: checksums.txt
+
+snapshot:
+  # The default; incpatch would need a semver tag, and local tags are pre-U*.
+  version_template: "{{ .Version }}-SNAPSHOT-{{ .ShortCommit }}"
+
+release:
+  github:
+    owner: skwizi4
+    name: macrod

@@ -1,0 +1,604 @@
+{
+  "header": {
+    "schema_version": 1,
+    "region": "usa",
+    "agent": "master",
+    "file": "key_metrics",
+    "iso_week": "2026-W43",
+    "period": {
+      "from": "2026-10-18T16:00:00+02:00",
+      "to": "2026-10-25T16:00:00+01:00",
+      "tz": "Europe/Bratislava"
+    },
+    "generated_at": "2026-10-25T16:00:04+01:00",
+    "kind": "weekly",
+    "sources_ok": [
+      "fred",
+      "cboe",
+      "kalshi"
+    ],
+    "sources_failed": [
+      "yahoo"
+    ],
+    "stale_series": [
+      "THREEFYTP10"
+    ],
+    "title": "USA Key Metrics — 2026-W43"
+  },
+  "rows": [
+    {
+      "n": 1,
+      "form": "series",
+      "label": "Net Liquidity",
+      "date": "2026-10-21",
+      "freq": "w",
+      "kind": "bn",
+      "value": {
+        "value": 6783.197965,
+        "unit": "usd_bn"
+      },
+      "change_1w": {
+        "value": 7.1098659999997835,
+        "unit": "usd_bn"
+      },
+      "change_4w": {
+        "value": 56.34613000000081,
+        "unit": "usd_bn"
+      },
+      "previous": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "z": {
+        "value": 2.1307192327950255,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 2,
+      "form": "series",
+      "label": "Fed Funds (эффективная)",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "value": {
+        "value": 3.99,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -2.59999999999998,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": -0.9999999999999787,
+        "unit": "bp"
+      },
+      "previous": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 3,
+      "form": "fed_path",
+      "label": "Траектория ставки (ZQ)",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "index",
+      "value": {
+        "value": -2.2600000000000264,
+        "unit": "moves_25bp"
+      },
+      "change_1w": {
+        "value": -2.416000000000018,
+        "unit": "moves_25bp"
+      },
+      "change_4w": {
+        "value": null,
+        "unit": "moves_25bp"
+      },
+      "previous": {
+        "value": null,
+        "unit": "moves_25bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      },
+      "horizon": "2027-10-01",
+      "flags": []
+    },
+    {
+      "n": 4,
+      "form": "series",
+      "label": "UST 2Y",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "value": {
+        "value": 3.575,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -2.9999999999999805,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 0.40000000000000036,
+        "unit": "bp"
+      },
+      "previous": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 5,
+      "form": "series",
+      "label": "UST 10Y",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "value": {
+        "value": 4.303,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -0.8000000000000007,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": -0.6999999999999673,
+        "unit": "bp"
+      },
+      "previous": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": 1.4867809368498588,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 6,
+      "form": "series",
+      "label": "Real Yield 10Y",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "value": {
+        "value": 1.84,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -0.8999999999999897,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 0.40000000000000036,
+        "unit": "bp"
+      },
+      "previous": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 7,
+      "form": "series",
+      "label": "Term Premium 10Y",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "value": {
+        "value": 0.823,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": 0.6000000000000005,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 0.40000000000000036,
+        "unit": "bp"
+      },
+      "previous": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": [
+        "stale"
+      ]
+    },
+    {
+      "n": 8,
+      "form": "transform",
+      "label": "Core PCE 3mA",
+      "date": "2026-08-01",
+      "freq": "m",
+      "kind": "index",
+      "value": {
+        "value": 2.8673305103159796,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": null,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": null,
+        "unit": "percent"
+      },
+      "previous": {
+        "value": 1.8520569540535492,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 9,
+      "form": "transform",
+      "label": "Core CPI 3mA",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "index",
+      "value": {
+        "value": 2.6078999613846854,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": null,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": null,
+        "unit": "percent"
+      },
+      "previous": {
+        "value": 3.554290450286657,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 10,
+      "form": "series",
+      "label": "Unemployment Rate",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "pct",
+      "value": {
+        "value": 5.38,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": 0.02200000000000024,
+        "unit": "pp"
+      },
+      "change_4w": {
+        "value": 0.02200000000000024,
+        "unit": "pp"
+      },
+      "previous": {
+        "value": 5.358,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 11,
+      "form": "series",
+      "label": "Initial Claims",
+      "date": "2026-10-17",
+      "freq": "w",
+      "kind": "count",
+      "value": {
+        "value": 268242.188,
+        "unit": "count"
+      },
+      "change_1w": {
+        "value": -2366.4649999999674,
+        "unit": "count"
+      },
+      "change_4w": {
+        "value": 2991.405000000028,
+        "unit": "count"
+      },
+      "previous": {
+        "value": null,
+        "unit": "count"
+      },
+      "z": {
+        "value": 1.841993583032504,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": [
+        "rev"
+      ]
+    },
+    {
+      "n": 12,
+      "form": "series",
+      "label": "HY-спред",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "value": {
+        "value": 3.179,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -4.400000000000004,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": -0.8000000000000007,
+        "unit": "bp"
+      },
+      "previous": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": 0.08395426872411343,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 13,
+      "form": "series",
+      "label": "VIX",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "px",
+      "value": {
+        "value": 19.45,
+        "unit": "index"
+      },
+      "change_1w": {
+        "value": -0.5399999999999991,
+        "unit": "index"
+      },
+      "change_4w": {
+        "value": 4.58,
+        "unit": "index"
+      },
+      "previous": {
+        "value": null,
+        "unit": "index"
+      },
+      "z": {
+        "value": 0.4457534937461053,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 14,
+      "form": "series",
+      "label": "MOVE",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "px",
+      "value": {
+        "value": 102.27,
+        "unit": "index"
+      },
+      "change_1w": {
+        "value": -0.37000000000000455,
+        "unit": "index"
+      },
+      "change_4w": {
+        "value": -0.20000000000000284,
+        "unit": "index"
+      },
+      "previous": {
+        "value": null,
+        "unit": "index"
+      },
+      "z": {
+        "value": 1.3431275786628953,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 15,
+      "form": "series",
+      "label": "NASDAQ 100",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "px",
+      "value": {
+        "value": 28957.53,
+        "unit": "index"
+      },
+      "change_1w": {
+        "value": -0.788075737771754,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": -5.392684884702204,
+        "unit": "percent"
+      },
+      "previous": {
+        "value": null,
+        "unit": "index"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 16,
+      "form": "ratio",
+      "label": "VIX/VIX3M",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "ratio",
+      "value": {
+        "value": 0.9021335807050093,
+        "unit": "ratio"
+      },
+      "change_1w": {
+        "value": -0.029366885278215182,
+        "unit": "ratio"
+      },
+      "change_4w": {
+        "value": 0.21275017783064676,
+        "unit": "ratio"
+      },
+      "previous": {
+        "value": null,
+        "unit": "ratio"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 17,
+      "form": "ratio",
+      "label": "Put/call акции (среднее 5д, Cboe)",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "ratio",
+      "value": {
+        "value": 0.812,
+        "unit": "ratio"
+      },
+      "change_1w": {
+        "value": -0.007999999999999896,
+        "unit": "ratio"
+      },
+      "change_4w": {
+        "value": -0.0020000000000000018,
+        "unit": "ratio"
+      },
+      "previous": {
+        "value": null,
+        "unit": "ratio"
+      },
+      "z": {
+        "value": 0.07507186908802416,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 18,
+      "form": "breadth",
+      "label": "RSP/SPY (ширина рынка)",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "ratio",
+      "value": {
+        "value": 0.27924380249353364,
+        "unit": "ratio"
+      },
+      "change_1w": {
+        "value": 1.4326153192005364,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": 0.5612985633330236,
+        "unit": "percent"
+      },
+      "previous": {
+        "value": null,
+        "unit": "ratio"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    },
+    {
+      "n": 19,
+      "form": "series",
+      "label": "P(рецессия в 2027, Kalshi)",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "pct",
+      "value": {
+        "value": 22,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": 0.1999999999999993,
+        "unit": "pp"
+      },
+      "change_4w": {
+        "value": 0.10000000000000142,
+        "unit": "pp"
+      },
+      "previous": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      },
+      "horizon": null,
+      "flags": []
+    }
+  ]
+}

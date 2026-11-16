@@ -1,0 +1,1167 @@
+{
+  "$defs": {
+    "CapexNote": {
+      "additionalProperties": false,
+      "properties": {
+        "rest": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/CapexRest"
+            }
+          ]
+        },
+        "stale": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/CapexStale"
+            }
+          ]
+        }
+      },
+      "required": [
+        "stale",
+        "rest"
+      ],
+      "type": "object"
+    },
+    "CapexRest": {
+      "additionalProperties": false,
+      "properties": {
+        "approved": {
+          "type": "integer"
+        },
+        "guidance_high": {
+          "type": "number"
+        },
+        "guidance_low": {
+          "type": "number"
+        },
+        "last_quarter": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quarter": {
+          "type": "integer"
+        },
+        "rest_high": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "rest_low": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "source": {
+          "type": "string"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer"
+        },
+        "year_to_date": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "ticker",
+        "year",
+        "quarter",
+        "rest_low",
+        "rest_high",
+        "guidance_low",
+        "guidance_high",
+        "year_to_date",
+        "last_quarter",
+        "source"
+      ],
+      "type": "object"
+    },
+    "CapexRow": {
+      "additionalProperties": false,
+      "properties": {
+        "partial_quarter": {
+          "type": "integer"
+        },
+        "partial_ytd": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "qoq": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "values": {
+          "items": {
+            "$ref": "#/$defs/Quantity"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "ytd": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "ticker",
+        "values",
+        "qoq",
+        "yoy",
+        "ytd",
+        "partial_ytd",
+        "partial_quarter"
+      ],
+      "type": "object"
+    },
+    "CapexSection": {
+      "additionalProperties": false,
+      "properties": {
+        "companies": {
+          "type": "integer"
+        },
+        "growth_qoq": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/Quantity"
+            }
+          ]
+        },
+        "growth_yoy": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/Quantity"
+            }
+          ]
+        },
+        "has_data": {
+          "type": "boolean"
+        },
+        "quarters": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/CapexRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "total_ytd": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "totals": {
+          "items": {
+            "$ref": "#/$defs/CapexSum"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "trailing": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/CapexTrailing"
+            }
+          ]
+        },
+        "year": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "has_data",
+        "companies",
+        "quarters",
+        "year",
+        "rows",
+        "totals",
+        "growth_qoq",
+        "growth_yoy",
+        "total_ytd",
+        "trailing"
+      ],
+      "type": "object"
+    },
+    "CapexStale": {
+      "additionalProperties": false,
+      "properties": {
+        "approved": {
+          "type": "integer"
+        },
+        "form": {
+          "type": "string"
+        },
+        "given": {
+          "type": "string"
+        },
+        "high": {
+          "type": "number"
+        },
+        "low": {
+          "type": "number"
+        },
+        "report": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ticker",
+        "form",
+        "report",
+        "year",
+        "low",
+        "high",
+        "given"
+      ],
+      "type": "object"
+    },
+    "CapexSum": {
+      "additionalProperties": false,
+      "properties": {
+        "complete": {
+          "type": "boolean"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "known": {
+          "type": "boolean"
+        },
+        "sum": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "known",
+        "sum",
+        "count",
+        "complete"
+      ],
+      "type": "object"
+    },
+    "CapexTrailing": {
+      "additionalProperties": false,
+      "properties": {
+        "growth": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "sum": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "through": {
+          "type": "string"
+        },
+        "year_ago": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "sum",
+        "year_ago",
+        "growth",
+        "through"
+      ],
+      "type": "object"
+    },
+    "FinancialRow": {
+      "additionalProperties": false,
+      "properties": {
+        "buybacks": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "capex": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "diluted_shares_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "dividends": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "ebitda": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "ebitda_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "end": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fcf": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "fcf_margin": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "fcf_margin_ttm": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "fcf_not_positive": {
+          "type": "boolean"
+        },
+        "fcf_ttm": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "gross_computed": {
+          "type": "boolean"
+        },
+        "gross_margin": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "gross_margin_change": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "gross_not_shown": {
+          "type": "boolean"
+        },
+        "has_data": {
+          "type": "boolean"
+        },
+        "net_debt": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "net_income": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "net_income_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "no_buybacks": {
+          "type": "boolean"
+        },
+        "no_dividends": {
+          "type": "boolean"
+        },
+        "one_off": {
+          "type": "string"
+        },
+        "operating_cash_flow": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "operating_income": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "operating_income_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "operating_margin": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "operating_margin_change": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "other": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "other_year_ago": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quarter": {
+          "type": "string"
+        },
+        "return_share_of_fcf": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "return_ttm": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "revenue": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "revenue_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "tax": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "tax_year_ago": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "ticker": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "has_data",
+        "quarter",
+        "end",
+        "revenue",
+        "revenue_yoy",
+        "gross_margin",
+        "gross_margin_change",
+        "gross_computed",
+        "gross_not_shown",
+        "operating_income",
+        "operating_income_yoy",
+        "operating_margin",
+        "operating_margin_change",
+        "ebitda",
+        "ebitda_yoy",
+        "other",
+        "other_year_ago",
+        "tax",
+        "tax_year_ago",
+        "net_income",
+        "net_income_yoy",
+        "one_off",
+        "operating_cash_flow",
+        "capex",
+        "fcf",
+        "fcf_margin",
+        "fcf_ttm",
+        "fcf_margin_ttm",
+        "buybacks",
+        "no_buybacks",
+        "dividends",
+        "no_dividends",
+        "return_ttm",
+        "return_share_of_fcf",
+        "fcf_not_positive",
+        "net_debt",
+        "diluted_shares_yoy"
+      ],
+      "type": "object"
+    },
+    "GuidanceItem": {
+      "additionalProperties": false,
+      "properties": {
+        "call_outlook": {
+          "type": "string"
+        },
+        "call_source": {
+          "type": "boolean"
+        },
+        "call_url": {
+          "type": "string"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "form": {
+          "type": "string"
+        },
+        "has_document": {
+          "type": "boolean"
+        },
+        "outlook": {
+          "type": "string"
+        },
+        "previous": {
+          "type": "string"
+        },
+        "previous_date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "previous_form": {
+          "type": "string"
+        },
+        "quarter": {
+          "type": "string"
+        },
+        "quotes": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "date",
+        "ticker",
+        "form",
+        "quarter",
+        "has_document",
+        "outlook",
+        "call_source",
+        "previous",
+        "previous_form",
+        "previous_date",
+        "quotes",
+        "call_outlook",
+        "url",
+        "call_url"
+      ],
+      "type": "object"
+    },
+    "Header": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "iso_week": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "region": {
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "sources_failed": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sources_ok": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stale_series": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "region",
+        "agent",
+        "iso_week",
+        "period",
+        "generated_at",
+        "kind",
+        "sources_ok",
+        "sources_failed",
+        "stale_series",
+        "title"
+      ],
+      "type": "object"
+    },
+    "MicroFinancials": {
+      "additionalProperties": false,
+      "properties": {
+        "no_rpo": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/FinancialRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "rpo": {
+          "items": {
+            "$ref": "#/$defs/RPORow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "segments": {
+          "items": {
+            "$ref": "#/$defs/SegmentRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "rows",
+        "rpo",
+        "no_rpo",
+        "segments"
+      ],
+      "type": "object"
+    },
+    "MicroLate": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quarter": {
+          "type": "string"
+        },
+        "ticker": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "quarter",
+        "end"
+      ],
+      "type": "object"
+    },
+    "MicroMissing": {
+      "additionalProperties": false,
+      "properties": {
+        "errors": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "late": {
+          "items": {
+            "$ref": "#/$defs/MicroLate"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "late",
+        "errors"
+      ],
+      "type": "object"
+    },
+    "MicroReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "cap_change": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pct": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "waiting_close": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "pct",
+        "date",
+        "waiting_close",
+        "cap_change"
+      ],
+      "type": "object"
+    },
+    "MicroReport": {
+      "additionalProperties": false,
+      "properties": {
+        "capex": {
+          "$ref": "#/$defs/CapexSection"
+        },
+        "capex_guidance": {
+          "items": {
+            "$ref": "#/$defs/CapexNote"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "financials": {
+          "$ref": "#/$defs/MicroFinancials"
+        },
+        "guidance": {
+          "items": {
+            "$ref": "#/$defs/GuidanceItem"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "header": {
+          "$ref": "#/$defs/Header"
+        },
+        "missing": {
+          "$ref": "#/$defs/MicroMissing"
+        },
+        "one_off_materiality_pct": {
+          "type": "number"
+        },
+        "one_off_rate_change_pp": {
+          "type": "number"
+        },
+        "season": {
+          "$ref": "#/$defs/SeasonSection"
+        },
+        "signals": {
+          "items": {
+            "$ref": "#/$defs/MicroSignal"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "tickers": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "week": {
+          "items": {
+            "$ref": "#/$defs/MicroWeekRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "header",
+        "tickers",
+        "one_off_rate_change_pp",
+        "one_off_materiality_pct",
+        "week",
+        "capex",
+        "capex_guidance",
+        "season",
+        "guidance",
+        "signals",
+        "financials",
+        "missing"
+      ],
+      "type": "object"
+    },
+    "MicroSignal": {
+      "additionalProperties": false,
+      "properties": {
+        "sentence": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "topic",
+        "sentence",
+        "source"
+      ],
+      "type": "object"
+    },
+    "MicroWeekRow": {
+      "additionalProperties": false,
+      "properties": {
+        "eps": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "eps_approx": {
+          "type": "boolean"
+        },
+        "eps_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "form": {
+          "type": "string"
+        },
+        "one_off": {
+          "type": "string"
+        },
+        "period_end": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quarter": {
+          "type": "string"
+        },
+        "reaction": {
+          "$ref": "#/$defs/MicroReaction"
+        },
+        "report_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "revenue": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "revenue_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "session": {
+          "type": "string"
+        },
+        "ticker": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "quarter",
+        "period_end",
+        "report_at",
+        "session",
+        "revenue",
+        "revenue_yoy",
+        "eps",
+        "eps_approx",
+        "eps_yoy",
+        "one_off",
+        "reaction",
+        "form"
+      ],
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "to": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "tz": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "tz"
+      ],
+      "type": "object"
+    },
+    "Quantity": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "percent",
+            "bp",
+            "pp",
+            "usd_bn",
+            "usd",
+            "eur_bn",
+            "eur",
+            "thousands_persons",
+            "count",
+            "index",
+            "ratio",
+            "sigma",
+            "moves_25bp",
+            "correlation",
+            "times"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ],
+      "type": "object"
+    },
+    "RPORow": {
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "from_instance": {
+          "type": "boolean"
+        },
+        "rpo": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "rpo_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "ticker": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "date",
+        "rpo",
+        "rpo_yoy",
+        "from_instance"
+      ],
+      "type": "object"
+    },
+    "SeasonRow": {
+      "additionalProperties": false,
+      "properties": {
+        "eps_approx": {
+          "type": "boolean"
+        },
+        "eps_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "expected": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expected_note": {
+          "type": "string"
+        },
+        "one_off": {
+          "type": "string"
+        },
+        "quarter": {
+          "type": "string"
+        },
+        "reaction": {
+          "$ref": "#/$defs/MicroReaction"
+        },
+        "report_at": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "format": "date-time",
+              "type": "string"
+            }
+          ]
+        },
+        "reported": {
+          "type": "boolean"
+        },
+        "revenue_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "session": {
+          "type": "string"
+        },
+        "ticker": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "reported",
+        "report_at",
+        "session",
+        "expected",
+        "expected_note",
+        "quarter",
+        "revenue_yoy",
+        "eps_approx",
+        "eps_yoy",
+        "one_off",
+        "reaction"
+      ],
+      "type": "object"
+    },
+    "SeasonSection": {
+      "additionalProperties": false,
+      "properties": {
+        "cap_count": {
+          "type": "integer"
+        },
+        "cap_sum": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "median": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quarter": {
+          "type": "string"
+        },
+        "reported": {
+          "type": "integer"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/SeasonRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "quarter",
+        "reported",
+        "median",
+        "rows",
+        "cap_sum",
+        "cap_count"
+      ],
+      "type": "object"
+    },
+    "SegmentRow": {
+      "additionalProperties": false,
+      "properties": {
+        "gross": {
+          "type": "boolean"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "margin": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "profit": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "revenue": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "revenue_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "ticker": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "kind",
+        "label",
+        "revenue",
+        "revenue_yoy",
+        "profit",
+        "margin",
+        "gross"
+      ],
+      "type": "object"
+    }
+  },
+  "$ref": "#/$defs/MicroReport",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "micro"
+}

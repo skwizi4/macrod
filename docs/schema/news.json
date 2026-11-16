@@ -1,0 +1,578 @@
+{
+  "$defs": {
+    "BriefPost": {
+      "additionalProperties": false,
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "first_phrase": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "date",
+        "author",
+        "topic",
+        "first_phrase",
+        "url"
+      ],
+      "type": "object"
+    },
+    "DropCount": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason",
+        "count"
+      ],
+      "type": "object"
+    },
+    "Header": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "iso_week": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "region": {
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "sources_failed": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sources_ok": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stale_series": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "region",
+        "agent",
+        "iso_week",
+        "period",
+        "generated_at",
+        "kind",
+        "sources_ok",
+        "sources_failed",
+        "stale_series",
+        "title"
+      ],
+      "type": "object"
+    },
+    "MentionRising": {
+      "additionalProperties": false,
+      "properties": {
+        "delta": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "delta"
+      ],
+      "type": "object"
+    },
+    "MentionTopic": {
+      "additionalProperties": false,
+      "properties": {
+        "before": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "now": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "now",
+        "before"
+      ],
+      "type": "object"
+    },
+    "NewsChannel": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "posts": {
+          "type": "integer"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "share": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "warn": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "posts",
+        "share",
+        "profile",
+        "warn"
+      ],
+      "type": "object"
+    },
+    "NewsMentions": {
+      "additionalProperties": false,
+      "properties": {
+        "rising": {
+          "items": {
+            "$ref": "#/$defs/MentionRising"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "topics": {
+          "items": {
+            "$ref": "#/$defs/MentionTopic"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "topics",
+        "rising"
+      ],
+      "type": "object"
+    },
+    "NewsPost": {
+      "additionalProperties": false,
+      "properties": {
+        "also": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "author": {
+          "type": "string"
+        },
+        "published": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "resonance": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "text": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "views": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "published",
+        "author",
+        "views",
+        "resonance",
+        "text",
+        "also",
+        "url"
+      ],
+      "type": "object"
+    },
+    "NewsReport": {
+      "additionalProperties": false,
+      "properties": {
+        "brief": {
+          "items": {
+            "$ref": "#/$defs/BriefPost"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "channels": {
+          "items": {
+            "$ref": "#/$defs/NewsChannel"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "drops": {
+          "items": {
+            "$ref": "#/$defs/DropCount"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "header": {
+          "$ref": "#/$defs/Header"
+        },
+        "mentions": {
+          "$ref": "#/$defs/NewsMentions"
+        },
+        "news": {
+          "items": {
+            "$ref": "#/$defs/TopicGroup"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "opinions": {
+          "items": {
+            "$ref": "#/$defs/TopicGroup"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "resonance_weeks": {
+          "type": "integer"
+        },
+        "stats": {
+          "$ref": "#/$defs/NewsStats"
+        },
+        "surprises": {
+          "items": {
+            "$ref": "#/$defs/NewsSurpriseRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "top": {
+          "items": {
+            "$ref": "#/$defs/TopPost"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "top_per_channel": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "header",
+        "stats",
+        "mentions",
+        "resonance_weeks",
+        "top_per_channel",
+        "top",
+        "channels",
+        "surprises",
+        "opinions",
+        "brief",
+        "news",
+        "drops"
+      ],
+      "type": "object"
+    },
+    "NewsStats": {
+      "additionalProperties": false,
+      "properties": {
+        "announce_dropped": {
+          "type": "integer"
+        },
+        "calendar_dropped": {
+          "type": "integer"
+        },
+        "caption_dropped": {
+          "type": "integer"
+        },
+        "duplicates_merged": {
+          "type": "integer"
+        },
+        "eu_only": {
+          "type": "integer"
+        },
+        "global_dropped": {
+          "type": "integer"
+        },
+        "image_only_dropped": {
+          "type": "integer"
+        },
+        "junk_dropped": {
+          "type": "integer"
+        },
+        "news": {
+          "type": "integer"
+        },
+        "opinions": {
+          "type": "integer"
+        },
+        "opinions_brief": {
+          "type": "integer"
+        },
+        "posts_total": {
+          "type": "integer"
+        },
+        "product_dropped": {
+          "type": "integer"
+        },
+        "size_dropped": {
+          "type": "integer"
+        },
+        "uncategorized": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "posts_total",
+        "junk_dropped",
+        "duplicates_merged",
+        "image_only_dropped",
+        "calendar_dropped",
+        "announce_dropped",
+        "caption_dropped",
+        "product_dropped",
+        "eu_only",
+        "global_dropped",
+        "size_dropped",
+        "uncategorized",
+        "opinions",
+        "opinions_brief",
+        "news"
+      ],
+      "type": "object"
+    },
+    "NewsSurpriseRow": {
+      "additionalProperties": false,
+      "properties": {
+        "actual": {
+          "type": "string"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "diff": {
+          "type": "string"
+        },
+        "expected": {
+          "type": "string"
+        },
+        "fact_source": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "date",
+        "label",
+        "expected",
+        "actual",
+        "fact_source",
+        "diff",
+        "url"
+      ],
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "to": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "tz": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "tz"
+      ],
+      "type": "object"
+    },
+    "Quantity": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "percent",
+            "bp",
+            "pp",
+            "usd_bn",
+            "usd",
+            "eur_bn",
+            "eur",
+            "thousands_persons",
+            "count",
+            "index",
+            "ratio",
+            "sigma",
+            "moves_25bp",
+            "correlation",
+            "times"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ],
+      "type": "object"
+    },
+    "TopPost": {
+      "additionalProperties": false,
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "first_phrase": {
+          "type": "string"
+        },
+        "resonance": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "url": {
+          "type": "string"
+        },
+        "views": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "resonance",
+        "views",
+        "author",
+        "first_phrase",
+        "url"
+      ],
+      "type": "object"
+    },
+    "TopicGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "posts": {
+          "items": {
+            "$ref": "#/$defs/NewsPost"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "posts"
+      ],
+      "type": "object"
+    }
+  },
+  "$ref": "#/$defs/NewsReport",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "news"
+}

@@ -1,0 +1,39 @@
+{{define "fomc_diff" -}}
+---
+region: {{.Header.Region}}
+agent: {{.Header.Agent}}
+iso_week: {{.Header.ISOWeek}}
+period: {{period .Header.Period}}
+generated_at: {{rfc3339 .Header.GeneratedAt}}
+kind: {{.Header.Kind}}
+statement: {{fomcETime .Statement.Published}}
+previous: {{if .Previous}}{{fomcETime .Previous.Published}}{{else}}—{{end}}
+---
+
+{{if .Notice}}{{fomcNoticeLine .Notice}}
+
+{{end}}# {{.Header.Title}}
+
+- Новый: {{fomcETime .Statement.Published}} — {{fomcLink .Statement}}
+{{if .Previous}}- Предыдущий: {{fomcETime .Previous.Published}} — {{fomcLink .Previous}}
+
+{{else}}- Предыдущий: — (в базе нет более раннего statement)
+
+{{end}}## Решение и голосование
+
+| {{range $i, $d := .Decisions}} | {{if $i}}Прошлое{{else}}Это заседание{{end}} ({{date $d.Date}}){{end}} |
+|---{{range .Decisions}}|---{{end}}|
+| Решение{{range .Decisions}} | {{decisionCell .}}{{end}} |
+| Голосование{{range .Decisions}} | {{decisionVote .}}{{end}} |
+| Против (позиция){{range .Decisions}} | {{decisionAgainst .}}{{end}} |
+
+{{if .Previous}}{{diffMarkdown .Diff}}{{else}}## Текст
+
+{{.Statement.Body}}
+{{end}}{{range .Documents}}
+## {{if eq .DocType "implementation_note"}}Implementation Note ({{fomcETime .Published}}){{else}}Пресс-конференция: {{.Title}} (расшифровка опубликована {{fomcETime .Published}}){{end}}
+
+{{.Body}}
+{{if .URL}}
+Ссылка: {{.URL}}
+{{end}}{{end}}{{end}}

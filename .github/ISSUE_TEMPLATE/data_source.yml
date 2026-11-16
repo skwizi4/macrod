@@ -1,0 +1,25 @@
+name: New data source
+description: Propose a source, series or region
+labels: [data-source]
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: Provider and the official API or file URL.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What it adds
+      description: Which series or texts, and which agent or dashboard view would use them.
+    validations:
+      required: true
+  - type: textarea
+    id: terms
+    attributes:
+      label: Key, limits and terms of use
+      description: Is a key needed? Published rate limits? Do the terms allow automated access and showing the data in the public demo? Link the official pages.
+    validations:
+      required: true

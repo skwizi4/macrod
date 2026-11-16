@@ -1,0 +1,208 @@
+<xbrl
+  xml:lang="en-US"
+  xmlns="http://www.xbrl.org/2003/instance"
+  xmlns:avgo="http://www.broadcom.com/20250803"
+  xmlns:dei="http://xbrl.sec.gov/dei/2024"
+  xmlns:iso4217="http://www.xbrl.org/2003/iso4217"
+  xmlns:link="http://www.xbrl.org/2003/linkbase"
+  xmlns:srt="http://fasb.org/srt/2024"
+  xmlns:us-gaap="http://fasb.org/us-gaap/2024"
+  xmlns:xbrldi="http://xbrl.org/2006/xbrldi"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<context id="c-3">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+        </entity>
+        <period>
+            <instant>2025-08-03</instant>
+        </period>
+    </context>
+<context id="c-302">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">avgo:SemiconductorSolutionsMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2025-05-05</startDate>
+            <endDate>2025-08-03</endDate>
+        </period>
+    </context>
+<context id="c-303">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">avgo:SemiconductorSolutionsMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2024-05-06</startDate>
+            <endDate>2024-08-04</endDate>
+        </period>
+    </context>
+<context id="c-304">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">avgo:SemiconductorSolutionsMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2024-11-04</startDate>
+            <endDate>2025-08-03</endDate>
+        </period>
+    </context>
+<context id="c-305">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">avgo:SemiconductorSolutionsMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2023-10-30</startDate>
+            <endDate>2024-08-04</endDate>
+        </period>
+    </context>
+<context id="c-306">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">avgo:InfrastructureSoftwareMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2025-05-05</startDate>
+            <endDate>2025-08-03</endDate>
+        </period>
+    </context>
+<context id="c-307">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">avgo:InfrastructureSoftwareMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2024-05-06</startDate>
+            <endDate>2024-08-04</endDate>
+        </period>
+    </context>
+<context id="c-308">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">avgo:InfrastructureSoftwareMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2024-11-04</startDate>
+            <endDate>2025-08-03</endDate>
+        </period>
+    </context>
+<context id="c-309">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">avgo:InfrastructureSoftwareMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2023-10-30</startDate>
+            <endDate>2024-08-04</endDate>
+        </period>
+    </context>
+<context id="c-310">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">avgo:UnallocatedExpensesMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2025-05-05</startDate>
+            <endDate>2025-08-03</endDate>
+        </period>
+    </context>
+<context id="c-311">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">avgo:UnallocatedExpensesMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2024-05-06</startDate>
+            <endDate>2024-08-04</endDate>
+        </period>
+    </context>
+<context id="c-312">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">avgo:UnallocatedExpensesMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2024-11-04</startDate>
+            <endDate>2025-08-03</endDate>
+        </period>
+    </context>
+<context id="c-313">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001730168</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">avgo:UnallocatedExpensesMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2023-10-30</startDate>
+            <endDate>2024-08-04</endDate>
+        </period>
+    </context>
+<unit id="shares">
+        <measure>shares</measure>
+    </unit>
+<unit id="usd">
+        <measure>iso4217:USD</measure>
+    </unit>
+<unit id="usdPerShare">
+        <divide>
+            <unitNumerator>
+                <measure>iso4217:USD</measure>
+            </unitNumerator>
+            <unitDenominator>
+                <measure>shares</measure>
+            </unitDenominator>
+        </divide>
+    </unit>
+<unit id="segment">
+        <measure>avgo:segment</measure>
+    </unit>
+<unit id="number">
+        <measure>pure</measure>
+    </unit>
+<us-gaap:RevenueRemainingPerformanceObligation contextRef="c-3" decimals="-6" id="f-533" unitRef="usd">27500000000</us-gaap:RevenueRemainingPerformanceObligation>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-302" decimals="-6" id="f-1139" unitRef="usd">9166000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-303" decimals="-6" id="f-1140" unitRef="usd">7274000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-304" decimals="-6" id="f-1141" unitRef="usd">25786000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-305" decimals="-6" id="f-1142" unitRef="usd">21866000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-306" decimals="-6" id="f-1143" unitRef="usd">6786000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-307" decimals="-6" id="f-1144" unitRef="usd">5798000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-308" decimals="-6" id="f-1145" unitRef="usd">20086000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-309" decimals="-6" id="f-1146" unitRef="usd">15654000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:OperatingIncomeLoss contextRef="c-302" decimals="-6" id="f-1151" unitRef="usd">5217000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-303" decimals="-6" id="f-1152" unitRef="usd">4042000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-304" decimals="-6" id="f-1153" unitRef="usd">14729000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-305" decimals="-6" id="f-1154" unitRef="usd">12136000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-306" decimals="-6" id="f-1155" unitRef="usd">5238000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-307" decimals="-6" id="f-1156" unitRef="usd">3906000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-308" decimals="-6" id="f-1157" unitRef="usd">15347000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-309" decimals="-6" id="f-1158" unitRef="usd">9789000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-310" decimals="-6" id="f-1159" unitRef="usd">-4568000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-311" decimals="-6" id="f-1160" unitRef="usd">-4160000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-312" decimals="-6" id="f-1161" unitRef="usd">-12100000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-313" decimals="-6" id="f-1162" unitRef="usd">-13089000000</us-gaap:OperatingIncomeLoss>
+</xbrl>

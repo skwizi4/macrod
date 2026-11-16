@@ -1,0 +1,4 @@
+# Paths left out of the public snapshot (D30): internal working files of the
+# private repository. One path per line, relative to the repository root.
+CLAUDE.md
+SETUP_CHECKLIST.md

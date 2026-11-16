@@ -1,0 +1,24 @@
+# make check (vet + staticcheck + tests, no network) and the personal-data scan.
+name: ci
+on:
+  push:
+    branches: [master]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-go@v7.0.0
+        with:
+          go-version-file: go.mod
+      - name: staticcheck
+        run: go install honnef.co/go/tools/cmd/staticcheck@2026.2.2
+      - name: make check
+        run: make check
+      - name: windows build
+        run: GOOS=windows go build ./... && GOOS=windows go vet ./...
+      - name: check-public
+        run: scripts/check-public.sh

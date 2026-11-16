@@ -1,0 +1,348 @@
+{
+  "header": {
+    "schema_version": 1,
+    "region": "usa",
+    "agent": "news",
+    "iso_week": "2026-W43",
+    "period": {
+      "from": "2026-10-18T16:00:00+02:00",
+      "to": "2026-10-25T16:00:00+01:00",
+      "tz": "Europe/Bratislava"
+    },
+    "generated_at": "2026-10-25T16:00:04+01:00",
+    "kind": "weekly",
+    "sources_ok": [
+      "telegram"
+    ],
+    "sources_failed": [],
+    "stale_series": null,
+    "title": "USA News — 2026-W43"
+  },
+  "stats": {
+    "posts_total": 19,
+    "junk_dropped": 1,
+    "duplicates_merged": 3,
+    "image_only_dropped": 2,
+    "calendar_dropped": 1,
+    "announce_dropped": 0,
+    "caption_dropped": 0,
+    "product_dropped": 0,
+    "eu_only": 0,
+    "global_dropped": 0,
+    "size_dropped": 0,
+    "uncategorized": 0,
+    "opinions": 3,
+    "opinions_brief": 0,
+    "news": 8
+  },
+  "mentions": {
+    "topics": [
+      {
+        "name": "Рецессия",
+        "now": 0,
+        "before": 0
+      },
+      {
+        "name": "Повышение ставки",
+        "now": 1,
+        "before": 0
+      },
+      {
+        "name": "Снижение ставки",
+        "now": 1,
+        "before": 0
+      },
+      {
+        "name": "AI bubble / AI capex",
+        "now": 0,
+        "before": 0
+      },
+      {
+        "name": "Нефть",
+        "now": 3,
+        "before": 0
+      },
+      {
+        "name": "Тарифы",
+        "now": 1,
+        "before": 0
+      },
+      {
+        "name": "Выборы",
+        "now": 0,
+        "before": 0
+      },
+      {
+        "name": "Шатдаун",
+        "now": 0,
+        "before": 0
+      },
+      {
+        "name": "Кредитный стресс",
+        "now": 0,
+        "before": 0
+      }
+    ],
+    "rising": [
+      {
+        "name": "Нефть",
+        "delta": 3
+      },
+      {
+        "name": "Повышение ставки",
+        "delta": 1
+      },
+      {
+        "name": "Снижение ставки",
+        "delta": 1
+      }
+    ]
+  },
+  "resonance_weeks": 4,
+  "top_per_channel": 2,
+  "top": [],
+  "channels": [
+    {
+      "name": "@marketnews_ua",
+      "posts": 9,
+      "share": {
+        "value": 81.81818181818183,
+        "unit": "percent"
+      },
+      "profile": "укр. рыночная лента: быстрые новости, цифры релизов, отчёты, ссылки на подкасты",
+      "warn": true
+    },
+    {
+      "name": "@macro_views",
+      "posts": 1,
+      "share": {
+        "value": 9.090909090909092,
+        "unit": "percent"
+      },
+      "profile": "рус. макро-аналитика, авторские выводы о ставках, ликвидности и AI-капексе",
+      "warn": false
+    },
+    {
+      "name": "Example Author",
+      "posts": 1,
+      "share": {
+        "value": 9.090909090909092,
+        "unit": "percent"
+      },
+      "profile": "",
+      "warn": false
+    }
+  ],
+  "surprises": [
+    {
+      "date": "2026-10-22",
+      "label": "GDP Q3 (1st)",
+      "expected": "3.2%",
+      "actual": "3.4%",
+      "fact_source": "",
+      "diff": "+0.2 п.п.",
+      "url": "https://t.me/marketnews_ua/110"
+    },
+    {
+      "date": "2026-10-22",
+      "label": "IJC (в посте: 194 тис.)",
+      "expected": "198 тис.",
+      "actual": "268 тис.",
+      "fact_source": "FRED ICSA",
+      "diff": "+70 тис.",
+      "url": "https://t.me/marketnews_ua/110"
+    }
+  ],
+  "opinions": [
+    {
+      "title": "ФРС и ставки",
+      "posts": [
+        {
+          "published": "2026-10-21T11:00:00+02:00",
+          "author": "@macro_views",
+          "views": 0,
+          "resonance": {
+            "value": null,
+            "unit": "times"
+          },
+          "text": "Fed переписал reaction function.\n\nРынок получил не одиночный insurance hike, а подтверждение нового режима.",
+          "also": [
+            "@marketnews_ua"
+          ],
+          "url": "https://t.me/macro_views/200"
+        },
+        {
+          "published": "2026-10-24T09:14:00+02:00",
+          "author": "Example Author",
+          "views": 0,
+          "resonance": {
+            "value": null,
+            "unit": "times"
+          },
+          "text": "**The Maradona Theory of Interest Rates**\n\nWarsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. Warsh says something hawkish now, something dovish later, and Fed Funds stay where they are. […]",
+          "also": [],
+          "url": "https://example.substack.com/p/warsh"
+        },
+        {
+          "published": "2026-10-24T11:00:00+02:00",
+          "author": "@marketnews_ua",
+          "views": 0,
+          "resonance": {
+            "value": null,
+            "unit": "times"
+          },
+          "text": "Я думаю, ФРС знизить ставку в грудні: ринок праці слабшає швидше, ніж очікувалось.",
+          "also": [],
+          "url": "https://t.me/marketnews_ua/115"
+        }
+      ]
+    }
+  ],
+  "brief": [],
+  "news": [
+    {
+      "title": "ФРС и ставки",
+      "posts": [
+        {
+          "published": "2026-10-19T09:30:00+02:00",
+          "author": "@marketnews_ua",
+          "views": 0,
+          "resonance": {
+            "value": null,
+            "unit": "times"
+          },
+          "text": "🏦Ймовірність утримання ставки ФРС наступного тижня вже 92% проти 84% вчора.",
+          "also": [],
+          "url": "https://t.me/marketnews_ua/101"
+        },
+        {
+          "published": "2026-10-22T14:31:00+02:00",
+          "author": "@marketnews_ua",
+          "views": 0,
+          "resonance": {
+            "value": null,
+            "unit": "times"
+          },
+          "text": "🇺🇸Показники:\n\n▫️PCE Price Index MoM 0.5%✅\n\n▫️GDP Q3 (1st) 3.4% (очік. 3.2%🔼)\n\n▫️IJC 194 тис. (очік. 198 тис.🔽)",
+          "also": [],
+          "url": "https://t.me/marketnews_ua/110"
+        }
+      ]
+    },
+    {
+      "title": "Фискал и госдолг",
+      "posts": [
+        {
+          "published": "2026-10-20T14:05:00+02:00",
+          "author": "@marketnews_ua",
+          "views": 0,
+          "resonance": {
+            "value": null,
+            "unit": "times"
+          },
+          "text": "🇺🇸 Мінфін збільшить розміщення bills, TGA відновлюється.\nДохідності 2Y +6 б.п.",
+          "also": [],
+          "url": "https://t.me/marketnews_ua/102"
+        }
+      ]
+    },
+    {
+      "title": "Политика США",
+      "posts": [
+        {
+          "published": "2026-10-23T13:00:00+02:00",
+          "author": "@marketnews_ua",
+          "views": 5612,
+          "resonance": {
+            "value": null,
+            "unit": "times"
+          },
+          "text": "🇺🇸 Трамп: мита на імпорт з Мексики зростуть до 25% з 1 грудня. Futures на S&P 500 -0.8%.",
+          "also": [],
+          "url": "https://t.me/marketnews_ua/112"
+        }
+      ]
+    },
+    {
+      "title": "Энергия и геополитика",
+      "posts": [
+        {
+          "published": "2026-10-23T12:00:00+02:00",
+          "author": "@marketnews_ua",
+          "views": 0,
+          "resonance": {
+            "value": null,
+            "unit": "times"
+          },
+          "text": "😒Трамп: Ми можемо забрати усю іранську нафту собі!",
+          "also": [],
+          "url": "https://t.me/marketnews_ua/107"
+        },
+        {
+          "published": "2026-10-23T14:00:00+02:00",
+          "author": "@marketnews_ua",
+          "views": 0,
+          "resonance": {
+            "value": null,
+            "unit": "times"
+          },
+          "text": "🛢 США запровадили санкції проти Rosneft і Lukoil, WTI +5%. Бензин в Штатах подорожчає.",
+          "also": [],
+          "url": "https://t.me/marketnews_ua/113"
+        }
+      ]
+    },
+    {
+      "title": "Европа и ЕЦБ",
+      "posts": [
+        {
+          "published": "2026-10-23T10:00:00+02:00",
+          "author": "@marketnews_ua",
+          "views": 0,
+          "resonance": {
+            "value": null,
+            "unit": "times"
+          },
+          "text": "🇫🇷 Moody’s зберегло рейтинг Франції на рівні «Aa3».",
+          "also": [],
+          "url": "https://t.me/marketnews_ua/105"
+        }
+      ]
+    },
+    {
+      "title": "Глобально",
+      "posts": [
+        {
+          "published": "2026-10-23T15:00:00+02:00",
+          "author": "@marketnews_ua",
+          "views": 0,
+          "resonance": {
+            "value": null,
+            "unit": "times"
+          },
+          "text": "🛢 Brent +4% до $86: Іран погрожує перекрити Ормузьку протоку після удару Ізраїлю.",
+          "also": [],
+          "url": "https://t.me/marketnews_ua/114"
+        }
+      ]
+    }
+  ],
+  "drops": [
+    {
+      "reason": "junk",
+      "count": 1
+    },
+    {
+      "reason": "duplicate",
+      "count": 3
+    },
+    {
+      "reason": "image_only",
+      "count": 2
+    },
+    {
+      "reason": "calendar",
+      "count": 1
+    }
+  ]
+}

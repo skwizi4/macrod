@@ -1,0 +1,28 @@
+name: Bug report
+description: Something does not work as described
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, what you got.
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: macroctl doctor output
+      description: Output of `macroctl doctor` (remove keys and personal data).
+      render: text
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Relevant lines from `docker compose logs` or `data/logs` (remove keys and personal data).
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Release tag or commit, and how you run it (Docker, binary, go build).

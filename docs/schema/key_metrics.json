@@ -1,0 +1,251 @@
+{
+  "$defs": {
+    "Header": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "iso_week": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "region": {
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "sources_failed": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sources_ok": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stale_series": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "region",
+        "agent",
+        "iso_week",
+        "period",
+        "generated_at",
+        "kind",
+        "sources_ok",
+        "sources_failed",
+        "stale_series",
+        "title"
+      ],
+      "type": "object"
+    },
+    "KeyMetricRow": {
+      "additionalProperties": false,
+      "properties": {
+        "change_1w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "change_4w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "form": {
+          "type": "string"
+        },
+        "freq": {
+          "type": "string"
+        },
+        "horizon": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "index",
+            "rate",
+            "pct",
+            "bn",
+            "thous",
+            "count",
+            "usd",
+            "ratio",
+            "bp",
+            "px",
+            "usd0",
+            "bn_eur",
+            "eur",
+            "fx"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "n": {
+          "type": "integer"
+        },
+        "previous": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "value": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "z": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "n",
+        "form",
+        "label",
+        "date",
+        "freq",
+        "kind",
+        "value",
+        "change_1w",
+        "change_4w",
+        "previous",
+        "z",
+        "horizon",
+        "flags"
+      ],
+      "type": "object"
+    },
+    "KeyMetricsReport": {
+      "additionalProperties": false,
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/Header"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/KeyMetricRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "header",
+        "rows"
+      ],
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "to": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "tz": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "tz"
+      ],
+      "type": "object"
+    },
+    "Quantity": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "percent",
+            "bp",
+            "pp",
+            "usd_bn",
+            "usd",
+            "eur_bn",
+            "eur",
+            "thousands_persons",
+            "count",
+            "index",
+            "ratio",
+            "sigma",
+            "moves_25bp",
+            "correlation",
+            "times"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ],
+      "type": "object"
+    }
+  },
+  "$ref": "#/$defs/KeyMetricsReport",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "key_metrics"
+}

@@ -1,0 +1,182 @@
+# Пресет rates-only: только ставки США — кривая, инфляционные ожидания, спреды и календарь релизов.
+# Источники: FRED (нужен FRED_API_KEY) и календарь ФРС. Без Telegram, EDGAR, Yahoo и Gemini.
+timezone: "Europe/Bratislava"
+data_dir: "./data"
+db_path: "${data_dir}/macro.db"
+history_start: "2000-01-01"
+
+export:
+  exchange_dir: "${data_dir}/exchange"
+  reports_dir: "${data_dir}/reports"
+  # prompts_dir: "prompts" # промпты агентов <регион>/<агент>.md → instructions.md в папке агента (ТЗ §21.5);
+  #   относительный путь — от папки этого файла: при ./data/config.yaml искать будет ./data/prompts
+  weekly_cron: "0 16 * * 0"          # воскресенье 16:00 Europe/Bratislava
+  lookback_days: 7
+  max_file_chars: 60000
+  event_export: immediate             # FOMC/ЕЦБ — экспорт сразу после появления документа
+
+# Шаблоны: встроены в бинарник; файлы *.tmpl из этой папки заменяют одноимённые {{define}} (путь — от папки конфига).
+# templates_dir: "./my-templates"
+
+# Регионы и агенты (ТЗ §21.3). id региона — папка в exchange/ и reports/ и значение region у постов и событий.
+# У агента: id (agent в шапке, reports/<регион>/<неделя>/<id>.md), folder (по умолчанию = id),
+# series_tags (значения поля agent: у рядов), texts (fed, treasury), companies (тикеры edgar.companies),
+# channels (handle/имя ленты; пусто — все источники региона), reports (файлы).
+# У отчёта: report (тип: monetary, fiscal_liquidity, micro, news, sentiment, markets, calendar, key_metrics, fomc_diff),
+# file, title, template (по умолчанию = report), таблицы типа — все обязательны, пустая пишется [].
+
+regions:
+  - id: rates
+    yahoo_poll: "22:30"
+    agents:
+      - id: curve
+        series_tags: [rates_curve]
+        reports:
+          - report: markets
+            file: rates.md
+            title: "Rates"
+            tables:
+              rows: [DFF, SOFR, DGS3MO, DGS2, DGS10, DGS30, DFII10, UST_2S10S, UST_3M10Y, T5YIE, T10YIE, BAMLC0A0CM, BAMLH0A0HYM2]
+          - { report: calendar, file: calendar.md, title: "Rates Calendar" }
+    dashboard:
+      pages:
+        - id: curve
+          title: "Кривая"
+          charts:
+            - title: "Кривая: сейчас и 4 недели назад"
+              kind: curve
+              compare_days: 28
+              series: [{ ref: fred/DGS3MO, label: "3M" }, { ref: fred/DGS2, label: "2Y" }, { ref: fred/DGS10, label: "10Y" }, { ref: fred/DGS30, label: "30Y" }]
+            - { title: "Доходности", kind: line, series: [{ ref: fred/DGS2 }, { ref: fred/DGS10 }, { ref: fred/DFII10 }] }
+        - id: calendar
+          title: "Календарь"
+          views: [{ view: calendar }]
+        - id: reports
+          title: "Отчёты"
+          views: [{ view: reports }]
+
+# public domain по тегам FRED API, проверено 2026-11-08.
+dashboard:
+  demo_allow: [fred/DGS3MO, fred/DGS2, fred/DGS10, fred/DGS30, fred/DFII10]
+
+metrics:
+  zscore_window_daily_weekly: 52w
+  zscore_window_monthly_quarterly: 5y
+
+# =====================================================================
+# ЧИСЛОВЫЕ РЯДЫ. Храним уровни. transforms — что считает Go.
+# agent: usa_monetary | usa_fiscal | usa_master | eu_monetary | eu_fiscal | eu_master
+# =====================================================================
+
+fred:
+  series:
+    - { id: DGS3MO,     agent: rates_curve, label: "UST 3M",                     transforms: [level, d1w] }
+    - { id: DGS2,       agent: rates_curve, label: "UST 2Y",                   transforms: [level, d1w, d4w] }
+    - { id: DGS10,      agent: rates_curve, label: "UST 10Y",                    transforms: [level, d1w, d4w, z] }
+    - { id: DGS30,      agent: rates_curve, label: "UST 30Y",                    transforms: [level, d1w, d4w] }
+    - { id: DFII10,     agent: rates_curve, label: "Real Yield 10Y",             transforms: [level, d1w, d4w] }
+    - { id: T5YIE,      agent: rates_curve, label: "5Y Breakeven",             transforms: [level, d1w, d4w] }
+    - { id: T10YIE,     agent: rates_curve, label: "10Y Breakeven",            transforms: [level, d1w, d4w] }
+    - { id: SOFR,       agent: rates_curve, label: "SOFR",                       transforms: [level] }
+    - { id: DFF,        agent: rates_curve, label: "Fed Funds",                transforms: [level] }
+    - { id: BAMLH0A0HYM2, agent: rates_curve, label: "HY Spread",                transforms: [level, d1w, d4w, z] }
+    - { id: BAMLC0A0CM, agent: rates_curve, label: "IG Spread",                  transforms: [level, d1w, d4w] }
+
+derived:
+  - { name: UST_2S10S,     formula: "DGS10 - DGS2",               agent: rates_curve, unit: bp, transforms: [level, d] }
+  - { name: UST_3M10Y,     formula: "DGS10 - DGS3MO",             agent: rates_curve, unit: bp, transforms: [level, d] }
+
+yahoo:   # символов нет; поля обязательны для проверки конфига
+  endpoint: "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
+  symbols: []
+
+treasury:   # датасетов нет; адреса обязательны для проверки конфига
+  fiscal_data_url: "https://api.fiscaldata.treasury.gov/services/api/fiscal_service"
+  release_calendar_url: "https://api.fiscaldata.treasury.gov/services/calendar/release"
+  treasurydirect_url: "https://www.treasurydirect.gov/TA_WS/securities"
+  datasets: []
+  quarterly_refunding_url: "https://home.treasury.gov/policy-issues/financing-the-government/quarterly-refunding"
+
+fed_texts:
+  # FOMC statements, minutes, SEP, речи и testimony членов Board, Beige Book.
+  # Только federalreserve.gov: speeches.xml содержит речи Board (все 7 — голосующие в 2026);
+  # региональные ФРБ не подключаем (решение 2026-10-24). LOOKUP 2026-10-24.
+  base_url: "https://www.federalreserve.gov"
+  feeds:
+    - { name: press_monetary, url: "https://www.federalreserve.gov/feeds/press_monetary.xml" }   # statement, minutes, SEP
+    - { name: speeches,       url: "https://www.federalreserve.gov/feeds/speeches.xml" }
+    - { name: testimony,      url: "https://www.federalreserve.gov/feeds/testimony.xml" }
+  fomc_calendar: "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+  beige_book: "https://www.federalreserve.gov/monetarypolicy/publications/beige-book-default.htm"
+  poll_interval: 15m          # RSS: речи, testimony и прочее вне календаря
+  agent: rates_curve
+
+calendar:
+  # releases обновляется раз в сутки на horizon_days вперёд (ТЗ §8.1)
+  horizon_days: 14
+  refresh_cron: "0 5 * * *"   # Europe/Bratislava
+  # FRED release/dates отдаёт только дату; время выхода — по release_id (LOOKUP 2026-10-24,
+  # официальные календари BLS/BEA/ФРС/NY Fed/DOL/UMich). Нет в списке — default_release_time.
+  release_timezone: "America/New_York"
+  default_release_time: "08:30"
+  release_times:
+    10: "08:30"    # CPI (BLS)
+    11: "08:30"    # Employment Cost Index (BLS)
+    17: "16:15"    # H.10, понедельник (ФРС)
+    18: "16:15"    # H.15 (ФРС)
+    20: "16:30"    # H.4.1, четверг (ФРС)
+    21: "13:00"    # H.6, 4-й вторник (ФРС)
+    46: "08:30"    # PPI (BLS)
+    47: "08:30"    # Productivity and Costs (BLS)
+    50: "08:30"    # Employment Situation (BLS)
+    53: "08:30"    # GDP (BEA)
+    54: "08:30"    # Personal Income and Outlays (BEA)
+    91: "10:00"    # Surveys of Consumers (UMich)
+    180: "08:30"   # UI Weekly Claims, четверг (DOL)
+    192: "10:00"   # JOLTS (BLS)
+    263: "08:30"   # Debt to GDP (вместе с GDP)
+    304: "16:15"   # Interest Rate Spreads (из H.15)
+    313: "08:30"   # Sticky Price CPI (в день CPI)
+    379: "13:15"   # Temporary OMO / RRP (окно операции 12:45–13:15)
+    445: "08:00"   # SOFR (NY Fed)
+  # важность релизов FRED для calendar_usa.md — по ★ в DATA_MAP; нет в списке — low
+  release_importance:
+    10: high       # CPI ★
+    11: medium     # Employment Cost Index ★
+    20: medium     # H.4.1: WALCL, TGA, резервы ★
+    46: high       # PPI ★
+    50: high       # Employment Situation: NFP, безработица ★
+    53: high       # GDP ★
+    54: high       # Personal Income and Outlays: PCE ★
+    91: high       # UMich ★
+    180: high      # Initial / Continued Claims ★
+    192: high      # JOLTS ★
+    363: medium    # Monthly Treasury Statement: дефицит ★
+    386: medium    # GDPNow ★
+
+posts:
+  poll_interval: 15m
+  history_days: 30
+
+telegram:
+  enabled: false
+  channels: []
+
+rss_feeds: []
+
+classify:
+  min_score: 2
+  tags: []
+  rules: {}
+  gemini:
+    enabled: false
+
+news:
+  signature_share: 0.5
+  signature_min_posts: 5
+
+edgar:
+  enabled: false
+
+earnings_calendar:
+  enabled: false

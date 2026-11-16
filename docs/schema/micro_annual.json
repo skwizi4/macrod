@@ -1,0 +1,732 @@
+{
+  "$defs": {
+    "Header": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "iso_week": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "region": {
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "sources_failed": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sources_ok": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stale_series": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "region",
+        "agent",
+        "iso_week",
+        "period",
+        "generated_at",
+        "kind",
+        "sources_ok",
+        "sources_failed",
+        "stale_series",
+        "title"
+      ],
+      "type": "object"
+    },
+    "IssuerAnnual": {
+      "additionalProperties": false,
+      "properties": {
+        "capex": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "eps": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "eps_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "fcf": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "fcf_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "filed": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "net_income": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "net_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "operating_cf": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "operating_income": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "operating_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "revenue": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "revenue_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "source": {
+          "type": "string"
+        },
+        "stale": {
+          "type": "boolean"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ticker",
+        "name",
+        "year",
+        "source",
+        "filed",
+        "stale",
+        "revenue",
+        "revenue_yoy",
+        "operating_income",
+        "operating_yoy",
+        "net_income",
+        "net_yoy",
+        "eps",
+        "eps_yoy",
+        "operating_cf",
+        "capex",
+        "fcf",
+        "fcf_yoy"
+      ],
+      "type": "object"
+    },
+    "IssuerMicroReport": {
+      "additionalProperties": false,
+      "properties": {
+        "annual": {
+          "items": {
+            "$ref": "#/$defs/IssuerAnnual"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "header": {
+          "$ref": "#/$defs/Header"
+        },
+        "index_label": {
+          "type": "string"
+        },
+        "issuer_missing": {
+          "items": {
+            "$ref": "#/$defs/IssuerMissing"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "missing": {
+          "$ref": "#/$defs/MissingSection"
+        },
+        "no_facts": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "no_press": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "prices": {
+          "items": {
+            "$ref": "#/$defs/IssuerPrice"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "quarterly": {
+          "items": {
+            "$ref": "#/$defs/IssuerQuarter"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "release_chars": {
+          "type": "integer"
+        },
+        "releases": {
+          "items": {
+            "$ref": "#/$defs/IssuerRelease"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "reports": {
+          "items": {
+            "$ref": "#/$defs/IssuerReportRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "upcoming": {
+          "items": {
+            "$ref": "#/$defs/IssuerNextRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "header",
+        "index_label",
+        "reports",
+        "upcoming",
+        "prices",
+        "annual",
+        "quarterly",
+        "no_facts",
+        "releases",
+        "no_press",
+        "release_chars",
+        "issuer_missing",
+        "missing"
+      ],
+      "type": "object"
+    },
+    "IssuerMissing": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "ticker": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "text"
+      ],
+      "type": "object"
+    },
+    "IssuerNextRow": {
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "estimate": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "period": {
+          "type": "string"
+        },
+        "session": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "ticker": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "name",
+        "date",
+        "session",
+        "period",
+        "estimate",
+        "source"
+      ],
+      "type": "object"
+    },
+    "IssuerPrice": {
+      "additionalProperties": false,
+      "properties": {
+        "change_1w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "change_4w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "close": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "vs_index": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "ticker",
+        "name",
+        "symbol",
+        "date",
+        "close",
+        "change_1w",
+        "change_4w",
+        "vs_index"
+      ],
+      "type": "object"
+    },
+    "IssuerQuarter": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "eps": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "eps_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "file": {
+          "type": "string"
+        },
+        "filed": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "net_income": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "net_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "operating": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "operating_label": {
+          "type": "string"
+        },
+        "operating_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quarter": {
+          "type": "string"
+        },
+        "revenue": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "revenue_label": {
+          "type": "string"
+        },
+        "revenue_yoy": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "ticker": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "name",
+        "quarter",
+        "end",
+        "file",
+        "filed",
+        "revenue_label",
+        "revenue",
+        "revenue_yoy",
+        "operating_label",
+        "operating",
+        "operating_yoy",
+        "net_income",
+        "net_yoy",
+        "eps",
+        "eps_yoy"
+      ],
+      "type": "object"
+    },
+    "IssuerReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "cap_change": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "has_shares": {
+          "type": "boolean"
+        },
+        "pct": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "waiting_close": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "pct",
+        "date",
+        "waiting_close",
+        "cap_change",
+        "has_shares"
+      ],
+      "type": "object"
+    },
+    "IssuerRelease": {
+      "additionalProperties": false,
+      "properties": {
+        "full": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "paragraphs": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "published": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "name",
+        "published",
+        "title",
+        "url",
+        "full",
+        "paragraphs"
+      ],
+      "type": "object"
+    },
+    "IssuerReportRow": {
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "estimate": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "period": {
+          "type": "string"
+        },
+        "reaction": {
+          "$ref": "#/$defs/IssuerReaction"
+        },
+        "session": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "ticker": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "name",
+        "date",
+        "session",
+        "period",
+        "estimate",
+        "source",
+        "reaction"
+      ],
+      "type": "object"
+    },
+    "MissingSection": {
+      "additionalProperties": false,
+      "properties": {
+        "failures": {
+          "items": {
+            "$ref": "#/$defs/SourceFailure"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stale": {
+          "items": {
+            "$ref": "#/$defs/StaleSeries"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "stale",
+        "failures"
+      ],
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "to": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "tz": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "tz"
+      ],
+      "type": "object"
+    },
+    "Quantity": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "percent",
+            "bp",
+            "pp",
+            "usd_bn",
+            "usd",
+            "eur_bn",
+            "eur",
+            "thousands_persons",
+            "count",
+            "index",
+            "ratio",
+            "sigma",
+            "moves_25bp",
+            "correlation",
+            "times"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ],
+      "type": "object"
+    },
+    "SourceFailure": {
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "since": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "since",
+        "error"
+      ],
+      "type": "object"
+    },
+    "StaleSeries": {
+      "additionalProperties": false,
+      "properties": {
+        "freq": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "last_obs": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "next_date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "next_release": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "last_obs",
+        "freq",
+        "next_release",
+        "next_date"
+      ],
+      "type": "object"
+    }
+  },
+  "$ref": "#/$defs/IssuerMicroReport",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "micro_annual"
+}

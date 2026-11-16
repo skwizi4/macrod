@@ -1,0 +1,139 @@
+{{define "micro" -}}
+{{template "header" .Header -}}
+Компании: {{join .Tickers ", "}}. Числа — из XBRL отчётов 10-Q/10-K (SEC EDGAR), тексты — из пресс-релизов 8-K (Ex-99.1). Время — ET. Суммы — в млрд $, EPS — разводнённый, $ на акцию. Реакция цены: отчёт после закрытия — close следующей сессии к close дня отчёта; до открытия — close дня отчёта к close предыдущей сессии. `≈` — EPS за фискальный Q4 приближённо (год − 9 мес.; в 10-K нет квартального EPS). Консенсус и сюрприз не считаются (платные данные) — см. USA News. Δ кап. ≈ реакция цены × капитализация (разводнённое среднее число акций последнего квартала × close дня отчёта); до close следующей сессии — «ждём close MM-DD». ⚠ разовые — резко изменилась ставка налога или доля прочих доходов в прибыли до налога (больше {{num0 .OneOffRateChangePP}} п.п. к году назад) и это меняет чистую прибыль больше чем на {{num0 .OneOffMaterialityPct}}%; причина — рядом с флагом и в §6.1 («Прочие», «Налог»).
+
+## 1. Отчёты за неделю
+
+{{if .Week}}| Компания | Квартал | Отчёт (ET) | Выручка | YoY | EPS | YoY | Реакция цены | Δ кап. | Данные |
+|---|---|---|---|---|---|---|---|---|---|
+{{range .Week}}| {{.Ticker}} | {{.Quarter}} (до {{date .PeriodEnd}}) | {{reportTime .ReportAt .Session}} | {{moneyCell .Revenue}} | {{signedPct1 .RevenueYoY}} | {{epsCell .EPS .EPSApprox}} | {{epsYoY .EPSYoY .EPSApprox .OneOff}} | {{reactionMicro .Reaction}} | {{capChange .Reaction}} | {{if .Form}}{{.Form}}{{else}}—, ждём 10-Q{{end}} |
+{{end}}{{else}}Отчётов за неделю не было.
+{{end}}
+## 2. Capex гиперскейлеров
+
+{{template "micro_capex" .Capex}}
+Capex здесь — деньги за основные средства без финансовой аренды. Годовой guidance компаний может считаться иначе (MSFT включает аренду дата-центров) — прямо сравнивать с ним нельзя.
+{{range .CapexGuidance}}
+{{capexNote .}}
+{{end}}
+## 3. Сезон отчётов {{.Season.Quarter}}
+
+Отчитались {{.Season.Reported}} из {{len .Season.Rows}}. Медианная реакция цены: {{signedPct1 .Season.Median}}. Сюрприз к консенсусу — `—` (см. USA News).
+
+| Компания | Статус | Отчёт (ET) | Квартал | Выручка YoY | EPS YoY | Реакция цены | Δ кап. |
+|---|---|---|---|---|---|---|---|
+{{range .Season.Rows}}{{if .Reported}}| {{.Ticker}} | ✅ | {{seasonWhen .}} | {{.Quarter}} | {{signedPct1 .RevenueYoY}} | {{epsYoY .EPSYoY .EPSApprox .OneOff}} | {{reactionMicro .Reaction}} | {{capChange .Reaction}} |
+{{else}}| {{.Ticker}} | ⏳ | {{seasonWhen .}} | {{.Quarter}} | — | — | — | — |
+{{end}}{{end}}{{if .Season.CapCount}}
+Суммарное изменение капитализации отчитавшихся: ≈ {{signed0Bn .Season.CapSum}} млрд ${{if lt .Season.CapCount .Season.Reported}} ({{.Season.CapCount}} из {{.Season.Reported}}, у остальных реакции ещё нет){{end}}.
+{{end}}
+## 4. Guidance и комментарии руководства
+
+{{if not .Guidance}}Отчётов за неделю не было.
+
+{{end}}{{range .Guidance}}{{template "micro_guidance" .}}{{end}}## 5. Макро-сигналы
+
+Предложения из пресс-релизов 8-K и расшифровок звонков недели, по темам в порядке важности (спрос, мощности, цены, найм, тарифы, Китай, память); до 6 на компанию и 2 на тему, сначала с сильными фразами (спрос выше предложения, задержки, дефицит, повышение цен, тарифы, сокращения); из ответов на вопросы аналитиков — только предложения с числом или сильной фразой. Числа из текста не извлекаются.
+
+{{if not .Week}}Отчётов за неделю не было.
+{{else if not .Signals}}Сигналов нет (или раздел убран из-за ограничения размера файла).
+{{else}}| Компания | Тема | Цитата | Источник |
+|---|---|---|---|
+{{range .Signals}}| {{.Ticker}} | {{.Topic}} | {{slashCell .Sentence}} | {{.Source}} |
+{{end}}{{end}}
+## 6. Финансовые показатели
+
+{{template "micro_financials" .Financials}}
+## 7. Пропущенные / устаревшие данные
+{{if .Missing.Late}}- Нет 10-Q через 45 дней после конца квартала (10-K — 60): {{lateList .Missing.Late}}.
+{{else}}- Нет 10-Q через 45 дней после конца квартала: нет.
+{{end}}{{if .Missing.Errors}}- Ошибки источников: {{join .Missing.Errors ", "}} (подробности — `macroctl status`).
+{{else}}- Источников с ошибками нет.
+{{end}}
+{{template "footer"}}{{end}}
+
+{{- define "micro_capex" -}}
+Денежный capex из отчёта о движении денежных средств (покупка основных средств; без финансовой аренды), млрд $. Квартал — календарный, по дате конца периода.
+
+{{if .HasData}}{{$n := .Companies}}| Компания{{range .Quarters}} | {{.}}{{end}} | QoQ | YoY | С начала {{.Year}} |
+|---{{range .Quarters}}|---{{end}}|---|---|---|
+{{range .Rows}}| {{.Ticker}}{{range .Values}} | {{bn .}}{{end}} | {{signedPct1 .QoQ}} | {{signedPct1 .YoY}} | {{capexYTD .}} |
+{{end}}| **Сумма {{$n}}**{{range .Totals}} | {{capexTotal . $n}}{{end}} | {{capexGrowth .GrowthQoQ}} | {{capexGrowth .GrowthYoY}} | {{capexTotalYTD .TotalYTD}} |
+{{if .Trailing}}
+{{capexTrailing .}}
+{{end}}{{else}}Данных нет.
+{{end}}{{end}}
+
+{{- define "micro_guidance" -}}
+### {{date .Date}} — {{.Ticker}} — {{.Form}}, {{.Quarter}}
+{{if not .HasDocument}}Пресс-релиз ещё не загружен.
+
+{{else}}{{if .Outlook}}**Outlook:**
+{{.Outlook}}
+
+{{if .Previous}}**Прошлый Outlook ({{.PreviousForm}} {{date .PreviousDate}}, на {{.Quarter}}):**
+{{.Previous}}
+
+{{end}}{{else if .CallSource}}**Outlook:** в пресс-релизе нет (guidance даётся на звонке).
+
+{{else}}**Outlook:** в пресс-релизе нет; только на звонке, расшифровка в открытом доступе не публикуется.
+
+{{end}}{{if .Quotes}}**Руководство:**
+{{join .Quotes "\n"}}
+
+{{end}}{{if .CallOutlook}}**Outlook со звонка (расшифровка, {{date .Date}}):**
+{{.CallOutlook}}
+
+{{else if and .CallSource (not .Outlook)}}**Outlook со звонка:** расшифровка ещё не опубликована.
+
+{{end}}{{if .URL}}Ссылка: {{.URL}}
+{{if .CallOutlook}}Расшифровка: {{.CallURL}}
+{{end}}
+{{end}}{{end}}{{end}}
+
+
+{{- define "micro_financials" -}}
+Все {{len .Rows}} компаний по последнему кварталу с данными 10-Q/10-K. Суммы — млрд $, маржи и доли — %. YoY — к тому же кварталу год назад; у маржи — изменение в п.п. TTM — сумма 4 кварталов.
+EBITDA* — операционная прибыль + амортизация (D&A): расчётная, не GAAP, может не совпасть с цифрой компании. FCF* — операционный поток − capex: упрощённый, одинаковый для всех компаний. Валовая маржа** — расчётная (выручка − себестоимость): компания валовую прибыль не показывает. Прочие — прибыль до налога − операционная (переоценка инвестиций, проценты, курсовые разницы); налог — расход по налогу на прибыль; в скобках — тот же квартал год назад. ⚠ разовые — резко изменилась ставка налога или доля прочих доходов (сейчас или год назад) и это заметно меняет чистую прибыль; рядом — причина.
+
+### 6.1 Прибыльность
+
+| Компания | Квартал | Выручка | YoY | Валовая маржа | Опер. прибыль | YoY | Опер. маржа | EBITDA* | YoY | Прочие (год назад) | Налог (год назад) | Чистая прибыль | YoY |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+{{range .Rows}}{{if .HasData}}| {{.Ticker}} | {{.Quarter}} (до {{date .End}}) | {{bn .Revenue}} | {{signedPct1 .RevenueYoY}} | {{grossCell .}} | {{bn .OperatingIncome}} | {{signedPct1 .OperatingIncomeYoY}} | {{marginCell .OperatingMargin .OperatingMarginChg ""}} | {{bn .EBITDA}} | {{signedPct1 .EBITDAYoY}} | {{pairCell .Other .OtherYearAgo}} | {{pairCell .Tax .TaxYearAgo}} | {{bn .NetIncome}} | {{netIncomeYoY .}} |
+{{else}}| {{.Ticker}} | — (нет 10-Q/10-K) | — | — | — | — | — | — | — | — | — | — | — | — |
+{{end}}{{end}}
+### 6.2 Деньги и акционеры
+
+Кварталы — как в 6.1. Долг — долгосрочный с текущей частью + коммерческие бумаги, без аренды. Чистый долг: «+» — долга больше, чем денег и краткосрочных инвестиций; «−» — чистые деньги. Возврат акционерам = байбэки + дивиденды.
+
+| Компания | Опер. поток | Capex | FCF* | FCF-маржа | FCF* TTM | FCF-маржа TTM | Байбэки | Дивиденды | Возврат TTM | Доля от FCF TTM | Чистый долг | Акции YoY |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+{{range .Rows}}{{if .HasData}}| {{.Ticker}} | {{bn .OperatingCashFlow}} | {{bn .Capex}} | {{bn .FCF}} | {{pct1 .FCFMargin}} | {{bn .FCFTTM}} | {{pct1 .FCFMarginTTM}} | {{buybacksCell .}} | {{dividendsCell .}} | {{returnCell .}} | {{returnShareCell .}} | {{bnSigned .NetDebt}} | {{signedPct1 .DilutedSharesYoY}} |
+{{else}}| {{.Ticker}} | — | — | — | — | — | — | — | — | — | — | — | — |
+{{end}}{{end}}
+Акции YoY — разводнённое среднее число акций к кварталу год назад (байбэки уменьшают, выпуск акций сотрудникам увеличивает); для фискального Q4 — `—` (в 10-K только за год).
+
+### 6.3 Бэклог контрактов (RPO)
+
+Выручка по уже подписанным контрактам, которая ещё не признана; на конец квартала, млрд $. Рост быстрее выручки — спрос опережает мощности.
+
+{{if .RPO}}| Компания | На дату | RPO | YoY |
+|---|---|---|---|
+{{range .RPO}}| {{.Ticker}} | {{date .Date}} | {{bn .RPO}}{{if .FromInstance}} ¹{{end}} | {{signedPct1 .RPOYoY}} |
+{{end}}{{end}}{{if rpoFromInstance .RPO}}
+¹ Из XBRL-файла 10-Q/10-K (в сводных данных SEC нет): бэклог всей компании, у AMZN — в основном AWS. Сравнивать с другими компаниями стоит динамику (YoY), а не уровень.
+{{end}}{{if .NoRPO}}{{if not (rpoFromInstance .RPO)}}
+{{end}}{{noRPOLine .NoRPO}}
+{{end}}
+### 6.4 Сегменты
+
+Выручка и операционная прибыль сегментов, как компания их раскрывает (у AAPL — регионы), за квартал из 6.1; из XBRL-файла 10-Q/10-K. Млрд $; YoY — к тому же кварталу год назад; маржа — опер. прибыль сегмента / его выручка. «вал.» — валовая маржа: TSLA не раскрывает опер. прибыль сегментов. «—» у маржи — убыток больше выручки сегмента. Azure отдельно не раскрывается (входит в Agents & Infra). «Нераспределённое» — опер. прибыль компании (6.1) − сумма сегментов: расходы, не распределённые по сегментам (у AAPL — R&D и общие расходы); у TSLA не считается (у сегментов только валовая прибыль).
+
+{{if .Segments}}| Компания | Сегмент | Выручка | YoY | Опер. прибыль | Опер. маржа |
+|---|---|---|---|---|---|
+{{range .Segments}}{{if eq .Kind "segment"}}| {{.Ticker}} | {{.Label}} | {{bn .Revenue}} | {{signedPct1 .RevenueYoY}} | {{segmentProfit .}} | {{segmentMargin .}} |
+{{else if eq .Kind "no_data"}}| {{.Ticker}} | — (нет данных сегментов в XBRL-файле) | — | — | — | — |
+{{else}}| {{.Ticker}} | Нераспределённое | — | — | {{bn .Profit}} | — |
+{{end}}{{end}}{{else}}Данных нет.
+{{end}}{{end}}

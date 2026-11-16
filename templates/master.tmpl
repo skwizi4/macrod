@@ -1,0 +1,26 @@
+{{define "key_metrics" -}}
+{{template "header" .Header -}}
+Δ1w / Δ4w: ставки, доходности и спреды — в б.п.; цены и индексы — в %; суммы — в млрд $; отношения (VIX/VIX3M, put/call) — в единицах отношения; вероятности — в п.п. Для месячных рядов Δ1w = `—`, а в Δ4w — значение прошлого релиза (`пред.: …`).
+
+| # | Метрика | Дата | Значение | Δ1w | Δ4w | z | Флаги |
+|---|---|---|---|---|---|---|---|
+{{range .Rows}}| {{.N}} | {{.Label}} | {{obsDate .Date .Freq}} | {{keyValue .}} | {{keyChange1W .}} | {{keyChange4W .}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}{{end}}
+
+{{- define "calendar" -}}
+{{template "header" .Header -}}
+Время — {{.Header.Period.TZ}} (в скобках {{.TZLabel}}).{{calendarHourNote .HourDiffs .UsualHourDiff}} Важность: ★★★ high · ★★ medium · ★ low.
+
+{{if .Rows}}| Дата | Время ({{.TZLabel}}) | Событие | Важность | Прошлое значение |
+|---|---|---|---|---|
+{{range .Rows}}| {{weekday .Local}} {{dateOf .Local}} | {{clock .Local}} ({{clock .ET}}) | {{if .Highlight}}**{{.Title}}**{{else}}{{.Title}}{{end}} | {{stars .Importance}} | {{calendarPrevious .Previous}} |
+{{end}}{{else}}Событий в календаре нет.
+{{end}}{{if .Daily}}
+Ежедневно (в таблицу не выносятся): {{calendarDaily .Daily}}.
+{{end}}
+{{if .Expiration.ThisWeek}}Экспирация: {{date .Expiration.Date}} (3-я пятница).{{else}}Экспирации: на этой неделе нет (3-я пятница — {{date .Expiration.Date}}).{{end}}
+
+## Не состоялось на прошлой неделе
+{{$tz := .TZLabel}}{{range .Missed}}- «{{.Name}}» ({{minute .At}} {{$tz}}) — не получено за окно опроса.
+{{else}}- Нет.
+{{end}}{{end}}

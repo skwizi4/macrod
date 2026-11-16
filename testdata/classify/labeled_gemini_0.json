@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "[\n  {\n    \"id\": \"1\",\n    \"is_junk\": false,\n    \"primary\": \"usa_micro\",\n    \"reason\": \"Meta stock drop of 7% and performance of a US company.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.9,\n        \"tag\": \"usa_micro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"2\",\n    \"is_junk\": false,\n    \"primary\": \"usa_monetary\",\n    \"reason\": \"Probability of Fed rate hold based on futures.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_monetary\"\n      }\n    ]\n  },\n  {\n    \"id\": \"3\",\n    \"is_junk\": false,\n    \"primary\": null,\n    \"reason\": \"Bitcoin price drop only, crypto.\",\n    \"tags\": []\n  },\n  {\n    \"id\": \"4\",\n    \"is_junk\": false,\n    \"primary\": \"usa_micro\",\n    \"reason\": \"OpenAI funding round and valuation.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.9,\n        \"tag\": \"usa_micro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"5\",\n    \"is_junk\": false,\n    \"primary\": \"usa_monetary\",\n    \"reason\": \"US S&P Global PMIs and Michigan inflation expectations.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_monetary\"\n      }\n    ]\n  },\n  {\n    \"id\": \"6\",\n    \"is_junk\": false,\n    \"primary\": \"usa_fiscal\",\n    \"reason\": \"BlackRock upgrading bonds due to term premium and real yields.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.9,\n        \"tag\": \"usa_fiscal\"\n      }\n    ]\n  },\n  {\n    \"id\": \"7\",\n    \"is_junk\": false,\n    \"primary\": \"usa_micro\",\n    \"reason\": \"Semiconductors entering a correction phase.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.7,\n        \"tag\": \"usa_micro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"8\",\n    \"is_junk\": false,\n    \"primary\": null,\n    \"reason\": \"Geopolitical statement by Trump about oil without macro tags.\",\n    \"tags\": []\n  },\n  {\n    \"id\": \"9\",\n    \"is_junk\": false,\n    \"primary\": null,\n    \"reason\": \"Geopolitical news about Iran without regional macro relevance.\",\n    \"tags\": []\n  },\n  {\n    \"id\": \"10\",\n    \"is_junk\": false,\n    \"primary\": \"eu_fiscal\",\n    \"reason\": \"Moody's credit rating of France and its budget deficit.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"eu_fiscal\"\n      },\n      {\n        \"confidence\": 0.6,\n        \"tag\": \"eu_macro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"11\",\n    \"is_junk\": false,\n    \"primary\": \"usa_micro\",\n    \"reason\": \"Podcast recommendations featuring US corporate CEOs and tech leaders.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.7,\n        \"tag\": \"usa_micro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"12\",\n    \"is_junk\": false,\n    \"primary\": null,\n    \"reason\": \"Starlink and Musk political context, not a financial topic.\",\n    \"tags\": []\n  },\n  {\n    \"id\": \"13\",\n    \"is_junk\": true,\n    \"primary\": null,\n    \"reason\": \"Channel advertising and promotion for a free macro course.\",\n    \"tags\": []\n  },\n  {\n    \"id\": \"14\",\n    \"is_junk\": true,\n    \"primary\": null,\n    \"reason\": \"Promo code discount for courses, advertising.\",\n    \"tags\": []\n  },\n  {\n    \"id\": \"15\",\n    \"is_junk\": false,\n    \"primary\": \"usa_fiscal\",\n    \"reason\": \"UST10Y yields, Treasury supply, term premium, and fiscal risks.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_fiscal\"\n      },\n      {\n        \"confidence\": 0.8,\n        \"tag\": \"usa_monetary\"\n      }\n    ]\n  },\n  {\n    \"id\": \"16\",\n    \"is_junk\": false,\n    \"primary\": \"usa_monetary\",\n    \"reason\": \"Fed rate hike, SEP dot plot, PCE, and monetary policy reaction function.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_monetary\"\n      },\n      {\n        \"confidence\": 0.7,\n        \"tag\": \"usa_fiscal\"\n      }\n    ]\n  },\n  {\n    \"id\": \"17\",\n    \"is_junk\": false,\n    \"primary\": \"eu_ecb\",\n    \"reason\": \"Bank of Japan rate hike and monetary policy normalisation.\",\n    \"tags\": []\n  },\n  {\n    \"id\": \"18\",\n    \"is_junk\": false,\n    \"primary\": \"eu_fiscal\",\n    \"reason\": \"French OAT-Bund spreads widening and European sovereign risk.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"eu_fiscal\"\n      },\n      {\n        \"confidence\": 0.8,\n        \"tag\": \"eu_macro\"\n      }\n    ]\n  },\n  {\n    \"id\": \"19\",\n    \"is_junk\": false,\n    \"primary\": \"usa_fiscal\",\n    \"reason\": \"US Treasury supply, foreign holders of US debt, and Treasury auctions.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_fiscal\"\n      }\n    ]\n  },\n  {\n    \"id\": \"20\",\n    \"is_junk\": false,\n    \"primary\": \"usa_micro\",\n    \"reason\": \"Nvidia valuation, forward earnings, buybacks, and AI capex.\",\n    \"tags\": [\n      {\n        \"confidence\": 0.95,\n        \"tag\": \"usa_micro\"\n      }\n    ]\n  }\n]",
+            "thoughtSignature": "EmAKXgFpFH0TSGgyJnha/OwOIoe5Ph9qpZbuk4SBn+hKtLx4vhW1Aes7qwB6suqXpXLfLiVhCRzkxMvZQgG0irBd2TXvHZTIUfcoNPPaB3zUiLQ7r88DxTUzAipWvKSqnIQ="
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 7143,
+    "candidatesTokenCount": 1619,
+    "totalTokenCount": 8762,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 7143
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "yxreaqapDZmVvdIPp_DCuAI"
+}

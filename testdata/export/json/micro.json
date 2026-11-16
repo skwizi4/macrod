@@ -1,0 +1,2420 @@
+{
+  "header": {
+    "schema_version": 1,
+    "region": "usa",
+    "agent": "micro",
+    "iso_week": "2026-W43",
+    "period": {
+      "from": "2026-10-18T16:00:00+02:00",
+      "to": "2026-10-25T16:00:00+01:00",
+      "tz": "Europe/Bratislava"
+    },
+    "generated_at": "2026-10-25T16:00:04+01:00",
+    "kind": "weekly",
+    "sources_ok": [
+      "edgar",
+      "earnings"
+    ],
+    "sources_failed": [
+      "yahoo"
+    ],
+    "stale_series": null,
+    "title": "USA Micro — 2026-W43"
+  },
+  "tickers": [
+    "NVDA",
+    "MSFT",
+    "AAPL",
+    "AMZN",
+    "META",
+    "GOOGL",
+    "AVGO",
+    "TSLA"
+  ],
+  "one_off_rate_change_pp": 15,
+  "one_off_materiality_pct": 10,
+  "week": [
+    {
+      "ticker": "META",
+      "quarter": "Q3 2026",
+      "period_end": "2026-09-30",
+      "report_at": "2026-10-21T16:03:35-04:00",
+      "session": "amc",
+      "revenue": {
+        "value": 64.601,
+        "unit": "usd_bn"
+      },
+      "revenue_yoy": {
+        "value": 26.070410990983962,
+        "unit": "percent"
+      },
+      "eps": {
+        "value": 3.83,
+        "unit": "usd"
+      },
+      "eps_approx": false,
+      "eps_yoy": {
+        "value": 264.76190476190476,
+        "unit": "percent"
+      },
+      "one_off": "налог",
+      "reaction": {
+        "pct": {
+          "value": -6.9775777038651166,
+          "unit": "percent"
+        },
+        "date": "2026-10-22",
+        "waiting_close": null,
+        "cap_change": {
+          "value": -125.2279099999999,
+          "unit": "usd_bn"
+        }
+      },
+      "form": "10-Q"
+    },
+    {
+      "ticker": "TSLA",
+      "quarter": "Q3 2026",
+      "period_end": "2026-09-30",
+      "report_at": "2026-10-21T16:41:42-04:00",
+      "session": "amc",
+      "revenue": {
+        "value": 28.046,
+        "unit": "usd_bn"
+      },
+      "revenue_yoy": {
+        "value": -0.17440825769709914,
+        "unit": "percent"
+      },
+      "eps": {
+        "value": 0.22,
+        "unit": "usd"
+      },
+      "eps_approx": false,
+      "eps_yoy": {
+        "value": -43.58974358974359,
+        "unit": "percent"
+      },
+      "one_off": "",
+      "reaction": {
+        "pct": {
+          "value": -3.076564804512651,
+          "unit": "percent"
+        },
+        "date": "2026-10-22",
+        "waiting_close": null,
+        "cap_change": {
+          "value": -42.10249000000015,
+          "unit": "usd_bn"
+        }
+      },
+      "form": "10-Q"
+    }
+  ],
+  "capex": {
+    "has_data": true,
+    "companies": 4,
+    "quarters": [
+      "Q3 2025",
+      "Q4 2025",
+      "Q1 2026",
+      "Q2 2026",
+      "Q3 2026"
+    ],
+    "year": 2026,
+    "rows": [
+      {
+        "ticker": "MSFT",
+        "values": [
+          {
+            "value": 19.394,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 29.876,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 30.876,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 35.802,
+            "unit": "usd_bn"
+          },
+          {
+            "value": null,
+            "unit": "usd_bn"
+          }
+        ],
+        "qoq": {
+          "value": null,
+          "unit": "percent"
+        },
+        "yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "ytd": {
+          "value": null,
+          "unit": "usd_bn"
+        },
+        "partial_ytd": {
+          "value": 66.678,
+          "unit": "usd_bn"
+        },
+        "partial_quarter": 2
+      },
+      {
+        "ticker": "GOOGL",
+        "values": [
+          {
+            "value": 23.953,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 27.851,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 35.674,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 44.924,
+            "unit": "usd_bn"
+          },
+          {
+            "value": null,
+            "unit": "usd_bn"
+          }
+        ],
+        "qoq": {
+          "value": null,
+          "unit": "percent"
+        },
+        "yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "ytd": {
+          "value": null,
+          "unit": "usd_bn"
+        },
+        "partial_ytd": {
+          "value": 80.598,
+          "unit": "usd_bn"
+        },
+        "partial_quarter": 2
+      },
+      {
+        "ticker": "AMZN",
+        "values": [
+          {
+            "value": 35.095,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 39.522,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 44.203,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 54.208,
+            "unit": "usd_bn"
+          },
+          {
+            "value": null,
+            "unit": "usd_bn"
+          }
+        ],
+        "qoq": {
+          "value": null,
+          "unit": "percent"
+        },
+        "yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "ytd": {
+          "value": null,
+          "unit": "usd_bn"
+        },
+        "partial_ytd": {
+          "value": 98.411,
+          "unit": "usd_bn"
+        },
+        "partial_quarter": 2
+      },
+      {
+        "ticker": "META",
+        "values": [
+          {
+            "value": 18.829,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 21.383,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 18.997,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 30.116,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 33.942,
+            "unit": "usd_bn"
+          }
+        ],
+        "qoq": {
+          "value": 12.704210386505514,
+          "unit": "percent"
+        },
+        "yoy": {
+          "value": 80.26448563386266,
+          "unit": "percent"
+        },
+        "ytd": {
+          "value": 83.055,
+          "unit": "usd_bn"
+        },
+        "partial_ytd": {
+          "value": null,
+          "unit": "usd_bn"
+        },
+        "partial_quarter": 0
+      }
+    ],
+    "totals": [
+      {
+        "known": true,
+        "sum": {
+          "value": 97.271,
+          "unit": "usd_bn"
+        },
+        "count": 4,
+        "complete": true
+      },
+      {
+        "known": true,
+        "sum": {
+          "value": 118.632,
+          "unit": "usd_bn"
+        },
+        "count": 4,
+        "complete": true
+      },
+      {
+        "known": true,
+        "sum": {
+          "value": 129.75,
+          "unit": "usd_bn"
+        },
+        "count": 4,
+        "complete": true
+      },
+      {
+        "known": true,
+        "sum": {
+          "value": 165.05,
+          "unit": "usd_bn"
+        },
+        "count": 4,
+        "complete": true
+      },
+      {
+        "known": true,
+        "sum": {
+          "value": 33.942,
+          "unit": "usd_bn"
+        },
+        "count": 1,
+        "complete": false
+      }
+    ],
+    "growth_qoq": null,
+    "growth_yoy": null,
+    "total_ytd": {
+      "value": null,
+      "unit": "usd_bn"
+    },
+    "trailing": {
+      "sum": {
+        "value": 510.703,
+        "unit": "usd_bn"
+      },
+      "year_ago": {
+        "value": 291.349,
+        "unit": "usd_bn"
+      },
+      "growth": {
+        "value": 75.28908628483364,
+        "unit": "percent"
+      },
+      "through": "Q2 2026"
+    }
+  },
+  "capex_guidance": [],
+  "season": {
+    "quarter": "Q3 2026",
+    "reported": 2,
+    "median": {
+      "value": -5.027071254188884,
+      "unit": "percent"
+    },
+    "rows": [
+      {
+        "ticker": "META",
+        "reported": true,
+        "report_at": "2026-10-21T16:03:35-04:00",
+        "session": "amc",
+        "expected": null,
+        "expected_note": "",
+        "quarter": "Q3 2026",
+        "revenue_yoy": {
+          "value": 26.070410990983962,
+          "unit": "percent"
+        },
+        "eps_approx": false,
+        "eps_yoy": {
+          "value": 264.76190476190476,
+          "unit": "percent"
+        },
+        "one_off": "налог",
+        "reaction": {
+          "pct": {
+            "value": -6.9775777038651166,
+            "unit": "percent"
+          },
+          "date": "2026-10-22",
+          "waiting_close": null,
+          "cap_change": {
+            "value": -125.2279099999999,
+            "unit": "usd_bn"
+          }
+        }
+      },
+      {
+        "ticker": "TSLA",
+        "reported": true,
+        "report_at": "2026-10-21T16:41:42-04:00",
+        "session": "amc",
+        "expected": null,
+        "expected_note": "",
+        "quarter": "Q3 2026",
+        "revenue_yoy": {
+          "value": -0.17440825769709914,
+          "unit": "percent"
+        },
+        "eps_approx": false,
+        "eps_yoy": {
+          "value": -43.58974358974359,
+          "unit": "percent"
+        },
+        "one_off": "",
+        "reaction": {
+          "pct": {
+            "value": -3.076564804512651,
+            "unit": "percent"
+          },
+          "date": "2026-10-22",
+          "waiting_close": null,
+          "cap_change": {
+            "value": -42.10249000000015,
+            "unit": "usd_bn"
+          }
+        }
+      },
+      {
+        "ticker": "MSFT",
+        "reported": false,
+        "report_at": null,
+        "session": "",
+        "expected": "2026-10-28",
+        "expected_note": "after_close",
+        "quarter": "FQ1 FY27",
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "eps_approx": false,
+        "eps_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "one_off": "",
+        "reaction": {
+          "pct": {
+            "value": null,
+            "unit": "percent"
+          },
+          "date": null,
+          "waiting_close": null,
+          "cap_change": {
+            "value": null,
+            "unit": "usd_bn"
+          }
+        }
+      },
+      {
+        "ticker": "GOOGL",
+        "reported": false,
+        "report_at": null,
+        "session": "",
+        "expected": "2026-10-28",
+        "expected_note": "after_close",
+        "quarter": "Q3 2026",
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "eps_approx": false,
+        "eps_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "one_off": "",
+        "reaction": {
+          "pct": {
+            "value": null,
+            "unit": "percent"
+          },
+          "date": null,
+          "waiting_close": null,
+          "cap_change": {
+            "value": null,
+            "unit": "usd_bn"
+          }
+        }
+      },
+      {
+        "ticker": "AMZN",
+        "reported": false,
+        "report_at": null,
+        "session": "",
+        "expected": "2026-10-29",
+        "expected_note": "after_close",
+        "quarter": "Q3 2026",
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "eps_approx": false,
+        "eps_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "one_off": "",
+        "reaction": {
+          "pct": {
+            "value": null,
+            "unit": "percent"
+          },
+          "date": null,
+          "waiting_close": null,
+          "cap_change": {
+            "value": null,
+            "unit": "usd_bn"
+          }
+        }
+      },
+      {
+        "ticker": "AVGO",
+        "reported": false,
+        "report_at": null,
+        "session": "",
+        "expected": "2026-10-30",
+        "expected_note": "estimate",
+        "quarter": "FQ4 FY26",
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "eps_approx": false,
+        "eps_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "one_off": "",
+        "reaction": {
+          "pct": {
+            "value": null,
+            "unit": "percent"
+          },
+          "date": null,
+          "waiting_close": null,
+          "cap_change": {
+            "value": null,
+            "unit": "usd_bn"
+          }
+        }
+      },
+      {
+        "ticker": "AAPL",
+        "reported": false,
+        "report_at": null,
+        "session": "",
+        "expected": "2026-11-02",
+        "expected_note": "after_close",
+        "quarter": "FQ4 FY26",
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "eps_approx": false,
+        "eps_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "one_off": "",
+        "reaction": {
+          "pct": {
+            "value": null,
+            "unit": "percent"
+          },
+          "date": null,
+          "waiting_close": null,
+          "cap_change": {
+            "value": null,
+            "unit": "usd_bn"
+          }
+        }
+      },
+      {
+        "ticker": "NVDA",
+        "reported": false,
+        "report_at": null,
+        "session": "",
+        "expected": "2026-11-18",
+        "expected_note": "estimate",
+        "quarter": "FQ3 FY27",
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "eps_approx": false,
+        "eps_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "one_off": "",
+        "reaction": {
+          "pct": {
+            "value": null,
+            "unit": "percent"
+          },
+          "date": null,
+          "waiting_close": null,
+          "cap_change": {
+            "value": null,
+            "unit": "usd_bn"
+          }
+        }
+      }
+    ],
+    "cap_sum": {
+      "value": -167.33040000000005,
+      "unit": "usd_bn"
+    },
+    "cap_count": 2
+  },
+  "guidance": [
+    {
+      "date": "2026-10-21",
+      "ticker": "TSLA",
+      "form": "8-K",
+      "quarter": "Q3 2026",
+      "has_document": true,
+      "outlook": "Volume We are focused on maximum capacity utilization at our factories. Deliveries and deployments will be impacted by aggregate demand for our products, supply chain readiness and allocation decisions between sale to customers and use for our owned and operated fleet. Cash We will manage the business such that we ensure a strong balance sheet, maintaining sufficient liquidity to fund our product roadmap, long-term capacity expansion plans – including further vertical integration – and other expenses. Profit While we continue to execute on innovations to reduce the cost of manufacturing and operations, over time, we expect our hardware-related profits to be accompanied by an acceleration of SI, software and fleet-based profits. Product We continue to evolve and augment our product lineup with a focus on cost, scale and future monetization opportunities via services powered by our SI software. We remain focused on growing our sales volumes through a differentiated and efficiently managed product portfolio, which includes leveraging and optimizing our existing production capacity before building new factories and production lines. Production has begun for Tesla Semi in Nevada and Optimus in Fremont. Capacity build-out and ramp related to our multi-year infrastructure initiatives, including SI compute, solar, battery material and semiconductor manufacturing are underway.",
+      "call_source": false,
+      "previous": "",
+      "previous_form": "",
+      "previous_date": null,
+      "quotes": [],
+      "call_outlook": "",
+      "url": "https://www.sec.gov/Archives/edgar/data/x/000162828026066738/TSLA_0001628280-26-066738_exhibit9914.htm",
+      "call_url": ""
+    },
+    {
+      "date": "2026-10-21",
+      "ticker": "META",
+      "form": "8-K",
+      "quarter": "Q3 2026",
+      "has_document": true,
+      "outlook": "We expect fourth quarter 2026 total revenue to be in the range of $73-76 billion. Our guidance assumes foreign currency is an approximately 1% headwind to year-over-year total revenue growth, based on current exchange rates.\n\nWe are raising our expense outlook to incorporate the $9.9 billion charge related to legal proceedings recognized in the third quarter. We now expect full year 2026 total expenses to be in the range of $175-179 billion.\n\nExcluding the third quarter legal charge, we continue to expect 2026 operating income to be above 2025 operating income.\n\nAt a segment level, we now expect Reality Labs losses to decline compared to 2025 to a range of $18-19 billion.\n\nWe anticipate 2026 capital expenditures, including principal payments on finance leases, to be in the range of $135-145 billion, narrowed from our prior outlook of $130-145 billion.\n\nAbsent any changes to our tax landscape, we expect our fourth quarter 2026 tax rate to be between 15-17%.\n\nAdditionally, we continue to monitor active legal and regulatory matters that could significantly impact our business and financial results. For example, we continue to see scrutiny on youth-related issues in several markets and have a number of youth-related trials scheduled in the coming months in the U.S.\n\nLooking beyond 2026, we are still developing our budget and capacity plans for next year, but we expect to continue investing aggressively to support both our core business and emerging AI initiatives. Our current capacity and what is scheduled to come online gives us the flexibility to allocate resources across model training, core business growth, and the development and support of new products.\n\nOur AI investments are already delivering substantial incremental advertising revenue through stronger engagement, better recommendations, and more efficient monetization. Building on this progress, our MSL investments are creating the technology and infrastructure needed to unlock significant new revenue opportunities and strengthen capabilities across the business. While these investments will take longer to generate returns than those in our core business, the breadth of monetization opportunities and internal efficiencies gives us confidence in their long-term potential.\n\nLooking ahead, although we are not providing a full-year 2027 revenue outlook, the benefits our AI investments are delivering to the core business, combined with emerging opportunities from model advances and product launches, position us to sustain strong overall revenue growth throughout 2027.\n\nSeparately, we remain focused on improving Reality Labs profitability and expect losses to narrow next year to around $15 billion as we reallocate investment toward other priority areas, primarily AI.",
+      "call_source": false,
+      "previous": "We expect third quarter 2026 total revenue to be in the range of $61-64 billion. Our guidance assumes foreign currency is an approximately 1% headwind to year-over-year total revenue growth, based on current exchange rates.\n\nWe are raising the lower-end of our expense outlook to incorporate the $2.4 billion charges related to legal proceedings recognized in the second quarter. We now expect full year 2026 total expenses to be in the range of $165-169 billion.\n\nWe continue to expect to deliver operating income this year that is above 2025 operating income.\n\nWe anticipate 2026 capital expenditures, including principal payments on finance leases, to be in the range of $130-145 billion, narrowed from our prior outlook of $125-145 billion.\n\nAbsent any changes to our tax landscape, we expect our tax rate for the remaining quarters of 2026 to be between 15-17%, an increase from our prior outlook of 13-16%.\n\nFinally, we continue to monitor active legal and regulatory matters that could significantly impact our business and financial results. For example, we continue to see scrutiny on youth-related issues in several markets and have a number of youth-related trials scheduled for this year in the U.S., which may ultimately result in a material loss.",
+      "previous_form": "8-K",
+      "previous_date": "2026-07-29",
+      "quotes": [
+        "\"We hit major milestones this quarter toward delivering personal superintelligence for everyone - including launching Muse and Muse Wonder, our first frontier model,\" said Mark Zuckerberg, Meta founder and CEO. \"Our investments are paying off, the core business is strong, and we're seeing velocity across the board.\""
+      ],
+      "call_outlook": "",
+      "url": "https://www.sec.gov/Archives/edgar/data/x/000162828026066700/META_0001628280-26-066700_meta-09302026xexhibit991.htm",
+      "call_url": ""
+    }
+  ],
+  "signals": [
+    {
+      "ticker": "TSLA",
+      "topic": "тарифы",
+      "sentence": "YoY, revenue was impacted by the following items(1): - decrease in Energy Generation and Storage, partially due to tariff-related customer refunds - lower vehicle average selling price (ASP) (excl.",
+      "source": "8-K 10-21"
+    },
+    {
+      "ticker": "TSLA",
+      "topic": "спрос",
+      "sentence": "Given the strong demand we are seeing across various markets, we remain focused on increasing production across our factories and attained record production at Gigafactory Berlin.",
+      "source": "8-K 10-21"
+    },
+    {
+      "ticker": "TSLA",
+      "topic": "мощности",
+      "sentence": "While battery availability continued to be the limiting factor in increasing auto volumes in the quarter, we have made additional progress in securing future supply, as we work toward our goal of maximum utilization of our factories.",
+      "source": "8-K 10-21"
+    },
+    {
+      "ticker": "TSLA",
+      "topic": "мощности",
+      "sentence": "We also advanced LFP supply domestication in the U.S., shipping the first Megapacks built with LFP cells from our factory in Nevada.",
+      "source": "8-K 10-21"
+    },
+    {
+      "ticker": "META",
+      "topic": "найм",
+      "sentence": "Headcount – Headcount was 66,775 as of September 30, 2026, a decrease of 15% year-over-year.",
+      "source": "8-K 10-21"
+    }
+  ],
+  "financials": {
+    "rows": [
+      {
+        "ticker": "NVDA",
+        "has_data": true,
+        "quarter": "FQ2 FY27",
+        "end": "2026-07-26",
+        "revenue": {
+          "value": 96.221,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 105.85114348672529,
+          "unit": "percent"
+        },
+        "gross_margin": {
+          "value": 74.97531723844068,
+          "unit": "percent"
+        },
+        "gross_margin_change": {
+          "value": 2.551638826699886,
+          "unit": "pp"
+        },
+        "gross_computed": false,
+        "gross_not_shown": false,
+        "operating_income": {
+          "value": 63.734,
+          "unit": "usd_bn"
+        },
+        "operating_income_yoy": {
+          "value": 124.0998593530239,
+          "unit": "percent"
+        },
+        "operating_margin": {
+          "value": 66.23710000935347,
+          "unit": "percent"
+        },
+        "operating_margin_change": {
+          "value": 5.3937651784697,
+          "unit": "pp"
+        },
+        "ebitda": {
+          "value": 64.861,
+          "unit": "usd_bn"
+        },
+        "ebitda_yoy": {
+          "value": 122.82112061561716,
+          "unit": "percent"
+        },
+        "other": {
+          "value": 7.773,
+          "unit": "usd_bn"
+        },
+        "other_year_ago": {
+          "value": 2.766,
+          "unit": "usd_bn"
+        },
+        "tax": {
+          "value": 11.819,
+          "unit": "usd_bn"
+        },
+        "tax_year_ago": {
+          "value": 4.784,
+          "unit": "usd_bn"
+        },
+        "net_income": {
+          "value": 59.688,
+          "unit": "usd_bn"
+        },
+        "net_income_yoy": {
+          "value": 125.90265687684506,
+          "unit": "percent"
+        },
+        "one_off": "",
+        "operating_cash_flow": {
+          "value": 24.077,
+          "unit": "usd_bn"
+        },
+        "capex": {
+          "value": 2.677,
+          "unit": "usd_bn"
+        },
+        "fcf": {
+          "value": 21.4,
+          "unit": "usd_bn"
+        },
+        "fcf_margin": {
+          "value": 22.240467257667245,
+          "unit": "percent"
+        },
+        "fcf_ttm": {
+          "value": 127.006,
+          "unit": "usd_bn"
+        },
+        "fcf_margin_ttm": {
+          "value": 41.920460509161,
+          "unit": "percent"
+        },
+        "buybacks": {
+          "value": 19.732,
+          "unit": "usd_bn"
+        },
+        "no_buybacks": false,
+        "dividends": {
+          "value": 6,
+          "unit": "usd_bn"
+        },
+        "no_dividends": false,
+        "return_ttm": {
+          "value": 62.044,
+          "unit": "usd_bn"
+        },
+        "return_share_of_fcf": {
+          "value": 48.85123537470671,
+          "unit": "percent"
+        },
+        "fcf_not_positive": false,
+        "net_debt": {
+          "value": -23.22,
+          "unit": "usd_bn"
+        },
+        "diluted_shares_yoy": {
+          "value": -1.0068481982716453,
+          "unit": "percent"
+        }
+      },
+      {
+        "ticker": "MSFT",
+        "has_data": true,
+        "quarter": "FQ4 FY26",
+        "end": "2026-06-30",
+        "revenue": {
+          "value": 90.007,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 17.74702057796209,
+          "unit": "percent"
+        },
+        "gross_margin": {
+          "value": 67.1969957892164,
+          "unit": "percent"
+        },
+        "gross_margin_change": {
+          "value": -1.3879259151045744,
+          "unit": "pp"
+        },
+        "gross_computed": false,
+        "gross_not_shown": false,
+        "operating_income": {
+          "value": 40.603,
+          "unit": "usd_bn"
+        },
+        "operating_income_yoy": {
+          "value": 18.296768930454796,
+          "unit": "percent"
+        },
+        "operating_margin": {
+          "value": 45.11093581610319,
+          "unit": "percent"
+        },
+        "operating_margin_change": {
+          "value": 0.20963939140963816,
+          "unit": "pp"
+        },
+        "ebitda": {
+          "value": 50.903,
+          "unit": "usd_bn"
+        },
+        "ebitda_yoy": {
+          "value": 25.305861211628883,
+          "unit": "percent"
+        },
+        "other": {
+          "value": 3.444,
+          "unit": "usd_bn"
+        },
+        "other_year_ago": {
+          "value": -1.707,
+          "unit": "usd_bn"
+        },
+        "tax": {
+          "value": 8.281,
+          "unit": "usd_bn"
+        },
+        "tax_year_ago": {
+          "value": 5.383,
+          "unit": "usd_bn"
+        },
+        "net_income": {
+          "value": 35.766,
+          "unit": "usd_bn"
+        },
+        "net_income_yoy": {
+          "value": 31.333308853229536,
+          "unit": "percent"
+        },
+        "one_off": "",
+        "operating_cash_flow": {
+          "value": 55.441,
+          "unit": "usd_bn"
+        },
+        "capex": {
+          "value": 35.802,
+          "unit": "usd_bn"
+        },
+        "fcf": {
+          "value": 19.639,
+          "unit": "usd_bn"
+        },
+        "fcf_margin": {
+          "value": 21.819414045574234,
+          "unit": "percent"
+        },
+        "fcf_ttm": {
+          "value": 66.987,
+          "unit": "usd_bn"
+        },
+        "fcf_margin_ttm": {
+          "value": 20.18659651216403,
+          "unit": "percent"
+        },
+        "buybacks": {
+          "value": 4.579,
+          "unit": "usd_bn"
+        },
+        "no_buybacks": false,
+        "dividends": {
+          "value": 6.758,
+          "unit": "usd_bn"
+        },
+        "no_dividends": false,
+        "return_ttm": {
+          "value": 48.716,
+          "unit": "usd_bn"
+        },
+        "return_share_of_fcf": {
+          "value": 72.72455849642469,
+          "unit": "percent"
+        },
+        "fcf_not_positive": false,
+        "net_debt": {
+          "value": -36.549,
+          "unit": "usd_bn"
+        },
+        "diluted_shares_yoy": {
+          "value": null,
+          "unit": "percent"
+        }
+      },
+      {
+        "ticker": "AAPL",
+        "has_data": true,
+        "quarter": "FQ3 FY26",
+        "end": "2026-06-27",
+        "revenue": {
+          "value": 109.417,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 16.35650176528138,
+          "unit": "percent"
+        },
+        "gross_margin": {
+          "value": 50.056206987945195,
+          "unit": "percent"
+        },
+        "gross_margin_change": {
+          "value": 3.565501300761561,
+          "unit": "pp"
+        },
+        "gross_computed": false,
+        "gross_not_shown": false,
+        "operating_income": {
+          "value": 35.695,
+          "unit": "usd_bn"
+        },
+        "operating_income_yoy": {
+          "value": 26.569037656903767,
+          "unit": "percent"
+        },
+        "operating_margin": {
+          "value": 32.62290137729969,
+          "unit": "percent"
+        },
+        "operating_margin_change": {
+          "value": 2.632259495467199,
+          "unit": "pp"
+        },
+        "ebitda": {
+          "value": 39.015,
+          "unit": "usd_bn"
+        },
+        "ebitda_yoy": {
+          "value": 25.72505800464037,
+          "unit": "percent"
+        },
+        "other": {
+          "value": 0.572,
+          "unit": "usd_bn"
+        },
+        "other_year_ago": {
+          "value": -0.171,
+          "unit": "usd_bn"
+        },
+        "tax": {
+          "value": 6.478,
+          "unit": "usd_bn"
+        },
+        "tax_year_ago": {
+          "value": 4.597,
+          "unit": "usd_bn"
+        },
+        "net_income": {
+          "value": 29.789,
+          "unit": "usd_bn"
+        },
+        "net_income_yoy": {
+          "value": 27.11871639498165,
+          "unit": "percent"
+        },
+        "one_off": "",
+        "operating_cash_flow": {
+          "value": 34.369,
+          "unit": "usd_bn"
+        },
+        "capex": {
+          "value": 2.455,
+          "unit": "usd_bn"
+        },
+        "fcf": {
+          "value": 31.914,
+          "unit": "usd_bn"
+        },
+        "fcf_margin": {
+          "value": 29.167314037124033,
+          "unit": "percent"
+        },
+        "fcf_ttm": {
+          "value": 136.683,
+          "unit": "usd_bn"
+        },
+        "fcf_margin_ttm": {
+          "value": 29.279405684809873,
+          "unit": "percent"
+        },
+        "buybacks": {
+          "value": 25.105,
+          "unit": "usd_bn"
+        },
+        "no_buybacks": false,
+        "dividends": {
+          "value": 4.035,
+          "unit": "usd_bn"
+        },
+        "no_dividends": false,
+        "return_ttm": {
+          "value": 97.866,
+          "unit": "usd_bn"
+        },
+        "return_share_of_fcf": {
+          "value": 71.60071113452294,
+          "unit": "percent"
+        },
+        "fcf_not_positive": false,
+        "net_debt": {
+          "value": 21.898,
+          "unit": "usd_bn"
+        },
+        "diluted_shares_yoy": {
+          "value": -1.562083247732048,
+          "unit": "percent"
+        }
+      },
+      {
+        "ticker": "AMZN",
+        "has_data": true,
+        "quarter": "Q2 2026",
+        "end": "2026-06-30",
+        "revenue": {
+          "value": 200.606,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 19.620517346245126,
+          "unit": "percent"
+        },
+        "gross_margin": {
+          "value": null,
+          "unit": "percent"
+        },
+        "gross_margin_change": {
+          "value": null,
+          "unit": "pp"
+        },
+        "gross_computed": false,
+        "gross_not_shown": true,
+        "operating_income": {
+          "value": 27.461,
+          "unit": "usd_bn"
+        },
+        "operating_income_yoy": {
+          "value": 43.242397371029156,
+          "unit": "percent"
+        },
+        "operating_margin": {
+          "value": 13.689022262544489,
+          "unit": "percent"
+        },
+        "operating_margin_change": {
+          "value": 2.2574352808746223,
+          "unit": "pp"
+        },
+        "ebitda": {
+          "value": 47.449,
+          "unit": "usd_bn"
+        },
+        "ebitda_yoy": {
+          "value": 37.9411593697308,
+          "unit": "percent"
+        },
+        "other": {
+          "value": 53.396,
+          "unit": "usd_bn"
+        },
+        "other_year_ago": {
+          "value": 1.686,
+          "unit": "usd_bn"
+        },
+        "tax": {
+          "value": 18.199,
+          "unit": "usd_bn"
+        },
+        "tax_year_ago": {
+          "value": 2.678,
+          "unit": "usd_bn"
+        },
+        "net_income": {
+          "value": 62.647,
+          "unit": "usd_bn"
+        },
+        "net_income_yoy": {
+          "value": 244.89649856859722,
+          "unit": "percent"
+        },
+        "one_off": "прочие",
+        "operating_cash_flow": {
+          "value": 45.387,
+          "unit": "usd_bn"
+        },
+        "capex": {
+          "value": 54.208,
+          "unit": "usd_bn"
+        },
+        "fcf": {
+          "value": -8.821,
+          "unit": "usd_bn"
+        },
+        "fcf_margin": {
+          "value": -4.397176555038234,
+          "unit": "percent"
+        },
+        "fcf_ttm": {
+          "value": -11.625,
+          "unit": "usd_bn"
+        },
+        "fcf_margin_ttm": {
+          "value": -1.4986850247524752,
+          "unit": "percent"
+        },
+        "buybacks": {
+          "value": 0,
+          "unit": "usd_bn"
+        },
+        "no_buybacks": true,
+        "dividends": {
+          "value": 0,
+          "unit": "usd_bn"
+        },
+        "no_dividends": true,
+        "return_ttm": {
+          "value": 0,
+          "unit": "usd_bn"
+        },
+        "return_share_of_fcf": {
+          "value": null,
+          "unit": "percent"
+        },
+        "fcf_not_positive": true,
+        "net_debt": {
+          "value": 9.561,
+          "unit": "usd_bn"
+        },
+        "diluted_shares_yoy": {
+          "value": 0.8976494540070332,
+          "unit": "percent"
+        }
+      },
+      {
+        "ticker": "META",
+        "has_data": true,
+        "quarter": "Q3 2026",
+        "end": "2026-09-30",
+        "revenue": {
+          "value": 64.601,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 26.070410990983962,
+          "unit": "percent"
+        },
+        "gross_margin": {
+          "value": 79.30527391216854,
+          "unit": "percent"
+        },
+        "gross_margin_change": {
+          "value": -2.7289948517360614,
+          "unit": "pp"
+        },
+        "gross_computed": true,
+        "gross_not_shown": false,
+        "operating_income": {
+          "value": 12.988,
+          "unit": "usd_bn"
+        },
+        "operating_income_yoy": {
+          "value": -36.75188702215729,
+          "unit": "percent"
+        },
+        "operating_margin": {
+          "value": 20.10495193572855,
+          "unit": "percent"
+        },
+        "operating_margin_change": {
+          "value": -19.96959628643296,
+          "unit": "pp"
+        },
+        "ebitda": {
+          "value": 20.142,
+          "unit": "usd_bn"
+        },
+        "ebitda_yoy": {
+          "value": -21.00556906424033,
+          "unit": "percent"
+        },
+        "other": {
+          "value": 0.013,
+          "unit": "usd_bn"
+        },
+        "other_year_ago": {
+          "value": 1.128,
+          "unit": "usd_bn"
+        },
+        "tax": {
+          "value": 3.141,
+          "unit": "usd_bn"
+        },
+        "tax_year_ago": {
+          "value": 18.954,
+          "unit": "usd_bn"
+        },
+        "net_income": {
+          "value": 9.86,
+          "unit": "usd_bn"
+        },
+        "net_income_yoy": {
+          "value": 263.9719453672942,
+          "unit": "percent"
+        },
+        "one_off": "налог",
+        "operating_cash_flow": {
+          "value": 32.785,
+          "unit": "usd_bn"
+        },
+        "capex": {
+          "value": 33.942,
+          "unit": "usd_bn"
+        },
+        "fcf": {
+          "value": -1.157,
+          "unit": "usd_bn"
+        },
+        "fcf_margin": {
+          "value": -1.7909939474621137,
+          "unit": "percent"
+        },
+        "fcf_ttm": {
+          "value": 28.649,
+          "unit": "usd_bn"
+        },
+        "fcf_margin_ttm": {
+          "value": 11.857735321142687,
+          "unit": "percent"
+        },
+        "buybacks": {
+          "value": 0,
+          "unit": "usd_bn"
+        },
+        "no_buybacks": false,
+        "dividends": {
+          "value": 1.361,
+          "unit": "usd_bn"
+        },
+        "no_dividends": false,
+        "return_ttm": {
+          "value": 5.388,
+          "unit": "usd_bn"
+        },
+        "return_share_of_fcf": {
+          "value": 18.80693916018011,
+          "unit": "percent"
+        },
+        "fcf_not_positive": false,
+        "net_debt": {
+          "value": 1.22,
+          "unit": "usd_bn"
+        },
+        "diluted_shares_yoy": {
+          "value": 0.038880248833592534,
+          "unit": "percent"
+        }
+      },
+      {
+        "ticker": "GOOGL",
+        "has_data": true,
+        "quarter": "Q2 2026",
+        "end": "2026-06-30",
+        "revenue": {
+          "value": 119.796,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 24.23362508814867,
+          "unit": "percent"
+        },
+        "gross_margin": {
+          "value": 61.648969915523054,
+          "unit": "percent"
+        },
+        "gross_margin_change": {
+          "value": 2.13409871628631,
+          "unit": "pp"
+        },
+        "gross_computed": true,
+        "gross_not_shown": false,
+        "operating_income": {
+          "value": 40.77,
+          "unit": "usd_bn"
+        },
+        "operating_income_yoy": {
+          "value": 30.376387067890377,
+          "unit": "percent"
+        },
+        "operating_margin": {
+          "value": 34.03285585495342,
+          "unit": "percent"
+        },
+        "operating_margin_change": {
+          "value": 1.6034784956801786,
+          "unit": "pp"
+        },
+        "ebitda": {
+          "value": 47.874,
+          "unit": "usd_bn"
+        },
+        "ebitda_yoy": {
+          "value": 31.99702225040668,
+          "unit": "percent"
+        },
+        "other": {
+          "value": 97.983,
+          "unit": "usd_bn"
+        },
+        "other_year_ago": {
+          "value": 2.662,
+          "unit": "usd_bn"
+        },
+        "tax": {
+          "value": 26.56,
+          "unit": "usd_bn"
+        },
+        "tax_year_ago": {
+          "value": 5.737,
+          "unit": "usd_bn"
+        },
+        "net_income": {
+          "value": 112.193,
+          "unit": "usd_bn"
+        },
+        "net_income_yoy": {
+          "value": 297.90395800822813,
+          "unit": "percent"
+        },
+        "one_off": "прочие",
+        "operating_cash_flow": {
+          "value": 39.069,
+          "unit": "usd_bn"
+        },
+        "capex": {
+          "value": 44.924,
+          "unit": "usd_bn"
+        },
+        "fcf": {
+          "value": -5.855,
+          "unit": "usd_bn"
+        },
+        "fcf_margin": {
+          "value": -4.8874753748038335,
+          "unit": "percent"
+        },
+        "fcf_ttm": {
+          "value": 53.273,
+          "unit": "usd_bn"
+        },
+        "fcf_margin_ttm": {
+          "value": 11.948181856921458,
+          "unit": "percent"
+        },
+        "buybacks": {
+          "value": 0,
+          "unit": "usd_bn"
+        },
+        "no_buybacks": false,
+        "dividends": {
+          "value": 2.689,
+          "unit": "usd_bn"
+        },
+        "no_dividends": false,
+        "return_ttm": {
+          "value": 27.706,
+          "unit": "usd_bn"
+        },
+        "return_share_of_fcf": {
+          "value": 52.00758357892366,
+          "unit": "percent"
+        },
+        "fcf_not_positive": false,
+        "net_debt": {
+          "value": -142.31,
+          "unit": "usd_bn"
+        },
+        "diluted_shares_yoy": {
+          "value": 0.9099852434825381,
+          "unit": "percent"
+        }
+      },
+      {
+        "ticker": "AVGO",
+        "has_data": true,
+        "quarter": "FQ3 FY26",
+        "end": "2026-08-02",
+        "revenue": {
+          "value": 29.591,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 85.50025075225676,
+          "unit": "percent"
+        },
+        "gross_margin": {
+          "value": 69.12912709945591,
+          "unit": "percent"
+        },
+        "gross_margin_change": {
+          "value": 2.0340919941399704,
+          "unit": "pp"
+        },
+        "gross_computed": false,
+        "gross_not_shown": false,
+        "operating_income": {
+          "value": 15.955,
+          "unit": "usd_bn"
+        },
+        "operating_income_yoy": {
+          "value": 171.0208934941396,
+          "unit": "percent"
+        },
+        "operating_margin": {
+          "value": 53.918421141563314,
+          "unit": "percent"
+        },
+        "operating_margin_change": {
+          "value": 17.0139577513928,
+          "unit": "pp"
+        },
+        "ebitda": {
+          "value": 18.132,
+          "unit": "usd_bn"
+        },
+        "ebitda_yoy": {
+          "value": 125.1024208566108,
+          "unit": "percent"
+        },
+        "other": {
+          "value": -0.68,
+          "unit": "usd_bn"
+        },
+        "other_year_ago": {
+          "value": -0.602,
+          "unit": "usd_bn"
+        },
+        "tax": {
+          "value": 2.187,
+          "unit": "usd_bn"
+        },
+        "tax_year_ago": {
+          "value": 1.145,
+          "unit": "usd_bn"
+        },
+        "net_income": {
+          "value": 13.088,
+          "unit": "usd_bn"
+        },
+        "net_income_yoy": {
+          "value": 216.1352657004831,
+          "unit": "percent"
+        },
+        "one_off": "",
+        "operating_cash_flow": {
+          "value": 14.197,
+          "unit": "usd_bn"
+        },
+        "capex": {
+          "value": 0.532,
+          "unit": "usd_bn"
+        },
+        "fcf": {
+          "value": 13.665,
+          "unit": "usd_bn"
+        },
+        "fcf_margin": {
+          "value": 46.179581629549524,
+          "unit": "percent"
+        },
+        "fcf_ttm": {
+          "value": 39.403,
+          "unit": "usd_bn"
+        },
+        "fcf_margin_ttm": {
+          "value": 44.221359310468664,
+          "unit": "percent"
+        },
+        "buybacks": {
+          "value": 0,
+          "unit": "usd_bn"
+        },
+        "no_buybacks": false,
+        "dividends": {
+          "value": 3.103,
+          "unit": "usd_bn"
+        },
+        "no_dividends": false,
+        "return_ttm": {
+          "value": 20.528,
+          "unit": "usd_bn"
+        },
+        "return_share_of_fcf": {
+          "value": 52.09755602365303,
+          "unit": "percent"
+        },
+        "fcf_not_positive": false,
+        "net_debt": {
+          "value": 35.444,
+          "unit": "usd_bn"
+        },
+        "diluted_shares_yoy": {
+          "value": 0.5555555555555556,
+          "unit": "percent"
+        }
+      },
+      {
+        "ticker": "TSLA",
+        "has_data": true,
+        "quarter": "Q3 2026",
+        "end": "2026-09-30",
+        "revenue": {
+          "value": 28.046,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": -0.17440825769709914,
+          "unit": "percent"
+        },
+        "gross_margin": {
+          "value": 19.589246238322755,
+          "unit": "percent"
+        },
+        "gross_margin_change": {
+          "value": 1.6002802301362458,
+          "unit": "pp"
+        },
+        "gross_computed": false,
+        "gross_not_shown": false,
+        "operating_income": {
+          "value": 0.718,
+          "unit": "usd_bn"
+        },
+        "operating_income_yoy": {
+          "value": -55.78817733990148,
+          "unit": "percent"
+        },
+        "operating_margin": {
+          "value": 2.560079868786993,
+          "unit": "percent"
+        },
+        "operating_margin_change": {
+          "value": -3.2203081006025784,
+          "unit": "pp"
+        },
+        "ebitda": {
+          "value": 2.298,
+          "unit": "usd_bn"
+        },
+        "ebitda_yoy": {
+          "value": -22.73032952252858,
+          "unit": "percent"
+        },
+        "other": {
+          "value": 0.238,
+          "unit": "usd_bn"
+        },
+        "other_year_ago": {
+          "value": 0.335,
+          "unit": "usd_bn"
+        },
+        "tax": {
+          "value": 0.152,
+          "unit": "usd_bn"
+        },
+        "tax_year_ago": {
+          "value": 0.57,
+          "unit": "usd_bn"
+        },
+        "net_income": {
+          "value": 0.787,
+          "unit": "usd_bn"
+        },
+        "net_income_yoy": {
+          "value": -42.680262199563,
+          "unit": "percent"
+        },
+        "one_off": "",
+        "operating_cash_flow": {
+          "value": 6.263,
+          "unit": "usd_bn"
+        },
+        "capex": {
+          "value": 4.732,
+          "unit": "usd_bn"
+        },
+        "fcf": {
+          "value": 1.531,
+          "unit": "usd_bn"
+        },
+        "fcf_margin": {
+          "value": 5.458888968123796,
+          "unit": "percent"
+        },
+        "fcf_ttm": {
+          "value": 3.303,
+          "unit": "usd_bn"
+        },
+        "fcf_margin_ttm": {
+          "value": 3.189147436516366,
+          "unit": "percent"
+        },
+        "buybacks": {
+          "value": 0,
+          "unit": "usd_bn"
+        },
+        "no_buybacks": true,
+        "dividends": {
+          "value": 0,
+          "unit": "usd_bn"
+        },
+        "no_dividends": true,
+        "return_ttm": {
+          "value": 0,
+          "unit": "usd_bn"
+        },
+        "return_share_of_fcf": {
+          "value": 0,
+          "unit": "percent"
+        },
+        "fcf_not_positive": false,
+        "net_debt": {
+          "value": -36.18,
+          "unit": "usd_bn"
+        },
+        "diluted_shares_yoy": {
+          "value": 0.4254112308564946,
+          "unit": "percent"
+        }
+      }
+    ],
+    "rpo": [
+      {
+        "ticker": "NVDA",
+        "date": "2026-07-26",
+        "rpo": {
+          "value": 3.2,
+          "unit": "usd_bn"
+        },
+        "rpo_yoy": {
+          "value": 68.42105263157895,
+          "unit": "percent"
+        },
+        "from_instance": false
+      },
+      {
+        "ticker": "MSFT",
+        "date": "2026-06-30",
+        "rpo": {
+          "value": 684,
+          "unit": "usd_bn"
+        },
+        "rpo_yoy": {
+          "value": 82.39999999999999,
+          "unit": "percent"
+        },
+        "from_instance": false
+      },
+      {
+        "ticker": "AMZN",
+        "date": "2026-06-30",
+        "rpo": {
+          "value": 496,
+          "unit": "usd_bn"
+        },
+        "rpo_yoy": {
+          "value": 154.35897435897436,
+          "unit": "percent"
+        },
+        "from_instance": true
+      },
+      {
+        "ticker": "GOOGL",
+        "date": "2026-06-30",
+        "rpo": {
+          "value": 519.5,
+          "unit": "usd_bn"
+        },
+        "rpo_yoy": {
+          "value": 380.1293900184843,
+          "unit": "percent"
+        },
+        "from_instance": false
+      },
+      {
+        "ticker": "AVGO",
+        "date": "2026-08-02",
+        "rpo": {
+          "value": 179.2,
+          "unit": "usd_bn"
+        },
+        "rpo_yoy": {
+          "value": 551.6363636363636,
+          "unit": "percent"
+        },
+        "from_instance": false
+      },
+      {
+        "ticker": "TSLA",
+        "date": "2026-09-30",
+        "rpo": {
+          "value": 10.73,
+          "unit": "usd_bn"
+        },
+        "rpo_yoy": {
+          "value": 10.50463439752832,
+          "unit": "percent"
+        },
+        "from_instance": false
+      }
+    ],
+    "no_rpo": [
+      "AAPL",
+      "META"
+    ],
+    "segments": [
+      {
+        "ticker": "NVDA",
+        "kind": "segment",
+        "label": "Compute & Networking",
+        "revenue": {
+          "value": 88.299,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 113.63867315090368,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 62.696,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 71.00420163308758,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "NVDA",
+        "kind": "segment",
+        "label": "Graphics",
+        "revenue": {
+          "value": 7.922,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 46.378418329637846,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 3.899,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 49.21736935117394,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "NVDA",
+        "kind": "unallocated",
+        "label": "",
+        "revenue": {
+          "value": null,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": -2.861,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": null,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "MSFT",
+        "kind": "segment",
+        "label": "Productivity & Business Processes",
+        "revenue": {
+          "value": 37.847,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 14.299951679149553,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 21.9,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 57.86455993870055,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "MSFT",
+        "kind": "segment",
+        "label": "Intelligent Cloud",
+        "revenue": {
+          "value": 39.306,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 31.554990293861707,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 15.955,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 40.59176716022999,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "MSFT",
+        "kind": "segment",
+        "label": "More Personal Computing",
+        "revenue": {
+          "value": 12.854,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": -4.43833172254851,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 2.748,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 21.378559203360822,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "MSFT",
+        "kind": "unallocated",
+        "label": "",
+        "revenue": {
+          "value": null,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 0,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": null,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AAPL",
+        "kind": "segment",
+        "label": "Americas",
+        "revenue": {
+          "value": 45.781,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 11.124326423612798,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 21.701,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 47.401760555689044,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AAPL",
+        "kind": "segment",
+        "label": "Europe",
+        "revenue": {
+          "value": 29.395,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 22.407762138752393,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 13.443,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 45.732267392413675,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AAPL",
+        "kind": "segment",
+        "label": "Greater China",
+        "revenue": {
+          "value": 18.816,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 22.428264688658988,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 7.406,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 39.360119047619044,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AAPL",
+        "kind": "segment",
+        "label": "Japan",
+        "revenue": {
+          "value": 6.554,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 13.35178139052231,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 3.004,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 45.83460482148307,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AAPL",
+        "kind": "segment",
+        "label": "Rest of Asia Pacific",
+        "revenue": {
+          "value": 8.871,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 15.613189104652678,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 4.182,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 47.14237402773081,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AAPL",
+        "kind": "unallocated",
+        "label": "",
+        "revenue": {
+          "value": null,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": -14.041,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": null,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AMZN",
+        "kind": "segment",
+        "label": "North America",
+        "revenue": {
+          "value": 116.177,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 16.098053323739858,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 9.123,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 7.852673076426488,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AMZN",
+        "kind": "segment",
+        "label": "International",
+        "revenue": {
+          "value": 42.197,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 14.787410570985553,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 1.717,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 4.069009645235443,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AMZN",
+        "kind": "segment",
+        "label": "AWS",
+        "revenue": {
+          "value": 42.232,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 36.79266673144819,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 16.621,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 39.356412199280165,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AMZN",
+        "kind": "unallocated",
+        "label": "",
+        "revenue": {
+          "value": null,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 0,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": null,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "META",
+        "kind": "segment",
+        "label": "Family of Apps",
+        "revenue": {
+          "value": 64.158,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 26.364925549515483,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 17.117,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 26.679447613703672,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "META",
+        "kind": "segment",
+        "label": "Reality Labs",
+        "revenue": {
+          "value": 0.443,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": -5.74468085106383,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": -4.129,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": null,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "META",
+        "kind": "unallocated",
+        "label": "",
+        "revenue": {
+          "value": null,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 0,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": null,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "GOOGL",
+        "kind": "segment",
+        "label": "Google Services",
+        "revenue": {
+          "value": 94.54,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 14.534242758319907,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 39.544,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 41.827797757562934,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "GOOGL",
+        "kind": "segment",
+        "label": "Google Cloud",
+        "revenue": {
+          "value": 24.768,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 81.7968291250734,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 8.814,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 35.58624031007752,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "GOOGL",
+        "kind": "segment",
+        "label": "Other Bets",
+        "revenue": {
+          "value": 0.382,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 2.4128686327077746,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": -1.799,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": null,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "GOOGL",
+        "kind": "unallocated",
+        "label": "",
+        "revenue": {
+          "value": null,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": -5.789,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": null,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AVGO",
+        "kind": "segment",
+        "label": "Semiconductor Solutions",
+        "revenue": {
+          "value": 20.839,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 127.35108007855116,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 12.77,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 61.2793320216901,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AVGO",
+        "kind": "segment",
+        "label": "Infrastructure Software",
+        "revenue": {
+          "value": 8.752,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 28.971411730032422,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 7.325,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 83.69515539305301,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "AVGO",
+        "kind": "unallocated",
+        "label": "",
+        "revenue": {
+          "value": null,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": null,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": -4.14,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": null,
+          "unit": "percent"
+        },
+        "gross": false
+      },
+      {
+        "ticker": "TSLA",
+        "kind": "segment",
+        "label": "Automotive",
+        "revenue": {
+          "value": 25.165,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": 1.9651539708265804,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 4.54,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 18.04092986290483,
+          "unit": "percent"
+        },
+        "gross": true
+      },
+      {
+        "ticker": "TSLA",
+        "kind": "segment",
+        "label": "Energy Generation & Storage",
+        "revenue": {
+          "value": 2.881,
+          "unit": "usd_bn"
+        },
+        "revenue_yoy": {
+          "value": -15.636896046852122,
+          "unit": "percent"
+        },
+        "profit": {
+          "value": 0.954,
+          "unit": "usd_bn"
+        },
+        "margin": {
+          "value": 33.113502256161055,
+          "unit": "percent"
+        },
+        "gross": true
+      }
+    ]
+  },
+  "missing": {
+    "late": [],
+    "errors": []
+  }
+}

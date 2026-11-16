@@ -1,0 +1,69 @@
+{{- /* micro_annual (phase 11, ТЗ §18.7): issuers outside the quarterly
+EDGAR flow — report dates and the price reaction, prices, annual numbers
+from structured data, press releases. */ -}}
+{{define "micro_annual" -}}
+{{template "header" .Header -}}
+Компании: {{range $i, $p := .Prices}}{{if $i}}, {{end}}{{$p.Name}} ({{$p.Symbol}}){{end}}. Цены — Yahoo, закрытие Xetra. Даты отчётов — из финансовых календарей эмитентов: внесены вручную или прочитаны со страницы календаря («(автоматически)» в источнике; `оценка` — дата не подтверждена эмитентом). Реакция цены: отчёт до открытия — close дня отчёта к close предыдущей сессии; после закрытия — close следующей сессии к close дня отчёта; до close — «ждём close MM-DD». Δ кап. ≈ реакция цены × средневзвешенное число акций последнего года × close перед отчётом; без числа акций в структурированных данных — `—`. Квартальных структурированных данных у немецких эмитентов нет (ESAP — не раньше июля 2027): квартальные цифры, консенсус и сюрприз — см. EU News.
+
+## 1. Отчёты за неделю
+
+{{if .Reports}}| Компания | Отчёт | Период | Реакция цены | Δ кап. |
+|---|---|---|---|---|
+{{range .Reports}}| {{.Name}} | {{date .Date}}, {{issuerSession .Session}}{{if .Estimate}} (оценка){{end}} | {{if .Period}}{{.Period}}{{else}}—{{end}} | {{issuerReaction .Reaction}} | {{issuerCap .Reaction}} |
+{{end}}{{else}}Отчётов за неделю не было.
+{{end}}
+## 2. Ближайшие отчёты
+
+| Компания | Дата | Период | Источник даты |
+|---|---|---|---|
+{{range .Upcoming}}| {{.Name}} | {{if .Date.IsZero}}следующей даты нет в конфиге{{else}}{{date .Date}}, {{issuerSession .Session}}{{if .Estimate}} (оценка){{end}}{{end}} | {{if .Period}}{{.Period}}{{else}}—{{end}} | {{if .Source}}{{.Source}}{{else}}—{{end}} |
+{{end}}
+## 3. Цены
+
+| Компания | Дата | Закрытие | Δ1w | Δ4w | Δ1w к {{.IndexLabel}} (п.п.) |
+|---|---|---|---|---|---|
+{{range .Prices}}| {{.Name}} | {{if .Date.IsZero}}—{{else}}{{date .Date}}{{end}} | {{moneyValue .Close}} | {{qPct .Change1W}} | {{qPct .Change4W}} | {{qSigned .VsIndex}} |
+{{end}}
+## 4. Годовые цифры
+
+{{if .Annual}}Годовые, из структурированной отчётности (XBRL); суммы — в млрд, в скобках — к прошлому году. EPS — разводнённый, на акцию. FCF = операционный поток − capex.
+
+| Компания | Год | Источник | Выручка | Опер. прибыль | Чистая прибыль акционерам | EPS | Опер. поток | Capex | FCF |
+|---|---|---|---|---|---|---|---|---|---|
+{{range .Annual}}| {{.Name}} | {{.Year}}{{if .Stale}} ⚠ устарели{{end}} | {{.Source}}, {{date .Filed}} | {{amountCell .Revenue .RevenueYoY}} | {{amountCell .OperatingIncome .OperatingYoY}} | {{amountCell .NetIncome .NetYoY}} | {{moneyValue .EPS}}{{if .EPSYoY.Value}} ({{qPct .EPSYoY}}){{end}} | {{amount .OperatingCF}} | {{amount .Capex}} | {{amountCell .FCF .FCFYoY}} |
+{{end}}
+Валюта сумм: {{range $i, $a := .Annual}}{{if $i}}, {{end}}{{$a.Name}} — {{bnLabel $a.Revenue.Unit}}{{end}}.
+{{else}}Годовых цифр в базе нет.
+{{end}}{{if .Quarterly}}
+### 4a. Квартальные цифры
+
+Квартальные, из Excel эмитента; суммы — в млрд, в скобках — к тому же кварталу год назад. Операционная прибыль — показатель компании (название в скобках), не IFRS-определение; у компаний он разный и между собой не сравнивается. EPS — базовая, на акцию.
+
+| Компания | Квартал | Выручка | Опер. прибыль (показатель компании) | Чистая прибыль акционерам | EPS | Файл |
+|---|---|---|---|---|---|---|
+{{range .Quarterly}}| {{.Name}} | {{.Quarter}} (до {{date .End}}) | {{amountCell .Revenue .RevenueYoY}}{{if ne .RevenueLabel "Revenue"}} ({{.RevenueLabel}}){{end}} | {{amountCell .Operating .OperatingYoY}} ({{.OperatingLabel}}) | {{amountCell .NetIncome .NetYoY}} | {{if .EPS.Value}}{{moneyValue .EPS}}{{if .EPSYoY.Value}} ({{qPct .EPSYoY}}){{end}}{{else}}— (нет в файле){{end}} | {{.File}}, {{date .Filed}} |
+{{end}}
+{{end}}{{if .NoFacts}}Без годовых и квартальных структурированных данных (только цены, даты и релизы): {{join .NoFacts ", "}}.
+{{end}}
+## 5. Пресс-релизы недели
+
+{{if .Releases}}Из релизов — только абзацы об outlook/guidance и цитаты руководства (до {{.ReleaseChars}} знаков на релиз), числа из текстов не извлекаются.
+{{range .Releases}}{{if .Full}}
+### {{.Name}} — {{date .Published}} — «{{.Title}}»
+{{range .Paragraphs}}
+> {{.}}
+{{else}}
+Абзацев об outlook и цитат нет.
+{{end}}
+Ссылка: {{.URL}}
+{{end}}{{end}}{{$lines := false}}{{range .Releases}}{{if not .Full}}{{if not $lines}}
+Ещё релизы:
+{{$lines = true}}{{end}}- {{.Name}} — {{date .Published}} — {{.Title}} — {{.URL}}
+{{end}}{{end}}{{else}}Релизов за неделю не было.
+{{end}}{{if .NoPress}}
+Без открытой ленты релизов (не обходим защиту и скрипты): {{join .NoPress ", "}}.
+{{end}}
+## 6. Пропущенные / устаревшие данные
+{{range .IssuerMissing}}- {{.Ticker}}: {{.Text}}.
+{{end}}{{template "missing" .Missing}}
+{{template "footer"}}{{end}}

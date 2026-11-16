@@ -1,0 +1,104 @@
+{{define "post" -}}
+#### {{minute .Published}} — {{.Author}}{{postViews .}}
+{{.Text}}
+{{with postTail .}}{{.}}
+{{end}}
+{{end}}
+
+{{- define "news" -}}
+{{template "front" .Header}}stats: { posts_total: {{.Stats.PostsTotal}}, junk_dropped: {{.Stats.JunkDropped}}, duplicates_merged: {{.Stats.DuplicatesMerged}}, image_only_dropped: {{.Stats.ImageOnlyDropped}}, calendar_dropped: {{.Stats.CalendarDropped}}, announce_dropped: {{.Stats.AnnounceDropped}}, caption_dropped: {{.Stats.CaptionDropped}}, product_dropped: {{.Stats.ProductDropped}}, eu_only: {{.Stats.OtherRegion}}, global_dropped: {{.Stats.GlobalDropped}}, size_dropped: {{.Stats.SizeDropped}}, uncategorized: {{.Stats.Uncategorized}}, opinions: {{.Stats.Opinions}}, opinions_brief: {{.Stats.OpinionsBrief}}, news: {{.Stats.News}} }
+{{template "front_end" .Header -}}
+## 0. Обзор
+
+### Темы недели в каналах
+
+{{template "news_mentions" . -}}
+### Топ-5 постов по резонансу
+
+{{if .Top}}Резонанс — просмотры поста / медиана просмотров канала за {{.ResonanceWeeks}} недели: каналы разного размера сравнимы. Не больше {{.TopPerChannel}} постов одного канала.
+
+| Резонанс | Просмотры | Канал | Первая фраза | Ссылка |
+|---|---|---|---|---|
+{{range .Top}}| {{resonanceCell .Resonance}} | {{compactViews .Views}} | {{.Author}} | {{mdCell .FirstPhrase}} | {{.URL}} |
+{{end}}
+{{else}}Нет постов с резонансом (нужно ≥ 5 постов канала с просмотрами за 4 недели).
+
+{{end}}### Каналы
+
+{{if .Channels}}| Канал | Постов | Доля | Профиль |
+|---|---|---|---|
+{{range .Channels}}| {{.Name}} | {{.Posts}} | {{pct0 .Share}}% | {{if .Profile}}{{mdCell .Profile}}{{else}}—{{end}} |
+{{end}}
+{{range .Channels}}{{if .Warn}}⚠ {{.Name}} — {{pct0 .Share}}% постов недели: картина недели — в основном взгляд одного канала.
+
+{{end}}{{end}}{{else}}Нет постов за неделю.
+
+{{end}}## 1. Сюрпризы недели
+
+{{if .Surprises}}Ожидание — из постов как написано, не проверено (DECISIONS D11). Факт — из нашего ряда FRED, если релиз вышел за неделю, иначе из поста.
+
+| Дата | Показатель | Ожидание | Факт | Источник факта | Сюрприз | Ссылка |
+|---|---|---|---|---|---|---|
+{{range .Surprises}}| {{date .Date}} | {{mdCell .Label}} | {{.Expected}} | {{.Actual}} | {{if .FactSource}}{{.FactSource}}{{else}}из поста{{end}} | {{.Diff}} | {{.URL}} |
+{{end}}
+{{else}}Нет строк «факт (ожидание)» в постах за неделю.
+
+{{end}}## 2. Мнения и аналитика
+
+{{template "topic_groups" .Opinions}}{{if .Brief}}### Ещё мнения (кратко)
+
+Целиком выше — мнения канала с наибольшим резонансом (лимит на канал в config.yaml); остальные — первой фразой и ссылкой.
+
+{{range .Brief}}- {{date .Date}} — {{.Author}} — {{.Topic}} — {{.FirstPhrase}} — {{.URL}}
+{{end}}
+{{end}}## 3. Новости
+
+{{template "topic_groups" .News}}## 4. Отфильтровано
+
+{{if .Drops}}| Причина | Постов |
+|---|---|
+{{range .Drops}}| {{dropTitle .Reason}} | {{.Count}} |
+{{end}}
+Полный список — `archive/{{.Header.ISOWeek}}/news_filtered.md` (агентам не передаётся).
+{{else}}Ничего не отфильтровано.
+{{end}}{{end}}
+
+{{- define "topic_groups" -}}
+{{range .}}### {{.Title}}
+
+{{range .Posts}}{{template "post" .}}{{end}}{{else}}Нет постов за неделю.
+
+{{end}}{{end}}
+
+{{- define "news_mentions" -}}
+{{$name := reportName .Header.Title}}{{with .Mentions}}{{if .Topics}}Число постов {{$name}} (после чистки и фильтров), где упомянута тема; один пост может попасть в несколько тем.
+
+| Тема | Постов | Пред. неделя | Δ |
+|---|---|---|---|
+{{range .Topics}}| {{.Name}} | {{.Now}} | {{.Before}} | {{signedCount (minus .Now .Before)}} |
+{{end}}
+**Растут:** {{risingList .Rising}}
+
+{{else}}Темы не настроены (news.mention_topics).
+
+{{end}}{{end}}{{end}}
+
+{{- define "news_filtered" -}}
+# {{.Header.Title}}
+
+Период: {{period .Header.Period}}. В файлы агентов не попадает (ТЗ §12.4).
+
+{{range .Groups}}## {{dropTitle .Reason}} — {{.Count}}
+
+{{if .Duplicates}}{{range .Duplicates}}- {{minute .Published}} — {{.URL}} → {{if .Main}}{{.Main}}{{else}}пост прошлой недели{{end}}
+{{end}}
+{{else}}{{range .Posts}}{{template "post" .}}{{end}}{{end}}{{else}}Ничего не отфильтровано.
+{{end}}{{end}}
+
+{{- define "uncategorized" -}}
+# {{.Header.Title}}
+
+Период: {{period .Header.Period}}. В файлы агентов не попадают (ТЗ §11.4).
+
+{{range .Posts}}{{template "post" .}}{{else}}Нет постов за неделю.
+{{end}}{{end}}

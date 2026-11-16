@@ -1,0 +1,159 @@
+<xbrl
+  xml:lang="en-US"
+  xmlns="http://www.xbrl.org/2003/instance"
+  xmlns:amzn="http://www.amazon.com/20260331"
+  xmlns:dei="http://xbrl.sec.gov/dei/2025"
+  xmlns:ecd="http://xbrl.sec.gov/ecd/2025"
+  xmlns:iso4217="http://www.xbrl.org/2003/iso4217"
+  xmlns:link="http://www.xbrl.org/2003/linkbase"
+  xmlns:srt="http://fasb.org/srt/2025"
+  xmlns:us-gaap="http://fasb.org/us-gaap/2025"
+  xmlns:utr="http://www.xbrl.org/2009/utr"
+  xmlns:xbrldi="http://xbrl.org/2006/xbrldi"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<context id="c-37">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001018724</identifier>
+            <segment>
+                <xbrldi:typedMember dimension="us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis">
+                    <us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis.domain>2026-04-01</us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis.domain>
+                </xbrldi:typedMember>
+            </segment>
+        </entity>
+        <period>
+            <instant>2026-03-31</instant>
+        </period>
+    </context>
+<context id="c-38">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001018724</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="srt:MajorCustomersAxis">amzn:OpenAIGroupPBCMember</xbrldi:explicitMember>
+                <xbrldi:typedMember dimension="us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis">
+                    <us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis.domain>2026-04-01</us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis.domain>
+                </xbrldi:typedMember>
+            </segment>
+        </entity>
+        <period>
+            <instant>2026-03-31</instant>
+        </period>
+    </context>
+<context id="c-213">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001018724</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">amzn:NorthAmericaSegmentMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2025-01-01</startDate>
+            <endDate>2025-03-31</endDate>
+        </period>
+    </context>
+<context id="c-214">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001018724</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">amzn:NorthAmericaSegmentMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2026-01-01</startDate>
+            <endDate>2026-03-31</endDate>
+        </period>
+    </context>
+<context id="c-215">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001018724</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">amzn:InternationalSegmentMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2025-01-01</startDate>
+            <endDate>2025-03-31</endDate>
+        </period>
+    </context>
+<context id="c-216">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001018724</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">amzn:InternationalSegmentMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2026-01-01</startDate>
+            <endDate>2026-03-31</endDate>
+        </period>
+    </context>
+<context id="c-217">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001018724</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">amzn:AmazonWebServicesSegmentMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2025-01-01</startDate>
+            <endDate>2025-03-31</endDate>
+        </period>
+    </context>
+<context id="c-218">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001018724</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">amzn:AmazonWebServicesSegmentMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2026-01-01</startDate>
+            <endDate>2026-03-31</endDate>
+        </period>
+    </context>
+<unit id="shares">
+        <measure>shares</measure>
+    </unit>
+<unit id="usd">
+        <measure>iso4217:USD</measure>
+    </unit>
+<unit id="usdPerShare">
+        <divide>
+            <unitNumerator>
+                <measure>iso4217:USD</measure>
+            </unitNumerator>
+            <unitDenominator>
+                <measure>shares</measure>
+            </unitDenominator>
+        </divide>
+    </unit>
+<unit id="mwh">
+        <measure>utr:MWh</measure>
+    </unit>
+<unit id="eur">
+        <measure>iso4217:EUR</measure>
+    </unit>
+<unit id="number">
+        <measure>pure</measure>
+    </unit>
+<unit id="extension">
+        <measure>amzn:extension</measure>
+    </unit>
+<unit id="segment">
+        <measure>amzn:segment</measure>
+    </unit>
+<us-gaap:RevenueRemainingPerformanceObligation contextRef="c-37" decimals="-9" id="f-409" unitRef="usd">364000000000</us-gaap:RevenueRemainingPerformanceObligation>
+<us-gaap:RevenueRemainingPerformanceObligation contextRef="c-38" decimals="-8" id="f-411" unitRef="usd">38000000000.0</us-gaap:RevenueRemainingPerformanceObligation>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-213" decimals="-6" id="f-921" unitRef="usd">92887000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-214" decimals="-6" id="f-922" unitRef="usd">104143000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:OperatingIncomeLoss contextRef="c-213" decimals="-6" id="f-925" unitRef="usd">5841000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-214" decimals="-6" id="f-926" unitRef="usd">8267000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-215" decimals="-6" id="f-927" unitRef="usd">33513000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-216" decimals="-6" id="f-928" unitRef="usd">39789000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:OperatingIncomeLoss contextRef="c-215" decimals="-6" id="f-931" unitRef="usd">1017000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-216" decimals="-6" id="f-932" unitRef="usd">1424000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-217" decimals="-6" id="f-933" unitRef="usd">29267000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-218" decimals="-6" id="f-934" unitRef="usd">37587000000</us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax>
+<us-gaap:OperatingIncomeLoss contextRef="c-217" decimals="-6" id="f-937" unitRef="usd">11547000000</us-gaap:OperatingIncomeLoss>
+<us-gaap:OperatingIncomeLoss contextRef="c-218" decimals="-6" id="f-938" unitRef="usd">14161000000</us-gaap:OperatingIncomeLoss>
+</xbrl>

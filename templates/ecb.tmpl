@@ -1,0 +1,52 @@
+{{define "ecb_diff" -}}
+---
+region: {{.Header.Region}}
+agent: {{.Header.Agent}}
+iso_week: {{.Header.ISOWeek}}
+period: {{period .Header.Period}}
+generated_at: {{rfc3339 .Header.GeneratedAt}}
+kind: {{.Header.Kind}}
+decision: {{ecbTime .Decision.Published}}
+statement: {{if .Statement}}{{ecbTime .Statement.Published}}{{else}}—{{end}}
+previous: {{if .PreviousDecision}}{{ecbTime .PreviousDecision.Published}}{{else}}—{{end}}
+---
+
+{{if .Notice}}{{ecbNoticeLine .Notice}}
+
+{{end}}# {{.Header.Title}}
+
+- Решение: {{ecbTime .Decision.Published}} — {{ecbLink .Decision}}
+{{if .Statement}}- Заявление (вступление пресс-конференции): {{ecbTime .Statement.Published}} — {{ecbLink .Statement}}
+{{else}}- Заявление: не получено к {{.StatementWait}} — войдёт в файл при недельном экспорте
+{{end}}{{if .PreviousDecision}}- Предыдущее решение: {{ecbTime .PreviousDecision.Published}} — {{ecbLink .PreviousDecision}}
+{{else}}- Предыдущее решение: — (в базе нет более раннего решения)
+{{end}}
+## Решение по ставкам
+
+| {{range $i, $d := .Decisions}} | {{if $i}}Прошлое{{else}}Это заседание{{end}} ({{date $d.Date}}){{end}} |
+|---{{range .Decisions}}|---{{end}}|
+| Решение{{range .Decisions}} | {{ecbDecisionCell .}}{{end}} |
+| Deposit facility (DFR){{range .Decisions}} | {{ecbRate . .DFR}}{{end}} |
+| Main refinancing (MRO){{range .Decisions}} | {{ecbRate . .MRO}}{{end}} |
+| Marginal lending (MLF){{range .Decisions}} | {{ecbRate . .MLF}}{{end}} |
+| Вступает в силу{{range .Decisions}} | {{if .EffectiveFrom.IsZero}}—{{else}}{{date .EffectiveFrom}}{{end}}{{end}} |
+
+{{if .PreviousDecision}}## Решение: изменения текста
+
+{{ecbDiffMarkdown .DecisionDiff}}{{else}}## Решение: текст
+
+{{.Decision.Body}}
+{{end}}{{if .Statement}}{{if .PreviousStatement}}
+## Заявление: изменения текста
+
+{{ecbDiffMarkdown .StatementDiff}}{{else}}
+## Заявление: текст
+
+{{.Statement.Body}}
+{{end}}{{end}}{{range .Documents}}
+## Пресс-конференция: вопросы и ответы (опубликовано {{ecbTime .Published}})
+
+{{.Body}}
+{{if .URL}}
+Ссылка: {{.URL}}
+{{end}}{{end}}{{end}}

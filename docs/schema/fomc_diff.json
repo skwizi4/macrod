@@ -1,0 +1,349 @@
+{
+  "$defs": {
+    "DiffEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "new": {
+          "type": "string"
+        },
+        "old": {
+          "type": "string"
+        },
+        "para": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "old",
+        "new",
+        "para"
+      ],
+      "type": "object"
+    },
+    "FOMCDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "against": {
+          "type": "integer"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dissents": {
+          "items": {
+            "$ref": "#/$defs/FOMCDissent"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "for": {
+          "type": "integer"
+        },
+        "move_bp": {
+          "type": "integer"
+        },
+        "range": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "date",
+        "action",
+        "range",
+        "move_bp",
+        "for",
+        "against",
+        "dissents"
+      ],
+      "type": "object"
+    },
+    "FOMCDiffReport": {
+      "additionalProperties": false,
+      "properties": {
+        "decisions": {
+          "items": {
+            "$ref": "#/$defs/FOMCDecision"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "diff": {
+          "items": {
+            "$ref": "#/$defs/DiffEntry"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "documents": {
+          "items": {
+            "$ref": "#/$defs/FOMCMeetingDoc"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "header": {
+          "$ref": "#/$defs/Header"
+        },
+        "notice": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/FOMCNotice"
+            }
+          ]
+        },
+        "previous": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/FOMCDocument"
+            }
+          ]
+        },
+        "statement": {
+          "$ref": "#/$defs/FOMCDocument"
+        }
+      },
+      "required": [
+        "header",
+        "notice",
+        "statement",
+        "previous",
+        "decisions",
+        "diff",
+        "documents"
+      ],
+      "type": "object"
+    },
+    "FOMCDissent": {
+      "additionalProperties": false,
+      "properties": {
+        "move_bp": {
+          "type": "integer"
+        },
+        "names": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "preferred": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "names",
+        "preferred",
+        "move_bp"
+      ],
+      "type": "object"
+    },
+    "FOMCDocument": {
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "type": "string"
+        },
+        "published": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "published",
+        "title",
+        "url",
+        "body"
+      ],
+      "type": "object"
+    },
+    "FOMCMeetingDoc": {
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "type": "string"
+        },
+        "doc_type": {
+          "type": "string"
+        },
+        "published": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "doc_type",
+        "title",
+        "published",
+        "body",
+        "url"
+      ],
+      "type": "object"
+    },
+    "FOMCNotice": {
+      "additionalProperties": false,
+      "properties": {
+        "last_meeting": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "next": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "weeks_ago": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "last_meeting",
+        "weeks_ago",
+        "next"
+      ],
+      "type": "object"
+    },
+    "Header": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "iso_week": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "region": {
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "sources_failed": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sources_ok": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stale_series": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "region",
+        "agent",
+        "iso_week",
+        "period",
+        "generated_at",
+        "kind",
+        "sources_ok",
+        "sources_failed",
+        "stale_series",
+        "title"
+      ],
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "to": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "tz": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "tz"
+      ],
+      "type": "object"
+    }
+  },
+  "$ref": "#/$defs/FOMCDiffReport",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "fomc_diff"
+}

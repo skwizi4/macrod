@@ -1,0 +1,21 @@
+{{define "markets" -}}
+{{template "header" .Header -}}
+## 1. Рынки
+
+Формат: цены закрытия на дату; Δ1w / Δ4w — в % для цен и индексов, в пунктах для VIX и MOVE, в б.п. для спредов; `от MA50` / `от MA200` — расстояние цены до 50/200-дневной средней, %; `z` — z-score за 52 нед. Даты: последний торговый день, Bitcoin — последний календарный; HY/IG (FRED) — на день раньше, FRED публикует их со сдвигом. Флаги: `FRED fallback` — Yahoo недоступен, взят запасной ряд FRED; `нет close MM-DD` — закрытия этого дня ещё нет.
+
+| Показатель | Дата | Уровень | Δ1w | Δ4w | от MA50 | от MA200 | z | Флаги |
+|---|---|---|---|---|---|---|---|---|
+{{range .Rows}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{marketChange .Kind .Change1W}} | {{marketChange .Kind .Change4W}} | {{signedPct1 .FromMA50}} | {{signedPct1 .FromMA200}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}
+{{if .COT}}## 2. Позиционирование (CFTC COT)
+
+TFF — Futures Only: данные на вторник, публикация в пятницу 15:30 ET. Нетто = long − short, в контрактах; `z` — z-score нетто за 52 нед. Leveraged Funds — хедж-фонды и CTA, Asset Managers — институционалы.
+
+| Контракт | Дата отчёта | Leveraged Funds нетто | Δ1w | z | Asset Managers нетто | Δ1w | z | Open interest |
+|---|---|---|---|---|---|---|---|---|
+{{range .COT}}| {{.Name}} | {{obsDate .Date "w"}} | {{signedInt .LevNet}} | {{signedInt .LevChange}} | {{z .LevZ}} | {{signedInt .AMNet}} | {{signedInt .AMChange}} | {{z .AMZ}} | {{whole .OpenInterest}} |
+{{end}}
+## 3. Пропущенные / устаревшие данные
+{{else}}## 2. Пропущенные / устаревшие данные
+{{end}}{{template "missing" .Missing}}{{end}}

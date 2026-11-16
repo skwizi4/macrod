@@ -1,0 +1,35 @@
+# secrets
+.env
+*.session
+
+# build
+bin/
+
+# data
+*.db
+*.db-wal
+*.db-shm
+data/
+logs/
+backups/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+
+# personal config (D17); the repo has config.example.yaml
+config.yaml
+config.yaml.bak*
+
+# deploy keys (phase 6)
+secrets/
+/site/
+
+# working documents, kept locally only
+/ТЗ.md
+/PROGRESS.md
+/DECISIONS.md
+
+# goreleaser output
+/dist/

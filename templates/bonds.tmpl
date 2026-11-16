@@ -1,0 +1,54 @@
+{{- /* fiscal_bonds (phase 11): the government bonds of a region without the
+US liquidity data — curve, spreads, monthly yields, debt and deficit, the
+auctions of the week and the next. */ -}}
+{{define "fiscal_bonds" -}}
+{{template "header" .Header -}}
+## 1. Что вышло за неделю
+
+{{if .Released}}| Дата | Релиз | Показатель | Факт | Пред. | Изменение | Ревизия пред. |
+|---|---|---|---|---|---|---|
+{{range .Released}}| {{releaseWhen .}} | {{.Name}} | {{.SeriesID}} | {{factCurrent .}} | {{factPrevious .}} | {{factChange .}} | {{factRevision .}} |
+{{end}}
+{{else}}Новых релизов за неделю не было.
+
+{{end -}}
+## 2. Метрики по блокам
+
+Формат: доходности — в %, их изменения и спреды — в б.п.; `z` — z-score (52 нед. для дневных/недельных, 5 лет для месячных/квартальных). Флаги: `stale` — последний релиз по календарю прошёл без новых данных (у рядов без календаря — данные старше ожидаемой частоты), `прокси` — показатель-заменитель, `запасная нога` — спред посчитан по запасному ряду, `z: копим историю` — у ряда ещё мало наблюдений для z.
+
+### 2.1 Кривая доходностей
+| Показатель | Дата | Уровень | Δ1w (б.п.) | Δ4w (б.п.) | z | Флаги |
+|---|---|---|---|---|---|---|
+{{range .Curve}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{change .Kind .Change1W false}} | {{change .Kind .Change4W false}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}
+### 2.2 Спреды и доходности стран
+| Показатель | Дата | Уровень | Δ1w (б.п.) | Δ4w (б.п.) | z | Флаги |
+|---|---|---|---|---|---|---|
+{{range .Spreads}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{change .Kind .Change1W false}} | {{change .Kind .Change4W false}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}
+### 2.3 Месячные доходности 10Y (ЕЦБ)
+| Показатель | Месяц | Уровень | Флаги |
+|---|---|---|---|
+{{range .Monthly}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{flags .Flags}} |
+{{end}}
+Средние за месяц из статистики ЕЦБ — отдельный ряд, со спредами по дневным доходностям не склеиваются.
+
+### 2.4 Долг, бюджет и TARGET
+| Показатель | Дата | Уровень | Флаги |
+|---|---|---|---|
+{{range .Debt}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{flags .Flags}} |
+{{end}}Баланс бюджета < 0 — дефицит. TARGET — требования (+) и обязательства (−) национального ЦБ в платёжной системе Евросистемы: рост расхождения Италия–Германия — признак оттока капитала с периферии.
+
+### 2.5 Аукционы недели
+{{if .Auctions}}| Дата | Бумага | ISIN | Размещение | Купон | План | Заявки | Размещено | Удержано | Ср. доходность | Δ доходн.¹ | BTC | Δ BTC¹ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+{{range .Auctions}}| {{date .Date}} | {{.Security}} {{.Term}} | {{.ISIN}} | {{bondKind .}} | {{rate2 .Coupon}} | {{eurBn .Offered}} | {{eurBn .Bids}} | {{eurBn .Allotted}} | {{eurBn .Retention}} | {{yield3 .Yield}} | {{bp .YieldDev}} | {{num2 .BTC}} | {{signed2 .BTCDev}} |
+{{end}}
+¹ Отклонение от среднего {{.AuctionWindow}} предыдущих аукционов той же бумаги и срока. «Удержано» — часть объёма, оставленная эмитентом для вторичного рынка; BTC — заявки к размещённому. Аукцион с несколькими ISIN — одна заявочная книга на несколько выпусков, BTC общий.
+{{else}}Аукционов за неделю не было.
+{{end}}
+{{if .Next}}Аукционы следующей недели: {{range $i, $n := .Next}}{{if $i}}; {{end}}{{dateOf $n.At}} {{clock $n.At}} {{$n.Name}}{{if $n.ISIN}} ({{$n.ISIN}}){{end}}{{end}}.
+{{end}}
+## 3. Пропущенные / устаревшие данные
+{{template "missing" .Missing}}
+{{template "footer"}}{{end}}

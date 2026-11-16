@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- git pull of the exchange repo every 15 min (ТЗ §12.10).
+     launchd may not run scripts from ~/Desktop, ~/Documents or ~/Downloads (macOS privacy):
+     install -m 755 deploy/mac/pull.sh ~/.local/bin/macro-exchange-pull.sh
+     Replace REPLACE_HOME (your home folder) and REPLACE_EXCHANGE (the macro_exchange clone),
+     save as ~/Library/LaunchAgents/com.macro.exchange-pull.plist, then:
+     launchctl load ~/Library/LaunchAgents/com.macro.exchange-pull.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.macro.exchange-pull</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/sh</string>
+    <string>REPLACE_HOME/.local/bin/macro-exchange-pull.sh</string>
+    <string>REPLACE_EXCHANGE</string>
+  </array>
+  <key>StartInterval</key><integer>900</integer>
+  <key>RunAtLoad</key><true/>
+  <key>StandardOutPath</key><string>/tmp/macro-exchange-pull.log</string>
+  <key>StandardErrorPath</key><string>/tmp/macro-exchange-pull.log</string>
+</dict>
+</plist>

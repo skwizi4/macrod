@@ -1,0 +1,1638 @@
+{
+  "header": {
+    "schema_version": 1,
+    "region": "usa",
+    "agent": "monetary",
+    "iso_week": "2026-W43",
+    "period": {
+      "from": "2026-10-18T16:00:00+02:00",
+      "to": "2026-10-25T16:00:00+01:00",
+      "tz": "Europe/Bratislava"
+    },
+    "generated_at": "2026-10-25T16:00:04+01:00",
+    "kind": "weekly",
+    "sources_ok": [
+      "fred",
+      "fed"
+    ],
+    "sources_failed": [
+      "yahoo"
+    ],
+    "stale_series": [],
+    "title": "USA Monetary — 2026-W43"
+  },
+  "released": [
+    {
+      "at": "2026-10-22T08:30:00-04:00",
+      "timed": true,
+      "name": "Unemployment Insurance Weekly Claims Report",
+      "series_id": "ICSA",
+      "kind": "count",
+      "saar": false,
+      "fact": [
+        {
+          "code": "level",
+          "current": {
+            "value": 268242.188,
+            "unit": "count"
+          },
+          "previous": {
+            "value": 270608.653,
+            "unit": "count"
+          },
+          "previous_first": {
+            "value": 267608.653,
+            "unit": "count"
+          }
+        }
+      ],
+      "has_previous": true,
+      "revised": true,
+      "level_change": {
+        "value": -2367,
+        "unit": "count"
+      }
+    },
+    {
+      "at": "2026-10-22T08:30:00-04:00",
+      "timed": true,
+      "name": "Unemployment Insurance Weekly Claims Report",
+      "series_id": "CCSA",
+      "kind": "count",
+      "saar": false,
+      "fact": [
+        {
+          "code": "level",
+          "current": {
+            "value": 2238134.5,
+            "unit": "count"
+          },
+          "previous": {
+            "value": 2243077.133,
+            "unit": "count"
+          },
+          "previous_first": {
+            "value": null,
+            "unit": "count"
+          }
+        }
+      ],
+      "has_previous": true,
+      "revised": false,
+      "level_change": {
+        "value": -4942,
+        "unit": "count"
+      }
+    },
+    {
+      "at": "2026-10-23T10:00:00-04:00",
+      "timed": true,
+      "name": "Surveys of Consumers",
+      "series_id": "UMCSENT",
+      "kind": "index",
+      "saar": false,
+      "fact": [
+        {
+          "code": "level",
+          "current": {
+            "value": 76.376,
+            "unit": "index"
+          },
+          "previous": {
+            "value": 76.368,
+            "unit": "index"
+          },
+          "previous_first": {
+            "value": null,
+            "unit": "index"
+          }
+        }
+      ],
+      "has_previous": true,
+      "revised": false,
+      "level_change": {
+        "value": 0,
+        "unit": "index"
+      }
+    },
+    {
+      "at": "2026-10-23T10:00:00-04:00",
+      "timed": true,
+      "name": "Surveys of Consumers",
+      "series_id": "MICH",
+      "kind": "pct",
+      "saar": false,
+      "fact": [
+        {
+          "code": "level",
+          "current": {
+            "value": 4.111,
+            "unit": "percent"
+          },
+          "previous": {
+            "value": 4.095,
+            "unit": "percent"
+          },
+          "previous_first": {
+            "value": null,
+            "unit": "percent"
+          }
+        }
+      ],
+      "has_previous": true,
+      "revised": false,
+      "level_change": {
+        "value": 0,
+        "unit": "pp"
+      }
+    },
+    {
+      "at": "2026-10-24T11:00:00-04:00",
+      "timed": false,
+      "name": "GDPNow",
+      "series_id": "GDPNOW",
+      "kind": "pct",
+      "saar": false,
+      "fact": [
+        {
+          "code": "level",
+          "current": {
+            "value": 2.4,
+            "unit": "percent"
+          },
+          "previous": {
+            "value": 3.158,
+            "unit": "percent"
+          },
+          "previous_first": {
+            "value": null,
+            "unit": "percent"
+          }
+        }
+      ],
+      "has_previous": true,
+      "revised": false,
+      "level_change": {
+        "value": -0.8000000000000003,
+        "unit": "pp"
+      }
+    }
+  ],
+  "growth": [
+    {
+      "id": "GDPC1",
+      "source": "fred",
+      "label": "Real GDP",
+      "date": "2026-04-01",
+      "freq": "q",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 30525.789,
+        "unit": "usd_bn"
+      },
+      "growth": {
+        "code": "qoqa",
+        "value": {
+          "value": 0.915064477982952,
+          "unit": "percent"
+        }
+      },
+      "yoy": {
+        "value": 1.2673837019359757,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "GDPNOW",
+      "source": "fred",
+      "label": "GDPNow",
+      "date": "2026-07-01",
+      "freq": "q",
+      "kind": "pct",
+      "flags": [
+        "rev"
+      ],
+      "quality": "official",
+      "level": {
+        "value": 2.4,
+        "unit": "percent"
+      },
+      "growth": {
+        "code": "d",
+        "value": {
+          "value": -0.8000000000000003,
+          "unit": "pp"
+        }
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "GDP",
+      "source": "fred",
+      "label": "Nominal GDP",
+      "date": "2026-04-01",
+      "freq": "q",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 39303.548,
+        "unit": "usd_bn"
+      },
+      "growth": {
+        "code": "qoqa",
+        "value": {
+          "value": 0.8519527310753228,
+          "unit": "percent"
+        }
+      },
+      "yoy": {
+        "value": 1.0252832147507274,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "GDPDEF",
+      "source": "fred",
+      "label": "GDP Deflator",
+      "date": "2026-04-01",
+      "freq": "q",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 163.53,
+        "unit": "index"
+      },
+      "growth": {
+        "code": "qoqa",
+        "value": {
+          "value": 2.7213223098115913,
+          "unit": "percent"
+        }
+      },
+      "yoy": {
+        "value": 2.910544035744622,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "PCE",
+      "source": "fred",
+      "label": "Personal Consumption",
+      "date": "2026-08-01",
+      "freq": "m",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 26782.766,
+        "unit": "usd_bn"
+      },
+      "growth": {
+        "code": "mom",
+        "value": {
+          "value": 0.3945307499592765,
+          "unit": "percent"
+        }
+      },
+      "yoy": {
+        "value": 0.9777390832771404,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": 4.153379564441861,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "NETEXP",
+      "source": "fred",
+      "label": "Net Exports",
+      "date": "2026-04-01",
+      "freq": "q",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": -1146.099,
+        "unit": "usd_bn"
+      },
+      "growth": {
+        "code": "d",
+        "value": {
+          "value": -2.80600000000004,
+          "unit": "usd_bn"
+        }
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "PSAVERT",
+      "source": "fred",
+      "label": "Personal Saving Rate",
+      "date": "2026-08-01",
+      "freq": "m",
+      "kind": "pct",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 5.795,
+        "unit": "percent"
+      },
+      "growth": {
+        "code": "d",
+        "value": {
+          "value": 0,
+          "unit": "pp"
+        }
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": null,
+        "unit": "percent"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    }
+  ],
+  "sentiment": [
+    {
+      "id": "UMCSENT",
+      "source": "fred",
+      "label": "UMich Sentiment",
+      "date": "2026-10-01",
+      "freq": "m",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 76.376,
+        "unit": "index"
+      },
+      "change": {
+        "value": 0,
+        "unit": "index"
+      },
+      "z": {
+        "value": 1.4149608507787803,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "MICH",
+      "source": "fred",
+      "label": "UMich Inflation Exp 1Y",
+      "date": "2026-10-01",
+      "freq": "m",
+      "kind": "pct",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 4.111,
+        "unit": "percent"
+      },
+      "change": {
+        "value": 0,
+        "unit": "pp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    }
+  ],
+  "labor": [
+    {
+      "id": "UNRATE",
+      "source": "fred",
+      "label": "Unemployment Rate",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "pct",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 5.38,
+        "unit": "percent"
+      },
+      "change": {
+        "code": "d",
+        "value": {
+          "value": 0,
+          "unit": "pp"
+        }
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      },
+      "average": null,
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "PAYEMS",
+      "source": "fred",
+      "label": "Nonfarm Payrolls",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "thous",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": null,
+        "unit": "thousands_persons"
+      },
+      "change": {
+        "code": "diff",
+        "value": {
+          "value": 323,
+          "unit": "thousands_persons"
+        }
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      },
+      "average": {
+        "code": "avg3",
+        "value": {
+          "value": 157.1359999999986,
+          "unit": "thousands_persons"
+        }
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "ICSA",
+      "source": "fred",
+      "label": "Initial Claims",
+      "date": "2026-10-17",
+      "freq": "w",
+      "kind": "count",
+      "flags": [
+        "rev"
+      ],
+      "quality": "official",
+      "level": {
+        "value": 268242.188,
+        "unit": "count"
+      },
+      "change": {
+        "code": "d",
+        "value": {
+          "value": -2367,
+          "unit": "count"
+        }
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      },
+      "average": {
+        "code": "avg4w",
+        "value": {
+          "value": 267932.8865,
+          "unit": "count"
+        }
+      },
+      "z": {
+        "value": 1.841993583032504,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "CCSA",
+      "source": "fred",
+      "label": "Continued Claims",
+      "date": "2026-10-10",
+      "freq": "w",
+      "kind": "count",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 2238134.5,
+        "unit": "count"
+      },
+      "change": {
+        "code": "d",
+        "value": {
+          "value": -4942,
+          "unit": "count"
+        }
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      },
+      "average": {
+        "code": "avg4w",
+        "value": {
+          "value": 2246074.708,
+          "unit": "count"
+        }
+      },
+      "z": {
+        "value": 0.11177708216167877,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "JTSJOL",
+      "source": "fred",
+      "label": "Job Openings",
+      "date": "2026-08-01",
+      "freq": "m",
+      "kind": "thous",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 9352.955,
+        "unit": "thousands_persons"
+      },
+      "change": {
+        "code": "d",
+        "value": {
+          "value": -7,
+          "unit": "thousands_persons"
+        }
+      },
+      "yoy": {
+        "value": 2.9322912906514453,
+        "unit": "percent"
+      },
+      "average": null,
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "JTSJOR",
+      "source": "fred",
+      "label": "Job Openings Rate",
+      "date": "2026-08-01",
+      "freq": "m",
+      "kind": "pct",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 5.601,
+        "unit": "percent"
+      },
+      "change": {
+        "code": "d",
+        "value": {
+          "value": 0,
+          "unit": "pp"
+        }
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      },
+      "average": null,
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "U_V",
+      "source": "derived",
+      "label": "U/V",
+      "date": "2026-08-01",
+      "freq": "m",
+      "kind": "ratio",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 0.9774009390615052,
+        "unit": "ratio"
+      },
+      "change": {
+        "code": "d",
+        "value": {
+          "value": 0,
+          "unit": "ratio"
+        }
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      },
+      "average": null,
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "JTSQUR",
+      "source": "fred",
+      "label": "Quits Rate",
+      "date": "2026-08-01",
+      "freq": "m",
+      "kind": "pct",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 2.536,
+        "unit": "percent"
+      },
+      "change": {
+        "code": "d",
+        "value": {
+          "value": 0,
+          "unit": "pp"
+        }
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      },
+      "average": null,
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "JTSHIL",
+      "source": "fred",
+      "label": "Hires",
+      "date": "2026-08-01",
+      "freq": "m",
+      "kind": "thous",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 6803.755,
+        "unit": "thousands_persons"
+      },
+      "change": {
+        "code": "d",
+        "value": {
+          "value": 27,
+          "unit": "thousands_persons"
+        }
+      },
+      "yoy": {
+        "value": 2.1701732240235305,
+        "unit": "percent"
+      },
+      "average": null,
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "CES0500000003",
+      "source": "fred",
+      "label": "Avg Hourly Earnings",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "usd",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": null,
+        "unit": "usd"
+      },
+      "change": null,
+      "yoy": {
+        "value": 1.5346457913501865,
+        "unit": "percent"
+      },
+      "average": {
+        "code": "a3m",
+        "value": {
+          "value": -1.0572976176082882,
+          "unit": "percent"
+        }
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "ECIALLCIV",
+      "source": "fred",
+      "label": "Employment Cost Index",
+      "date": "2026-04-01",
+      "freq": "q",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": null,
+        "unit": "index"
+      },
+      "change": {
+        "code": "qoqa",
+        "value": {
+          "value": 2.1762637824496833,
+          "unit": "percent"
+        }
+      },
+      "yoy": {
+        "value": 2.6106311540347926,
+        "unit": "percent"
+      },
+      "average": null,
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "ULCNFB",
+      "source": "fred",
+      "label": "Unit Labor Costs",
+      "date": "2026-04-01",
+      "freq": "q",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": null,
+        "unit": "index"
+      },
+      "change": null,
+      "yoy": {
+        "value": 2.1903908476563316,
+        "unit": "percent"
+      },
+      "average": null,
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "OPHNFB",
+      "source": "fred",
+      "label": "Labour Productivity",
+      "date": "2026-04-01",
+      "freq": "q",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": null,
+        "unit": "index"
+      },
+      "change": null,
+      "yoy": {
+        "value": 1.2946552201606343,
+        "unit": "percent"
+      },
+      "average": null,
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    }
+  ],
+  "inflation": [
+    {
+      "id": "CPIAUCSL",
+      "source": "fred",
+      "label": "CPI",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "yoy": {
+        "value": 1.7481723879052113,
+        "unit": "percent"
+      },
+      "mom": {
+        "value": -0.08474410220237205,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": -1.1148746608622195,
+        "unit": "percent"
+      },
+      "a6m": {
+        "value": -0.48700889316534157,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "CPILFESL",
+      "source": "fred",
+      "label": "Core CPI",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "yoy": {
+        "value": 3.360179919805484,
+        "unit": "percent"
+      },
+      "mom": {
+        "value": 0.13115427708669802,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": 2.6078999613846854,
+        "unit": "percent"
+      },
+      "a6m": {
+        "value": 3.7204909961935595,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "CUSR0000SAH1",
+      "source": "fred",
+      "label": "Shelter CPI",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "yoy": {
+        "value": 1.027238104420758,
+        "unit": "percent"
+      },
+      "mom": {
+        "value": null,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": 4.2418324806899,
+        "unit": "percent"
+      },
+      "a6m": {
+        "value": null,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "CUSR0000SASL2RS",
+      "source": "fred",
+      "label": "Supercore CPI (услуги без жилья)",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "yoy": {
+        "value": 1.6353835600169564,
+        "unit": "percent"
+      },
+      "mom": {
+        "value": -0.07685390438747497,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": -1.0967579629656,
+        "unit": "percent"
+      },
+      "a6m": {
+        "value": -0.5699522898509057,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "STICKCPIM159SFRBATL",
+      "source": "fred",
+      "label": "Sticky CPI",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "pct",
+      "flags": [],
+      "quality": "official",
+      "yoy": {
+        "value": 4.088,
+        "unit": "percent"
+      },
+      "mom": {
+        "value": null,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": null,
+        "unit": "percent"
+      },
+      "a6m": {
+        "value": null,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "PPIFIS",
+      "source": "fred",
+      "label": "PPI Final Demand",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "yoy": {
+        "value": 2.7801112257158866,
+        "unit": "percent"
+      },
+      "mom": {
+        "value": 0.31550488565543766,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": null,
+        "unit": "percent"
+      },
+      "a6m": {
+        "value": null,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "PPIFES",
+      "source": "fred",
+      "label": "Core PPI",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "yoy": {
+        "value": 3.0599742160946963,
+        "unit": "percent"
+      },
+      "mom": {
+        "value": 0.2570454286336288,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": null,
+        "unit": "percent"
+      },
+      "a6m": {
+        "value": null,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "WPSFD49116",
+      "source": "fred",
+      "label": "Core PPI ex trade",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "yoy": {
+        "value": 2.897620834455239,
+        "unit": "percent"
+      },
+      "mom": {
+        "value": -0.07510431154380548,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": null,
+        "unit": "percent"
+      },
+      "a6m": {
+        "value": null,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "PCEPI",
+      "source": "fred",
+      "label": "PCE Price Index",
+      "date": "2026-08-01",
+      "freq": "m",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "yoy": {
+        "value": 0.5697861081324529,
+        "unit": "percent"
+      },
+      "mom": {
+        "value": null,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": 0.5495101295156735,
+        "unit": "percent"
+      },
+      "a6m": {
+        "value": null,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "PCEPILFE",
+      "source": "fred",
+      "label": "Core PCE",
+      "date": "2026-08-01",
+      "freq": "m",
+      "kind": "index",
+      "flags": [],
+      "quality": "official",
+      "yoy": {
+        "value": 0.5645605351932481,
+        "unit": "percent"
+      },
+      "mom": {
+        "value": 0.31567450170779665,
+        "unit": "percent"
+      },
+      "a3m": {
+        "value": 2.8673305103159796,
+        "unit": "percent"
+      },
+      "a6m": {
+        "value": 1.4106772710631876,
+        "unit": "percent"
+      }
+    }
+  ],
+  "expectations": [
+    {
+      "id": "T5YIE",
+      "source": "fred",
+      "label": "5Y Breakeven",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 2.469,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -2.900000000000036,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": -0.7000000000000117,
+        "unit": "bp"
+      },
+      "change": {
+        "value": -0.9999999999999787,
+        "unit": "bp"
+      },
+      "growth": null
+    },
+    {
+      "id": "T5YIFR",
+      "source": "fred",
+      "label": "5Y5Y Forward",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 2.394,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": 1.7000000000000348,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 0.20000000000002238,
+        "unit": "bp"
+      },
+      "change": {
+        "value": -0.9999999999999787,
+        "unit": "bp"
+      },
+      "growth": null
+    },
+    {
+      "id": "T10YIE",
+      "source": "fred",
+      "label": "10Y Breakeven",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 2.433,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -1.000000000000023,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": -0.5000000000000338,
+        "unit": "bp"
+      },
+      "change": {
+        "value": -0.9999999999999787,
+        "unit": "bp"
+      },
+      "growth": null
+    }
+  ],
+  "fed": [
+    {
+      "id": "DFF",
+      "source": "fred",
+      "label": "Fed Funds",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 3.99,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -2.59999999999998,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": -0.9999999999999787,
+        "unit": "bp"
+      },
+      "change": {
+        "value": -0.9999999999999787,
+        "unit": "bp"
+      },
+      "growth": null
+    },
+    {
+      "id": "DGS2",
+      "source": "fred",
+      "label": "UST 2Y",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 3.575,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -2.9999999999999805,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 0.40000000000000036,
+        "unit": "bp"
+      },
+      "change": {
+        "value": 1.000000000000023,
+        "unit": "bp"
+      },
+      "growth": null
+    },
+    {
+      "id": "M2SL",
+      "source": "fred",
+      "label": "M2",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "change_1w": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "change_4w": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "change": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "growth": [
+        {
+          "code": "yoy",
+          "value": {
+            "value": 3.2925042076547673,
+            "unit": "percent"
+          }
+        },
+        {
+          "code": "a3m",
+          "value": {
+            "value": 1.0236956768252758,
+            "unit": "percent"
+          }
+        }
+      ]
+    }
+  ],
+  "credit": [],
+  "fed_path": {
+    "rows": [
+      {
+        "month": "2026-11-01",
+        "meeting": "2026-10-28",
+        "implied": {
+          "value": 3.905000000000001,
+          "unit": "percent"
+        },
+        "vs_dff": {
+          "value": -8.499999999999908,
+          "unit": "bp"
+        },
+        "meeting_bp": {
+          "value": -8.499999999999908,
+          "unit": "bp"
+        },
+        "week_ago": {
+          "value": 3.9200000000000017,
+          "unit": "percent"
+        },
+        "no_trades": false,
+        "thin": false,
+        "new": false
+      },
+      {
+        "month": "2027-01-01",
+        "meeting": "2026-12-09",
+        "implied": {
+          "value": 4.099999999999994,
+          "unit": "percent"
+        },
+        "vs_dff": {
+          "value": 10.99999999999941,
+          "unit": "bp"
+        },
+        "meeting_bp": {
+          "value": 19.499999999999318,
+          "unit": "bp"
+        },
+        "week_ago": {
+          "value": 4.150000000000006,
+          "unit": "percent"
+        },
+        "no_trades": false,
+        "thin": false,
+        "new": false
+      },
+      {
+        "month": "2027-02-01",
+        "meeting": "2027-01-27",
+        "implied": {
+          "value": 4.174999999999997,
+          "unit": "percent"
+        },
+        "vs_dff": {
+          "value": 18.499999999999694,
+          "unit": "bp"
+        },
+        "meeting_bp": {
+          "value": 7.500000000000284,
+          "unit": "bp"
+        },
+        "week_ago": {
+          "value": 4.234999999999999,
+          "unit": "percent"
+        },
+        "no_trades": false,
+        "thin": false,
+        "new": false
+      },
+      {
+        "month": "2027-04-01",
+        "meeting": "2027-03-17",
+        "implied": {
+          "value": 4.325000000000003,
+          "unit": "percent"
+        },
+        "vs_dff": {
+          "value": 33.50000000000026,
+          "unit": "bp"
+        },
+        "meeting_bp": {
+          "value": 15.000000000000568,
+          "unit": "bp"
+        },
+        "week_ago": {
+          "value": 4.405000000000001,
+          "unit": "percent"
+        },
+        "no_trades": false,
+        "thin": false,
+        "new": false
+      },
+      {
+        "month": "2027-05-01",
+        "meeting": "2027-04-28",
+        "implied": {
+          "value": 4.400000000000006,
+          "unit": "percent"
+        },
+        "vs_dff": {
+          "value": 41.00000000000055,
+          "unit": "bp"
+        },
+        "meeting_bp": {
+          "value": 7.500000000000284,
+          "unit": "bp"
+        },
+        "week_ago": {
+          "value": 4.484999999999999,
+          "unit": "percent"
+        },
+        "no_trades": false,
+        "thin": false,
+        "new": false
+      },
+      {
+        "month": "2027-07-01",
+        "meeting": "2027-06-09",
+        "implied": {
+          "value": 4.5,
+          "unit": "percent"
+        },
+        "vs_dff": {
+          "value": 50.99999999999998,
+          "unit": "bp"
+        },
+        "meeting_bp": {
+          "value": 9.999999999999432,
+          "unit": "bp"
+        },
+        "week_ago": {
+          "value": 4.575000000000003,
+          "unit": "percent"
+        },
+        "no_trades": false,
+        "thin": false,
+        "new": false
+      },
+      {
+        "month": "2027-08-01",
+        "meeting": "2027-07-28",
+        "implied": {
+          "value": 4.525000000000006,
+          "unit": "percent"
+        },
+        "vs_dff": {
+          "value": 53.50000000000055,
+          "unit": "bp"
+        },
+        "meeting_bp": {
+          "value": 2.5000000000005684,
+          "unit": "bp"
+        },
+        "week_ago": {
+          "value": 4.594999999999999,
+          "unit": "percent"
+        },
+        "no_trades": false,
+        "thin": false,
+        "new": false
+      },
+      {
+        "month": "2027-10-01",
+        "meeting": "2027-09-15",
+        "implied": {
+          "value": 4.555000000000007,
+          "unit": "percent"
+        },
+        "vs_dff": {
+          "value": 56.50000000000066,
+          "unit": "bp"
+        },
+        "meeting_bp": {
+          "value": 3.0000000000001137,
+          "unit": "bp"
+        },
+        "week_ago": {
+          "value": 4.6200000000000045,
+          "unit": "percent"
+        },
+        "no_trades": false,
+        "thin": false,
+        "new": false
+      }
+    ],
+    "price_date": "2026-10-23",
+    "horizon": "2027-10-01",
+    "horizon_week_ago": "2027-10-01",
+    "path_bp": {
+      "value": 56.50000000000066,
+      "unit": "bp"
+    },
+    "path_bp_week_ago": {
+      "value": 60.40000000000045,
+      "unit": "bp"
+    },
+    "cuts": {
+      "value": -2.2600000000000264,
+      "unit": "moves_25bp"
+    },
+    "cuts_week_ago": {
+      "value": -2.416000000000018,
+      "unit": "moves_25bp"
+    },
+    "near_meetings": 3,
+    "near_meeting": "2027-01-27",
+    "near_bp": {
+      "value": 18.499999999999694,
+      "unit": "bp"
+    },
+    "near_bp_week_ago": {
+      "value": 21.89999999999994,
+      "unit": "bp"
+    }
+  },
+  "energy": [
+    {
+      "id": "CL=F",
+      "source": "yahoo",
+      "label": "WTI",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "usd",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 103.27,
+        "unit": "usd"
+      },
+      "change_1w": {
+        "value": 1.834138645104022,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": 11.751974894491934,
+        "unit": "percent"
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "NG=F",
+      "source": "yahoo",
+      "label": "Henry Hub",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "usd",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 3.08,
+        "unit": "usd"
+      },
+      "change_1w": {
+        "value": 0.9836065573770592,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": 0,
+        "unit": "percent"
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      }
+    }
+  ],
+  "derived": [
+    {
+      "id": "U_V",
+      "source": "derived",
+      "label": "U/V",
+      "date": "2026-08-01",
+      "freq": "m",
+      "kind": "ratio",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 0.9774009390615052,
+        "unit": "ratio"
+      },
+      "change": {
+        "value": 0,
+        "unit": "ratio"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    }
+  ],
+  "fed_texts": {
+    "documents": [
+      {
+        "published": "2026-10-21",
+        "doc_type": "speech",
+        "source": "fed",
+        "author": "Governor Christopher J. Waller",
+        "title": "Economic Outlook",
+        "excerpt": "Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. Inflation has moved down but remains above our 2 percent goal. […]",
+        "url": "https://www.federalreserve.gov/newsevents/speech/waller20261021a.htm"
+      },
+      {
+        "published": "2026-10-22",
+        "doc_type": "beige_book",
+        "source": "fed",
+        "author": "",
+        "title": "Beige Book",
+        "excerpt": "Overall Economic Activity\n\nEconomic activity was little changed in most Districts.",
+        "url": "https://www.federalreserve.gov/monetarypolicy/beigebook202611-summary.htm"
+      }
+    ],
+    "held": null,
+    "next": {
+      "meeting": "2026-10-27/28",
+      "decision": "2026-10-28T14:00:00-04:00"
+    }
+  },
+  "missing": {
+    "stale": [],
+    "failures": [
+      {
+        "key": "yahoo:DX-Y.NYB",
+        "since": "2026-10-24T22:30:00+02:00",
+        "error": "yahoo DX-Y.NYB: GET …: status 429"
+      }
+    ]
+  }
+}

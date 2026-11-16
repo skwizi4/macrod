@@ -1,0 +1,87 @@
+{{define "fiscal_liquidity" -}}
+{{template "header" .Header -}}
+{{template "released" .Released -}}
+Аукционы недели — в разделе 2.4.
+
+## 2. Метрики по блокам
+
+Формат: суммы — в млрд $; изменения ставок и доходностей — в б.п.; `z` — z-score (52 нед. для дневных/недельных, 5 лет для месячных/квартальных). Флаги: `stale` — последний релиз по календарю прошёл без новых данных (у рядов без календаря — данные старше ожидаемой частоты), `rev` — значение пересмотрено за неделю, `gt` — значение выше порога из конфига.
+
+### 2.1 Ликвидность
+| Показатель | Дата | Уровень | Δ1w | Δ4w | z | Флаги |
+|---|---|---|---|---|---|---|
+{{range .Liquidity}}| {{if eq .ID "NET_LIQUIDITY"}}**{{.Label}}**{{else}}{{.Label}}{{end}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{change .Kind .Change1W false}} | {{change .Kind .Change4W false}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}
+### 2.2 Фондирование
+| Показатель | Дата | Уровень | Δ1w (б.п.) | Флаги |
+|---|---|---|---|---|
+{{range .Funding}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{change .Kind .Change1W false}} | {{flags .Flags}} |
+{{end}}
+### 2.3 Бюджет и долг
+| Показатель | Дата | Уровень | Изменение | Скольз. 12m | YoY¹ | Флаги |
+|---|---|---|---|---|---|---|
+{{range .Budget}}| {{.Label}} | {{obsDate .Date .Freq}} | {{levelCell .Kind .SAAR .Level}} | {{change .Kind .Change true}} | {{billions .Sum12M}} | {{pct1 .YoY}} | {{flags .Flags}} |
+{{end}}
+¹ Для MTS и дефицита — скользящая 12-месячная сумма к такой же сумме годом раньше (YoY отдельного месяца искажают календарные сдвиги платежей); у дефицита плюс — дефицит вырос. Для квартальных рядов — к тому же кварталу год назад. SAAR — годовой темп с поправкой на сезонность (квартальный поток × 4).
+
+### 2.4 Аукционы недели
+**Купоны**
+{{if .Coupons}}| Дата (ET) | Бумага | Объём | High yield | ≈tail (б.п.)¹ | BTC | Δ BTC² | Indirect | Δ² | Direct | Δ² | Dealers | Δ² |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+{{range .Coupons}}| {{couponWhen .}} | {{couponName .}} | {{billions .Amount}} | {{yield3 .HighYield}} | {{couponTail .}} | {{num2 .BTC}} | {{signed2 .BTCDev}} | {{pct1 .Indirect}} | {{ppUnit .IndirectDev}} | {{pct1 .Direct}} | {{ppUnit .DirectDev}} | {{pct1 .Dealers}} | {{ppUnit .DealersDev}} |
+{{end}}
+¹ Приближение: high yield минус CMT того же срока на закрытие дня аукциона (FRED). Настоящий tail считается к when-issued в 13:00, а WI-доходность бесплатно не публикуется. Для TIPS и FRN — `—`.
+² Отклонение от среднего {{.AuctionWindow}} предыдущих аукционов того же срока.
+{{else}}Аукционов купонных бумаг за неделю не было.
+{{end}}
+**Bills**
+{{if .Bills}}| Срок | Аукционов | Объём | High rate (инвест.) | BTC | Δ BTC² |
+|---|---|---|---|---|---|
+{{range .Bills}}| {{.Name}} | {{.Count}} | {{billions .Amount}} | {{rate2 .HighRate}} | {{num2 .BTC}} | {{signed2 .BTCDev}} |
+{{end}}{{else}}Аукционов bills за неделю не было.
+{{end}}
+### 2.5 Предложение долга и байбэки
+{{template "supply" .Supply}}
+### 2.6 Кривая доходностей
+| Показатель | Дата | Уровень | Δ1w (б.п.) | Δ4w (б.п.) | z |
+|---|---|---|---|---|---|
+{{range .Curve}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{change .Kind .Change1W false}} | {{change .Kind .Change4W false}} | {{z .Z}} |
+{{end}}
+## 3. Производные
+| Показатель | Значение | Δ1w | Δ4w | z |
+|---|---|---|---|---|
+{{range .Derived}}| {{.Label}} | {{level .Kind .Level}} | {{change .Kind .Change1W true}} | {{change .Kind .Change4W true}} | {{z .Z}} |
+{{end}}
+## 4. Официальные тексты Treasury
+
+### Quarterly Refunding
+{{template "treasury_texts" .Treasury -}}
+## 5. Пропущенные / устаревшие данные
+{{template "missing" .Missing}}
+{{template "footer"}}{{end}}
+
+{{- define "supply" -}}
+| Показатель | За неделю | Квартал с {{date .QuarterStart}} | Прошлый квартал |
+|---|---|---|---|
+{{range .Groups}}| {{.Name}}: размещено{{range .Issued}} | {{billions .}}{{end}} |
+| {{.Name}}: погашено{{range .Redeemed}} | {{billions .}}{{end}} |
+| **{{.Name}}: чистыми**{{range .Net}} | **{{billionsSigned .}}**{{end}} |
+{{end}}| **Всего чистыми**{{range .Total}} | **{{billionsSigned .}}**{{end}} |
+| Доля bills в валовом размещении (аукционы){{range .BillsShare}} | {{pct1 .}}{{end}} |
+
+Чистое размещение = выпуск − погашение рыночных бумаг по DTS «Public Debt Transactions», **по дате расчётов (cash basis)**: бумага попадает в день выпуска, а не аукциона; погашение включает байбэки. Нерыночный долг (Government Account Series, сберегательные облигации, SLGS) не включён. DTS выходит на следующий рабочий день; {{if .LastDTS.IsZero}}данных DTS за период нет{{else}}последний день DTS в данных — {{date .LastDTS}}{{end}}. Доля bills — по аукционам за те же даты (по дате аукциона).
+
+Байбэки за неделю:
+{{if .Buybacks}}| Дата (ET) | Тип | Бумаги | Корзина | Предложено | Принято |
+|---|---|---|---|---|---|
+{{range .Buybacks}}| {{date .Date}} {{.StartTime}} | {{.Type}} | {{.Security}} | {{bucket .Bucket}} | {{billions .ParOffered}} | {{billions .ParAccepted}} |
+{{end}}{{else}}Байбэков за неделю не было.
+{{end}}{{end}}
+
+{{- define "treasury_texts" -}}
+{{if .Documents}}
+{{range .Documents}}#### {{template "document" .}}{{end}}{{with treasuryNextLine .Next}}{{.}}
+
+{{end}}{{else}}Документов за неделю не было.{{with treasuryNextLine .Next}} {{.}}{{end}}
+
+{{end}}{{end}}

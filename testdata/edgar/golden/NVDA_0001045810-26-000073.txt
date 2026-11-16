@@ -1,0 +1,16 @@
+# Title
+NVIDIA Announces Financial Results for Second Quarter Fiscal 2027
+
+# Outlook
+NVIDIA’s outlook for the third quarter of fiscal 2027 is as follows:
+
+• Revenue is expected to be $108.0 billion, plus or minus 2%. NVIDIA is not assuming any Data Center compute revenue from China in its outlook.
+
+• GAAP and non-GAAP gross margins are expected to be 74.0%, plus or minus 50 basis points.
+
+• GAAP and non-GAAP operating expenses are expected to be approximately $9.2 billion and $9.0 billion, respectively.
+
+For the full year fiscal 2027, NVIDIA expects GAAP and non-GAAP tax rates to be between 16.0% and 18.0%, excluding any discrete items and material changes to NVIDIA’s tax environment.
+
+# Quotes
+“AI has reached its inflection point. It’s doing useful work. Its tokens are productive and profitable. Now, compute is revenue,” said Jensen Huang, founder and CEO of NVIDIA. “And demand is accelerating. This time last year, one lab alone was driving the buildout; today, we have a golden age of new AI labs and startups, multiple frontier labs scaling in parallel, a thriving open-model ecosystem and physical AI coming online — with strong momentum across the U.S. and around the world. The AI infrastructure buildout is at full steam. Vera Rubin, now in full production, was built to power exactly this moment.”

@@ -1,0 +1,167 @@
+{{define "monetary" -}}
+{{template "header" .Header -}}
+{{template "released" .Released -}}
+## 2. Метрики по блокам
+
+Формат: значения — уровень на дату; `3mA`/`6mA` — динамика в годовом выражении; `z` — z-score (52 нед. для дневных/недельных, 5 лет для месячных/квартальных). Флаги: `stale` — последний релиз по календарю прошёл без новых данных (у рядов без календаря — данные старше ожидаемой частоты), `rev` — значение пересмотрено за неделю, `FRED fallback` — Yahoo недоступен, взят запасной ряд FRED.
+
+### 2.1 Рост
+| Показатель | Дата | Уровень | QoQa / MoM | YoY | 3mA | z | Флаги |
+|---|---|---|---|---|---|---|---|
+{{range .Growth}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{growthCell .Kind .Growth}} | {{pct1 .YoY}} | {{pct1 .A3M}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}
+### 2.2 Сентимент
+| Показатель | Дата | Уровень | Δ | z | Флаги |
+|---|---|---|---|---|---|
+{{range .Sentiment}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{change .Kind .Change false}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}
+UMich: FRED публикует с задержкой ~1 мес.
+
+### 2.3 Рынок труда
+| Показатель | Дата | Уровень | Изменение | YoY | 3mA / 3m ср. | z | Флаги |
+|---|---|---|---|---|---|---|---|
+{{range .Labor}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{laborChange .Kind .Change}} | {{pct1 .YoY}} | {{laborAverage .Kind .Average}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}
+### 2.4 Инфляция
+| Показатель | Дата | YoY | MoM | 3mA | 6mA | Флаги |
+|---|---|---|---|---|---|---|
+{{range .Inflation}}| {{.Label}} | {{obsDate .Date .Freq}} | {{pct1 .YoY}} | {{pct1 .MoM}} | {{pct1 .A3M}} | {{pct1 .A6M}} | {{flags .Flags}} |
+{{end}}
+### 2.5 Инфляционные ожидания
+{{template "rate_table" .Expectations}}
+### 2.6 ФРС и ожидания рынка
+{{template "rate_table" .Fed}}
+{{template "fed_path" .FedPath}}
+### 2.7 Энергия
+| Показатель | Дата | Уровень | Δ1w | Δ4w | YoY |
+|---|---|---|---|---|---|
+{{range .Energy}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{signedPct1 .Change1W}} | {{signedPct1 .Change4W}} | {{signedPct1 .YoY}} |
+{{end}}
+## 3. Производные
+| Показатель | Значение | Δ | z |
+|---|---|---|---|
+{{range .Derived}}| {{.Label}} | {{level .Kind .Level}} | {{change .Kind .Change false}} | {{z .Z}} |
+{{end}}{{if .FedPath.PathBP.Value}}| Траектория ставки до {{byMonth .FedPath.Horizon}} | {{signedWhole .FedPath.PathBP}} б.п. | {{pathChange .FedPath}} | — |
+{{end}}
+## 4. Официальные тексты ФРС
+
+{{template "fed_texts" .FedTexts -}}
+## 5. Пропущенные / устаревшие данные
+{{template "missing" .Missing}}
+{{template "footer"}}{{end}}
+
+{{- define "rate_table" -}}
+| Показатель | Дата | Уровень | Δ1w (б.п.) | Δ4w (б.п.) |
+|---|---|---|---|---|
+{{range .}}| {{.Label}} | {{obsDate .Date .Freq}} | {{if isSet .Growth}}{{growthRates .Growth}} | — | —{{else}}{{level .Kind .Level}} | {{change .Kind .Change1W false}} | {{change .Kind .Change4W false}}{{end}} |
+{{end}}{{end}}
+
+{{- define "fed_path" -}}
+**Траектория ставки из фьючерсов (ZQ)**
+
+Строки — месяц после каждого заседания FOMC в пределах 12 месяцев; implied rate = 100 − цена контракта. «Δ за заседание» — implied rate минус implied предыдущей строки (первой — минус DFF); P = |Δ| / 25 б.п., от 0 до 100%. Все строки — на одну дату цены; «неделю назад» — на 7 дней раньше. Флаги: `нет сделок` — нулевой объём, цена может быть неактуальной; `мало сделок` — средний объём за 5 дней меньше четверти, чем у предыдущей строки; `новый в окне` — контракт вошёл в 12 месяцев на этой неделе. Строки с флагами в итог не входят: итог и его изменение за неделю — по одному и тому же контракту.
+
+{{if not .Rows}}Нет предстоящих заседаний FOMC в календаре.
+{{else}}| Контракт | После заседания | Implied rate | vs DFF (б.п.) | Δ за заседание (б.п.) | P(повышение/снижение) | Неделю назад | Флаги |
+|---|---|---|---|---|---|---|---|
+{{range .Rows}}| {{contractMonth .Month}} | {{date .Meeting}} | {{impliedCell .Implied}} | {{bp .VsDFF}} | {{bp .MeetingBP}} | {{moveChance .MeetingBP}} | {{rate2 .WeekAgo}} | {{fedPathFlags .}} |
+{{end}}
+{{if not .PriceDate.IsZero}}Цены на {{date .PriceDate}}.
+
+{{end}}{{if not .Cuts.Value}}Итог: нет цен контрактов на дату.
+{{else}}Итог: к {{byMonth .Horizon}} заложено **{{moves .Cuts}}** по 25 б.п.{{if .CutsWeekAgo.Value}} (неделю назад: {{moves .CutsWeekAgo}}){{end}}.{{if and (not .HorizonWeekAgo.IsZero) (not (.HorizonWeekAgo.Equal .Horizon.Time))}} Горизонт сдвинулся: неделю назад итог был к {{byMonth .HorizonWeekAgo}}; «неделю назад» здесь — тот же контракт {{byMonth .Horizon}}.{{end}}
+{{if .NearBP.Value}}
+Ближайшие {{.NearMeetings}} заседания (до {{date .NearMeeting}}): накоплено **{{signedWhole .NearBP}} б.п.**{{if .NearBPWeekAgo.Value}} (неделю назад: {{signedWhole .NearBPWeekAgo}} б.п.){{end}}.
+{{end}}{{end}}{{end}}{{end}}
+
+{{- define "fed_texts" -}}
+{{range .Documents}}### {{template "document" .}}{{else}}Документов ФРС за неделю не было.
+
+{{end}}### FOMC
+{{if .Held}}Заседание {{.Held.Meeting}}, решение {{minute .Held.Decision}} ET: statement и diff с предыдущим — в fomc_diff.md.
+{{else}}Заседаний за неделю не было.{{if .Next}} Следующее: {{.Next.Meeting}} (решение {{minute .Next.Decision}} ET, см. calendar_usa.md у мастера).{{end}}
+{{end}}
+{{end}}
+
+{{- define "footer" -}}
+---
+<!-- previous_report.md лежит рядом в папке проекта, если отчёт прошлой недели был сохранён -->
+{{end}}
+
+{{- /* EU Monetary & Macro (phase 11): the same report kind, the tables of
+the European preset, the ECB texts instead of the Fed's. */ -}}
+{{define "monetary_eu" -}}
+{{template "header" .Header -}}
+## 1. Что вышло за неделю
+
+{{if .Released}}| Дата (CET/CEST) | Релиз | Показатель | Факт | Пред. | Изменение | Ревизия пред. |
+|---|---|---|---|---|---|---|
+{{range .Released}}| {{releaseWhen .}} | {{.Name}} | {{.SeriesID}} | {{factCurrent .}} | {{factPrevious .}} | {{factChange .}} | {{factRevision .}} |
+{{end}}
+{{else}}Новых релизов за неделю не было.
+
+{{end -}}
+## 2. Метрики по блокам
+
+Формат: значения — уровень на дату; кв/кв и м/м — изменение к прошлому периоду в % (ВВП — без пересчёта в годовой темп, как принято в Европе); `3mA` — динамика за 3 месяца в годовом выражении; `z` — z-score (52 нед. для дневных/недельных, 5 лет для месячных/квартальных). Флаги: `stale` — последний релиз по календарю прошёл без новых данных (у рядов без календаря — данные старше ожидаемой частоты), `rev` — значение пересмотрено за неделю, `ручной ввод` — значение введено вручную (Ifo).
+
+### 2.1 Рост и промышленность
+| Показатель | Дата | Уровень | Кв/кв / м/м | YoY | z | Флаги |
+|---|---|---|---|---|---|---|
+{{range .Growth}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{growthCell .Kind .Growth}} | {{pct1 .YoY}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}
+### 2.2 Опросы
+| Показатель | Дата | Уровень | Δ | z | Флаги |
+|---|---|---|---|---|---|
+{{range .Sentiment}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{change .Kind .Change false}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}{{if .Labor}}
+### 2.3 Рынок труда
+| Показатель | Дата | Уровень | Изменение | YoY | z | Флаги |
+|---|---|---|---|---|---|---|
+{{range .Labor}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{laborChange .Kind .Change}} | {{pct1 .YoY}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}
+Безработица — % рабочей силы (Eurostat, SA); изменение — в п.п. к прошлому месяцу. Зарплаты и стоимость труда — г/г. Еженедельных заявок на пособие и увольнений по собственному желанию в Европе нет.
+{{end}}
+### 2.4 Инфляция (HICP и цены производителей)
+| Показатель | Дата | YoY | MoM | 3mA | 6mA | Флаги |
+|---|---|---|---|---|---|---|
+{{range .Inflation}}| {{.Label}} | {{obsDate .Date .Freq}} | {{pct1 .YoY}} | {{pct1 .MoM}} | {{pct1 .A3M}} | {{pct1 .A6M}} | {{flags .Flags}} |
+{{end}}
+Ряды без «(SA)» — без сезонной корректировки, по ним только YoY; м/м и 3mA — по рядам SA. HICP Германии содержит флеш-оценку: значение последнего месяца может обновиться при итоговой публикации.
+
+{{if .Expectations}}### 2.5 Инфляционные ожидания
+| Показатель | Дата | Уровень | Δ |
+|---|---|---|---|
+{{range .Expectations}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{change .Kind .Change false}} |
+{{end}}
+Рыночного 5y5y по инфляционным свопам в открытых данных ЕЦБ нет: ожидания — опросы потребителей (CES, медиана), прогнозистов (SPF) и Еврокомиссии.
+
+{{end}}### 2.6 ЕЦБ и денежный рынок
+| Показатель | Дата | Уровень | Δ1w | Δ4w |
+|---|---|---|---|---|
+{{range .Fed}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{change .Kind .Change1W true}} | {{change .Kind .Change4W true}} |
+{{end}}{{if .Credit}}
+### 2.7 Деньги и кредит
+| Показатель | Дата | Уровень | Δ | z | Флаги |
+|---|---|---|---|---|---|
+{{range .Credit}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{growthCell .Kind .Growth}} | {{z .Z}} | {{flags .Flags}} |
+{{end}}
+Кредиты — скорректированные (продажи и секьюритизация), г/г. BLS — взвешенный нетто-процент банков: > 0 — ужесточение стандартов / рост спроса за 3 месяца.
+{{end}}
+### 2.8 Энергия и валюты
+| Показатель | Дата | Уровень | Δ1w | Δ4w | YoY |
+|---|---|---|---|---|---|
+{{range .Energy}}| {{.Label}} | {{obsDate .Date .Freq}} | {{level .Kind .Level}} | {{signedPct1 .Change1W}} | {{signedPct1 .Change4W}} | {{signedPct1 .YoY}} |
+{{end}}
+## 3. Официальные тексты ЕЦБ
+
+{{with .ECBTexts}}{{range .Documents}}### {{template "document" .}}{{else}}Документов ЕЦБ за неделю не было.
+
+{{end}}### Заседание Совета управляющих
+{{if .Held}}Решение {{minute .Held.Decision}} CET/CEST: решение, заявление и diff с предыдущим заседанием — в ecb_diff.md (эта папка).
+{{else}}Заседаний за неделю не было.{{if .Next}} Следующее решение: {{minute .Next.Decision}} CET/CEST.{{end}}
+{{end}}{{else}}Тексты ЕЦБ не подключены (ecb_texts в texts агента).
+{{end}}
+## 4. Пропущенные / устаревшие данные
+{{template "missing" .Missing}}
+{{template "footer"}}{{end}}

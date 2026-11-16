@@ -1,0 +1,225 @@
+<xbrl
+  xml:lang="en-US"
+  xmlns="http://www.xbrl.org/2003/instance"
+  xmlns:country="http://xbrl.sec.gov/country/2025"
+  xmlns:cyd="http://xbrl.sec.gov/cyd/2025"
+  xmlns:dei="http://xbrl.sec.gov/dei/2025"
+  xmlns:ecd="http://xbrl.sec.gov/ecd/2025"
+  xmlns:iso4217="http://www.xbrl.org/2003/iso4217"
+  xmlns:link="http://www.xbrl.org/2003/linkbase"
+  xmlns:srt="http://fasb.org/srt/2025"
+  xmlns:stpr="http://xbrl.sec.gov/stpr/2025"
+  xmlns:tsla="http://www.tesla.com/20251231"
+  xmlns:us-gaap="http://fasb.org/us-gaap/2025"
+  xmlns:xbrldi="http://xbrl.org/2006/xbrldi"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<context id="c-4">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001318605</identifier>
+        </entity>
+        <period>
+            <instant>2025-12-31</instant>
+        </period>
+    </context>
+<context id="c-86">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001318605</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">tsla:AutomotiveSalesMember</xbrldi:explicitMember>
+                <xbrldi:typedMember dimension="us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis">
+                    <us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis.domain>2026-01-01</us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis.domain>
+                </xbrldi:typedMember>
+            </segment>
+        </entity>
+        <period>
+            <instant>2025-12-31</instant>
+        </period>
+    </context>
+<context id="c-89">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001318605</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">tsla:AutomotiveRegulatoryCreditsMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <instant>2025-12-31</instant>
+        </period>
+    </context>
+<context id="c-90">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001318605</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">tsla:AutomotiveRegulatoryCreditsMember</xbrldi:explicitMember>
+                <xbrldi:typedMember dimension="us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis">
+                    <us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis.domain>2026-01-01</us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis.domain>
+                </xbrldi:typedMember>
+            </segment>
+        </entity>
+        <period>
+            <instant>2025-12-31</instant>
+        </period>
+    </context>
+<context id="c-103">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001318605</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">tsla:EnergyGenerationAndStorageSegmentMember</xbrldi:explicitMember>
+                <xbrldi:typedMember dimension="us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis">
+                    <us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis.domain>2026-01-01</us-gaap:RevenueRemainingPerformanceObligationExpectedTimingOfSatisfactionStartDateAxis.domain>
+                </xbrldi:typedMember>
+            </segment>
+        </entity>
+        <period>
+            <instant>2025-12-31</instant>
+        </period>
+    </context>
+<context id="c-391">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001318605</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">tsla:AutomotiveSegmentMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2025-01-01</startDate>
+            <endDate>2025-12-31</endDate>
+        </period>
+    </context>
+<context id="c-392">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001318605</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">tsla:AutomotiveSegmentMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2024-01-01</startDate>
+            <endDate>2024-12-31</endDate>
+        </period>
+    </context>
+<context id="c-393">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001318605</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">tsla:AutomotiveSegmentMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2023-01-01</startDate>
+            <endDate>2023-12-31</endDate>
+        </period>
+    </context>
+<context id="c-394">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001318605</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">tsla:EnergyGenerationAndStorageSegmentMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2025-01-01</startDate>
+            <endDate>2025-12-31</endDate>
+        </period>
+    </context>
+<context id="c-395">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001318605</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">tsla:EnergyGenerationAndStorageSegmentMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2024-01-01</startDate>
+            <endDate>2024-12-31</endDate>
+        </period>
+    </context>
+<context id="c-396">
+        <entity>
+            <identifier scheme="http://www.sec.gov/CIK">0001318605</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">tsla:EnergyGenerationAndStorageSegmentMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2023-01-01</startDate>
+            <endDate>2023-12-31</endDate>
+        </period>
+    </context>
+<unit id="usd">
+        <measure>iso4217:USD</measure>
+    </unit>
+<unit id="shares">
+        <measure>shares</measure>
+    </unit>
+<unit id="usdPerShare">
+        <divide>
+            <unitNumerator>
+                <measure>iso4217:USD</measure>
+            </unitNumerator>
+            <unitDenominator>
+                <measure>shares</measure>
+            </unitDenominator>
+        </divide>
+    </unit>
+<unit id="number">
+        <measure>pure</measure>
+    </unit>
+<unit id="unit">
+        <measure>tsla:unit</measure>
+    </unit>
+<unit id="extension">
+        <measure>tsla:extension</measure>
+    </unit>
+<unit id="cny">
+        <measure>iso4217:CNY</measure>
+    </unit>
+<unit id="tranche">
+        <measure>tsla:tranche</measure>
+    </unit>
+<unit id="deliveredvehicle">
+        <measure>tsla:deliveredVehicle</measure>
+    </unit>
+<unit id="fsdsubscription">
+        <measure>tsla:fsdSubscription</measure>
+    </unit>
+<unit id="botdelivered">
+        <measure>tsla:botDelivered</measure>
+    </unit>
+<unit id="robotaxi">
+        <measure>tsla:robotaxi</measure>
+    </unit>
+<unit id="consecutivequarter">
+        <measure>tsla:consecutiveQuarter</measure>
+    </unit>
+<unit id="non-overlappingperiod">
+        <measure>tsla:non-overlappingPeriod</measure>
+    </unit>
+<unit id="plaintiff">
+        <measure>tsla:Plaintiff</measure>
+    </unit>
+<unit id="action">
+        <measure>tsla:action</measure>
+    </unit>
+<unit id="segment">
+        <measure>tsla:Segment</measure>
+    </unit>
+<us-gaap:RevenueRemainingPerformanceObligation contextRef="c-86" decimals="-6" id="f-517" unitRef="usd">904000000</us-gaap:RevenueRemainingPerformanceObligation>
+<us-gaap:RevenueRemainingPerformanceObligation contextRef="c-89" decimals="-6" id="f-523" unitRef="usd">841000000</us-gaap:RevenueRemainingPerformanceObligation>
+<us-gaap:RevenueRemainingPerformanceObligation contextRef="c-90" decimals="-6" id="f-524" unitRef="usd">738000000</us-gaap:RevenueRemainingPerformanceObligation>
+<us-gaap:RevenueRemainingPerformanceObligation contextRef="c-4" decimals="-7" id="f-548" unitRef="usd">10420000000</us-gaap:RevenueRemainingPerformanceObligation>
+<us-gaap:RevenueRemainingPerformanceObligation contextRef="c-103" decimals="-7" id="f-549" unitRef="usd">4960000000</us-gaap:RevenueRemainingPerformanceObligation>
+<us-gaap:Revenues contextRef="c-391" decimals="-6" id="f-1657" unitRef="usd">82056000000</us-gaap:Revenues>
+<us-gaap:Revenues contextRef="c-392" decimals="-6" id="f-1658" unitRef="usd">87604000000</us-gaap:Revenues>
+<us-gaap:Revenues contextRef="c-393" decimals="-6" id="f-1659" unitRef="usd">90738000000</us-gaap:Revenues>
+<us-gaap:GrossProfit contextRef="c-391" decimals="-6" id="f-1663" unitRef="usd">13292000000</us-gaap:GrossProfit>
+<us-gaap:GrossProfit contextRef="c-392" decimals="-6" id="f-1664" unitRef="usd">14810000000</us-gaap:GrossProfit>
+<us-gaap:GrossProfit contextRef="c-393" decimals="-6" id="f-1665" unitRef="usd">16519000000</us-gaap:GrossProfit>
+<us-gaap:Revenues contextRef="c-394" decimals="-6" id="f-1666" unitRef="usd">12771000000</us-gaap:Revenues>
+<us-gaap:Revenues contextRef="c-395" decimals="-6" id="f-1667" unitRef="usd">10086000000</us-gaap:Revenues>
+<us-gaap:Revenues contextRef="c-396" decimals="-6" id="f-1668" unitRef="usd">6035000000</us-gaap:Revenues>
+<us-gaap:GrossProfit contextRef="c-394" decimals="-6" id="f-1672" unitRef="usd">3802000000</us-gaap:GrossProfit>
+<us-gaap:GrossProfit contextRef="c-395" decimals="-6" id="f-1673" unitRef="usd">2640000000</us-gaap:GrossProfit>
+<us-gaap:GrossProfit contextRef="c-396" decimals="-6" id="f-1674" unitRef="usd">1141000000</us-gaap:GrossProfit>
+</xbrl>

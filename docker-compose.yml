@@ -1,0 +1,55 @@
+# docker compose up -d — ТЗ §14, §21.1 (D17).
+# Before the first start: cp config.example.yaml config.yaml; cp .env.example .env (keys);
+# on Linux the ./data folder must be writable by uid 10001: mkdir -p data && sudo chown 10001:10001 data
+services:
+  macrod:
+    build: .
+    image: macro-collector:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # deploy key of the exchange repo (phase 6): ./secrets/deploy_key on the host, chmod 600
+      # (on Linux also chown 10001); the folder may be empty while git.enabled is false
+      GIT_SSH_KEY_PATH: /app/secrets/deploy_key
+      # deploy key of the public demo site repo (site.enabled): ./secrets/site_key, same rules
+      SITE_SSH_KEY_PATH: /app/secrets/site_key
+    volumes:
+      - ./data:/app/data
+      - ./config.yaml:/app/config.yaml:ro
+      - ./secrets:/app/secrets:ro
+    healthcheck:
+      test: ["CMD", "macroctl", "--config", "/app/config.yaml", "doctor", "--local"]
+      interval: 5m
+      timeout: 30s
+      retries: 3
+      start_period: 1m
+      start_interval: 15s   # checks during start_period (Docker Engine 25+)
+    # console log (docker compose logs); the JSON file log in data/logs rotates daily, 7 days
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # time for running jobs to finish and the SQLite writer to drain on docker stop
+    stop_grace_period: 60s
+
+  # Дашборд (ТЗ §21.4, D24): docker compose --profile dashboard up -d
+  # Порт только на 127.0.0.1 хоста; с сервера — через SSH-туннель. Нужен MACRO_DASHBOARD_PASSWORD в .env.
+  dashboard:
+    image: macro-collector:latest
+    profiles: [dashboard]
+    restart: unless-stopped
+    entrypoint: ["macroctl"]
+    command: ["--config", "/app/config.yaml", "serve", "--addr", "0.0.0.0:8080"]
+    env_file: .env
+    environment:
+      GOMEMLIMIT: 400MiB
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      # not :ro: a reader of a WAL database needs the -shm file
+      - ./data:/app/data
+      - ./config.yaml:/app/config.yaml:ro
+    mem_limit: 512m
+    depends_on:
+      - macrod

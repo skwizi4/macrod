@@ -1,0 +1,194 @@
+{
+  "header": {
+    "schema_version": 1,
+    "region": "usa",
+    "agent": "master",
+    "file": "calendar",
+    "iso_week": "2026-W43",
+    "period": {
+      "from": "2026-10-25T16:00:00+01:00",
+      "to": "2026-11-01T16:00:00+01:00",
+      "tz": "Europe/Bratislava"
+    },
+    "generated_at": "2026-10-25T16:00:04+01:00",
+    "kind": "weekly",
+    "sources_ok": [
+      "fred",
+      "fed",
+      "treasury",
+      "earnings"
+    ],
+    "sources_failed": [],
+    "stale_series": null,
+    "title": "USA Calendar — следующая неделя (2026-10-26 → 2026-10-30)"
+  },
+  "tz_label": "ET",
+  "usual_hour_diff": 6,
+  "hour_diffs": [
+    5
+  ],
+  "rows": [
+    {
+      "local": "2026-10-26T16:30:00+01:00",
+      "et": "2026-10-26T11:30:00-04:00",
+      "title": "Аукцион 13-Week Bill",
+      "highlight": false,
+      "importance": "low",
+      "previous": {
+        "form": "auction",
+        "name": "",
+        "code": "",
+        "kind": "pct",
+        "value": {
+          "value": 4.159999999999999,
+          "unit": "percent"
+        },
+        "btc": {
+          "value": 2.72,
+          "unit": "ratio"
+        },
+        "date": "2026-10-19",
+        "freq": "d"
+      }
+    },
+    {
+      "local": "2026-10-26T18:00:00+01:00",
+      "et": "2026-10-26T13:00:00-04:00",
+      "title": "Аукцион 2-Year Note",
+      "highlight": false,
+      "importance": "medium",
+      "previous": null
+    },
+    {
+      "local": "2026-10-28T19:00:00+01:00",
+      "et": "2026-10-28T14:00:00-04:00",
+      "title": "FOMC: решение по ставке",
+      "highlight": true,
+      "importance": "high",
+      "previous": {
+        "form": "dff",
+        "name": "DFF",
+        "code": "level",
+        "kind": "rate",
+        "value": {
+          "value": 3.99,
+          "unit": "percent"
+        },
+        "btc": {
+          "value": null,
+          "unit": "ratio"
+        },
+        "date": "2026-10-23",
+        "freq": "d"
+      }
+    },
+    {
+      "local": "2026-10-28T21:00:00+01:00",
+      "et": "2026-10-28T16:00:00-04:00",
+      "title": "Отчёт MSFT (после закрытия)",
+      "highlight": false,
+      "importance": "high",
+      "previous": null
+    },
+    {
+      "local": "2026-10-28T21:00:00+01:00",
+      "et": "2026-10-28T16:00:00-04:00",
+      "title": "Отчёт GOOGL (после закрытия)",
+      "highlight": false,
+      "importance": "high",
+      "previous": null
+    },
+    {
+      "local": "2026-10-29T13:30:00+01:00",
+      "et": "2026-10-29T08:30:00-04:00",
+      "title": "Gross Domestic Product",
+      "highlight": false,
+      "importance": "high",
+      "previous": {
+        "form": "series",
+        "name": "Real GDP QoQa",
+        "code": "qoqa",
+        "kind": "bn",
+        "value": {
+          "value": 0.915064477982952,
+          "unit": "percent"
+        },
+        "btc": {
+          "value": null,
+          "unit": "ratio"
+        },
+        "date": "2026-04-01",
+        "freq": "q"
+      }
+    },
+    {
+      "local": "2026-10-29T13:30:00+01:00",
+      "et": "2026-10-29T08:30:00-04:00",
+      "title": "Unemployment Insurance Weekly Claims Report",
+      "highlight": false,
+      "importance": "high",
+      "previous": {
+        "form": "series",
+        "name": "ICSA",
+        "code": "level",
+        "kind": "count",
+        "value": {
+          "value": 268242.188,
+          "unit": "count"
+        },
+        "btc": {
+          "value": null,
+          "unit": "ratio"
+        },
+        "date": "2026-10-17",
+        "freq": "w"
+      }
+    },
+    {
+      "local": "2026-10-29T13:30:00+01:00",
+      "et": "2026-10-29T08:30:00-04:00",
+      "title": "Debt to Gross Domestic Product Ratios",
+      "highlight": false,
+      "importance": "low",
+      "previous": null
+    },
+    {
+      "local": "2026-10-29T21:00:00+01:00",
+      "et": "2026-10-29T16:00:00-04:00",
+      "title": "Отчёт AMZN (после закрытия)",
+      "highlight": false,
+      "importance": "high",
+      "previous": null
+    },
+    {
+      "local": "2026-10-30T21:00:00+01:00",
+      "et": "2026-10-30T16:00:00-04:00",
+      "title": "Отчёт AVGO (дата — оценка Nasdaq, время не объявлено)",
+      "highlight": false,
+      "importance": "medium",
+      "previous": null
+    }
+  ],
+  "daily": [
+    {
+      "name": "Secured Overnight Financing Rate Data",
+      "local": "2026-10-26T13:00:00+01:00",
+      "et": "2026-10-26T08:00:00-04:00"
+    },
+    {
+      "name": "Daily Treasury Statement",
+      "local": "2026-10-26T21:00:00+01:00",
+      "et": "2026-10-26T16:00:00-04:00"
+    }
+  ],
+  "expiration": {
+    "date": "2026-11-20",
+    "this_week": false
+  },
+  "missed": [
+    {
+      "name": "Treasury Term Premia",
+      "at": "2026-10-21T08:30:00-04:00"
+    }
+  ]
+}

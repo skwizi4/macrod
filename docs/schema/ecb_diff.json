@@ -1,0 +1,365 @@
+{
+  "$defs": {
+    "DiffEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "new": {
+          "type": "string"
+        },
+        "old": {
+          "type": "string"
+        },
+        "para": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "old",
+        "new",
+        "para"
+      ],
+      "type": "object"
+    },
+    "ECBDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dfr": {
+          "type": "number"
+        },
+        "effective_from": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "mlf": {
+          "type": "number"
+        },
+        "move_bp": {
+          "type": "integer"
+        },
+        "mro": {
+          "type": "number"
+        },
+        "parsed": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "date",
+        "parsed",
+        "action",
+        "move_bp",
+        "dfr",
+        "mro",
+        "mlf",
+        "effective_from",
+        "url"
+      ],
+      "type": "object"
+    },
+    "ECBDiffReport": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/ECBDocument"
+        },
+        "decision_diff": {
+          "items": {
+            "$ref": "#/$defs/DiffEntry"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "decisions": {
+          "items": {
+            "$ref": "#/$defs/ECBDecision"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "documents": {
+          "items": {
+            "$ref": "#/$defs/ECBMeetingDoc"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "header": {
+          "$ref": "#/$defs/Header"
+        },
+        "notice": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ECBNotice"
+            }
+          ]
+        },
+        "previous_decision": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ECBDocument"
+            }
+          ]
+        },
+        "previous_statement": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ECBDocument"
+            }
+          ]
+        },
+        "statement": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ECBDocument"
+            }
+          ]
+        },
+        "statement_diff": {
+          "items": {
+            "$ref": "#/$defs/DiffEntry"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "statement_wait": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "header",
+        "notice",
+        "decision",
+        "previous_decision",
+        "decisions",
+        "decision_diff",
+        "statement",
+        "previous_statement",
+        "statement_diff",
+        "statement_wait",
+        "documents"
+      ],
+      "type": "object"
+    },
+    "ECBDocument": {
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "type": "string"
+        },
+        "published": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "published",
+        "title",
+        "url",
+        "body"
+      ],
+      "type": "object"
+    },
+    "ECBMeetingDoc": {
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "type": "string"
+        },
+        "doc_type": {
+          "type": "string"
+        },
+        "published": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "doc_type",
+        "title",
+        "published",
+        "body",
+        "url"
+      ],
+      "type": "object"
+    },
+    "ECBNotice": {
+      "additionalProperties": false,
+      "properties": {
+        "last_meeting": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "next": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "weeks_ago": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "last_meeting",
+        "weeks_ago",
+        "next"
+      ],
+      "type": "object"
+    },
+    "Header": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "iso_week": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "region": {
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "sources_failed": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sources_ok": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stale_series": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "region",
+        "agent",
+        "iso_week",
+        "period",
+        "generated_at",
+        "kind",
+        "sources_ok",
+        "sources_failed",
+        "stale_series",
+        "title"
+      ],
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "to": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "tz": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "tz"
+      ],
+      "type": "object"
+    }
+  },
+  "$ref": "#/$defs/ECBDiffReport",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ecb_diff"
+}

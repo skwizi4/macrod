@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>SAP News Center</title>
+	<atom:link href="https://news.sap.com/feed/" rel="self" type="application/rss+xml" />
+	<link>https://news.sap.com/</link>
+	<description></description>
+	<lastBuildDate>Wed, 11 Nov 2026 11:15:45 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1.4</generator>
+	
+
+<item>
+		<title>SAP Expands Collaboration with AstraZeneca to Adopt RISE with SAP and Business AI</title>
+		<link>https://news.sap.com/2026/11/sap-expands-collaboration-astrazeneca-rise-with-sap-business-ai/</link>
+		
+		<dc:creator><![CDATA[SAP News]]></dc:creator>
+		<pubDate>Tue, 10 Nov 2026 09:00:00 +0000</pubDate>
+				<category><![CDATA[Artificial Intelligence]]></category>
+		<category><![CDATA[Cloud]]></category>
+		<category><![CDATA[Customers]]></category>
+		<category><![CDATA[Enterprise resource planning]]></category>
+		<category><![CDATA[Life sciences]]></category>
+		<category><![CDATA[RISE with SAP]]></category>
+		<category><![CDATA[SAP Cloud ERP]]></category>
+		<guid isPermaLink="false">https://news.sap.com/?p=249371</guid>
+
+					<description></description>
+										<content:encoded><![CDATA[
+<p class="has-large-font-size wp-block-paragraph"><strong>WALLDORF</strong> — <a href="http://www.sap.com/">SAP SE</a> (NYSE: SAP) today announced that AstraZeneca, a global biopharmaceutical company, is migrating to SAP Cloud ERP Private through the RISE with SAP journey, expanding the companies’ 20-year relationship.</p>
+
+
+
+<div class="wp-block-sap-news-cta-banner alignleft cta-banner"><div class="cta-banner__content"><div class="cta-banner__title">Transform on-premises ERP to the cloud so it can power AI assistants to drive real business outcomes</div></div><div class="cta-banner__action">
+<div class="wp-block-buttons is-content-justification-right is-layout-flex wp-container-core-buttons-is-layout-b507c051 wp-block-buttons-is-layout-flex">
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://www.sap.com/products/erp/rise.html" target="_blank" rel="noopener">Learn how</a></div>
+</div>
+</div></div>
+
+
+
+<p class="wp-block-paragraph">The full-estate migration extends one of the largest SAP footprints in life sciences. By simplifying and standardizing AstraZeneca’s technology landscape, it helps create a more agile and resilient digital foundation, enabling the company to move faster, make better-informed decisions and deliver value for its stakeholders.</p>
+
+
+
+<p class="wp-block-paragraph">AstraZeneca is a global, science-led biopharmaceutical company focused on the discovery, development and commercialization of prescription medicines in oncology, rare disease and biopharmaceuticals, including cardiovascular, renal and metabolism, and respiratory and immunology. Through its Axial Business Transformation Programme, AstraZeneca is moving from legacy environments in SAP ERP Central Component to SAP Cloud ERP Private, supporting more standardized ways of working, harmonized data and connected processes across the enterprise.</p>
+
+
+
+<p class="wp-block-paragraph">“SAP has been a key part of how we run our operations for more than two decades,” Chris Taylor, Chief Information Officer, AstraZeneca, said. “This next chapter of our partnership is about much more than modernizing technology. Through Axial, we are simplifying how AstraZeneca operates and creating the foundations to move faster and unlock greater value from AI. That matters because the faster we can turn insight into action, the faster we can create value for our company and for patients.”</p>
+
+
+
+<p class="wp-block-paragraph">AstraZeneca is exploring a range of business AI capabilities from SAP, including the Industry AI portfolio, the Joule solution and agentic use cases across finance, supply chain and manufacturing. These capabilities have the potential to enhance productivity, strengthen data quality and governance, and enable faster decision-making.</p>
+
+
+
+<p class="wp-block-paragraph">The SAP Business Data Cloud solution can support AstraZeneca in building a clean data core, bringing together disparate data sets to create a trusted foundation for future AI adoption. With the SAP Green Ledger solution, AstraZeneca can connect sustainability and business data across its value chain, helping embed sustainability considerations into core business processes and decision-making.</p>
+
+
+
+<p class="wp-block-paragraph">“Across the life sciences and healthcare industry, companies are rethinking how technology can help them manage complexity and drive greater value,” Thomas Saueressig, Chief Customer Officer and Member of the Executive Board of SAP SE, said. “AstraZeneca’s Axial Transformation Programme shows how cloud, data and AI can create a stronger foundation for innovation at scale. By helping simplify operations, enable faster decisions and unlock trusted insights, we can support AstraZeneca as it works to push the boundaries of science to deliver life-changing medicines to patients worldwide.”</p>
+
+
+
+<p class="wp-block-paragraph">Visit the <a href="http://news.sap.com/">SAP News Center</a>. Get SAP news via <a href="https://www.linkedin.com/showcase/sap-news">LinkedIn</a> and <a href="https://bsky.app/profile/sap.com">Bluesky</a>.</p>
+
+
+
+<div class="wp-block-sap-news-cta-banner cta-banner"><div class="cta-banner__content"><div class="cta-banner__title">Subscribe to the SAP News Center newsletter to receive news, stories and updates each week</div></div><div class="cta-banner__action">
+<div class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-3e41869c wp-block-buttons-is-layout-flex">
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://www.sap.com/campaigns/nl/sap-news-center-newsletter" target="_blank" rel="noopener">Sign up now</a></div>
+</div>
+</div></div>
+
+
+
+<p class="wp-block-paragraph"><strong>Media Contacts:</strong><br>Lawrie Benfield,  <a href="mailto:lawrie.benfield@sap.com">lawrie.benfield@sap.com</a>,  +44 7776 515259<br>Sonya Domanski,  <a href="mailto:sonya.domanski@sap.com">sonya.domanski@sap.com</a>, +44 734 546 5928<br><a href="https://news.sap.com/press-room/">SAP Press Room</a>; <a href="mailto:press@sap.com">press@sap.com</a></p>
+
+
+
+<p class="has-small-font-size wp-block-paragraph"><em>This press release was created with the assistance of artificial intelligence and has been reviewed by the editorial team.<br></em>This document contains forward-looking statements, which are predictions, projections, or other statements about future events. These statements are based on current expectations, forecasts, and assumptions that are subject to risks and uncertainties that could cause actual results and outcomes to materially differ. Additional information regarding these risks and uncertainties may be found in our filings with the Securities and Exchange Commission, including but not limited to the risk factors section of SAP’s 2024 Annual Report on Form 20-F.<br>© 2026 SAP SE. All rights reserved.<br>SAP and other SAP products and services mentioned herein as well as their respective logos are trademarks or registered trademarks of SAP SE in Germany and other countries. Please see <a href="https://www.sap.com/copyright">https://www.sap.com/copyright</a> for additional trademark information and notices. <em></em></p>
+]]></content:encoded>
+					
+		
+		
+			</item>
+
+
+	</channel>
+</rss>

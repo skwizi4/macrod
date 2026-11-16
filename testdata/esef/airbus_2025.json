@@ -1,0 +1,161 @@
+{
+ "documentInfo": {
+  "documentType": "https://xbrl.org/2021/xbrl-json",
+  "features": {
+   "xbrl:canonicalValues": true
+  },
+  "namespaces": {
+   "airbus": "http://www.airbus.com",
+   "ifrs-full": "https://xbrl.ifrs.org/taxonomy/2024-03-27/ifrs-full",
+   "iso4217": "http://www.xbrl.org/2003/iso4217",
+   "scheme": "http://standards.iso.org/iso/17442",
+   "xbrl": "https://xbrl.org/2021",
+   "xbrli": "http://www.xbrl.org/2003/instance"
+  },
+  "taxonomy": [
+   "http://www.airbus.com/MINO79WLOO247M1IL051-2025-12-31.xsd"
+  ]
+ },
+ "facts": {
+  "reg-ix-1": {
+   "value": "73420000000.0",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "ifrs-full:Revenue",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2025-01-01T00:00:00/2026-01-01T00:00:00",
+    "unit": "iso4217:EUR"
+   }
+  },
+  "reg-ix-2": {
+   "value": "69230000000.0",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "ifrs-full:Revenue",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2024-01-01T00:00:00/2025-01-01T00:00:00",
+    "unit": "iso4217:EUR"
+   }
+  },
+  "reg-ix-21": {
+   "value": "6082000000.0",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "airbus:ProfitLossBeforeFinancialResultAndIncomeTaxes",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2025-01-01T00:00:00/2026-01-01T00:00:00",
+    "unit": "iso4217:EUR"
+   }
+  },
+  "reg-ix-22": {
+   "value": "5304000000.0",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "airbus:ProfitLossBeforeFinancialResultAndIncomeTaxes",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2024-01-01T00:00:00/2025-01-01T00:00:00",
+    "unit": "iso4217:EUR"
+   }
+  },
+  "reg-ix-35": {
+   "value": "5221000000.0",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "ifrs-full:ProfitLossAttributableToOwnersOfParent",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2025-01-01T00:00:00/2026-01-01T00:00:00",
+    "unit": "iso4217:EUR"
+   }
+  },
+  "reg-ix-36": {
+   "value": "4232000000.0",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "ifrs-full:ProfitLossAttributableToOwnersOfParent",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2024-01-01T00:00:00/2025-01-01T00:00:00",
+    "unit": "iso4217:EUR"
+   }
+  },
+  "reg-ix-41": {
+   "value": "6.6",
+   "decimals": 2,
+   "dimensions": {
+    "concept": "ifrs-full:DilutedEarningsLossPerShare",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2025-01-01T00:00:00/2026-01-01T00:00:00",
+    "unit": "iso4217:EUR/xbrli:shares"
+   }
+  },
+  "reg-ix-42": {
+   "value": "5.35",
+   "decimals": 2,
+   "dimensions": {
+    "concept": "ifrs-full:DilutedEarningsLossPerShare",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2024-01-01T00:00:00/2025-01-01T00:00:00",
+    "unit": "iso4217:EUR/xbrli:shares"
+   }
+  },
+  "reg-ix-177": {
+   "value": "5221000000.0",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "ifrs-full:ProfitLossAttributableToOwnersOfParent",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2025-01-01T00:00:00/2026-01-01T00:00:00",
+    "unit": "iso4217:EUR"
+   }
+  },
+  "reg-ix-178": {
+   "value": "4232000000.0",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "ifrs-full:ProfitLossAttributableToOwnersOfParent",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2024-01-01T00:00:00/2025-01-01T00:00:00",
+    "unit": "iso4217:EUR"
+   }
+  },
+  "reg-ix-217": {
+   "value": "7995000000.0",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "ifrs-full:CashFlowsFromUsedInOperatingActivities",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2025-01-01T00:00:00/2026-01-01T00:00:00",
+    "unit": "iso4217:EUR"
+   }
+  },
+  "reg-ix-218": {
+   "value": "7402000000.0",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "ifrs-full:CashFlowsFromUsedInOperatingActivities",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2024-01-01T00:00:00/2025-01-01T00:00:00",
+    "unit": "iso4217:EUR"
+   }
+  },
+  "reg-ix-219": {
+   "value": "3964000000.0",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "airbus:PurchasesOfIntangibleAssetsPropertyPlantAndEquipmentInvestmentProperty",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2025-01-01T00:00:00/2026-01-01T00:00:00",
+    "unit": "iso4217:EUR"
+   }
+  },
+  "reg-ix-220": {
+   "value": "3669000000.0",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "airbus:PurchasesOfIntangibleAssetsPropertyPlantAndEquipmentInvestmentProperty",
+    "entity": "scheme:MINO79WLOO247M1IL051",
+    "period": "2024-01-01T00:00:00/2025-01-01T00:00:00",
+    "unit": "iso4217:EUR"
+   }
+  }
+ }
+}

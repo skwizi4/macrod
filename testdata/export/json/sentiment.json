@@ -1,0 +1,962 @@
+{
+  "header": {
+    "schema_version": 1,
+    "region": "usa",
+    "agent": "news",
+    "file": "sentiment",
+    "iso_week": "2026-W43",
+    "period": {
+      "from": "2026-10-18T16:00:00+02:00",
+      "to": "2026-10-25T16:00:00+01:00",
+      "tz": "Europe/Bratislava"
+    },
+    "generated_at": "2026-10-25T16:00:04+01:00",
+    "kind": "weekly",
+    "sources_ok": [
+      "fred",
+      "cboe",
+      "cftc",
+      "kalshi",
+      "polymarket"
+    ],
+    "sources_failed": [
+      "yahoo"
+    ],
+    "stale_series": null,
+    "title": "USA Sentiment — 2026-W43"
+  },
+  "reaction": {
+    "configured": true,
+    "window_minutes": 30,
+    "symbols": [
+      "NDX (NQ=F)",
+      "2Y ≈б.п. (ZT=F)",
+      "DXY",
+      "WTI"
+    ],
+    "rows": [
+      {
+        "labels": [
+          "TSLA отчёт",
+          "META отчёт"
+        ],
+        "at": "2026-10-21T16:00:00-04:00",
+        "surprises": [],
+        "moves": [
+          {
+            "first": {
+              "value": null,
+              "unit": "percent"
+            },
+            "full": {
+              "value": null,
+              "unit": "percent"
+            }
+          },
+          {
+            "first": {
+              "value": null,
+              "unit": "bp"
+            },
+            "full": {
+              "value": null,
+              "unit": "bp"
+            }
+          },
+          {
+            "first": {
+              "value": null,
+              "unit": "percent"
+            },
+            "full": {
+              "value": null,
+              "unit": "percent"
+            }
+          },
+          {
+            "first": {
+              "value": null,
+              "unit": "percent"
+            },
+            "full": {
+              "value": null,
+              "unit": "percent"
+            }
+          }
+        ]
+      },
+      {
+        "labels": [
+          "Claims"
+        ],
+        "at": "2026-10-22T08:30:00-04:00",
+        "surprises": [
+          {
+            "label": "IJC",
+            "actual": "194 тис.",
+            "expected": "198 тис.",
+            "diff": "−4 тис."
+          }
+        ],
+        "moves": [
+          {
+            "first": {
+              "value": null,
+              "unit": "percent"
+            },
+            "full": {
+              "value": null,
+              "unit": "percent"
+            }
+          },
+          {
+            "first": {
+              "value": null,
+              "unit": "bp"
+            },
+            "full": {
+              "value": null,
+              "unit": "bp"
+            }
+          },
+          {
+            "first": {
+              "value": null,
+              "unit": "percent"
+            },
+            "full": {
+              "value": null,
+              "unit": "percent"
+            }
+          },
+          {
+            "first": {
+              "value": null,
+              "unit": "percent"
+            },
+            "full": {
+              "value": null,
+              "unit": "percent"
+            }
+          }
+        ]
+      }
+    ],
+    "no_bars": true
+  },
+  "moves": {
+    "configured": true,
+    "days": [
+      "2026-10-19",
+      "2026-10-20",
+      "2026-10-21",
+      "2026-10-22",
+      "2026-10-23"
+    ],
+    "rows": [
+      {
+        "label": "NDX",
+        "values": [
+          {
+            "value": 1.1710472444586895,
+            "unit": "percent"
+          },
+          {
+            "value": -0.13230904168225477,
+            "unit": "percent"
+          },
+          {
+            "value": 1.1266084960875222,
+            "unit": "percent"
+          },
+          {
+            "value": -2.896569438129315,
+            "unit": "percent"
+          },
+          {
+            "value": -0.004005706059218017,
+            "unit": "percent"
+          }
+        ],
+        "best": "2026-10-22",
+        "best_value": {
+          "value": -2.896569438129315,
+          "unit": "percent"
+        }
+      },
+      {
+        "label": "2Y ≈б.п. (ZT=F)",
+        "values": [
+          {
+            "value": 3.446085984767776,
+            "unit": "bp"
+          },
+          {
+            "value": 8.374549252202081,
+            "unit": "bp"
+          },
+          {
+            "value": 12.82854647634411,
+            "unit": "bp"
+          },
+          {
+            "value": 15.332947536589023,
+            "unit": "bp"
+          },
+          {
+            "value": 16.86591596805328,
+            "unit": "bp"
+          }
+        ],
+        "best": "2026-10-23",
+        "best_value": {
+          "value": 16.86591596805328,
+          "unit": "bp"
+        }
+      },
+      {
+        "label": "DXY",
+        "values": [
+          {
+            "value": 0.2846755105858634,
+            "unit": "percent"
+          },
+          {
+            "value": 0.32117569770553356,
+            "unit": "percent"
+          },
+          {
+            "value": 0.32418972779379995,
+            "unit": "percent"
+          },
+          {
+            "value": 0.2901026641094706,
+            "unit": "percent"
+          },
+          {
+            "value": 0.22658974400180387,
+            "unit": "percent"
+          }
+        ],
+        "best": "2026-10-21",
+        "best_value": {
+          "value": 0.32418972779379995,
+          "unit": "percent"
+        }
+      },
+      {
+        "label": "WTI",
+        "values": [
+          {
+            "value": 2.218716102948437,
+            "unit": "percent"
+          },
+          {
+            "value": -1.8039745321242417,
+            "unit": "percent"
+          },
+          {
+            "value": -4.558404558404561,
+            "unit": "percent"
+          },
+          {
+            "value": 2.3880597014925398,
+            "unit": "percent"
+          },
+          {
+            "value": 3.8202473107469492,
+            "unit": "percent"
+          }
+        ],
+        "best": "2026-10-21",
+        "best_value": {
+          "value": -4.558404558404561,
+          "unit": "percent"
+        }
+      }
+    ]
+  },
+  "regime": {
+    "corr_days": 20,
+    "threshold": 0.3,
+    "date": "2026-10-23",
+    "r": {
+      "value": -0.2973846708565695,
+      "unit": "correlation"
+    },
+    "r_week_ago": {
+      "value": -0.25612996885513123,
+      "unit": "correlation"
+    }
+  },
+  "volatility": {
+    "rows": [
+      {
+        "id": "^VIX",
+        "source": "yahoo",
+        "label": "VIX",
+        "date": "2026-10-23",
+        "freq": "d",
+        "kind": "px",
+        "flags": [],
+        "quality": "official",
+        "level": {
+          "value": 19.45,
+          "unit": "index"
+        },
+        "change_1w": {
+          "value": -0.5399999999999991,
+          "unit": "index"
+        },
+        "change_4w": {
+          "value": 4.58,
+          "unit": "index"
+        },
+        "z": {
+          "value": 0.4457534937461053,
+          "unit": "sigma"
+        }
+      },
+      {
+        "id": "^VIX3M",
+        "source": "yahoo",
+        "label": "VIX 3M",
+        "date": "2026-10-23",
+        "freq": "d",
+        "kind": "px",
+        "flags": [],
+        "quality": "official",
+        "level": {
+          "value": 21.56,
+          "unit": "index"
+        },
+        "change_1w": {
+          "value": 0.09999999999999787,
+          "unit": "index"
+        },
+        "change_4w": {
+          "value": -0.010000000000001563,
+          "unit": "index"
+        },
+        "z": {
+          "value": 1.843994828154987,
+          "unit": "sigma"
+        }
+      },
+      {
+        "id": "^SKEW",
+        "source": "yahoo",
+        "label": "SKEW",
+        "date": "2026-10-23",
+        "freq": "d",
+        "kind": "px",
+        "flags": [],
+        "quality": "official",
+        "level": {
+          "value": 151.29,
+          "unit": "index"
+        },
+        "change_1w": {
+          "value": -1.1200000000000045,
+          "unit": "index"
+        },
+        "change_4w": {
+          "value": 0.19999999999998863,
+          "unit": "index"
+        },
+        "z": {
+          "value": -0.40153037292183136,
+          "unit": "sigma"
+        }
+      },
+      {
+        "id": "^MOVE",
+        "source": "yahoo",
+        "label": "MOVE",
+        "date": "2026-10-23",
+        "freq": "d",
+        "kind": "px",
+        "flags": [],
+        "quality": "official",
+        "level": {
+          "value": 102.27,
+          "unit": "index"
+        },
+        "change_1w": {
+          "value": -0.37000000000000455,
+          "unit": "index"
+        },
+        "change_4w": {
+          "value": -0.20000000000000284,
+          "unit": "index"
+        },
+        "z": {
+          "value": 1.3431275786628953,
+          "unit": "sigma"
+        }
+      }
+    ],
+    "ratio": {
+      "label": "VIX/VIX3M",
+      "date": "2026-10-23",
+      "level": {
+        "value": 0.9021335807050093,
+        "unit": "ratio"
+      },
+      "change_1w": {
+        "value": -0.029366885278215182,
+        "unit": "ratio"
+      },
+      "change_4w": {
+        "value": 0.21275017783064676,
+        "unit": "ratio"
+      },
+      "flags": []
+    },
+    "put_call": [
+      {
+        "id": "PC_TOTAL",
+        "source": "cboe",
+        "label": "Put/call total (Cboe)",
+        "date": "2026-10-23",
+        "freq": "d",
+        "kind": "ratio",
+        "flags": [],
+        "quality": "official",
+        "level": {
+          "value": 0.81,
+          "unit": "ratio"
+        },
+        "avg_5d": {
+          "value": 0.8160000000000001,
+          "unit": "ratio"
+        },
+        "avg_5d_week_ago": {
+          "value": 0.82,
+          "unit": "ratio"
+        },
+        "z": {
+          "value": 0.08077174967778512,
+          "unit": "sigma"
+        }
+      },
+      {
+        "id": "PC_EQUITY",
+        "source": "cboe",
+        "label": "Put/call акции (Cboe)",
+        "date": "2026-10-23",
+        "freq": "d",
+        "kind": "ratio",
+        "flags": [],
+        "quality": "official",
+        "level": {
+          "value": 0.81,
+          "unit": "ratio"
+        },
+        "avg_5d": {
+          "value": 0.812,
+          "unit": "ratio"
+        },
+        "avg_5d_week_ago": {
+          "value": 0.82,
+          "unit": "ratio"
+        },
+        "z": {
+          "value": 0.07507186908802416,
+          "unit": "sigma"
+        }
+      },
+      {
+        "id": "PC_INDEX",
+        "source": "cboe",
+        "label": "Put/call индексы (Cboe)",
+        "date": "2026-10-23",
+        "freq": "d",
+        "kind": "ratio",
+        "flags": [],
+        "quality": "official",
+        "level": {
+          "value": 0.82,
+          "unit": "ratio"
+        },
+        "avg_5d": {
+          "value": 0.8140000000000001,
+          "unit": "ratio"
+        },
+        "avg_5d_week_ago": {
+          "value": 0.8100000000000002,
+          "unit": "ratio"
+        },
+        "z": {
+          "value": 1.5169068221105653,
+          "unit": "sigma"
+        }
+      }
+    ]
+  },
+  "breadth": [
+    {
+      "label": "RSP/SPY (равный вес / S&P 500)",
+      "date": "2026-10-23",
+      "level": {
+        "value": 0.27924380249353364,
+        "unit": "ratio"
+      },
+      "change_1w": {
+        "value": 1.4326153192005364,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": 0.5612985633330236,
+        "unit": "percent"
+      },
+      "flags": []
+    },
+    {
+      "label": "QQEW/QQQ (равный вес / NASDAQ-100)",
+      "date": "2026-10-23",
+      "level": {
+        "value": 0.23903495011608206,
+        "unit": "ratio"
+      },
+      "change_1w": {
+        "value": -0.3960467332121409,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": 0.2604375501723766,
+        "unit": "percent"
+      },
+      "flags": []
+    },
+    {
+      "label": "IWM/SPY (малые / большие)",
+      "date": "2026-10-23",
+      "level": {
+        "value": 0.3706297770932024,
+        "unit": "ratio"
+      },
+      "change_1w": {
+        "value": 2.648269970896333,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": 0.7106777502016604,
+        "unit": "percent"
+      },
+      "flags": []
+    },
+    {
+      "label": "SMH/QQQ (полупроводники / NASDAQ-100)",
+      "date": "2026-10-23",
+      "level": {
+        "value": 0.6110623078371086,
+        "unit": "ratio"
+      },
+      "change_1w": {
+        "value": -1.0606461600398909,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": -0.29813375743915627,
+        "unit": "percent"
+      },
+      "flags": []
+    },
+    {
+      "label": "XLU/SPY (коммунальные)",
+      "date": "2026-10-23",
+      "level": {
+        "value": 0.12583916998459704,
+        "unit": "ratio"
+      },
+      "change_1w": {
+        "value": 0.5229849002515774,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": -0.02865617059208958,
+        "unit": "percent"
+      },
+      "flags": []
+    },
+    {
+      "label": "XLP/SPY (товары первой необходимости)",
+      "date": "2026-10-23",
+      "level": {
+        "value": 0.11752739108954052,
+        "unit": "ratio"
+      },
+      "change_1w": {
+        "value": -0.029382007162681578,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": 0.026612766780931274,
+        "unit": "percent"
+      },
+      "flags": []
+    },
+    {
+      "label": "XLE/SPY (энергетика)",
+      "date": "2026-10-23",
+      "level": {
+        "value": 0.13393298264988812,
+        "unit": "ratio"
+      },
+      "change_1w": {
+        "value": 1.2958892293415847,
+        "unit": "percent"
+      },
+      "change_4w": {
+        "value": 0.07399345940135582,
+        "unit": "percent"
+      },
+      "flags": []
+    }
+  ],
+  "positioning": {
+    "contracts": [
+      {
+        "name": "Nasdaq-100 E-mini",
+        "date": "2026-10-20",
+        "lev_net": {
+          "value": -51855,
+          "unit": "count"
+        },
+        "lev_change": {
+          "value": 312,
+          "unit": "count"
+        },
+        "lev_z": {
+          "value": -1.145517333793187,
+          "unit": "sigma"
+        },
+        "am_net": {
+          "value": -50310,
+          "unit": "count"
+        },
+        "am_change": {
+          "value": -289,
+          "unit": "count"
+        },
+        "am_z": {
+          "value": 0.29066946435367685,
+          "unit": "sigma"
+        },
+        "open_interest": {
+          "value": 255552,
+          "unit": "count"
+        }
+      },
+      {
+        "name": "10Y T-Note",
+        "date": "2026-10-20",
+        "lev_net": {
+          "value": -52050,
+          "unit": "count"
+        },
+        "lev_change": {
+          "value": 239,
+          "unit": "count"
+        },
+        "lev_z": {
+          "value": -1.340691694606638,
+          "unit": "sigma"
+        },
+        "am_net": {
+          "value": -53715,
+          "unit": "count"
+        },
+        "am_change": {
+          "value": -293,
+          "unit": "count"
+        },
+        "am_z": {
+          "value": -1.6954535930740566,
+          "unit": "sigma"
+        },
+        "open_interest": {
+          "value": 252241,
+          "unit": "count"
+        }
+      },
+      {
+        "name": "Euro FX",
+        "date": "2026-10-20",
+        "lev_net": {
+          "value": -51847,
+          "unit": "count"
+        },
+        "lev_change": {
+          "value": 31,
+          "unit": "count"
+        },
+        "lev_z": {
+          "value": -1.7835723637969967,
+          "unit": "sigma"
+        },
+        "am_net": {
+          "value": -48479,
+          "unit": "count"
+        },
+        "am_change": {
+          "value": -352,
+          "unit": "count"
+        },
+        "am_z": {
+          "value": 1.0619141053059693,
+          "unit": "sigma"
+        },
+        "open_interest": {
+          "value": 255664,
+          "unit": "count"
+        }
+      }
+    ],
+    "mmf": {
+      "id": "WRMFNS",
+      "source": "fred",
+      "label": "Розничные фонды денежного рынка",
+      "date": "2026-10-21",
+      "freq": "w",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 2324.691,
+        "unit": "usd_bn"
+      },
+      "change_1w": {
+        "value": 5.515999999999622,
+        "unit": "usd_bn"
+      },
+      "change_4w": {
+        "value": 25.955999999999676,
+        "unit": "usd_bn"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    }
+  },
+  "predictions": {
+    "enabled": true,
+    "questions": [
+      {
+        "topic": "Рецессия в США",
+        "title": "Will there be a recession in 2027?",
+        "source": "kalshi",
+        "date": "2026-10-23",
+        "freq": "d",
+        "outcomes": [
+          {
+            "name": "",
+            "level": {
+              "value": 22,
+              "unit": "percent"
+            },
+            "change_1w": {
+              "value": 0.1999999999999993,
+              "unit": "pp"
+            },
+            "change_4w": {
+              "value": 0.10000000000000142,
+              "unit": "pp"
+            }
+          }
+        ]
+      },
+      {
+        "topic": "Рецессия в США",
+        "title": "US recession by end of 2026?",
+        "source": "polymarket",
+        "date": "2026-10-23",
+        "freq": "d",
+        "outcomes": [
+          {
+            "name": "",
+            "level": {
+              "value": 7,
+              "unit": "percent"
+            },
+            "change_1w": {
+              "value": -0.09999999999999964,
+              "unit": "pp"
+            },
+            "change_4w": {
+              "value": 0,
+              "unit": "pp"
+            }
+          }
+        ]
+      },
+      {
+        "topic": "Решение ФРС, ближайшее заседание",
+        "title": "Fed decision in Oct 2026? (On Oct 28, 2026)",
+        "source": "kalshi",
+        "date": "2026-10-23",
+        "freq": "d",
+        "outcomes": [
+          {
+            "name": "Fed maintains rate",
+            "level": {
+              "value": 62,
+              "unit": "percent"
+            },
+            "change_1w": {
+              "value": 0.5,
+              "unit": "pp"
+            },
+            "change_4w": {
+              "value": 0.29999999999999716,
+              "unit": "pp"
+            }
+          },
+          {
+            "name": "Hike 25bps",
+            "level": {
+              "value": 30.3,
+              "unit": "percent"
+            },
+            "change_1w": {
+              "value": 0.5,
+              "unit": "pp"
+            },
+            "change_4w": {
+              "value": 0.10000000000000142,
+              "unit": "pp"
+            }
+          },
+          {
+            "name": "Cut 25bps",
+            "level": {
+              "value": 5,
+              "unit": "percent"
+            },
+            "change_1w": {
+              "value": 0,
+              "unit": "pp"
+            },
+            "change_4w": {
+              "value": 0,
+              "unit": "pp"
+            }
+          },
+          {
+            "name": "Hike >25bps",
+            "level": {
+              "value": 2,
+              "unit": "percent"
+            },
+            "change_1w": {
+              "value": 0,
+              "unit": "pp"
+            },
+            "change_4w": {
+              "value": 0,
+              "unit": "pp"
+            }
+          }
+        ]
+      },
+      {
+        "topic": "Решение ФРС, ближайшее заседание",
+        "title": "Fed Decision in October?",
+        "source": "polymarket",
+        "date": "2026-10-23",
+        "freq": "d",
+        "outcomes": [
+          {
+            "name": "No change",
+            "level": {
+              "value": 64.8,
+              "unit": "percent"
+            },
+            "change_1w": {
+              "value": 0.7999999999999972,
+              "unit": "pp"
+            },
+            "change_4w": {
+              "value": 0.20000000000000284,
+              "unit": "pp"
+            }
+          },
+          {
+            "name": "25 bps increase",
+            "level": {
+              "value": 31.1,
+              "unit": "percent"
+            },
+            "change_1w": {
+              "value": 0.40000000000000213,
+              "unit": "pp"
+            },
+            "change_4w": {
+              "value": 0.10000000000000142,
+              "unit": "pp"
+            }
+          },
+          {
+            "name": "25 bps decrease",
+            "level": {
+              "value": 4,
+              "unit": "percent"
+            },
+            "change_1w": {
+              "value": 0,
+              "unit": "pp"
+            },
+            "change_4w": {
+              "value": 0,
+              "unit": "pp"
+            }
+          }
+        ]
+      }
+    ],
+    "hike": {
+      "meeting": "2026-10-28",
+      "price_date": "2026-10-23",
+      "meeting_bp": {
+        "value": -8.499999999999908,
+        "unit": "bp"
+      },
+      "platforms": [
+        {
+          "name": "Kalshi",
+          "level": {
+            "value": 32.3,
+            "unit": "percent"
+          },
+          "change_1w": {
+            "value": 0.5,
+            "unit": "pp"
+          }
+        },
+        {
+          "name": "Polymarket",
+          "level": {
+            "value": 31.1,
+            "unit": "percent"
+          },
+          "change_1w": {
+            "value": 0.40000000000000213,
+            "unit": "pp"
+          }
+        }
+      ]
+    }
+  },
+  "missing": {
+    "stale": [],
+    "failures": [
+      {
+        "key": "yahoo:DX-Y.NYB",
+        "since": "2026-10-24T22:30:00+02:00",
+        "error": "yahoo DX-Y.NYB: GET …: status 429"
+      }
+    ]
+  }
+}

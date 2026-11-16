@@ -1,0 +1,11 @@
+# Title
+Alphabet Announces Second Quarter 2026 Results
+
+# Outlook
+
+
+# Quotes
+Sundar Pichai, CEO of Google and Alphabet, said: “Our AI investments are redefining what’s possible across every part of our business.
+Q2 was an amazing quarter, with Alphabet revenues growing 24% year-over-year and Google Cloud revenues accelerating to 82% growth, driven by demand for AI infrastructure and AI solutions. It’s great to see wide adoption of Gemini Enterprise, with nearly 90% of the Fortune 100 using it.
+We have exciting momentum across the board. Our popular AI features are driving Search query growth. Gemini models now process 22 billion API tokens per minute and the Gemini App has 950 million monthly active users. We are seeing strong demand for our security solutions, and our new Gemini 3.5 Flash Cyber delivers highly cost-efficient performance at the frontier. And month over month, people turn to YouTube for major world events, with over 1.7 billion unique viewers watching World Cup-related videos during the FIFA World Cup 2026TM.
+These outstanding results show that our differentiated, full stack approach to AI is delivering real, measurable value for consumers, customers, and our partners globally.”

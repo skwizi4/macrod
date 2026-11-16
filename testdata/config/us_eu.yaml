@@ -1,0 +1,1560 @@
+# Слитый конфиг США + Европа (фаза 11, шаг 20): presets/us-equities.yaml + регион eu и секции Европы из
+# presets/eu-equities.yaml по инструкции README «Европа». Тест: грузится и экспортирует оба региона.
+timezone: "Europe/Bratislava"
+data_dir: "./data" # БД, логи, exchange/, reports/; относительный путь — от папки этого файла
+# приоритет: флаг --data-dir > env MACRO_DATA_DIR > data_dir здесь > ./data (D17)
+db_path: "${data_dir}/macro.db"
+history_start: "2000-01-01"
+export:
+  exchange_dir: "${data_dir}/exchange"
+  reports_dir: "${data_dir}/reports"
+  weekly_cron: "0 16 * * 0" # воскресенье 16:00 Europe/Bratislava
+  lookback_days: 7
+  max_file_chars: 60000
+  event_export: immediate # FOMC/ЕЦБ — экспорт сразу после появления документа
+# Шаблоны: встроены в бинарник; файлы *.tmpl из этой папки заменяют одноимённые {{define}} (путь — от папки конфига).
+# templates_dir: "./my-templates"
+
+# Регионы и агенты (ТЗ §21.3). id региона — папка в exchange/ и reports/ и значение region у постов и событий.
+# У агента: id (agent в шапке, reports/<регион>/<неделя>/<id>.md), folder (по умолчанию = id),
+# series_tags (значения поля agent: у рядов), texts (fed, treasury), companies (тикеры edgar.companies),
+# channels (handle/имя ленты; пусто — все источники региона), reports (файлы).
+# У отчёта: report (тип: monetary, fiscal_liquidity, micro, news, sentiment, markets, calendar, key_metrics, fomc_diff),
+# file, title, template (по умолчанию = report), таблицы типа — все обязательны, пустая пишется [].
+regions:
+  - id: usa
+    title: "США" # в сообщении доставки: «Недельный экспорт 2026-W46 — США готов»
+    index: "^NDX"
+    yahoo_poll: "22:30" # Europe/Bratislava, после закрытия США
+    agents:
+      - id: monetary
+        series_tags: [usa_monetary]
+        texts: [fed]
+        reports:
+          - report: monetary
+            file: current_week.md
+            title: "USA Monetary"
+            tables:
+              growth: [GDPC1, GDPNOW, GDP, GDPDEF, PCE, NETEXP, PSAVERT]
+              sentiment: [UMCSENT, MICH]
+              labor: [UNRATE, PAYEMS, ICSA, CCSA, JTSJOL, JTSJOR, U_V, JTSQUR, JTSHIL, CES0500000003, ECIALLCIV, ULCNFB, OPHNFB]
+              inflation: [CPIAUCSL, CPILFESL, CUSR0000SAH1, CUSR0000SASL2RS, STICKCPIM159SFRBATL, PPIFIS, PPIFES, WPSFD49116, PCEPI, PCEPILFE]
+              expectations: [T5YIE, T5YIFR, T10YIE]
+              fed: [DFF, DGS2, M2SL]
+              energy: ["CL=F", "NG=F"]
+          - {report: fomc_diff, file: fomc_diff.md, title: "USA Monetary"}
+      - id: fiscal_liquidity
+        series_tags: [usa_fiscal]
+        texts: [treasury]
+        reports:
+          - report: fiscal_liquidity
+            file: current_week.md
+            title: "USA Fiscal & Liquidity"
+            tables:
+              liquidity: [WALCL, WDTGAL, TGA_DTS, RRPONTSYD, WRESBAL, NET_LIQUIDITY]
+              funding: [SOFR, IORB, SOFR_IORB, RPONTSYD]
+              budget: [MTSDS133FMS, MTS_RECEIPTS, MTS_OUTLAYS, GFDEGDQ188S, A091RC1Q027SBEA, GCE]
+              curve: [DGS3MO, DGS2, DGS10, DGS30, DFII10, THREEFYTP10, UST_2S10S, UST_3M10Y]
+              derived: [NET_LIQUIDITY, SOFR_IORB, UST_2S10S, UST_3M10Y]
+      - id: micro
+        series_tags: [usa_micro]
+        companies: [MSFT, GOOGL, AMZN, META, AAPL, NVDA, AVGO, TSLA]
+        reports:
+          - {report: micro, file: current_week.md, title: "USA Micro"}
+      - id: news
+        series_tags: [usa_news]
+        reports:
+          - report: news
+            file: current_week.md
+            title: "USA News"
+            filtered_file: news_filtered.md
+            uncategorized_file: uncategorized.md
+            shared: true # общий файл новостей всех регионов (фаза 11): тот же блок — у EU News
+            own_tag_prefixes: ["usa_", "eu_"]
+            tag_topics: {usa_monetary: fed, usa_fiscal: fiscal, usa_politics: politics, energy_geopolitics: energy, usa_micro: earnings, eu_ecb: europe, eu_fiscal: europe, eu_macro: europe, eu_micro: europe}
+          - {report: sentiment, file: sentiment.md, title: "USA Sentiment"}
+      - id: master
+        series_tags: [usa_master]
+        reports:
+          - report: markets
+            file: markets_usa.md
+            title: "USA Markets"
+            tables:
+              rows: ["^NDX", "NQ=F", "^GSPC", "^VIX", "^MOVE", BAMLH0A0HYM2, BAMLC0A0CM, "DX-Y.NYB", "GC=F", "HG=F", "BTC-USD"]
+          - report: calendar
+            file: calendar_usa.md
+            title: "USA Calendar"
+            previous: # релиз FRED → ряд, чьё последнее значение показать как «прошлое»
+              10: {series: CPIAUCSL, code: yoy, name: "CPI YoY"}
+              11: {series: ECIALLCIV, code: yoy, name: "ECI YoY"}
+              20: {series: WALCL, code: level, name: "WALCL"}
+              46: {series: PPIFIS, code: yoy, name: "PPI YoY"}
+              50: {series: PAYEMS, code: diff, name: "NFP"}
+              53: {series: GDPC1, code: qoqa, name: "Real GDP QoQa"}
+              54: {series: PCEPILFE, code: yoy, name: "Core PCE YoY"}
+              91: {series: UMCSENT, code: level, name: "UMCSENT"}
+              180: {series: ICSA, code: level, name: "ICSA"}
+              192: {series: JTSJOL, code: level, name: "JOLTS"}
+              363: {series: MTSDS133FMS, code: level, name: "дефицит"}
+              386: {series: GDPNOW, code: level, name: "GDPNow"}
+          - report: key_metrics
+            file: key_metrics_usa.md
+            title: "USA Key Metrics"
+            sentiment_rows: true # + VIX/VIX3M, put/call акций, RSP/SPY, P(рецессия, Kalshi) — из sentiment.md
+            rows:
+              - {label: "Net Liquidity", id: NET_LIQUIDITY}
+              - {label: "Fed Funds (эффективная)", id: DFF}
+              - {label: "Траектория ставки (ZQ)", id: FED_PATH}
+              - {label: "UST 2Y", id: DGS2}
+              - {label: "UST 10Y", id: DGS10}
+              - {label: "Real Yield 10Y", id: DFII10}
+              - {label: "Term Premium 10Y", id: THREEFYTP10}
+              - {label: "Core PCE 3mA", id: PCEPILFE, code: a3m}
+              - {label: "Core CPI 3mA", id: CPILFESL, code: a3m}
+              - {label: "Unemployment Rate", id: UNRATE}
+              - {label: "Initial Claims", id: ICSA}
+              - {label: "HY-спред", id: BAMLH0A0HYM2}
+              - {label: "VIX", id: "^VIX"}
+              - {label: "MOVE", id: "^MOVE"}
+              - {label: "NASDAQ 100", id: "^NDX"}
+    # Страницы дашборда (ТЗ §21.4), порядок = порядок меню. kind: line | bar | curve.
+    # ref — source/id ряда из этого конфига, transform — код из metrics (по умолчанию level).
+    dashboard:
+      pages:
+        - id: overview
+          title: "Обзор"
+          views: [{view: key_metrics}, {view: status}]
+        - id: liquidity
+          title: "Ликвидность"
+          charts:
+            - {title: "Net Liquidity", kind: line, series: [{ref: derived/NET_LIQUIDITY}]}
+            - title: "Составляющие"
+              kind: line
+              series: [{ref: fred/WALCL}, {ref: fred/WDTGAL}, {ref: fred/RRPONTSYD}, {ref: fred/WRESBAL}]
+            - {title: "SOFR − IORB", kind: line, series: [{ref: derived/SOFR_IORB}]}
+        - id: rates
+          title: "Ставки"
+          charts:
+            - title: "Кривая UST: сейчас и 4 недели назад"
+              kind: curve
+              compare_days: 28
+              series:
+                - {ref: fred/DGS3MO, label: "3M"}
+                - {ref: fred/DGS2, label: "2Y"}
+                - {ref: fred/DGS10, label: "10Y"}
+                - {ref: fred/DGS30, label: "30Y"}
+            - title: "Доходности"
+              kind: line
+              series: [{ref: fred/DGS2}, {ref: fred/DGS10}, {ref: fred/DFII10}, {ref: fred/THREEFYTP10}]
+            - {title: "Спред 2s10s", kind: line, series: [{ref: derived/UST_2S10S}]}
+          views: [{view: fed_path}]
+        - id: inflation-labor
+          title: "Инфляция и труд"
+          charts:
+            - title: "Инфляция, YoY"
+              kind: line
+              series:
+                - {ref: fred/CPIAUCSL, transform: yoy, label: "CPI"}
+                - {ref: fred/CPILFESL, transform: yoy, label: "Core CPI"}
+                - {ref: fred/PCEPILFE, transform: yoy, label: "Core PCE"}
+            - title: "Инфляция, 3 мес. в годовом выражении"
+              kind: line
+              series:
+                - {ref: fred/CPILFESL, transform: a3m, label: "Core CPI 3mA"}
+                - {ref: fred/PCEPILFE, transform: a3m, label: "Core PCE 3mA"}
+            - {title: "Безработица", kind: line, series: [{ref: fred/UNRATE}]}
+            - title: "Заявки на пособие"
+              kind: line
+              series:
+                - {ref: fred/ICSA, label: "Initial Claims"}
+                - {ref: fred/ICSA, transform: avg4w, label: "Initial Claims, 4 нед."}
+            - {title: "U/V", kind: line, series: [{ref: derived/U_V}]}
+        - id: fiscal
+          title: "Фискал"
+          charts:
+            - {title: "Дефицит бюджета, сумма за 12 мес.", kind: bar, series: [{ref: fred/MTSDS133FMS, transform: sum12m}]}
+            - {title: "Процентные выплаты", kind: line, series: [{ref: fred/A091RC1Q027SBEA}]}
+          views: [{view: supply}, {view: auctions}]
+        - id: micro
+          title: "Micro"
+          views: [{view: capex}, {view: financials}]
+        - id: reactions
+          title: "Реакции"
+          views: [{view: event_reactions}, {view: reactions}, {view: surprises}]
+        - id: news-sentiment
+          title: "News и Sentiment"
+          charts:
+            - {title: "Волатильность", kind: line, series: [{ref: "yahoo/^VIX"}, {ref: "yahoo/^MOVE"}]}
+            - {title: "Ширина рынка: RSP/SPY", kind: line, series: [{ref: "ratio/RSP:SPY"}]}
+          views: [{view: news_feed}, {view: topics}]
+        - id: calendar
+          title: "Календарь"
+          views: [{view: calendar}]
+        - id: reports
+          title: "Отчёты"
+          views: [{view: reports}]
+  - id: eu
+    title: "Европа" # в сообщении доставки
+    index: "^GDAXI"
+    yahoo_poll: "18:00" # Europe/Bratislava, после закрытия Xetra (ТЗ §8.3)
+    timezone: "Europe/Berlin" # своя зона региона: вторая колонка времени calendar_eu.md, дни релизов (ТЗ §17.8)
+    timezone_label: "CET/CEST"
+    agents:
+      - id: monetary_macro
+        folder: monetary_macro
+        series_tags: [eu_monetary]
+        texts: [ecb_texts]
+        reports:
+          # тот же вид отчёта, что USA Monetary; шаблон Европы — без траектории ZQ и текстов ФРС (они у агента,
+          # который читает тексты fed), с текстами ЕЦБ. fed — ставки, баланс и ликвидность ЕЦБ; credit (необязательная
+          # таблица, батч 11f) — деньги, кредит, ставки по кредитам, BLS; energy — котировки Yahoo, в том числе валюты.
+          - report: monetary
+            file: current_week.md
+            title: "EU Monetary & Macro"
+            template: monetary_eu
+            tables:
+              growth: [GDP_EA, GDP_EA_NOM, GDP_EA_DEFL, CONS_EA, NETEXP_EA, SAVING_EA, GDP_DE, GDP_FR, GDP_IT, GDP_ES, IP_EA, RETAIL_EA, DE_ORDERS, DE_PRODUCTION]
+              sentiment: [EC_ESI_EA, EC_CONS_EA, EC_SERV_EA, EC_ICI_DE, EC_ESI_DE, ZEW_SENTIMENT, ZEW_SITUATION, IFO_CLIMATE, IFO_EXPECTATIONS]
+              labor: [UNEMP_EA, UNEMP_DE, UNEMP_FR, UNEMP_IT, UNEMP_ES, EMPL_EA, JOBVAC_EA, NEG_WAGES, WAGE_TRACKER, LCI_EA, ULC_EA, PROD_EA]
+              inflation: [HICP, HICP_CORE, HICP_SA, HICP_CORE_SA, HICP_SERV, HICP_NEIG, HICP_ENERGY, HICP_FOOD, HICP_DE, HICP_FR, HICP_IT, HICP_ES, PPI_EA, PPI_EA_CORE]
+              expectations: [CES_1Y, CES_3Y, SPF_NEXT_YEAR, SPF_LT, EC_PRICE_EXP]
+              fed: [ECB_DFR, ESTR, ESTR_DFR, ECB_ASSETS, EXCESS_LIQ, ILM_GOV_DEP]
+              credit: [M3_YOY, LOANS_NFC_YOY, LOANS_HH_YOY, MIR_NFC, MIR_HOUSE, BLS_NFC_STD, BLS_NFC_DEM, BLS_HH_STD, BLS_HH_DEM]
+              energy: ["TTF=F", "BZ=F", "EURUSD=X", "CNY=X"]
+          - {report: ecb_diff, file: ecb_diff.md, title: "EU Monetary & Macro", max_chars: 100000}
+      - id: fiscal_bonds
+        folder: fiscal_bonds
+        series_tags: [eu_fiscal]
+        reports:
+          # государственные облигации: кривая Bund, спреды (MTS, derived), месячные 10Y ЕЦБ, долг и дефицит,
+          # аукционы Bund (секция finanzagentur с agent: eu_fiscal) — недели и следующей недели
+          - report: fiscal_bonds
+            file: current_week.md
+            title: "EU Fiscal & Bonds"
+            tables:
+              curve: [BUND_2Y, BUND_5Y, BUND_10Y, BUND_30Y, BUND_2S10S, ECB_YC_AAA_10Y, ECB_YC_ALL_10Y]
+              spreads: [BTP_BUND, OAT_BUND, UST_BUND, ECB_ALL_AAA_10Y, "MIT10.AS", "MFR10.AS", "MDE10.AS"]
+              monthly: [IRS_IT_10Y, IRS_FR_10Y, IRS_ES_10Y, IRS_DE_10Y]
+              debt: [EA_DEBT_GDP, DE_DEBT_GDP, FR_DEBT_GDP, IT_DEBT_GDP, ES_DEBT_GDP, EA_DEFICIT_GDP, FR_DEFICIT_GDP, IT_DEFICIT_GDP, ES_DEFICIT_GDP, EA_INTEREST_GDP, TARGET_IT, TARGET_DE]
+      - id: micro
+        series_tags: [eu_micro]
+        companies: [SAP, SIE, ALV, AIR, DTE, ENR, RHM, MBG]
+        reports:
+          # EU Micro (ТЗ §18.7): цены и реакция на отчёт по всем восьми, даты отчётов из секции issuers,
+          # годовые цифры SAP (EDGAR 20-F) и Airbus (ESEF), пресс-релизы — абзацы outlook и цитаты.
+          - {report: micro_annual, file: current_week.md, title: "EU Micro"}
+      - id: news
+        series_tags: [eu_news]
+        reports:
+          # Файл новостей общий с USA News (решение пользователя 2026-11-10): тот же блок отчёта, что в пресете
+          # США, — тело файлов одинаково, отличаются шапка и заголовок. sentiment.md — свой, по европейским активам.
+          - report: news
+            file: current_week.md
+            title: "EU News"
+            filtered_file: news_filtered.md
+            uncategorized_file: uncategorized.md
+            shared: true
+            own_tag_prefixes: ["usa_", "eu_"]
+            tag_topics: {usa_monetary: fed, usa_fiscal: fiscal, usa_politics: politics, energy_geopolitics: energy, usa_micro: earnings, eu_ecb: europe, eu_fiscal: europe, eu_macro: europe, eu_micro: europe}
+          - report: sentiment
+            file: sentiment.md
+            title: "EU Sentiment"
+            template: sentiment_eu
+            # Свой блок вместо верхнего sentiment (ТЗ §12.6, «Европа»). Put/call и ширины рынка по Европе бесплатных
+            # нет; COT Euro FX — в markets_eu.md мастера (секция cftc, agent: eu_master).
+            sentiment:
+              sections: [reaction, moves, regime, volatility]
+              corr_days: 20
+              regime_threshold: 0.3
+              regime: {equity: "^GDAXI", rates: BUND_10Y} # r(GER40, Δ Bund 10Y)
+              volatility: [VDAX_NEW, VSTOXX]
+              vol_ratio: {num: VDAX_NEW, den: "^VIX", label: "VDAX/VIX", inversion: false}
+              put_call: false
+              reaction:
+                symbols:
+                  - {symbol: "^GDAXI", label: "GER40"}
+                  - {series: BUND_10Y, label: "Bund 10Y б.п."} # минутных баров нет: Δ за день (Бундесбанк), решение 2026-11-11
+                  - {symbol: "EURUSD=X", label: "EUR/USD"}
+                window: 30m
+                close: "17:30" # Xetra; событие после 17:30 — до закрытия следующего дня
+                timezone: "Europe/Berlin"
+                keep_days: 60
+                fetch_delay: 20m
+                check_every: 30m
+                earnings: true # отчёты компаний EU Micro (даты из конфига)
+                events:
+                  - {name: "Флеш HICP еврозоны", label: "HICP флеш", aliases: ["HICP", "інфляці* єврозон*", "инфляци* еврозон*"]}
+                  - {name: "Флеш ВВП еврозоны", label: "ВВП EZ флеш", aliases: ["GDP", "ВВП єврозон*", "ВВП еврозон*"]}
+                  - {name: "ZEW (Германия)", label: "ZEW", aliases: ["ZEW"]}
+                  - {name: "Опрос Еврокомиссии (ESI, confidence)", label: "ЕК опрос", aliases: ["ESI", "economic sentiment"]}
+                  - {name: "ECB decision", label: "ЕЦБ", aliases: ["ECB", "ЄЦБ", "ЕЦБ", "deposit rate"]}
+                  # события США двигают GER40 и EUR/USD (решение пользователя 2026-11-11); есть в календаре, только если в конфиге регион usa
+                  - {name: "Consumer Price Index", label: "US CPI", aliases: ["CPI", "ІСЦ", "ИПЦ"], region: usa}
+                  - {name: "Employment Situation", label: "US NFP", aliases: ["NFP", "Nonfarm", "Payrolls"], region: usa}
+                  - {name: "FOMC decision", label: "FOMC", aliases: ["FOMC", "Fed Funds"], region: usa}
+              daily_moves:
+                - {symbol: "^GDAXI", label: "GER40"}
+                - {series: BUND_10Y, label: "Bund 10Y б.п."}
+                - {symbol: "EURUSD=X", label: "EUR/USD"}
+                - {symbol: "TTF=F", label: "TTF"}
+      - id: master
+        series_tags: [eu_master]
+        reports:
+          - report: markets
+            file: markets_eu.md
+            title: "EU Markets"
+            tables:
+              rows: [ECB_DFR, ESTR, ECB_ASSETS, HICP, HICP_CORE, HICP_SA, HICP_CORE_SA, HICP_DE, ECB_YC_AAA_10Y, ECB_YC_ALL_10Y, IRS_IT_10Y, IRS_FR_10Y, IRS_DE_10Y, BUND_2Y, BUND_10Y, BUND_30Y, DE_ORDERS, DE_PRODUCTION, GDP_EA, GDP_DE, DE_DEBT_GDP, IT_DEFICIT_GDP, EC_ICI_DE, EC_ESI_DE, VDAX_NEW, VSTOXX, ZEW_SENTIMENT, ZEW_SITUATION, "^GDAXI", "^STOXX50E", "EURUSD=X", "CNY=X", "BZ=F", "TTF=F", "MIT10.AS", "MFR10.AS", "MDE10.AS", BTP_BUND, OAT_BUND, UST_BUND, BUND_2S10S, ECB_ALL_AAA_10Y, GER40_NDX, IFO_CLIMATE, IFO_EXPECTATIONS, UNEMP_EA, M3_YOY, CES_1Y, SPF_LT, BUND_5Y, CISS, EUR_NEER, EURGBP, EURJPY]
+          - {report: calendar, file: calendar_eu.md, title: "EU Calendar"}
+          # 12 строк ТЗ §12.7; строк сентимента США (sentiment_rows) нет
+          - report: key_metrics
+            file: key_metrics_eu.md
+            title: "EU Key Metrics"
+            rows:
+              - {label: "Deposit Rate (ЕЦБ)", id: ECB_DFR}
+              - {label: "HICP core 3mA", id: HICP_CORE_SA, code: a3m}
+              - {label: "Bund 10Y", id: BUND_10Y}
+              - {label: "BTP-Bund 10Y", id: BTP_BUND}
+              - {label: "UST-Bund 10Y", id: UST_BUND}
+              - {label: "DE industrial confidence (EC)", id: EC_ICI_DE}
+              - {label: "ZEW Economic Sentiment", id: ZEW_SENTIMENT}
+              - {label: "TTF", id: "TTF=F"}
+              - {label: "EUR/USD", id: "EURUSD=X"}
+              - {label: "VDAX-NEW (STOXX)", id: VDAX_NEW}
+              - {label: "GER40", id: "^GDAXI"}
+              - {label: "GER40/NDX", id: GER40_NDX}
+    # Страницы дашборда Европы (ТЗ §21.4), порядок = порядок меню; как у США. Виды capex, financials, reactions,
+    # fed_path, auctions, supply читают отчёты США (micro, monetary с ZQ, fiscal_liquidity) — у Европы их нет.
+    dashboard:
+      pages:
+        - id: overview
+          title: "Обзор"
+          views: [{view: key_metrics}, {view: status}]
+        - id: ecb
+          title: "ЕЦБ и инфляция"
+          charts:
+            - {title: "Ставки ЕЦБ", kind: line, series: [{ref: ecb/ECB_DFR}, {ref: ecb/ESTR}]}
+            - title: "HICP, YoY"
+              kind: line
+              series:
+                - {ref: ecb/HICP, transform: yoy, label: "HICP"}
+                - {ref: ecb/HICP_CORE, transform: yoy, label: "HICP core"}
+                - {ref: ecb/HICP_DE, transform: yoy, label: "HICP Германия"}
+            - {title: "HICP core, 3 мес. в годовом выражении", kind: line, series: [{ref: ecb/HICP_CORE_SA, transform: a3m, label: "HICP core 3mA"}]}
+            - {title: "Баланс Евросистемы", kind: line, series: [{ref: ecb/ECB_ASSETS}]}
+            - title: "HICP по компонентам, YoY"
+              kind: line
+              series:
+                - {ref: ecb/HICP_SERV, transform: yoy, label: "Услуги"}
+                - {ref: ecb/HICP_NEIG, transform: yoy, label: "Промтовары"}
+                - {ref: ecb/HICP_ENERGY, transform: yoy, label: "Энергия"}
+                - {ref: ecb/HICP_FOOD, transform: yoy, label: "Еда"}
+            - title: "HICP по странам, YoY"
+              kind: line
+              series:
+                - {ref: ecb/HICP_DE, transform: yoy, label: "Германия"}
+                - {ref: ecb/HICP_FR, transform: yoy, label: "Франция"}
+                - {ref: ecb/HICP_IT, transform: yoy, label: "Италия"}
+                - {ref: ecb/HICP_ES, transform: yoy, label: "Испания"}
+            - title: "Инфляционные ожидания"
+              kind: line
+              series: [{ref: ecb/CES_1Y, label: "Потребители, 12 мес."}, {ref: ecb/CES_3Y, label: "Потребители, 3 года"}, {ref: ecb/SPF_NEXT_YEAR, label: "SPF, следующий год"}, {ref: ecb/SPF_LT, label: "SPF, долгосрок"}]
+            - {title: "PPI еврозоны, YoY", kind: line, series: [{ref: eurostat/PPI_EA, transform: yoy, label: "PPI"}, {ref: eurostat/PPI_EA_CORE, transform: yoy, label: "PPI без энергии"}]}
+            - {title: "Избыточная ликвидность (≈)", kind: line, series: [{ref: derived/EXCESS_LIQ}]}
+            - {title: "€STR − ставка по депозитам", kind: line, series: [{ref: derived/ESTR_DFR}]}
+        - id: bonds
+          title: "Облигации"
+          charts:
+            - title: "Кривая Bund: сейчас и 4 недели назад"
+              kind: curve
+              compare_days: 28
+              series:
+                - {ref: bundesbank/BUND_2Y, label: "2Y"}
+                - {ref: bundesbank/BUND_5Y, label: "5Y"}
+                - {ref: bundesbank/BUND_10Y, label: "10Y"}
+                - {ref: bundesbank/BUND_30Y, label: "30Y"}
+            - {title: "Спреды к Bund 10Y", kind: line, series: [{ref: derived/BTP_BUND}, {ref: derived/OAT_BUND}, {ref: derived/UST_BUND}]}
+            - {title: "Bund 2s10s", kind: line, series: [{ref: derived/BUND_2S10S}]}
+            - {title: "Кривые ЕЦБ 10Y: AAA и все эмитенты", kind: line, series: [{ref: ecb/ECB_YC_AAA_10Y}, {ref: ecb/ECB_YC_ALL_10Y}]}
+            - title: "Госдолг, % ВВП"
+              kind: line
+              series: [{ref: eurostat/EA_DEBT_GDP, label: "Еврозона"}, {ref: eurostat/DE_DEBT_GDP, label: "Германия"}, {ref: eurostat/FR_DEBT_GDP, label: "Франция"}, {ref: eurostat/IT_DEBT_GDP, label: "Италия"}, {ref: eurostat/ES_DEBT_GDP, label: "Испания"}]
+            - {title: "TARGET: Италия и Германия", kind: line, series: [{ref: ecb/TARGET_IT, label: "Италия"}, {ref: ecb/TARGET_DE, label: "Германия"}]}
+        - id: economy
+          title: "Экономика"
+          charts:
+            - {title: "ZEW", kind: line, series: [{ref: zew/ZEW_SENTIMENT}, {ref: zew/ZEW_SITUATION}]}
+            # баланс (около нуля) и индекс (около 100) — на разных графиках: на одной оси баланс выглядит плоским
+            - {title: "Промышленное доверие DE (ЕК), баланс", kind: line, series: [{ref: eurostat/EC_ICI_DE}]}
+            - {title: "Экономические настроения DE (ЕК, ESI), индекс", kind: line, series: [{ref: eurostat/EC_ESI_DE}]}
+            - title: "Заказы и промпроизводство DE, YoY"
+              kind: line
+              series:
+                - {ref: bundesbank/DE_ORDERS, transform: yoy, label: "Заказы"}
+                - {ref: bundesbank/DE_PRODUCTION, transform: yoy, label: "Промпроизводство"}
+            - title: "Реальный ВВП, YoY"
+              kind: bar
+              series: [{ref: eurostat/GDP_EA, transform: yoy, label: "Еврозона"}, {ref: eurostat/GDP_DE, transform: yoy, label: "Германия"}, {ref: eurostat/GDP_FR, transform: yoy, label: "Франция"}, {ref: eurostat/GDP_IT, transform: yoy, label: "Италия"}, {ref: eurostat/GDP_ES, transform: yoy, label: "Испания"}]
+            - {title: "Промпроизводство и розница еврозоны, YoY", kind: line, series: [{ref: eurostat/IP_EA, transform: yoy, label: "Промпроизводство"}, {ref: eurostat/RETAIL_EA, transform: yoy, label: "Розница"}]}
+            - {title: "Настроения еврозоны (ЕК)", kind: line, series: [{ref: eurostat/EC_CONS_EA, label: "Потребители"}, {ref: eurostat/EC_SERV_EA, label: "Услуги"}]}
+            - {title: "ESI еврозоны (ЕК), индекс", kind: line, series: [{ref: eurostat/EC_ESI_EA}]}
+        - id: labor
+          title: "Рынок труда"
+          charts:
+            - title: "Безработица"
+              kind: line
+              series: [{ref: eurostat/UNEMP_EA, label: "Еврозона"}, {ref: eurostat/UNEMP_DE, label: "Германия"}, {ref: eurostat/UNEMP_FR, label: "Франция"}, {ref: eurostat/UNEMP_IT, label: "Италия"}, {ref: eurostat/UNEMP_ES, label: "Испания"}]
+            - {title: "Занятость еврозоны", kind: line, series: [{ref: eurostat/EMPL_EA}]}
+            - title: "Зарплаты и стоимость труда, YoY"
+              kind: line
+              series: [{ref: ecb/NEG_WAGES, label: "Переговорные зарплаты"}, {ref: eurostat/LCI_EA, transform: yoy, label: "Индекс стоимости труда"}, {ref: eurostat/ULC_EA, transform: yoy, label: "Удельные затраты на труд"}]
+            - {title: "Доля вакансий", kind: line, series: [{ref: eurostat/JOBVAC_EA}]}
+            - {title: "Wage tracker ЕЦБ: факт", kind: line, series: [{ref: ecb/WAGE_TRACKER, part: actual, label: "Wage tracker, г/г"}]}
+            - {title: "Wage tracker ЕЦБ: прогноз по подписанным договорам", kind: line, series: [{ref: ecb/WAGE_TRACKER, part: forecast, label: "Прогноз трекера, г/г"}]}
+        - id: credit
+          title: "Деньги и кредит"
+          charts:
+            - title: "M3 и кредиты, YoY"
+              kind: line
+              series: [{ref: ecb/M3_YOY, label: "M3"}, {ref: ecb/LOANS_NFC_YOY, label: "Кредиты бизнесу"}, {ref: ecb/LOANS_HH_YOY, label: "Кредиты домохозяйствам"}]
+            - {title: "Стоимость кредита", kind: line, series: [{ref: ecb/MIR_NFC, label: "Бизнесу"}, {ref: ecb/MIR_HOUSE, label: "Ипотека"}]}
+            - title: "Опрос банков (BLS): кредиты бизнесу"
+              kind: line
+              series: [{ref: ecb/BLS_NFC_STD, label: "Стандарты (> 0 — ужесточение)"}, {ref: ecb/BLS_NFC_DEM, label: "Спрос"}]
+            - title: "Опрос банков (BLS): ипотека"
+              kind: line
+              series: [{ref: ecb/BLS_HH_STD, label: "Стандарты"}, {ref: ecb/BLS_HH_DEM, label: "Спрос"}]
+        - id: micro
+          title: "Micro"
+          views: [{view: issuers}]
+        - id: markets
+          title: "Рынки"
+          charts:
+            - {title: "GER40 и STOXX 50", kind: line, series: [{ref: "yahoo/^GDAXI"}, {ref: "yahoo/^STOXX50E"}]}
+            - {title: "Волатильность", kind: line, series: [{ref: stoxx/VDAX_NEW}, {ref: stoxx/VSTOXX}]}
+            - {title: "EUR/USD", kind: line, series: [{ref: "yahoo/EURUSD=X"}]}
+            - {title: "Газ TTF", kind: line, series: [{ref: "yahoo/TTF=F"}]}
+            - {title: "Индекс системного стресса ЕЦБ (CISS)", kind: line, series: [{ref: ecb/CISS}]}
+            - {title: "Евро: эффективный курс (EER-40)", kind: line, series: [{ref: ecb/EUR_NEER}]}
+        - id: reactions
+          title: "Реакции"
+          views: [{view: event_reactions}, {view: surprises}]
+        - id: news-sentiment
+          title: "News и Sentiment"
+          views: [{view: news_feed}, {view: topics}]
+        - id: calendar
+          title: "Календарь"
+          views: [{view: calendar}]
+        - id: reports
+          title: "Отчёты"
+          views: [{view: reports}]
+# Статический сайт: ряды, которые macroctl site --demo вправе публиковать (D21, D24).
+# Только source/id с проверенной лицензией; всё остальное закрывается плашкой.
+# Проверено по тегам FRED API /fred/series/tags 2026-11-08: public domain, кроме RRPONTSYD
+# и SOFR внутри SOFR_IORB (FRB NY: copyrighted, citation required — источник назван в подвале сайта).
+# Pre-approval (BAML*, NASDAQCOM), UMich, Yahoo и другие цены — не добавлять.
+dashboard:
+  demo_allow:
+    - fred/WALCL
+    - fred/WDTGAL
+    - fred/WRESBAL
+    - fred/RRPONTSYD
+    - fred/DFF
+    - fred/DGS3MO
+    - fred/DGS2
+    - fred/DGS10
+    - fred/DGS30
+    - fred/DFII10
+    - fred/THREEFYTP10
+    - fred/CPIAUCSL
+    - fred/CPILFESL
+    - fred/PCEPILFE
+    - fred/UNRATE
+    - fred/ICSA
+    - fred/MTSDS133FMS
+    - fred/A091RC1Q027SBEA
+    - derived/NET_LIQUIDITY
+    - derived/SOFR_IORB
+    - derived/UST_2S10S
+    - derived/U_V
+    - ecb/ECB_DFR
+    - ecb/ESTR
+    - ecb/ECB_ASSETS
+    - ecb/HICP
+    - ecb/HICP_CORE
+    - ecb/HICP_SA
+    - ecb/HICP_CORE_SA
+    - ecb/HICP_DE
+    - ecb/ECB_YC_AAA_10Y
+    - ecb/ECB_YC_ALL_10Y
+    - ecb/IRS_IT_10Y
+    - ecb/IRS_FR_10Y
+    - ecb/IRS_DE_10Y
+    - bundesbank/BUND_2Y
+    - bundesbank/BUND_10Y
+    - bundesbank/BUND_30Y
+    - eurostat/GDP_EA
+    - eurostat/GDP_DE
+    - eurostat/DE_DEBT_GDP
+    - eurostat/IT_DEFICIT_GDP
+    - eurostat/EC_ICI_DE
+    - eurostat/EC_ESI_DE
+    # батч 11f: ЕЦБ (статистика ESCB; HICP — данные Eurostat, CC BY 4.0), Bund 5Y, Eurostat
+    - ecb/HICP_SERV
+    - ecb/HICP_NEIG
+    - ecb/HICP_ENERGY
+    - ecb/HICP_FOOD
+    - ecb/HICP_FR
+    - ecb/HICP_IT
+    - ecb/HICP_ES
+    - ecb/M3_YOY
+    - ecb/LOANS_NFC_YOY
+    - ecb/LOANS_HH_YOY
+    - ecb/MIR_NFC
+    - ecb/MIR_HOUSE
+    - ecb/BLS_NFC_STD
+    - ecb/BLS_NFC_DEM
+    - ecb/BLS_HH_STD
+    - ecb/BLS_HH_DEM
+    - ecb/ILM_CURRENT_ACC
+    - ecb/ILM_DEPOSIT_FAC
+    - ecb/ILM_GOV_DEP
+    - ecb/TARGET_IT
+    - ecb/TARGET_DE
+    - ecb/NEG_WAGES
+    - ecb/WAGE_TRACKER
+    - ecb/CES_1Y
+    - ecb/CES_3Y
+    - ecb/SPF_LT
+    - ecb/SPF_NEXT_YEAR
+    - ecb/CISS
+    - ecb/EUR_NEER
+    - ecb/EURGBP
+    - ecb/EURJPY
+    - ecb/IRS_ES_10Y
+    - bundesbank/BUND_5Y
+    - eurostat/GDP_EA_NOM
+    - eurostat/GDP_EA_DEFL
+    - eurostat/CONS_EA
+    - eurostat/EXPORTS_EA
+    - eurostat/IMPORTS_EA
+    - eurostat/SAVING_EA
+    - eurostat/IP_EA
+    - eurostat/RETAIL_EA
+    - eurostat/GDP_FR
+    - eurostat/GDP_IT
+    - eurostat/GDP_ES
+    - eurostat/EC_ESI_EA
+    - eurostat/EC_CONS_EA
+    - eurostat/EC_SERV_EA
+    - eurostat/EC_PRICE_EXP
+    - eurostat/UNEMP_EA
+    - eurostat/UNEMP_DE
+    - eurostat/UNEMP_FR
+    - eurostat/UNEMP_IT
+    - eurostat/UNEMP_ES
+    - eurostat/EMPL_EA
+    - eurostat/JOBVAC_EA
+    - eurostat/LCI_EA
+    - eurostat/ULC_EA
+    - eurostat/PROD_EA
+    - eurostat/PPI_EA
+    - eurostat/PPI_EA_CORE
+    - eurostat/FR_DEBT_GDP
+    - eurostat/ES_DEBT_GDP
+    - eurostat/IT_DEBT_GDP
+    - eurostat/EA_DEBT_GDP
+    - eurostat/FR_DEFICIT_GDP
+    - eurostat/ES_DEFICIT_GDP
+    - eurostat/EA_DEFICIT_GDP
+    - eurostat/EA_INTEREST_GDP
+git:
+  # доставка exchange/ в приватный репо после каждого экспорта (ТЗ §12.10, D10);
+  # ключ — env GIT_SSH_KEY_PATH (deploy key с правом записи только в этот репо)
+  enabled: false
+  repo: "you/macro_exchange"
+  branch: main
+  # remote: "git@github.com:you/macro_exchange.git"   # по умолчанию — из repo
+  author_name: "macro-collector"
+  author_email: "macro-collector@localhost"
+  commit_message: "export {iso_week} {region} {kind}" # {region} — id региона: у каждого региона свой коммит
+notify:
+  telegram_bot: false # TG_BOT_TOKEN, TG_CHAT_ID в env (ТЗ §12.11)
+  source_down_after: 24h # «Источник X недоступен > 24 ч»
+backup:
+  cron: "30 3 * * *" # ежедневно, VACUUM INTO ${data_dir}/backups/ (ТЗ §14)
+  keep: 7
+metrics:
+  zscore_window_daily_weekly: 52w
+  zscore_window_monthly_quarterly: 5y
+# =====================================================================
+# ЧИСЛОВЫЕ РЯДЫ. Храним уровни. transforms — что считает Go.
+# agent: usa_monetary | usa_fiscal | usa_master | eu_monetary | eu_fiscal | eu_master
+# =====================================================================
+fred:
+  # api_key: env FRED_API_KEY
+  # расписание релизов определяется автоматически: fred/series/release + fred/release/dates
+  series:
+    # --- USA Monetary: рост ---
+    - {id: GDPC1, agent: usa_monetary, label: "Real GDP", transforms: [qoqa, yoy]}
+    - {id: GDPNOW, agent: usa_monetary, label: "GDPNow", transforms: [level, d]}
+    - {id: GDP, agent: usa_monetary, label: "Nominal GDP", transforms: [qoqa, yoy]}
+    - {id: GDPDEF, agent: usa_monetary, label: "GDP Deflator", transforms: [qoqa, yoy]}
+    - {id: PCE, agent: usa_monetary, label: "Personal Consumption", transforms: [mom, yoy, a3m]}
+    - {id: NETEXP, agent: usa_monetary, label: "Net Exports", transforms: [level, d]}
+    - {id: PSAVERT, agent: usa_monetary, label: "Personal Saving Rate", transforms: [level, d]}
+    # --- USA Monetary: сентимент ---
+    - {id: UMCSENT, agent: usa_monetary, label: "UMich Sentiment", transforms: [level, d, z]}
+    - {id: MICH, agent: usa_monetary, label: "UMich Inflation Exp 1Y", transforms: [level, d]}
+    # --- USA Monetary: труд ---
+    - {id: UNRATE, agent: usa_monetary, label: "Unemployment Rate", transforms: [level, d]}
+    - {id: JTSJOL, agent: usa_monetary, label: "Job Openings", transforms: [level, yoy]}
+    - {id: JTSJOR, agent: usa_monetary, label: "Job Openings Rate", transforms: [level]}
+    - {id: UNEMPLOY, agent: usa_monetary, label: "Unemployed", transforms: [], hidden: true}
+    - {id: CES0500000003, agent: usa_monetary, label: "Avg Hourly Earnings", transforms: [yoy, a3m]}
+    - {id: ECIALLCIV, agent: usa_monetary, label: "Employment Cost Index", transforms: [yoy, qoqa]}
+    - {id: JTSHIL, agent: usa_monetary, label: "Hires", transforms: [level, yoy]}
+    - {id: JTSQUR, agent: usa_monetary, label: "Quits Rate", transforms: [level, d]}
+    - {id: ULCNFB, agent: usa_monetary, label: "Unit Labor Costs", transforms: [yoy]}
+    - {id: OPHNFB, agent: usa_monetary, label: "Labour Productivity", transforms: [yoy]}
+    - {id: PAYEMS, agent: usa_monetary, label: "Nonfarm Payrolls", transforms: [diff, avg3]}
+    - {id: ICSA, agent: usa_monetary, label: "Initial Claims", transforms: [level, avg4w, z]}
+    - {id: CCSA, agent: usa_monetary, label: "Continued Claims", transforms: [level, avg4w, z]}
+    # --- USA Monetary: инфляция ---
+    - {id: CPIAUCSL, agent: usa_monetary, label: "CPI", transforms: [yoy, mom, a3m, a6m]}
+    - {id: CPILFESL, agent: usa_monetary, label: "Core CPI", transforms: [yoy, mom, a3m, a6m]}
+    - {id: CUSR0000SAH1, agent: usa_monetary, label: "Shelter CPI", transforms: [yoy, a3m]}
+    - {id: CUSR0000SASL2RS, agent: usa_monetary, label: "Supercore CPI (услуги без жилья)", transforms: [yoy, mom, a3m, a6m]}
+    - {id: STICKCPIM159SFRBATL, agent: usa_monetary, label: "Sticky CPI", transforms: [level]}
+    - {id: PPIFIS, agent: usa_monetary, label: "PPI Final Demand", transforms: [yoy, mom]}
+    - {id: PPIFES, agent: usa_monetary, label: "Core PPI", transforms: [yoy, mom]}
+    - {id: WPSFD49116, agent: usa_monetary, label: "Core PPI ex trade", transforms: [yoy, mom]}
+    - {id: PCEPI, agent: usa_monetary, label: "PCE Price Index", transforms: [yoy, a3m]}
+    - {id: PCEPILFE, agent: usa_monetary, label: "Core PCE", transforms: [yoy, mom, a3m, a6m]}
+    # --- USA Monetary: ожидания и ФРС ---
+    - {id: T5YIE, agent: usa_monetary, label: "5Y Breakeven", transforms: [level, d1w, d4w]}
+    - {id: T5YIFR, agent: usa_monetary, label: "5Y5Y Forward", transforms: [level, d1w, d4w]}
+    - {id: T10YIE, agent: usa_monetary, label: "10Y Breakeven", transforms: [level, d1w, d4w]}
+    - {id: DFF, agent: usa_monetary, label: "Fed Funds", transforms: [level]}
+    - {id: DGS2, agent: usa_monetary, label: "UST 2Y", transforms: [level, d1w, d4w]}
+    - {id: M2SL, agent: usa_monetary, label: "M2", transforms: [yoy, a3m]}
+    - {id: DCOILWTICO, agent: usa_monetary, label: "WTI (FRED, запас)", transforms: [], fallback_for: "CL=F"}
+    - {id: DHHNGSP, agent: usa_monetary, label: "Henry Hub (FRED, запас)", transforms: [], fallback_for: "NG=F"}
+    # --- USA Fiscal & Liquidity ---
+    - {id: WALCL, agent: usa_fiscal, label: "Fed Balance Sheet", transforms: [level, d1w, d4w]}
+    - {id: WDTGAL, agent: usa_fiscal, label: "TGA (Wed)", transforms: [level, d1w, d4w]}
+    - {id: RRPONTSYD, agent: usa_fiscal, label: "ON RRP", transforms: [level, d1w, d4w]}
+    - {id: WRESBAL, agent: usa_fiscal, label: "Bank Reserves", transforms: [level, d1w, d4w]}
+    - {id: SOFR, agent: usa_fiscal, label: "SOFR", transforms: [level]}
+    - {id: IORB, agent: usa_fiscal, label: "IORB", transforms: [level]}
+    - {id: RPONTSYD, agent: usa_fiscal, label: "Standing Repo Facility", transforms: [level], flag_if_gt: 0}
+    - {id: MTSDS133FMS, agent: usa_fiscal, label: "Federal Deficit/Surplus", transforms: [level, sum12m, sum12m_yoy]}
+    - {id: GFDEGDQ188S, agent: usa_fiscal, label: "Debt-to-GDP", transforms: [level, d]}
+    - {id: A091RC1Q027SBEA, agent: usa_fiscal, label: "Interest Payments", transforms: [yoy]}
+    - {id: GCE, agent: usa_fiscal, label: "Government Spending", transforms: [yoy]}
+    - {id: DGS3MO, agent: usa_fiscal, label: "UST 3M", transforms: [level, d1w]}
+    - {id: DGS10, agent: usa_fiscal, label: "UST 10Y", transforms: [level, d1w, d4w, z]}
+    - {id: DGS30, agent: usa_fiscal, label: "UST 30Y", transforms: [level, d1w, d4w]}
+    - {id: DFII10, agent: usa_fiscal, label: "Real Yield 10Y", transforms: [level, d1w, d4w]}
+    - {id: THREEFYTP10, agent: usa_fiscal, label: "Term Premium 10Y", transforms: [level, d1w, d4w]}
+    # CMT для «≈tail» аукционов (high yield − CMT того же срока за день аукциона; решение 2026-10-24)
+    - {id: DGS3, agent: usa_fiscal, label: "UST 3Y (для ≈tail)", transforms: [], hidden: true}
+    - {id: DGS5, agent: usa_fiscal, label: "UST 5Y (для ≈tail)", transforms: [], hidden: true}
+    - {id: DGS7, agent: usa_fiscal, label: "UST 7Y (для ≈tail)", transforms: [], hidden: true}
+    - {id: DGS20, agent: usa_fiscal, label: "UST 20Y (для ≈tail)", transforms: [], hidden: true}
+    # --- USA Master (markets) ---
+    - {id: BAMLH0A0HYM2, agent: usa_master, label: "HY Spread", transforms: [level, d1w, d4w, z]}
+    - {id: BAMLC0A0CM, agent: usa_master, label: "IG Spread", transforms: [level, d1w, d4w]}
+    - {id: DTWEXBGS, agent: usa_master, label: "Dollar Broad (запас)", transforms: [], fallback_for: "DX-Y.NYB"}
+    - {id: NASDAQCOM, agent: usa_master, label: "NASDAQ Composite (запас)", transforms: [], fallback_for: "^NDX"}
+    # --- USA News: sentiment (FIXES_W44 F5, D16) ---
+    - {id: WRMFNS, agent: usa_news, label: "Розничные фонды денежного рынка", transforms: [level, d1w, d4w]}
+yahoo:
+  # некритичный источник; опрос раз в день после закрытия + в недельный экспорт
+  # неофициальный API, без cookie/crumb; ответ chart.result[0] (LOOKUP Y1, 2026-10-24)
+  # символы собираются по регионам: тег agent → regions[].agents[].series_tags; время опроса — regions[].yahoo_poll
+  endpoint: "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
+  symbols:
+    - {symbol: "^NDX", agent: usa_master, label: "NASDAQ 100", transforms: [level, d1w, d4w, ma50, ma200]}
+    - {symbol: "NQ=F", agent: usa_master, label: "NASDAQ fut", transforms: [level, d1w]}
+    - {symbol: "^GSPC", agent: usa_master, label: "S&P 500", transforms: [level, d1w, d4w]}
+    - {symbol: "^VIX", agent: usa_master, label: "VIX", transforms: [level, d1w, d4w, z]}
+    - {symbol: "^MOVE", agent: usa_master, label: "MOVE", transforms: [level, d1w, d4w, z]}
+    - {symbol: "DX-Y.NYB", agent: usa_master, label: "Dollar Index", transforms: [level, d1w, d4w]}
+    - {symbol: "GC=F", agent: usa_master, label: "Gold", transforms: [level, d1w, d4w]}
+    - {symbol: "HG=F", agent: usa_master, label: "Copper", transforms: [level, d1w, d4w]}
+    - {symbol: "BTC-USD", agent: usa_master, label: "Bitcoin", transforms: [level, d1w, d4w]}
+    - {symbol: "CL=F", agent: usa_monetary, label: "WTI", transforms: [level, d1w, d4w, yoy]}
+    - {symbol: "NG=F", agent: usa_monetary, label: "Henry Hub", transforms: [level, d1w, d4w]}
+    # Sentiment (FIXES_W44 F3/F4, D16): волатильность и ширина рынка → usa/news/sentiment.md
+    - {symbol: "ZT=F", agent: usa_news, label: "2Y fut (ZT=F)", transforms: [level]} # G4b: дневные движения 2Y
+    - {symbol: "^VIX3M", agent: usa_news, label: "VIX 3M", transforms: [level, d1w, d4w, z]}
+    - {symbol: "^SKEW", agent: usa_news, label: "SKEW", transforms: [level, d1w, d4w, z]}
+    - {symbol: "SPY", agent: usa_news, label: "SPY", transforms: [level, d1w, d4w]}
+    - {symbol: "RSP", agent: usa_news, label: "RSP (S&P 500 equal weight)", transforms: [level, d1w, d4w]}
+    - {symbol: "QQQ", agent: usa_news, label: "QQQ", transforms: [level, d1w, d4w]}
+    - {symbol: "QQEW", agent: usa_news, label: "QQEW (NASDAQ-100 equal weight)", transforms: [level, d1w, d4w]}
+    - {symbol: "IWM", agent: usa_news, label: "IWM (Russell 2000)", transforms: [level, d1w, d4w]}
+    - {symbol: "SMH", agent: usa_news, label: "SMH (полупроводники)", transforms: [level, d1w, d4w]}
+    - {symbol: "XLU", agent: usa_news, label: "XLU (коммунальные)", transforms: [level, d1w, d4w]}
+    - {symbol: "XLP", agent: usa_news, label: "XLP (потреб. товары первой необходимости)", transforms: [level, d1w, d4w]}
+    - {symbol: "XLE", agent: usa_news, label: "XLE (энергетика)", transforms: [level, d1w, d4w]}
+    - {symbol: "^GDAXI", agent: eu_master, label: "GER40", transforms: [level, d1w, d4w, ma50, ma200], exchange_tz: "Europe/Berlin"}
+    - {symbol: "^STOXX50E", agent: eu_master, label: "Euro Stoxx 50", transforms: [level, d1w, d4w], exchange_tz: "Europe/Berlin"}
+    - {symbol: "EURUSD=X", agent: eu_monetary, label: "EUR/USD", transforms: [level, d1w, d4w], units: "Exchange Rate"}
+    - {symbol: "CNY=X", agent: eu_monetary, label: "USD/CNY", transforms: [level, d1w, d4w], units: "Exchange Rate"}
+    - {symbol: "BZ=F", agent: eu_monetary, label: "Brent", transforms: [level, d1w, d4w]}
+    - {symbol: "TTF=F", agent: eu_monetary, label: "TTF Gas", transforms: [level, d1w, d4w, z], units: "Euro per MWh", interval: 1h} # дневной интервал отдаёт одну точку (проверено 2026-11-10)
+    # доходности Euronext MTS: обе ноги спредов BTP-Bund и OAT-Bund из одного источника (D25)
+    - {symbol: "MIT10.AS", agent: eu_fiscal, label: "BTP 10Y (MTS)", transforms: [level, d1w, d4w, z], interval: 1h, exchange_tz: "Europe/Amsterdam", units: "Percent per Annum", short_history: true}
+    - {symbol: "MFR10.AS", agent: eu_fiscal, label: "OAT 10Y (MTS)", transforms: [level, d1w, d4w, z], interval: 1h, exchange_tz: "Europe/Amsterdam", units: "Percent per Annum", short_history: true}
+    - {symbol: "MDE10.AS", agent: eu_fiscal, label: "Bund 10Y (MTS)", transforms: [level, d1w, d4w, z], interval: 1h, exchange_tz: "Europe/Amsterdam", units: "Percent per Annum", short_history: true}
+  fed_funds_futures:
+    # траектория ставки (замена FedWatch): ближайшие N месячных контрактов
+    # ZQ<код месяца CME><YY>.CBT, напр. ZQX26.CBT = ноябрь 2026 (LOOKUP Y3)
+    symbol_format: "ZQ{month}{yy}.CBT"
+    months_ahead: 12
+    agent: usa_monetary
+treasury:
+  # Fiscal Data: DTS, MTS, байбэки, календарь публикаций; TreasuryDirect TA_WS: результаты и
+  # предстоящие аукционы (в Fiscal Data результаты появляются только к дате выпуска). LOOKUP T1–T9.
+  fiscal_data_url: "https://api.fiscaldata.treasury.gov/services/api/fiscal_service"
+  release_calendar_url: "https://api.fiscaldata.treasury.gov/services/calendar/release"
+  treasurydirect_url: "https://www.treasurydirect.gov/TA_WS/securities"
+  datasets:
+    - {name: dts_operating_cash, agent: usa_fiscal, enabled: true} # TGA ежедневно
+    - {name: dts_public_debt, agent: usa_fiscal, enabled: true} # DTS: выпуск/погашение рыночных бумаг → чистое размещение
+    - {name: mts, agent: usa_fiscal, enabled: true} # Monthly Treasury Statement
+    - {name: auctions, agent: usa_fiscal, enabled: true, security_types: ["Bill", "Note", "Bond"]}
+    - {name: upcoming_auctions, agent: usa_master, enabled: true} # для календаря
+    - {name: buybacks, agent: usa_fiscal, enabled: true}
+  quarterly_refunding_url: "https://home.treasury.gov/policy-issues/financing-the-government/quarterly-refunding/most-recent-quarterly-refunding-documents"
+# Европа (ЕЦБ, Бундесбанк, Eurostat, STOXX, ZEW, ручной ввод Ifo, тикеры и спреды) — пресет presets/eu-equities.yaml
+
+# PMI (США, еврозона, Германия, Китай), Conference Board — нет бесплатного API:
+# берутся из текстов (новости/TG) через классификатор, отдельного числового источника нет
+cftc:
+  enabled: true
+  # TFF — Futures Only (Socrata); нетто Leveraged Funds + Asset Managers (решение 2026-10-24). LOOKUP C1–C3.
+  endpoint: "https://publicreporting.cftc.gov/resource/gpe5-46if.json"
+  # публикация пт 15:30 ET, бывают переносы на пн → проверка нового отчёта каждый будний вечер
+  check_cron: "0 22 * * 1-5" # Europe/Bratislava
+  contracts:
+    # код — cftc_contract_market_code (названия рынков менялись в 2022, ищем только по коду)
+    # позиционирование — у News (D16, FIXES_W44 F5); Euro FX в USA sentiment, EU — фаза 7
+    - {name: "Nasdaq-100 E-mini", code: "209742", agent: usa_news}
+    - {name: "10Y T-Note", code: "043602", agent: usa_news}
+    - {name: "Euro FX", code: "099741", agent: eu_master}
+cboe:
+  # put/call (FIXES_W44 F3): JSON страницы Cboe Daily Market Statistics, один файл на торговый день,
+  # блок ratios; день без файла (выходной, праздник, ещё не вышел) — 403. Не документированный API → некритичный (D7)
+  enabled: true
+  endpoint: "https://cdn.cboe.com/data/us/options/market_statistics/daily/{date}_daily_options"
+  poll_cron: "0 2 * * 2-6" # Europe/Bratislava: ~20:00 ET прошлого торгового дня
+  history_days: 400 # backfill: z за 52 нед. + запас
+  agent: usa_news
+prediction_markets:
+  # рынки предсказаний (FIXES_W44 F6, LOOKUP 2026-11-02): данные без ключа. Некритичный источник (D7).
+  # Вероятность = последняя цена «да» (0–1) → хранится в %. Ряд: "<тема>|<тикер или slug рынка>".
+  enabled: true
+  kalshi_endpoint: "https://api.elections.kalshi.com/trade-api/v2"
+  polymarket_gamma: "https://gamma-api.polymarket.com"
+  polymarket_clob: "https://clob.polymarket.com"
+  poll_cron: "30 22 * * *" # Europe/Bratislava, раз в день
+  history_days: 35 # первая загрузка рынка: история для Δ1w/Δ4w
+  agent: usa_news
+  topics:
+    - {name: recession, label: "Рецессия в США", kalshi_series: KXRECSSNBER, polymarket_slugs: [us-recession-by-end-of-2026]}
+    - {name: fed_next, label: "Решение ФРС, ближайшее заседание", kalshi_series: KXFEDDECISION, kalshi_nearest: true, polymarket_search: "Fed Decision in"}
+    - {name: house, label: "Палата представителей (выборы 2026)", kalshi_series: CONTROLH, kalshi_event: CONTROLH-2026, polymarket_slugs: [which-party-will-win-the-house-in-2026]}
+    - {name: senate, label: "Сенат (выборы 2026)", kalshi_series: CONTROLS, kalshi_event: CONTROLS-2026, polymarket_slugs: [which-party-will-win-the-senate-in-2026]}
+    - {name: shutdown, label: "Шатдаун правительства", kalshi_series: KXGOVTSHUTDOWN, polymarket_slugs: [government-shutdown-by]}
+# =====================================================================
+# ПРОИЗВОДНЫЕ РЯДЫ (считает Go)
+# =====================================================================
+derived:
+  - {name: NET_LIQUIDITY, formula: "WALCL - WDTGAL - RRPONTSYD", agent: usa_fiscal, transforms: [level, d1w, d4w, z], note: "привести единицы (млн/млрд) и частоту к недельной"}
+  - {name: U_V, formula: "UNEMPLOY / JTSJOL", agent: usa_monetary, transforms: [level, d]}
+  - {name: SOFR_IORB, formula: "SOFR - IORB", agent: usa_fiscal, unit: bp, flag_if_gt: 0}
+  - {name: UST_2S10S, formula: "DGS10 - DGS2", agent: usa_fiscal, unit: bp, transforms: [level, d]}
+  - {name: UST_3M10Y, formula: "DGS10 - DGS3MO", agent: usa_fiscal, unit: bp, transforms: [level, d]}
+  - {name: FED_PATH, formula: "из фьючерсов ZQ: 100 - цена → implied rate по месяцам; кол-во снижений/повышений по 25 б.п. vs DFF", agent: usa_monetary}
+  # обе ноги — доходности Euronext MTS с Yahoo (D25); если MDE10.AS пропал или отстал больше чем на 5 дней —
+  # спред считается против Bund 10Y Бундесбанка и помечается «запасная нога»
+  - {name: BTP_BUND, label: "BTP-Bund 10Y", formula: "MIT10.AS - MDE10.AS", agent: eu_fiscal, unit: bp, transforms: [level, d, d1w, d4w, z], short_history: true}
+  - {name: OAT_BUND, label: "OAT-Bund 10Y", formula: "MFR10.AS - MDE10.AS", agent: eu_fiscal, unit: bp, transforms: [level, d, d1w, d4w, z], short_history: true}
+  - {name: UST_BUND, label: "UST-Bund 10Y", formula: "DGS10 - BUND_10Y", agent: eu_fiscal, unit: bp, transforms: [level, d, d1w, d4w]}
+  - {name: BUND_2S10S, label: "2s10s Bund", formula: "BUND_10Y - BUND_2Y", agent: eu_fiscal, unit: bp, transforms: [level, d, d1w, d4w]}
+  # не спред страны: разница двух кривых ЕЦБ, замена показателя → quality: proxy
+  - {name: ECB_ALL_AAA_10Y, label: "Кривая ЕЦБ: все эмитенты − AAA, 10Y", formula: "ECB_YC_ALL_10Y - ECB_YC_AAA_10Y", agent: eu_fiscal, unit: bp, transforms: [level, d, d1w, d4w], quality: proxy}
+  # отношение индексов, приведено к 100 на первой общей дате; Δ — в процентах
+  - {name: GER40_NDX, label: "GER40/NDX (нормировано)", formula: "^GDAXI / ^NDX (нормировано)", agent: eu_master, transforms: [level, d1w, d4w]}
+  - {name: ESTR_DFR, label: "€STR − ставка по депозитам", formula: "ESTR - ECB_DFR", agent: eu_monetary, unit: bp, transforms: [level, d1w, d4w]}
+  - {name: NETEXP_EA, label: "Чистый экспорт еврозоны", formula: "EXPORTS_EA - IMPORTS_EA", agent: eu_monetary, transforms: [level, d]}
+  - {name: EXCESS_LIQ, label: "Избыточная ликвидность (≈ текущие счета + депозитный механизм)", formula: "ILM_CURRENT_ACC + ILM_DEPOSIT_FAC", agent: eu_monetary, transforms: [level, d1w, d4w], quality: proxy}
+# =====================================================================
+# ТЕКСТЫ
+# =====================================================================
+fed_texts:
+  # FOMC statements, minutes, SEP, речи и testimony членов Board, Beige Book.
+  # Только federalreserve.gov: speeches.xml содержит речи Board (все 7 — голосующие в 2026);
+  # региональные ФРБ не подключаем (решение 2026-10-24). LOOKUP 2026-10-24.
+  base_url: "https://www.federalreserve.gov"
+  feeds:
+    - {name: press_monetary, url: "https://www.federalreserve.gov/feeds/press_monetary.xml"} # statement, minutes, SEP
+    - {name: speeches, url: "https://www.federalreserve.gov/feeds/speeches.xml"}
+    - {name: testimony, url: "https://www.federalreserve.gov/feeds/testimony.xml"}
+  fomc_calendar: "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+  beige_book: "https://www.federalreserve.gov/monetarypolicy/publications/beige-book-default.htm"
+  poll_interval: 15m # RSS: речи, testimony и прочее вне календаря
+  agent: usa_monetary
+calendar:
+  # releases обновляется раз в сутки на horizon_days вперёд (ТЗ §8.1)
+  horizon_days: 14
+  refresh_cron: "0 5 * * *" # Europe/Bratislava
+  # FRED release/dates отдаёт только дату; время выхода — по release_id (LOOKUP 2026-10-24,
+  # официальные календари BLS/BEA/ФРС/NY Fed/DOL/UMich). Нет в списке — default_release_time.
+  release_timezone: "America/New_York"
+  default_release_time: "08:30"
+  release_times:
+    10: "08:30" # CPI (BLS)
+    11: "08:30" # Employment Cost Index (BLS)
+    17: "16:15" # H.10, понедельник (ФРС)
+    18: "16:15" # H.15 (ФРС)
+    20: "16:30" # H.4.1, четверг (ФРС)
+    21: "13:00" # H.6, 4-й вторник (ФРС)
+    46: "08:30" # PPI (BLS)
+    47: "08:30" # Productivity and Costs (BLS)
+    50: "08:30" # Employment Situation (BLS)
+    53: "08:30" # GDP (BEA)
+    54: "08:30" # Personal Income and Outlays (BEA)
+    91: "10:00" # Surveys of Consumers (UMich)
+    180: "08:30" # UI Weekly Claims, четверг (DOL)
+    192: "10:00" # JOLTS (BLS)
+    263: "08:30" # Debt to GDP (вместе с GDP)
+    304: "16:15" # Interest Rate Spreads (из H.15)
+    313: "08:30" # Sticky Price CPI (в день CPI)
+    379: "13:15" # Temporary OMO / RRP (окно операции 12:45–13:15)
+    445: "08:00" # SOFR (NY Fed)
+  # важность релизов FRED для calendar_usa.md — по ★ в DATA_MAP; нет в списке — low
+  release_importance:
+    10: high # CPI ★
+    11: medium # Employment Cost Index ★
+    20: medium # H.4.1: WALCL, TGA, резервы ★
+    46: high # PPI ★
+    50: high # Employment Situation: NFP, безработица ★
+    53: high # GDP ★
+    54: high # Personal Income and Outlays: PCE ★
+    91: high # UMich ★
+    180: high # Initial / Continued Claims ★
+    192: high # JOLTS ★
+    363: medium # Monthly Treasury Statement: дефицит ★
+    386: medium # GDPNow ★
+# Посты Telegram и RSS (фаза 4). Новый канал или лента — одна строка ниже;
+# демон подхватит её при перезапуске и сам загрузит историю за history_days.
+# Проверить источник до включения: macroctl source-check tg:<handle> | rss:<url>
+posts:
+  poll_interval: 15m
+  history_days: 30 # история при первом опросе нового источника (переопределяется в строке источника)
+telegram:
+  enabled: true
+  mode: web # публичные каналы через t.me/s/<handle> (D12); mtproto не реализован
+  base_url: "https://t.me"
+  channels:
+    # handle — имя из ссылки t.me/<handle>; region: usa | eu ; type: news | opinion
+    # default_tag: "" | usa_monetary | usa_fiscal | usa_micro | usa_politics | energy_geopolitics | eu_ecb | eu_fiscal | eu_macro | eu_micro
+    # history_days: необязательно, по умолчанию posts.history_days
+    - {handle: marketnews_ua, region: usa, type: news, default_tag: "", profile: "укр. рыночная лента: быстрые новости, цифры релизов, отчёты, ссылки на подкасты"} # Market News, укр.; пишет и про Европу
+    - {handle: macro_views, region: usa, type: opinion, default_tag: "", opinions_full: 10, profile: "рус. макро-аналитика, авторские выводы о ставках, ликвидности и AI-капексе"} # Macro Views, рус.
+    - {handle: us_politics_ru, region: usa, type: opinion, default_tag: usa_politics, opinions_full: 5, profile: "российский политический комментарий, оценочный, факты не проверены"} # политический комментатор, рус.; политика США (G5, решение 2026-11-03)
+rss_feeds: []
+# name — латиница/цифры/_ (источник в БД: rss:<name>); остальные поля — как у каналов
+# формат: - { name: <имя>, url: "<лента>", region: usa, type: opinion, default_tag: "", profile: "<кто автор>" }
+# macro_letter убран 2026-11-06 (решение пользователя): лента пуста с 2026-07-13, ноль статей за всё время.
+# Substack иногда отвечает 403 с заглушкой Cloudflare («Just a moment…») — источник попадает в sources_failed.
+
+# =====================================================================
+# КОМПАНИИ
+# =====================================================================
+edgar:
+  # SEC EDGAR (USA Micro). Числа (выручка, EPS, capex, фин. показатели) — ТОЛЬКО из JSON XBRL company facts;
+  # 10-K/10-Q не скачиваются. Из HTML читается лишь пресс-релиз 8-K (Ex-99.1) — ради Outlook и цитат.
+  enabled: true
+  user_agent: "macro-collector you@example.com" # SEC требует реальный контакт (e-mail); без него — 403; doctor проверяет
+  data_url: "https://data.sec.gov" # submissions, api/xbrl/companyfacts
+  archives_url: "https://www.sec.gov/Archives/edgar/data" # index-headers и Ex-99.1 подач 8-K
+  requests_per_second: 8 # лимит SEC — 10 в секунду на пользователя
+  form_types: ["8-K", "10-Q", "10-K"]
+  history_start: "2024-01-01" # 8+ кварталов для YoY
+  concepts: # us-gaap теги по приоритету (LOOKUP E3, 2026-10-25); компания может переопределить
+    revenue: [RevenueFromContractWithCustomerExcludingAssessedTax, Revenues]
+    eps: [EarningsPerShareDiluted]
+    capex: [PaymentsToAcquirePropertyPlantAndEquipment, PaymentsToAcquireProductiveAssets]
+    # Фаза 5b (LOOKUP T1–T5, 2026-10-30). Список в списке ([[A], [B]]) — сумма компонентов.
+    operating_income: [OperatingIncomeLoss]
+    net_income: [NetIncomeLoss, ProfitLoss]
+    gross_profit: [GrossProfit]
+    cost_of_revenue: [] # только у компаний без GrossProfit: валовая = выручка − себестоимость (META, GOOGL)
+    da: [DepreciationDepletionAndAmortization]
+    operating_cash_flow: [NetCashProvidedByUsedInOperatingActivities]
+    buybacks: [PaymentsForRepurchaseOfCommonStock]
+    dividends: [PaymentsOfDividends, PaymentsOfDividendsCommonStock]
+    cash: [CashAndCashEquivalentsAtCarryingValue]
+    short_term_investments: [MarketableSecuritiesCurrent] # нет факта на дату — 0 (у AVGO нет)
+    debt: [LongTermDebt] # с текущей частью; первый компонент обязателен, остальные — 0, если нет
+    diluted_shares: [WeightedAverageNumberOfDilutedSharesOutstanding]
+    # Фаза 5c (LOOKUP C1–C3, 2026-10-30). Прочие = прибыль до налога − операционная.
+    pretax_income: [IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest]
+    income_tax: [IncomeTaxExpenseBenefit]
+    rpo: [RevenueRemainingPerformanceObligation] # нет у AAPL, AMZN, META
+  companies: # CIK — sec.gov/files/company_tickers.json (LOOKUP E1); importance — в календаре
+    - ticker: NVDA
+      cik: "0001045810"
+      importance: high
+      concepts:
+        revenue: [Revenues]
+        capex: [PaymentsToAcquireProductiveAssets]
+        short_term_investments: [DebtSecuritiesCurrent, MarketableSecuritiesCurrent] # сменила тег в 2026
+    - ticker: MSFT
+      cik: "0000789019"
+      importance: high
+      concepts:
+        da: [Depreciation] # строка «Depreciation, amortization, and other»
+        dividends: [PaymentsOfDividendsCommonStock]
+        short_term_investments: [ShortTermInvestments]
+    - ticker: AAPL
+      cik: "0000320193"
+      importance: medium
+      concepts:
+        debt: [[LongTermDebt], [CommercialPaper]]
+    - ticker: AMZN
+      cik: "0001018724"
+      importance: high
+      not_paid: [buybacks, dividends] # байбэков нет с Q2 2024, дивидендов нет
+      concepts:
+        capex: [PaymentsToAcquireProductiveAssets]
+        debt: [[LongTermDebtNoncurrent], [LongTermDebtCurrent], [ShortTermBorrowings]] # LongTermDebt у AMZN — номинал
+        pretax_income: [IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments]
+    - ticker: META
+      cik: "0001326801"
+      importance: high
+      concepts:
+        cost_of_revenue: [CostOfRevenue]
+        debt: [[LongTermDebtNoncurrent], [LongTermDebtCurrent]]
+    - ticker: GOOGL
+      cik: "0001652044"
+      importance: high
+      concepts:
+        revenue: [Revenues]
+        cost_of_revenue: [CostOfRevenue]
+        da: [Depreciation] # только основные средства
+        dividends: [PaymentsOfOrdinaryDividends, PaymentsOfDividends] # сменила тег в 2026
+        debt: [[LongTermDebtNoncurrent, LongTermDebtAndCapitalLeaseObligations], [LongTermDebtCurrent], [CommercialPaper]]
+    - ticker: AVGO
+      cik: "0001730168"
+      importance: medium
+      concepts:
+        da: [[Depreciation], [AmortizationOfIntangibleAssets]]
+        debt: [[LongTermDebtNoncurrent, LongTermDebtAndCapitalLeaseObligations], [LongTermDebtCurrent]]
+    - ticker: TSLA
+      cik: "0001318605"
+      importance: medium
+      not_paid: [buybacks, dividends]
+      concepts:
+        revenue: [Revenues]
+        da: [Depreciation] # «Depreciation, amortization and impairment»
+        short_term_investments: [ShortTermInvestments]
+        debt: [[LongTermDebt], [DebtCurrent]] # LongTermDebt у TSLA — без текущей части
+  capex_companies: [MSFT, GOOGL, AMZN, META]
+  one_off: # ⚠ разовые (ТЗ §19.1, правило 2026-10-31)
+    rate_change_pp: 15 # Δ эффективной ставки налога к году назад, п.п.
+    other_share_change_pp: 15 # Δ доли «Прочих» в прибыли до налога, п.п.
+    materiality_pct: 10 # и искажение чистой прибыли больше, %
+  macro_signals: # предложения о макро из 8-K и расшифровок недели (ТЗ §19.4, уточнено 2026-10-31); регистр не важен
+    enabled: true
+    min_chars: 30
+    max_chars: 400
+    per_company: 6
+    per_company_topic: 2
+    max: 25
+    exclude: ['non-GAAP', 'forward-looking', 'safe harbor', 'not allocated', 'risks and uncertainties', 'supply chains?', 'days of supply']
+    strong: ['exceeds? (available )?supply', '\bdelay', 'constrain', '\bshortages?\b', 'price increases?', '\btariffs?\b', 'voluntary (exit|separation|retirement)', '\blayoffs?\b', 'headcount', 'higher memory']
+    topics: # порядок = приоритет (FIXES_W44 D2); FX не используется: шаблон, а не сигнал (ревью W44)
+      - {name: спрос, patterns: ['demand (continues to |that )?exceeds?', '\b(strong|stronger|weak|weaker|weakening|huge) demand', 'consumer (demand|spending)', 'demand environment']}
+      - {name: мощности, patterns: ['\bsupply\b', '(capacity|supply)[-‑ ]constrain', 'capacity deliveries', 'third[-‑ ]party (compute|capacity)', '\bshortages?\b']}
+      - {name: цены, patterns: ['price increases?', 'raise prices', 'higher prices', 'pricing (pressure|environment)']}
+      - {name: найм, patterns: ['headcount', '\blayoffs?\b', 'voluntary (exit|separation|retirement)', '\bseverance\b', 'workforce reduction', 'hiring freeze']}
+      - {name: тарифы, patterns: ['\btariffs?\b']}
+      - {name: Китай, patterns: ['\bChina\b', '\bChinese\b']}
+      - {name: память, patterns: ['\b(memory|DRAM|HBM)\b']}
+  capex_guidance: # ТЗ §19.3a: только где guidance = наш capex (покупка ОС без фин. аренды); вносится вручную после отчёта
+    - {ticker: GOOGL, year: 2026, low: 195, high: 205, given: 2026-10-28, source: "звонок GOOGL 2026-10-28, официальная расшифровка"}
+  segments: # фаза 5d: сегменты из XBRL-инстанса 10-Q/10-K (LOOKUP S1–S4, 2026-11-01); член оси — без префикса
+    NVDA: {revenue: Revenues, profit: OperatingIncomeLoss, members: [{member: ComputeAndNetworkingSegmentMember, label: "Compute & Networking"}, {member: GraphicsSegmentMember, label: "Graphics"}]}
+    MSFT: {revenue: RevenueFromContractWithCustomerExcludingAssessedTax, profit: OperatingIncomeLoss, members: [{member: AgentsAndInfraMember, label: "Agents & Infra"} # с FY27
+, {member: DevicesAndConsumerMember, label: "Devices & Consumer"}, {member: ProductivityAndBusinessProcessesMember, label: "Productivity & Business Processes"} # до FY26
+, {member: IntelligentCloudMember, label: "Intelligent Cloud"}, {member: MorePersonalComputingMember, label: "More Personal Computing"}]}
+    AAPL: {revenue: RevenueFromContractWithCustomerExcludingAssessedTax, profit: OperatingIncomeLoss, members: [{member: AmericasSegmentMember, label: "Americas"}, {member: EuropeSegmentMember, label: "Europe"}, {member: GreaterChinaSegmentMember, label: "Greater China"}, {member: JapanSegmentMember, label: "Japan"}, {member: RestOfAsiaPacificSegmentMember, label: "Rest of Asia Pacific"}]}
+    AMZN: {revenue: RevenueFromContractWithCustomerExcludingAssessedTax, profit: OperatingIncomeLoss, members: [{member: NorthAmericaSegmentMember, label: "North America"}, {member: InternationalSegmentMember, label: "International"}, {member: AmazonWebServicesSegmentMember, label: "AWS"}]}
+    META: {revenue: RevenueFromContractWithCustomerExcludingAssessedTax, profit: OperatingIncomeLoss, members: [{member: FamilyOfAppsMember, label: "Family of Apps"}, {member: RealityLabsMember, label: "Reality Labs"}]}
+    GOOGL: {revenue: RevenueFromContractWithCustomerExcludingAssessedTax, profit: OperatingIncomeLoss, members: [{member: GoogleServicesMember, label: "Google Services"}, {member: GoogleCloudMember, label: "Google Cloud"}, {member: AllOtherSegmentsMember, label: "Other Bets"}]}
+    AVGO: {revenue: RevenueFromContractWithCustomerExcludingAssessedTax, profit: OperatingIncomeLoss, members: [{member: SemiconductorSolutionsMember, label: "Semiconductor Solutions"}, {member: InfrastructureSoftwareMember, label: "Infrastructure Software"}]}
+    TSLA: {revenue: Revenues, profit: GrossProfit, gross: true, members: [{member: AutomotiveSegmentMember, label: "Automotive"}, {member: EnergyGenerationAndStorageSegmentMember, label: "Energy Generation & Storage"}]}
+  transcripts: # официальные расшифровки звонков на сайтах IR (LOOKUP R1–R3, 2026-10-30); только текст Outlook
+    enabled: true
+    request_interval: 10s # robots.txt: Crawl-delay 10
+    retry_every: 1h # пока расшифровки нет — не чаще раза в час на отчёт
+    window_days: 4 # после 8-K
+    companies: # только те, у кого guidance лишь на звонке, а расшифровка — открытый HTML
+      - {ticker: MSFT, page: "https://www.microsoft.com/en-us/investor/events/fy-{fy}/earnings-fy-{fy}-q{q}"}
+      - {ticker: GOOGL, feed: "https://abc.xyz/feed/FinancialReport.svc/GetFinancialReportList?LanguageId=1&year={fy}"}
+earnings_calendar:
+  # Даты будущих отчётов — Nasdaq API (решение пользователя 2026-10-25; у Yahoo нужен crumb, LOOKUP E5).
+  # «estimated» у Nasdaq — оценка алгоритма, помечается в экспорте. Время — calendar.release_timezone (ET).
+  enabled: true
+  endpoint: "https://api.nasdaq.com/api/analyst/{ticker}/earnings-date"
+  after_close_time: "16:00" # ожидаемая подача 8-K при отчёте после закрытия
+  pre_market_time: "07:00"
+  unknown_time: "16:00"
+# =====================================================================
+# КЛАССИФИКАЦИЯ
+# =====================================================================
+classify:
+  # Запасной путь (если Gemini недоступен). Регистр не важен; «слово*» — любое окончание
+  # (ставк* → ставка, ставки, ставку); фраза совпадает, если слова идут подряд.
+  # Укр./рус. слова утверждены пользователем 2026-10-25.
+  min_score: 2
+  # Теги постов; тот же набор — в rules и в prompts/classify.md. Порядок разрешает ничьи.
+  tags: [usa_monetary, usa_fiscal, usa_micro, usa_politics, energy_geopolitics, eu_ecb, eu_fiscal, eu_macro, eu_micro]
+  rules:
+    usa_monetary: ["FOMC", "Fed", "Warsh", "Powell", "fed funds", "rate cut", "rate hike", "dot plot", "CPI", "PCE", "PPI", "payrolls", "NFP", "jobless claims", "unemployment", "inflation", "QT", "ФРС", "Ворш*", "Пауелл*", "Пауэлл*", "ставк* ФРС", "зниження ставки", "снижени* ставки", "підвищення ставки", "повышени* ставки", "інфляц*", "инфляц*", "безробітт*", "безработиц*", "зайнятіст*", "занятост*", "заявки на допомогу", "заявки на пособи*", "ВВП США", "роздрібн* продаж*", "розничн* продаж*", "споживч* настр*", "потребительск* настро*"]
+    usa_fiscal: ["Treasury", "TGA", "auction", "refunding", "deficit", "debt ceiling", "Bessent", "bills", "coupons", "term premium", "RRP", "reserves", "SOFR", "repo", "Мінфін* США", "Минфин* США", "казначейств*", "Бессент*", "аукціон*", "аукцион*", "дефіцит*", "дефицит*", "держборг*", "госдолг*", "борг* США", "долг* США", "облігаці*", "облигаци*", "трежеріс", "трежерис", "дохідніст*", "доходност*", "ліквідніст*", "ликвидност*", "репо", "шатдаун*"]
+    usa_micro: ["earnings", "guidance", "revenue", "EPS", "capex", "NVDA", "Nvidia", "MSFT", "Microsoft", "AAPL", "Apple", "AMZN", "Amazon", "META", "GOOGL", "Alphabet", "AVGO", "Broadcom", "TSLA", "Tesla", "звітніст*", "отчетност*", "виручк*", "выручк*", "прибут*", "прибыл*", "гайденс*", "капекс", "Mag7", "напівпровідник*", "полупроводник*", "OpenAI"]
+    usa_politics: ["election*", "Congress*", "midterm*", "White House", "Trump*", "Hassett*", "shutdown*", "tariff*", "вибор*", "выбор*", "конгрес*", "біл* дім", "біл* дом*", "бел* дом*", "Трамп*", "Хассет*", "мідтерм*", "тариф*", "мита", "мито", "митами", "пошлин*"]
+    energy_geopolitics: ["oil", "Brent", "WTI", "OPEC*", "Iran*", "Israel*", "Russia*", "sanction*", "нафт*", "нефт*", "ОПЕК*", "Іран*", "Иран*", "Ізраїл*", "Израил*", "Росі*", "Росси*", "санкц*"]
+    eu_ecb: ["ECB", "Lagarde", "deposit rate", "HICP", "eurozone inflation", "ЕЦБ", "ЄЦБ", "Лагард*", "депозитн* ставк*", "єврозон* інфляц*", "еврозон* инфляц*"]
+    eu_fiscal: ["Bund", "BTP", "OAT", "spread", "Schuldenbremse", "debt brake", "German budget", "defense spending", "Бунд*", "бюджет* Франці*", "бюджет* Франци*", "Італі*", "Итали*", "кредитн* рейтинг*", "боргов* гальм*", "долгов* тормоз*", "оборонн* витрат*", "оборонн* расход*"]
+    eu_macro: ["Ifo", "ZEW", "PMI", "Destatis", "German industry", "TTF", "China", "Німеччин*", "Германи*", "єврозон*", "еврозон*", "EUR/USD", "Brent", "Китай*"]
+    eu_micro: ["SAP", "Siemens", "Allianz", "Deutsche Telekom", "Airbus", "Mercedes", "DAX", "Stoxx"]
+  drop_if_contains: ["розыгрыш", "промокод", "реклама", "подписывайтесь", "скидка", "розіграш", "підпишись", "підписуйтесь", "знижк*"]
+  # Основной классификатор (D14). Ключ — только env GEMINI_API_KEY. Без ключа, при ошибке,
+  # квоте или невалидном ответе пакет размечается ключевыми словами (rules выше).
+  gemini:
+    enabled: true
+    endpoint: "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+    model: gemini-3.5-flash-lite # LOOKUP M2, подтверждено 2026-10-25
+    prompt: "prompts/classify.md" # путь от папки config.yaml; правится без пересборки
+    batch_size: 20
+    min_confidence: 0.5
+    timeout: 60s
+    daily_request_limit: 200 # свой предел в сутки (по Тихоокеанскому времени), ниже квоты AI Studio
+# Чистка постов в News (FIXES_W44, батч E). Слова и фразы — как в classify.rules: целые слова без учёта
+# регистра, «слово*» — любое окончание.
+news:
+  min_text_chars: 40 # пост короче (после чистки, без эмодзи) — картинка с подписью, не экспортируется
+  signature_share: 0.5 # строка в ≥50% постов канала за неделю — подпись канала, вырезается
+  signature_min_posts: 4 # при меньшем числе постов канала подписи не ищутся
+  promo_words: ["спільнот*", "підписник*", "трансляці*", "подкаст*", "читать бесплатно", "join", "subscribe*", "Market News Bureau"] # строка с ними вырезается
+  opinion_markers: ["я бы", "для меня", "на мой взгляд", "я думаю", "базовий сценарій", "I think", "my view", "IMO"] # пост с ними — «мнение», иначе тип канала
+  calendar_posts: ["Основні події на ринках сьогодні", "Основні події тижня", "Основные события дня", "Основные события недели", "Главные события дня", "Главные события недели"] # начало анонса календаря — в экспорт не идёт
+  global_max: 5 # постов в разделе «Глобально»
+  views_refresh: true # перед недельным экспортом перечитать просмотры (и флаг фото) постов недели с t.me/s
+  # Новый экспорт USA News (2026-11-03): посты не обрезаются, шум убирается целиком.
+  caption_max_chars: 300 # пост с фото короче (без эмодзи), со словом из drop_keywords.caption и без маркеров мнения — подпись к графику, не экспортируется
+  opinions_per_channel: 6 # мнений канала целиком (по резонансу за неделю); остальные — строкой «первая фраза + ссылка» в «Ещё мнения (кратко)»; 0 — все. У канала — свой лимит opinions_full
+  drop_keywords: # пост с этими словами (и без строки «факт (ожидание)») не экспортируется; причина — в счётчике
+    announce: ["вже за", "уже через", "скоро вийде", "скоро выйдет", "незабаром", "stay tuned", "coming soon", "нагадуємо", "напоминаем", "пряма трансляці*", "прямая трансляци*", "дивитись тут", "смотреть тут", "новий випуск", "новый выпуск", "свіжий випуск", "свежий выпуск"]
+    caption: ["у додаток до теми", "в дополнение к теме", "ліворуч", "праворуч", "слева", "справа", "на графіку", "на графике", "динаміка", "динамика", "хроніка", "хроника", "chart", "лідирують", "лідирує", "лидируют", "лидирует", "найсильніший", "слабейший", "лузери сесії", "лідери сесії", "heatmap", "теплова карта"] # только для поста с фото короче caption_max_chars
+    product: ["представила", "представив", "презентувала", "презентовала", "релізить", "unveil*", "iPad", "iPhone", "MacBook", "iMac", "GTA"] # ещё без «%» и только в AI/отчётах/без тега
+  topics: # темы, которых нет среди тегов классификатора
+    ai: ["AI", "ШІ", "ИИ", "АІ", "OpenAI", "Anthropic", "ChatGPT", "Gemini", "DeepMind", "LLM", "Nvidia", "NVDA", "напівпровідник*", "полупроводник*", "chip*", "чіп*", "чип*", "дата центр*", "датацентр*", "data center*", "datacenter*", "hyperscaler*", "гіперскейлер*", "гиперскейлер*", "AI capex", "Mag7", "memory", "DRAM", "HBM", "NAND", "памʼяттю", "памʼяті", "пам'яттю", "пам'яті", "пам’яттю", "пам’яті", "памяти", "памятью"] # usa_micro с ними → «AI и техсектор»
+    market: ["позиціонуванн*", "позиционировани*", "positioning", "CTA", "COT", "СоТ", "flows", "потоки", "buyback*", "байбек*", "VIX", "breadth", "ширина ринку", "ширина рынка", "пре-маркет", "премаркет", "pre-market", "premarket", "risk on", "risk off", "small cap*", "розкореляці*", "ротаці*", "rotation", "S&P 500", "Nasdaq100", "Nasdaq 100", "Kalshi", "Polymarket", "prediction market*", "BTC", "біткоїн*", "биткоин*", "bitcoin", "crypto*", "крипто*", "stablecoin*", "стейбл*", "Binance", "Coinbase", "Tether", "USDT"] # usa_micro или без тега → «Рынок и позиционирование»
+    global: ["НБУ", "BoJ", "Уеда", "Японі*", "Япони*", "Банк Англії", "Банк Англии", "Bank of England", "Британі*", "Британи*", "Commonwealth", "содружеств*", "співдружност*"] # → «Глобально»
+  mention_topics_top: 3 # «Растут» — топ-N тем по приросту к прошлой неделе
+  mention_topics: # Обзор → «Темы недели в каналах»: посты USA News недели (после чистки), где есть слово темы; синтаксис как classify.rules
+    - {name: "Рецессия", words: ["recession*", "рецесі*", "рецесс*", "hard landing", "жорстк* посадк*", "жестк* посадк*"]}
+    - {name: "Повышение ставки", words: ["rate hike*", "hike*", "hiking", "підвищен* ставк*", "підвищит* ставк*", "повышен* ставк*", "повысит* ставк*", "повысить ставку"]}
+    - {name: "Снижение ставки", words: ["rate cut*", "cut rates", "cutting rates", "знижен* ставк*", "знизит* ставк*", "снижен* ставк*", "снизит* ставк*", "снизить ставку"]}
+    - {name: "AI bubble / AI capex", words: ["ai bubble", "ai capex", "capex", "капекс*", "бульбашк* ші", "бульбашк* ai", "пузыр* ии", "пузыр* ai", "дата центр*", "data center*", "datacenter*"]}
+    - {name: "Нефть", words: ["oil", "нафт*", "нефт*", "brent", "wti", "opec*", "опек*"]}
+    - {name: "Тарифы", words: ["tariff*", "тариф*", "мито", "мита", "митами", "пошлин*"]}
+    - {name: "Выборы", words: ["election*", "midterm*", "вибор*", "выбор*"]}
+    - {name: "Шатдаун", words: ["shutdown*", "шатдаун*"]}
+    - {name: "Кредитный стресс", words: ["credit spread*", "high yield", "junk bond*", "private credit", "default*", "дефолт*", "кредитн* спред*", "кредитн* стрес*", "приватн* кредит*", "частн* кредит*"]}
+  surprise_facts: # «Сюрпризы недели»: факт из нашего ряда FRED, если он вышел за неделю; первое совпадение по подписи показателя. Иначе — факт из поста. label — имя показателя в строке поста-ожидания (+ m/m, y/y)
+    - {label: "Core CPI", words: ["core cpi", "базов* ІСЦ", "базов* ИПЦ"], when: ["yoy", "y y", "р р", "г г"], series: CPILFESL, transform: yoy, unit: "%"}
+    - {label: "Core CPI", words: ["core cpi", "базов* ІСЦ", "базов* ИПЦ"], series: CPILFESL, transform: mom, unit: "%"}
+    - {label: "CPI", words: ["cpi", "ІСЦ", "ИПЦ"], when: ["yoy", "y y", "р р", "г г"], series: CPIAUCSL, transform: yoy, unit: "%"}
+    - {label: "CPI", words: ["cpi", "ІСЦ", "ИПЦ"], series: CPIAUCSL, transform: mom, unit: "%"}
+    - {label: "PPI", words: ["ppi", "ррі", "ІЦВ"], unless: ["core"], when: ["yoy", "y y", "р р", "г г"], series: PPIFIS, transform: yoy, unit: "%"}
+    - {label: "PPI", words: ["ppi", "ррі", "ІЦВ"], unless: ["core"], series: PPIFIS, transform: mom, unit: "%"}
+    - {label: "Core PCE", words: ["core pce"], when: ["yoy", "y y", "р р", "г г"], series: PCEPILFE, transform: yoy, unit: "%"}
+    - {label: "Core PCE", words: ["core pce"], series: PCEPILFE, transform: mom, unit: "%"}
+    - {label: "PCE", words: ["pce"], when: ["yoy", "y y", "р р", "г г"], series: PCEPI, transform: yoy, unit: "%"}
+    - {label: "Nonfarm Payrolls", words: ["nonfarm payrolls", "nfp", "non farm payrolls"], unless: ["private"], series: PAYEMS, transform: diff, unit: "K"}
+    - {label: "Unemployment Rate", words: ["unemployment rate", "рівень безробіття", "уровень безработицы"], series: UNRATE, transform: level, unit: "%"}
+    - {label: "Initial Claims", words: ["ijc", "initial jobless", "jobless claims", "initial claims"], series: ICSA, transform: level, scale: 0.001, unit: "K"}
+    - {label: "GDP", words: ["gdp", "ВВП"], unless: ["gdpnow"], series: GDPC1, transform: qoqa, unit: "%"}
+    - {label: "JOLTS", words: ["jolts"], series: JTSJOL, transform: level, scale: 0.001, unit: "M"}
+# =====================================================================
+# SENTIMENT — usa/news/sentiment.md (FIXES_W44 батч F, D16)
+# =====================================================================
+sentiment:
+  corr_days: 20 # F2: корреляция дневных доходностей ^NDX и изменений DGS10 за N торговых дней
+  regime_threshold: 0.3 # F2: r < −0.3 — «боится инфляции / ставок», r > +0.3 — «боится роста», иначе нейтрально
+  ratios: # F4: ширина и ротация (отношение цен закрытия), Δ1w / Δ4w в %
+    - {num: RSP, den: SPY, label: "RSP/SPY (равный вес / S&P 500)"}
+    - {num: QQEW, den: QQQ, label: "QQEW/QQQ (равный вес / NASDAQ-100)"}
+    - {num: IWM, den: SPY, label: "IWM/SPY (малые / большие)"}
+    - {num: SMH, den: QQQ, label: "SMH/QQQ (полупроводники / NASDAQ-100)"}
+    - {num: XLU, den: SPY, label: "XLU/SPY (коммунальные)"}
+    - {num: XLP, den: SPY, label: "XLP/SPY (товары первой необходимости)"}
+    - {num: XLE, den: SPY, label: "XLE/SPY (энергетика)"}
+  reaction: # F1: реакция цен на события календаря по 1-минутным барам Yahoo (хранятся keep_days)
+    symbols:
+      - {symbol: "NQ=F", label: "NDX (NQ=F)"}
+      - {symbol: "ZT=F", label: "2Y ≈б.п. (ZT=F)", duration: 1.9} # Δдох. ≈ −Δцены% / дюрация × 100 (решение 2026-11-02)
+      - {symbol: "DX-Y.NYB", label: "DXY"}
+      - {symbol: "CL=F", label: "WTI"}
+    window: 30m # первая реакция: цена через 30 мин против цены в момент события
+    keep_days: 60 # бары старше — удаляются (Yahoo отдаёт 1m только за 30 дней)
+    fetch_delay: 20m # бары грузятся через 20 мин после close, до которого считается реакция
+    check_every: 30m # демон: раз в 30 мин ищет события, бары которых пора загрузить
+    earnings: true # отчёты компаний Micro из календаря; сюрприз — строки «$TICKER …»
+    events: # имя события в календаре → подпись и слова показателя в «Сюрпризах недели» (E2)
+      - {name: "Consumer Price Index", label: "CPI", aliases: ["CPI", "ІСЦ", "ИПЦ"]}
+      - {name: "Producer Price Index", label: "PPI", aliases: ["PPI", "ІЦВ"]}
+      - {name: "Employment Situation", label: "NFP", aliases: ["NFP", "Nonfarm", "Non-Farm", "Payrolls", "Unemployment Rate"]}
+      - {name: "Personal Income and Outlays", label: "PCE", aliases: ["PCE"]}
+      - {name: "Gross Domestic Product", label: "GDP", aliases: ["GDP", "ВВП"]}
+      - {name: "Unemployment Insurance Weekly Claims Report", label: "Claims", aliases: ["IJC", "Initial Jobless", "Jobless Claims"]}
+      - {name: "Job Openings and Labor Turnover Survey", label: "JOLTS", aliases: ["JOLTS"]}
+      - {name: "FOMC decision", label: "FOMC", aliases: ["Fed Funds", "FOMC"]}
+  daily_moves: # G4b: «Крупнейшие дневные движения недели» по дневным закрытиям Yahoo, без календаря
+    - {symbol: "^NDX", label: "NDX"}
+    - {symbol: "ZT=F", label: "2Y ≈б.п. (ZT=F)", duration: 1.9} # как в reaction
+    - {symbol: "DX-Y.NYB", label: "DXY"}
+    - {symbol: "CL=F", label: "WTI"}
+# =====================================================================
+# ПРОГНОЗЫ (фаза 8)
+# =====================================================================
+forecast:
+  enabled: false
+  instruments:
+    - {name: NASDAQ, price: "^NDX", fallback: NASDAQCOM}
+    - {name: GER40, price: "^GDAXI"}
+ecb:
+  # ECB Data Portal, SDMX REST, CSV; ключ ряда — <поток>/<ключ>. LOOKUP 2026-11-09 (ТЗ §6.1).
+  # Поток ICP обрывается на 2025-12 — HICP берётся из потока HICP. Частые запросы подряд — 504, клиент делает паузы.
+  enabled: true
+  endpoint: "https://data-api.ecb.europa.eu/service/data"
+  poll_cron: "20 12 * * *" # Europe/Bratislava: €STR 08:05, HICP 11:00, кривые 12:00
+  series:
+    - {id: ECB_DFR, key: "FM/D.U2.EUR.4F.KR.DFR.LEV", agent: eu_monetary, label: "Deposit Facility Rate", frequency: d, units: "Percent per Annum", transforms: [level, d]}
+    - {id: ESTR, key: "EST/B.EU000A2X2A25.WT", agent: eu_monetary, label: "€STR", frequency: d, units: "Percent per Annum", transforms: [level, d1w]}
+    - {id: ECB_ASSETS, key: "ILM/W.U2.C.T000000.Z5.Z01", agent: eu_monetary, label: "Баланс Евросистемы", frequency: w, units: "Millions of Euro", transforms: [level, d1w, d4w]}
+    - {id: HICP, key: "HICP/M.U2.N.000000.4D0.INX", agent: eu_monetary, label: "HICP headline", frequency: m, units: "Index", transforms: [yoy]}
+    - {id: HICP_CORE, key: "HICP/M.U2.N.XEF000.4D0.INX", agent: eu_monetary, label: "HICP core", frequency: m, units: "Index", transforms: [yoy]}
+    - {id: HICP_SA, key: "HICP/M.U2.Y.000000.4F0.INX", agent: eu_monetary, label: "HICP headline (SA)", frequency: m, units: "Index", transforms: [mom, a3m]}
+    - {id: HICP_CORE_SA, key: "HICP/M.U2.Y.XEF000.4F0.INX", agent: eu_monetary, label: "HICP core (SA)", frequency: m, units: "Index", transforms: [mom, a3m]}
+    - {id: HICP_DE, key: "HICP/M.DE.N.000000.4D0.INX", agent: eu_monetary, label: "HICP Германия (с флешем)", frequency: m, units: "Index", transforms: [yoy]}
+    - {id: ECB_YC_AAA_10Y, key: "YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y", agent: eu_fiscal, label: "Кривая ЕЦБ AAA 10Y", frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w]}
+    - {id: ECB_YC_ALL_10Y, key: "YC/B.U2.EUR.4F.G_N_C.SV_C_YM.SR_10Y", agent: eu_fiscal, label: "Кривая ЕЦБ все эмитенты 10Y", frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w]}
+    # месячные 10Y по странам (критерий конвергенции): хранятся отдельно, с дневными не склеиваются (D25)
+    - {id: IRS_IT_10Y, key: "IRS/M.IT.L.L40.CI.0000.EUR.N.Z", agent: eu_fiscal, label: "Италия 10Y (ЕЦБ, месяц)", frequency: m, units: "Percent per Annum", transforms: [level, d]}
+    - {id: IRS_FR_10Y, key: "IRS/M.FR.L.L40.CI.0000.EUR.N.Z", agent: eu_fiscal, label: "Франция 10Y (ЕЦБ, месяц)", frequency: m, units: "Percent per Annum", transforms: [level, d]}
+    - {id: IRS_DE_10Y, key: "IRS/M.DE.L.L40.CI.0000.EUR.N.Z", agent: eu_fiscal, label: "Германия 10Y (ЕЦБ, месяц)", frequency: m, units: "Percent per Annum", transforms: [level, d]}
+    # --- батч 11f (LOOKUP 2026-11-12): компоненты и страны HICP, деньги и кредит, BLS, ликвидность, TARGET,
+    # зарплаты, ожидания, стресс и курсы. BLS — взвешенный нетто-процент банков (WFNET), > 0 — ужесточение.
+    - {id: HICP_SERV, key: "HICP/M.U2.N.SERV00.4D0.INX", agent: eu_monetary, label: "HICP услуги", frequency: m, units: "Index", transforms: [yoy, mom]}
+    - {id: HICP_NEIG, key: "HICP/M.U2.N.IGXE00.4D0.INX", agent: eu_monetary, label: "HICP промтовары без энергии", frequency: m, units: "Index", transforms: [yoy, mom]}
+    - {id: HICP_ENERGY, key: "HICP/M.U2.N.NRGY00.4D0.INX", agent: eu_monetary, label: "HICP энергия", frequency: m, units: "Index", transforms: [yoy, mom]}
+    - {id: HICP_FOOD, key: "HICP/M.U2.N.FOOD00.4D0.INX", agent: eu_monetary, label: "HICP еда, алкоголь, табак", frequency: m, units: "Index", transforms: [yoy, mom]}
+    - {id: HICP_FR, key: "HICP/M.FR.N.000000.4D0.INX", agent: eu_monetary, label: "HICP Франция", frequency: m, units: "Index", transforms: [yoy]}
+    - {id: HICP_IT, key: "HICP/M.IT.N.000000.4D0.INX", agent: eu_monetary, label: "HICP Италия", frequency: m, units: "Index", transforms: [yoy]}
+    - {id: HICP_ES, key: "HICP/M.ES.N.000000.4D0.INX", agent: eu_monetary, label: "HICP Испания", frequency: m, units: "Index", transforms: [yoy]}
+    - {id: M3_YOY, key: "BSI/M.U2.Y.V.M30.X.I.U2.2300.Z01.A", agent: eu_monetary, label: "M3, г/г", frequency: m, units: "Percent", transforms: [level, d]}
+    - {id: LOANS_NFC_YOY, key: "BSI/M.U2.Y.U.A20T.A.I.U2.2240.Z01.A", agent: eu_monetary, label: "Кредиты бизнесу, г/г (скорр.)", frequency: m, units: "Percent", transforms: [level, d]}
+    - {id: LOANS_HH_YOY, key: "BSI/M.U2.Y.U.A20T.A.I.U2.2250.Z01.A", agent: eu_monetary, label: "Кредиты домохозяйствам, г/г (скорр.)", frequency: m, units: "Percent", transforms: [level, d]}
+    - {id: MIR_NFC, key: "MIR/M.U2.B.A2I.AM.R.A.2240.EUR.N", agent: eu_monetary, label: "Стоимость кредита бизнесу", frequency: m, units: "Percent per Annum", transforms: [level, d]}
+    - {id: MIR_HOUSE, key: "MIR/M.U2.B.A2C.AM.R.A.2250.EUR.N", agent: eu_monetary, label: "Стоимость ипотеки", frequency: m, units: "Percent per Annum", transforms: [level, d]}
+    - {id: BLS_NFC_STD, key: "BLS/Q.U2.ALL.O.E.Z.B3.ST.S.WFNET", agent: eu_monetary, label: "BLS: стандарты, кредиты бизнесу", frequency: q, units: "Balance", transforms: [level, d]}
+    - {id: BLS_NFC_DEM, key: "BLS/Q.U2.ALL.O.E.Z.B3.ZZ.D.WFNET", agent: eu_monetary, label: "BLS: спрос бизнеса на кредит", frequency: q, units: "Balance", transforms: [level, d]}
+    - {id: BLS_HH_STD, key: "BLS/Q.U2.ALL.Z.H.H.B3.ST.S.WFNET", agent: eu_monetary, label: "BLS: стандарты, ипотека", frequency: q, units: "Balance", transforms: [level, d]}
+    - {id: BLS_HH_DEM, key: "BLS/Q.U2.ALL.Z.H.H.B3.ZZ.D.WFNET", agent: eu_monetary, label: "BLS: спрос на ипотеку", frequency: q, units: "Balance", transforms: [level, d]}
+    - {id: ILM_CURRENT_ACC, key: "ILM/W.U2.C.L020100.U2.EUR", agent: eu_monetary, label: "Текущие счета банков в Евросистеме", frequency: w, units: "Millions of Euro", transforms: [level, d1w, d4w]}
+    - {id: ILM_DEPOSIT_FAC, key: "ILM/W.U2.C.L020200.U2.EUR", agent: eu_monetary, label: "Депозитный механизм ЕЦБ", frequency: w, units: "Millions of Euro", transforms: [level, d1w, d4w]}
+    - {id: ILM_GOV_DEP, key: "ILM/W.U2.C.L050100.U2.EUR", agent: eu_monetary, label: "Депозиты государств в Евросистеме", frequency: w, units: "Millions of Euro", transforms: [level, d1w, d4w]}
+    - {id: TARGET_IT, key: "TGB/M.IT.N.A094T.U2.EUR.E", agent: eu_fiscal, label: "TARGET Италия", frequency: m, units: "Millions of Euro", transforms: [level, d]}
+    - {id: TARGET_DE, key: "TGB/M.DE.N.A094T.U2.EUR.E", agent: eu_fiscal, label: "TARGET Германия", frequency: m, units: "Millions of Euro", transforms: [level, d]}
+    - {id: NEG_WAGES, key: "INW/Q.U2.N.INWR.000000.4F0.GY.IX", agent: eu_monetary, label: "Переговорные зарплаты, г/г", frequency: q, units: "Percent", transforms: [level, d]}
+    # wage tracker ЕЦБ публикует значения вперёд (по подписанным договорам): forecast: true — в отчёте значение на конец
+    # недели как факт и строка «прогноз на <месяц>»; на дашборде — графики part: actual и part: forecast.
+    - {id: WAGE_TRACKER, key: "EWT/M.U2.N.WT.INWS._T.4F0.GY", agent: eu_monetary, label: "Wage tracker ЕЦБ, г/г", frequency: m, units: "Percent", transforms: [level, d], forecast: true}
+    - {id: CES_1Y, key: "CES/M.Z18.ALL.T.C1120.NUM_VAR.WM", agent: eu_monetary, label: "Ожидания инфляции потребителей, 12 мес. (медиана)", frequency: m, units: "Percent", transforms: [level, d]}
+    - {id: CES_3Y, key: "CES/M.Z18.ALL.T.C1220.NUM_VAR.WM", agent: eu_monetary, label: "Ожидания инфляции потребителей, 3 года (медиана)", frequency: m, units: "Percent", transforms: [level, d]}
+    # SPF на следующий календарный год: ключ с {next_year} — один запрос по всем годам, для каждого квартала опроса берётся
+    # прогноз на следующий год (2026-Q4 → 2027). Склейка в клиенте ЕЦБ (батч 11f).
+    - {id: SPF_NEXT_YEAR, key: "SPF/Q.U2.HICP.POINT.{next_year}.Q.AVG", agent: eu_monetary, label: "SPF: инфляция на следующий год", frequency: q, units: "Percent", transforms: [level, d]}
+    - {id: SPF_LT, key: "SPF/Q.U2.HICP.POINT.LT.Q.AVG", agent: eu_monetary, label: "SPF: инфляция в долгосроке", frequency: q, units: "Percent", transforms: [level, d]}
+    - {id: CISS, key: "CISS/D.U2.Z0Z.4F.EC.SS_CIN.IDX", agent: eu_master, label: "CISS — индекс системного стресса ЕЦБ", frequency: d, units: "Index", transforms: [level, d1w, d4w, z]}
+    - {id: EUR_NEER, key: "EXR/D.E03.EUR.EN00.A", agent: eu_master, label: "Евро, номинальный эффективный курс (EER-40)", frequency: d, units: "Index", transforms: [level, d1w, d4w]}
+    - {id: EURGBP, key: "EXR/D.GBP.EUR.SP00.A", agent: eu_master, label: "EUR/GBP (ЕЦБ)", frequency: d, units: "Exchange Rate", transforms: [level, d1w, d4w]}
+    - {id: EURJPY, key: "EXR/D.JPY.EUR.SP00.A", agent: eu_master, label: "EUR/JPY (ЕЦБ)", frequency: d, units: "Exchange Rate", transforms: [level, d1w, d4w]}
+    - {id: IRS_ES_10Y, key: "IRS/M.ES.L.L40.CI.0000.EUR.N.Z", agent: eu_fiscal, label: "Испания 10Y (ЕЦБ, месяц)", frequency: m, units: "Percent per Annum", transforms: [level, d]}
+bundesbank:
+  # Bundesbank, SDMX REST, CSV (BOM, «;», десятичная запятая, день без значения — «.»). LOOKUP 2026-11-09.
+  # Уровни и кривая Bund — отсюда (D25); дневные доходности выходят около 13:10.
+  enabled: true
+  endpoint: "https://api.statistiken.bundesbank.de/rest/data"
+  poll_cron: "30 13 * * *" # Europe/Bratislava
+  series:
+    - {id: BUND_2Y, key: "BBSIS/D.I.ZAR.ZI.EUR.S1311.B.A604.R02XX.R.A.A._Z._Z.A", agent: eu_fiscal, label: "Bund 2Y", frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w]}
+    - {id: BUND_5Y, key: "BBSIS/D.I.ZAR.ZI.EUR.S1311.B.A604.R05XX.R.A.A._Z._Z.A", agent: eu_fiscal, label: "Bund 5Y", frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w]}
+    - {id: BUND_10Y, key: "BBSIS/D.I.ZAR.ZI.EUR.S1311.B.A604.R10XX.R.A.A._Z._Z.A", agent: eu_fiscal, label: "Bund 10Y", frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w, z]}
+    - {id: BUND_30Y, key: "BBSIS/D.I.ZAR.ZI.EUR.S1311.B.A604.R30XX.R.A.A._Z._Z.A", agent: eu_fiscal, label: "Bund 30Y", frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w]}
+    - {id: DE_ORDERS, key: "BBDE1/M.DE.Y.AEA1.A2P300000.F.C.I21.A", agent: eu_monetary, label: "Заказы промышленности DE (2021=100, SA)", frequency: m, units: "Index", transforms: [level, mom, yoy]}
+    - {id: DE_PRODUCTION, key: "BBDE1/M.DE.Y.BAA1.A2P000000.G.C.I21.A", agent: eu_monetary, label: "Промпроизводство DE (2021=100, SA)", frequency: m, units: "Index", transforms: [level, mom, yoy]}
+eurostat:
+  # Eurostat, JSON-stat 2.0; ключ ряда — <набор>?<измерение>=<код>&…: фильтр на каждое измерение, кроме времени
+  # (ключ, который оставляет измерение открытым или ничего не выбирает, — ошибка). LOOKUP 2026-11-09.
+  # ВВП хранится уровнем (цепные объёмы 2020, млн €); кв/кв и г/г считает Go. Релизы — 11:00.
+  enabled: true
+  endpoint: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data"
+  poll_cron: "15 11 * * *" # Europe/Bratislava
+  series:
+    - {id: GDP_EA, key: "namq_10_gdp?geo=EA21&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ", agent: eu_monetary, label: "ВВП еврозоны (EA21), реальный", frequency: q, units: "Millions of Euro", transforms: [qoq, yoy]}
+    - {id: GDP_DE, key: "namq_10_gdp?geo=DE&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ", agent: eu_monetary, label: "ВВП Германии, реальный", frequency: q, units: "Millions of Euro", transforms: [qoq, yoy]}
+    - {id: DE_DEBT_GDP, key: "gov_10q_ggdebt?geo=DE&unit=PC_GDP&sector=S13&na_item=GD", agent: eu_fiscal, label: "Госдолг Германии", frequency: q, units: "Percent of GDP", transforms: [level, d]}
+    - {id: IT_DEFICIT_GDP, key: "gov_10q_ggnfa?geo=IT&unit=PC_GDP&sector=S13&na_item=B9&s_adj=SCA", agent: eu_fiscal, label: "Баланс бюджета Италии (SCA)", frequency: q, units: "Percent of GDP", transforms: [level, d]}
+    # опрос Еврокомиссии (BCS): в key_metrics вместо Ifo (D25)
+    - {id: EC_ICI_DE, key: "ei_bssi_m_r2?geo=DE&indic=BS-ICI-BAL&s_adj=SA", agent: eu_monetary, label: "DE industrial confidence (EC)", frequency: m, units: "Balance", transforms: [level, d]}
+    - {id: EC_ESI_DE, key: "ei_bssi_m_r2?geo=DE&indic=BS-ESI-I&s_adj=SA", agent: eu_monetary, label: "DE Economic Sentiment (EC, ESI)", frequency: m, units: "Index", transforms: [level, d]}
+    # --- батч 11f (LOOKUP 2026-11-12). Еврозона — EA21. Вакансии отстают (последний квартал — 2025-Q4): stale ставится сам.
+    - {id: GDP_EA_NOM, key: "namq_10_gdp?geo=EA21&unit=CP_MEUR&s_adj=SCA&na_item=B1GQ", agent: eu_monetary, label: "ВВП еврозоны, номинальный", frequency: q, units: "Millions of Euro", transforms: [qoq, yoy]}
+    - {id: GDP_EA_DEFL, key: "namq_10_gdp?geo=EA21&unit=PD20_EUR&s_adj=SCA&na_item=B1GQ", agent: eu_monetary, label: "Дефлятор ВВП еврозоны", frequency: q, units: "Index", transforms: [yoy]}
+    - {id: CONS_EA, key: "namq_10_gdp?geo=EA21&unit=CLV20_MEUR&s_adj=SCA&na_item=P31_S14", agent: eu_monetary, label: "Потребление домохозяйств, реальное", frequency: q, units: "Millions of Euro", transforms: [qoq, yoy]}
+    - {id: EXPORTS_EA, key: "namq_10_gdp?geo=EA21&unit=CP_MEUR&s_adj=SCA&na_item=P6", agent: eu_monetary, label: "Экспорт еврозоны", frequency: q, units: "Millions of Euro", transforms: [qoq, yoy]}
+    - {id: IMPORTS_EA, key: "namq_10_gdp?geo=EA21&unit=CP_MEUR&s_adj=SCA&na_item=P7", agent: eu_monetary, label: "Импорт еврозоны", frequency: q, units: "Millions of Euro", transforms: [qoq, yoy]}
+    - {id: SAVING_EA, key: "nasq_10_ki?geo=EA21&unit=PC&s_adj=SCA&sector=S14_S15&na_item=SRG_S14_S15", agent: eu_monetary, label: "Норма сбережений домохозяйств", frequency: q, units: "Percent", transforms: [level, d]}
+    - {id: IP_EA, key: "sts_inpr_m?geo=EA21&nace_r2=B-D&s_adj=SCA&unit=I21", agent: eu_monetary, label: "Промпроизводство еврозоны (2021=100)", frequency: m, units: "Index", transforms: [mom, yoy]}
+    - {id: RETAIL_EA, key: "sts_trtu_m?geo=EA21&nace_r2=G47&indic_bt=VOL_SLS&s_adj=SCA&unit=I21", agent: eu_monetary, label: "Розничные продажи еврозоны, объём", frequency: m, units: "Index", transforms: [mom, yoy]}
+    - {id: GDP_FR, key: "namq_10_gdp?geo=FR&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ", agent: eu_monetary, label: "ВВП Франции, реальный", frequency: q, units: "Millions of Euro", transforms: [qoq, yoy]}
+    - {id: GDP_IT, key: "namq_10_gdp?geo=IT&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ", agent: eu_monetary, label: "ВВП Италии, реальный", frequency: q, units: "Millions of Euro", transforms: [qoq, yoy]}
+    - {id: GDP_ES, key: "namq_10_gdp?geo=ES&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ", agent: eu_monetary, label: "ВВП Испании, реальный", frequency: q, units: "Millions of Euro", transforms: [qoq, yoy]}
+    - {id: EC_ESI_EA, key: "ei_bssi_m_r2?geo=EA21&indic=BS-ESI-I&s_adj=SA", agent: eu_monetary, label: "ESI еврозоны (EC)", frequency: m, units: "Index", transforms: [level, d]}
+    - {id: EC_CONS_EA, key: "ei_bssi_m_r2?geo=EA21&indic=BS-CSMCI-BAL&s_adj=SA", agent: eu_monetary, label: "Потребительское доверие еврозоны (EC)", frequency: m, units: "Balance", transforms: [level, d]}
+    - {id: EC_SERV_EA, key: "ei_bssi_m_r2?geo=EA21&indic=BS-SCI-BAL&s_adj=SA", agent: eu_monetary, label: "Доверие в услугах еврозоны (EC)", frequency: m, units: "Balance", transforms: [level, d]}
+    - {id: EC_PRICE_EXP, key: "ei_bsco_m?geo=EA21&indic=BS-PT-NY&s_adj=SA&unit=BAL", agent: eu_monetary, label: "Ожидания цен у потребителей, 12 мес. (EC, баланс)", frequency: m, units: "Balance", transforms: [level, d]}
+    - {id: UNEMP_EA, key: "une_rt_m?geo=EA21&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT", agent: eu_monetary, label: "Безработица еврозоны", frequency: m, units: "Percent", transforms: [level, d]}
+    - {id: UNEMP_DE, key: "une_rt_m?geo=DE&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT", agent: eu_monetary, label: "Безработица Германии", frequency: m, units: "Percent", transforms: [level, d]}
+    - {id: UNEMP_FR, key: "une_rt_m?geo=FR&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT", agent: eu_monetary, label: "Безработица Франции", frequency: m, units: "Percent", transforms: [level, d]}
+    - {id: UNEMP_IT, key: "une_rt_m?geo=IT&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT", agent: eu_monetary, label: "Безработица Италии", frequency: m, units: "Percent", transforms: [level, d]}
+    - {id: UNEMP_ES, key: "une_rt_m?geo=ES&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT", agent: eu_monetary, label: "Безработица Испании", frequency: m, units: "Percent", transforms: [level, d]}
+    - {id: EMPL_EA, key: "namq_10_pe?geo=EA21&na_item=EMP_DC&unit=THS_PER&s_adj=SCA", agent: eu_monetary, label: "Занятость еврозоны", frequency: q, units: "Thousands of Persons", transforms: [level, d, yoy]}
+    - {id: JOBVAC_EA, key: "jvs_q_r21?geo=EA21&nace_r2_1=B-T&sizeclas=TOTAL&s_adj=SA&indic_em=JVR", agent: eu_monetary, label: "Доля вакансий еврозоны", frequency: q, units: "Percent", transforms: [level, d]}
+    - {id: LCI_EA, key: "lc_lci_r2_q?geo=EA21&lcstruct=D1_D4_MD5&nace_r2=B-S&s_adj=SCA&unit=I20", agent: eu_monetary, label: "Индекс стоимости труда (2020=100)", frequency: q, units: "Index", transforms: [yoy]}
+    - {id: ULC_EA, key: "namq_10_lp_ulc?geo=EA21&na_item=NULC_PER&unit=I20&s_adj=SCA", agent: eu_monetary, label: "Удельные затраты на труд (на занятого)", frequency: q, units: "Index", transforms: [yoy]}
+    - {id: PROD_EA, key: "namq_10_lp_ulc?geo=EA21&na_item=RLPR_PER&unit=I20&s_adj=SCA", agent: eu_monetary, label: "Производительность (на занятого)", frequency: q, units: "Index", transforms: [yoy]}
+    - {id: PPI_EA, key: "sts_inppd_m?geo=EA21&nace_r2=B-E36&s_adj=NSA&unit=I21", agent: eu_monetary, label: "PPI еврозоны, внутренний рынок", frequency: m, units: "Index", transforms: [yoy, mom]}
+    - {id: PPI_EA_CORE, key: "sts_inppd_m?geo=EA21&nace_r2=B_C_X_MIG_NRG&s_adj=NSA&unit=I21", agent: eu_monetary, label: "PPI еврозоны без энергии", frequency: m, units: "Index", transforms: [yoy, mom]}
+    - {id: FR_DEBT_GDP, key: "gov_10q_ggdebt?geo=FR&unit=PC_GDP&sector=S13&na_item=GD", agent: eu_fiscal, label: "Госдолг Франции", frequency: q, units: "Percent of GDP", transforms: [level]}
+    - {id: ES_DEBT_GDP, key: "gov_10q_ggdebt?geo=ES&unit=PC_GDP&sector=S13&na_item=GD", agent: eu_fiscal, label: "Госдолг Испании", frequency: q, units: "Percent of GDP", transforms: [level]}
+    - {id: IT_DEBT_GDP, key: "gov_10q_ggdebt?geo=IT&unit=PC_GDP&sector=S13&na_item=GD", agent: eu_fiscal, label: "Госдолг Италии", frequency: q, units: "Percent of GDP", transforms: [level]}
+    - {id: EA_DEBT_GDP, key: "gov_10q_ggdebt?geo=EA21&unit=PC_GDP&sector=S13&na_item=GD", agent: eu_fiscal, label: "Госдолг еврозоны", frequency: q, units: "Percent of GDP", transforms: [level]}
+    - {id: FR_DEFICIT_GDP, key: "gov_10q_ggnfa?geo=FR&unit=PC_GDP&sector=S13&na_item=B9&s_adj=SCA", agent: eu_fiscal, label: "Баланс бюджета Франции (SCA)", frequency: q, units: "Percent of GDP", transforms: [level]}
+    - {id: ES_DEFICIT_GDP, key: "gov_10q_ggnfa?geo=ES&unit=PC_GDP&sector=S13&na_item=B9&s_adj=SCA", agent: eu_fiscal, label: "Баланс бюджета Испании (SCA)", frequency: q, units: "Percent of GDP", transforms: [level]}
+    - {id: EA_DEFICIT_GDP, key: "gov_10q_ggnfa?geo=EA21&unit=PC_GDP&sector=S13&na_item=B9&s_adj=SCA", agent: eu_fiscal, label: "Баланс бюджета еврозоны (SCA)", frequency: q, units: "Percent of GDP", transforms: [level]}
+    - {id: EA_INTEREST_GDP, key: "gov_10q_ggnfa?geo=EA21&unit=PC_GDP&sector=S13&na_item=D41PAY&s_adj=NSA", agent: eu_fiscal, label: "Процентные расходы еврозоны (NSA)", frequency: q, units: "Percent of GDP", transforms: [level]}
+stoxx:
+  # Текстовые файлы истории индексов STOXX («Date;Symbol;Indexvalue», вся история в одном файле); key — имя файла.
+  # У Yahoo VDAX-NEW и VSTOXX нет. Условия использования не прочитаны — в демо закрыт (D25).
+  enabled: true
+  endpoint: "https://www.stoxx.com/document/Indices/Current/HistoricalData"
+  poll_cron: "0 19 * * 1-5" # Europe/Bratislava, после закрытия
+  series:
+    - {id: VDAX_NEW, key: "h_v1x.txt", agent: eu_master, label: "VDAX-NEW", frequency: d, units: "Index Points", transforms: [level, d1w, d4w, z]}
+    - {id: VSTOXX, key: "h_v2tx.txt", agent: eu_master, label: "VSTOXX", frequency: d, units: "Index Points", transforms: [level, d1w, d4w, z]}
+zew:
+  # ZEW Finanzmarkttest: konjunktur.xls (старый двоичный Excel), лист data; key — заголовок столбца.
+  # Файл проверяется целиком: значения −100…+100, месяцы подряд; не прошёл — ошибка в status, в БД ничего
+  # (запасной путь — macroctl input). robots.txt: Crawl-delay 15 — один запрос на опрос. Релиз 11:05 Europe/Berlin.
+  # Перепечатка — с согласия ZEW: в демо закрыт (D25).
+  enabled: true
+  endpoint: "https://www.zew.de/fileadmin/FTP/div/konjunktur.xls"
+  sheet: "data"
+  poll_cron: "10 11 * * *" # Europe/Bratislava
+  series:
+    - {id: ZEW_SENTIMENT, key: "ZEW Indicator of Economic Sentiment Germany, balances", agent: eu_monetary, label: "ZEW Economic Sentiment (DE)", frequency: m, units: "Balance", transforms: [level, d]}
+    - {id: ZEW_SITUATION, key: "Economic Situation Germany, balances", agent: eu_monetary, label: "ZEW Economic Situation (DE)", frequency: m, units: "Balance", transforms: [level, d]}
+manual:
+  # Ручной ввод: macroctl input <id> <значение> --period YYYY-MM  → source=manual, в отчётах пометка «ручной ввод».
+  # Ifo: сайт ifo.de закрыт проверкой от ботов, у Бундесбанка и DBnomics ряда нет (D25).
+  # release_dates — дни выхода (YYYY-MM-DD): через сутки после такого дня ряд без нового значения помечается stale.
+  series:
+    - {id: IFO_CLIMATE, agent: eu_monetary, label: "Ifo Business Climate (DE, 2015=100)", frequency: m, units: "Index", transforms: [level, d], release_dates: []} # [[FILL: даты выхода Ifo на ближайшие полгода — с ifo.de]]
+    - {id: IFO_EXPECTATIONS, agent: eu_monetary, label: "Ifo Expectations (DE, 2015=100)", frequency: m, units: "Index", transforms: [level, d], release_dates: []} # [[FILL: те же даты]]
+finanzagentur:
+  # Аукционы Bund (ТЗ §6.1, LOOKUP 2026-11-11): итоги текущего года, история с 1999 (backfill),
+  # страница календаря со ссылкой на план аукционов (имя файла меняется каждый квартал).
+  # Приём заявок 08:00–11:30 Europe/Berlin; строки OH (из собственных запасов) и Syn не аукционы — пропускаются.
+  enabled: true
+  results_url: "https://www.deutsche-finanzagentur.de/fileadmin/user_upload/Institutionelle-investoren/auktionen/emissionsergebnisse_aktuell_en.xlsx"
+  history_url: "https://www.deutsche-finanzagentur.de/fileadmin/user_upload/Institutionelle-investoren/auktionen/emissionshistorie_en.xlsx"
+  calendar_page: "https://www.deutsche-finanzagentur.de/en/federal-securities/issuances/issuance-calendar"
+  agent: eu_fiscal
+  poll_cron: "30 13 * * 1-5" # Europe/Bratislava; страховочный опрос (D8), в день аукциона — событие календаря
+  timezone: "Europe/Berlin" # дни аукционов и конец приёма заявок (11:30)
+  # какие бумаги плана аукционов (Issuance outlook) идут в календарь и с какой важностью; Bubill — нет (по 2–3 в неделю)
+  calendar_importance: {Bund: medium, Bobl: medium, Schatz: low, "Green issue": low}
+# Календари публикаций, известные датами (ТЗ §8.1; LOOKUP 2026-11-11, PROGRESS «Фаза 11, батч 11d»).
+# kind: ics (Eurostat, только даты) | ecb_statscal (страница ЕЦБ, дата и время) | dates (даты в конфиге: PDF издателя).
+# match — название события у издателя дословно; series — ряды, которые выходят в этот релиз: в день события
+# демон опрашивает их источник, событие закрывается, когда ряды обновились; по этим дням считается stale (§17.7).
+# previous — что показать в calendar_eu.md как «Прошлое значение». Destatis не используется (сайт закрыт от ботов).
+release_calendars:
+  - name: eurostat
+    horizon_days: 120 # квартальные релизы (стоимость труда, ULC, BLS) — дальше общего горизонта; нужно для флага stale
+    kind: ics
+    url: "https://ec.europa.eu/eurostat/o/calendars/eventsIcal?theme=0&category=0"
+    agent: eu_monetary
+    timezone: "Europe/Luxembourg"
+    time: "11:00" # первые публикации Eurostat — 11:00 CET (протокол беспристрастного доступа)
+    events:
+      # HICP хранится из ЕЦБ (поток HICP): ЕЦБ обновляет его в 15:00 (флеш) и 12:00 (итог) — опрос это покрывает
+      - {match: "Flash estimate inflation euro area", name: "Флеш HICP еврозоны", importance: high, series: [HICP, HICP_CORE], previous: {series: HICP, code: yoy, name: "HICP г/г"}}
+      - {match: "Inflation (HICP)", name: "HICP еврозоны (итог)", importance: medium, series: [HICP, HICP_CORE, HICP_SA, HICP_CORE_SA], previous: {series: HICP_CORE, code: yoy, name: "HICP core г/г"}}
+      - {match: "Flash estimate GDP and employment - EU and euro area", name: "Флеш ВВП еврозоны", importance: high, series: [GDP_EA, EMPL_EA], previous: {series: GDP_EA, code: qoq, name: "ВВП кв/кв"}}
+      - {match: "GDP main aggregates and employment", name: "ВВП еврозоны (основные агрегаты)", importance: medium, series: [GDP_EA, GDP_DE, GDP_FR, GDP_IT, GDP_ES, GDP_EA_NOM, GDP_EA_DEFL, CONS_EA, EXPORTS_EA, IMPORTS_EA, NETEXP_EA, EMPL_EA, ULC_EA, PROD_EA], previous: {series: GDP_EA, code: qoq, name: "ВВП кв/кв"}}
+      # батч 11f: релизы рядов паритета (заголовки — из .ics Eurostat, testdata/relcal/eurostat.ics)
+      - {match: "Unemployment", name: "Безработица еврозоны", importance: medium, series: [UNEMP_EA, UNEMP_DE, UNEMP_FR, UNEMP_IT, UNEMP_ES], previous: {series: UNEMP_EA, code: level, name: "безработица EA"}}
+      - {match: "Industrial production", name: "Промпроизводство еврозоны", importance: medium, series: [IP_EA], previous: {series: IP_EA, code: yoy, name: "промпр. г/г"}}
+      - {match: "Retail trade", name: "Розничные продажи еврозоны", importance: low, series: [RETAIL_EA], previous: {series: RETAIL_EA, code: yoy, name: "розница г/г"}}
+      - {match: "Industrial producer prices, domestic market", name: "PPI еврозоны", importance: low, series: [PPI_EA, PPI_EA_CORE], previous: {series: PPI_EA, code: yoy, name: "PPI г/г"}}
+      - {match: "Labour cost index", name: "Индекс стоимости труда", importance: medium, series: [LCI_EA], previous: {series: LCI_EA, code: yoy, name: "стоимость труда г/г"}}
+      - {match: "Job vacancy", name: "Вакансии", importance: low, series: [JOBVAC_EA], previous: {series: JOBVAC_EA, code: level, name: "доля вакансий"}}
+      - {match: "First release sector accounts (households and businesses)", name: "Счета секторов: сбережения домохозяйств", importance: low, series: [SAVING_EA], previous: {series: SAVING_EA, code: level, name: "норма сбережений"}}
+      - {match: "Second release sector accounts (households)", name: "Счета секторов (уточнение)", importance: low, series: [SAVING_EA]}
+      - {match: "Quarterly government debt", name: "Госдолг стран ЕС (квартал)", importance: low, series: [DE_DEBT_GDP, FR_DEBT_GDP, ES_DEBT_GDP, IT_DEBT_GDP, EA_DEBT_GDP], previous: {series: DE_DEBT_GDP, code: level, name: "долг DE"}}
+      - {match: "Quarterly government deficit", name: "Дефицит бюджетов стран ЕС (квартал)", importance: low, series: [IT_DEFICIT_GDP, FR_DEFICIT_GDP, ES_DEFICIT_GDP, EA_DEFICIT_GDP, EA_INTEREST_GDP], previous: {series: IT_DEFICIT_GDP, code: level, name: "баланс IT"}}
+  - name: ecb_statscal
+    horizon_days: 120 # квартальные релизы (стоимость труда, ULC, BLS) — дальше общего горизонта; нужно для флага stale
+    kind: ecb_statscal
+    url: "https://www.ecb.europa.eu/press/calendars/statscal/html/index.en.html"
+    agent: eu_monetary
+    timezone: "Europe/Berlin"
+    time: "10:00" # время берётся со страницы; это — если не указано
+    events:
+      - {match: "Monetary developments in the euro area", dataset: BSI, name: "Денежные агрегаты еврозоны (M3, ЕЦБ)", importance: medium, series: [M3_YOY, LOANS_NFC_YOY, LOANS_HH_YOY], previous: {series: M3_YOY, code: level, name: "M3 г/г"}}
+      # батч 11f: заголовки и наборы — из статкалендаря ЕЦБ (testdata/relcal/ecb_statscal.html)
+      - {match: "Euro area bank interest rate statistics", dataset: MIR, name: "Ставки по кредитам (ЕЦБ)", importance: low, series: [MIR_NFC, MIR_HOUSE], previous: {series: MIR_NFC, code: level, name: "кредит бизнесу"}}
+      - {match: "Euro area Bank Lending Survey", dataset: BLS, name: "Опрос банков (BLS)", importance: medium, series: [BLS_NFC_STD, BLS_NFC_DEM, BLS_HH_STD, BLS_HH_DEM], previous: {series: BLS_NFC_STD, code: level, name: "стандарты, бизнес"}}
+      - {match: "Euro Area Indicator of Negotiated Wage Rates", dataset: INW, name: "Переговорные зарплаты (ЕЦБ)", importance: medium, series: [NEG_WAGES], previous: {series: NEG_WAGES, code: level, name: "зарплаты г/г"}}
+      - {match: "ECB Wage Tracker", dataset: EWT, name: "Wage tracker ЕЦБ", importance: medium, series: [WAGE_TRACKER], previous: {series: WAGE_TRACKER, code: level, name: "трекер г/г"}}
+      - {match: "TARGET balances statistics", dataset: TGB, name: "Сальдо TARGET", importance: low, series: [TARGET_IT, TARGET_DE], previous: {series: TARGET_IT, code: level, name: "TARGET IT"}}
+  - name: zew
+    kind: dates
+    agent: eu_monetary
+    timezone: "Europe/Berlin"
+    time: "11:05"
+    events:
+      - {name: "ZEW (Германия)", importance: high, series: [ZEW_SENTIMENT, ZEW_SITUATION], previous: {series: ZEW_SENTIMENT, code: level, name: "ZEW Sentiment"}, dates: [2026-11-17, 2026-12-15, 2027-01-19, 2027-02-16, 2027-03-16, 2027-04-13, 2027-05-11, 2027-06-15, 2027-07-20, 2027-08-17, 2027-09-14, 2027-10-19, 2027-11-16, 2027-12-14, 2028-01-18]}
+  - name: ec_survey
+    kind: dates
+    agent: eu_monetary
+    timezone: "Europe/Brussels"
+    time: "11:00"
+    events:
+      - {name: "Опрос Еврокомиссии (ESI, confidence)", importance: medium, series: [EC_ICI_DE, EC_ESI_DE, EC_ESI_EA, EC_CONS_EA, EC_SERV_EA, EC_PRICE_EXP], previous: {series: EC_ICI_DE, code: level, name: "DE industrial confidence"}, dates: [2026-11-27, 2027-01-07]} # [[FILL: даты 2027 — PDF «Publication dates 2027» DG ECFIN]]
+      - {name: "Флеш потребительского доверия еврозоны (ЕК)", importance: low, time: "16:00", dates: [2026-11-20, 2026-12-21]}
+  # SPF ЕЦБ: дата — со страницы SPF ЕЦБ («next release … 5 February 2027 (provisional)», 2026-11-12); время ЕЦБ не публикует,
+  # 10:00 CET — со слов пользователя (12.11). Даты 2027 после февраля ЕЦБ ещё не объявил — дописывать по мере публикации.
+  - name: ecb_spf
+    kind: dates
+    agent: eu_monetary
+    timezone: "Europe/Berlin"
+    time: "10:00"
+    events:
+      - {name: "SPF ЕЦБ (опрос прогнозистов)", importance: medium, series: [SPF_NEXT_YEAR, SPF_LT], previous: {series: SPF_NEXT_YEAR, code: level, name: "SPF на следующий год"}, dates: [2027-02-05]}
+ecb_texts:
+  # Тексты ЕЦБ (ТЗ §6.1): решения, monetary policy statement (вступление) и Q&A пресс-конференции,
+  # accounts, речи и интервью членов Исполнительного совета; календарь заседаний и режим дня решения (§8.2).
+  # LOOKUP 2026-11-11 (живые запросы). Адрес страницы содержит непредсказуемый хеш (ecb.mp261029~9a493adf17),
+  # поэтому в день решения опрашиваются RSS и годовые списки, а не страница.
+  enabled: true
+  base_url: "https://www.ecb.europa.eu"
+  rss: "https://www.ecb.europa.eu/rss/press.html" # 15 последних: речи, интервью, решения, заявления
+  lists: # годовые списки; {year} подставляется
+    decisions: "/press/govcdec/mopo/{year}/html/index_include.en.html"
+    statements: "/press/press_conference/monetary-policy-statement/{year}/html/index_include.en.html"
+    accounts: "/press/accounts/{year}/html/index_include.en.html"
+  meeting_calendar: "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html"
+  timezone: "Europe/Berlin"
+  times: # время публикации, если документ найден в списке, а не в RSS
+    decision: "14:15"
+    press_conference: "14:45"
+    accounts: "13:30"
+  poll_interval: 15m # RSS, списки и перечитывание заявлений ради Q&A
+  agent: eu_monetary
+  check_series: ECB_DFR # сверка распознанной ставки с рядом после вступления решения в силу
+  day_mode:
+    lead: 1m # начать опрос за минуту до 14:15
+    rss_interval: 20s
+    list_interval: 60s # годовые списки (35–43 КБ) — подстраховка, если RSS отстаёт
+    fast_for: 75m # частый опрос до 15:30, дальше — стандартные шаги §8.2
+    alert_decision_at: "14:25" # нет решения — тревога в Telegram
+    statement_wait: "15:30" # нет заявления — экспорт с одним решением; нет ничего — тревога
+# =====================================================================
+# EU MICRO — eu/micro/current_week.md (фаза 11, ТЗ §18.7)
+# =====================================================================
+# Компании вне квартального потока EDGAR. Цены — Yahoo (symbol), реакция на отчёт — §19.5.
+# report_dates — вручную из финансовых календарей эмитентов (LOOKUP 2026-11-11); session: pre_market (по
+# умолчанию, немецкие эмитенты публикуются до открытия Xetra) | after_close; estimate: true — дата не
+# подтверждена эмитентом. facts — годовые цифры из структурированной отчётности: edgar (company facts
+# 20-F, taxonomy ifrs-full) | esef (filings.xbrl.org, lei); тег без префикса — в taxonomy, тег расширения —
+# с префиксом (airbus:...). press — лента релизов: rss | html (item — CSS-селектор записи списка,
+# link_pattern — RE2 ссылки на релиз, body — CSS-селектор текста на странице релиза); title_words —
+# оставить релизы с этими словами в заголовке; exclude — RE2 заголовков, которые не берём.
+issuers:
+  enabled: true
+  poll_cron: "30 8,19 * * 1-5" # Europe/Bratislava: после утренних отчётов и вечером
+  request_interval: "3s" # filings.xbrl.org отвечает 429 на несколько запросов подряд
+  esef_url: "https://filings.xbrl.org"
+  user_agent: "Mozilla/5.0 (compatible; macro-collector)"
+  press_history_days: 30
+  # абзацы релиза, которые берём (RE2, без учёта регистра): outlook, guidance, ожидания (ТЗ §19.4) + цитаты
+  paragraphs: ['\boutlook\b', '\bguidance\b', '\bexpect(s|ed|ing|ations?)?\b', '\bforecast', '\bfull[- ]year\b', '\btariffs?\b']
+  release_chars: 1500 # на релиз
+  full_releases: 3 # релизов компании за неделю с абзацами; остальные — строкой
+  stale_months: 15 # годовые цифры старше — пометка «устарели»
+  companies:
+    - ticker: SAP
+      name: SAP
+      symbol: SAP.DE
+      currency: EUR
+      importance: high
+      report_dates:
+        - {date: "2027-01-28", period: "Q4 2026", source: "SAP IR, события"}
+        - {date: "2027-04-22", period: "Q1 2027", source: "SAP IR, события"}
+      facts:
+        source: edgar
+        cik: "0001000184"
+        taxonomy: ifrs-full
+        forms: ["20-F"]
+        concepts:
+          revenue: [Revenue]
+          operating_income: [ProfitLossFromOperatingActivities]
+          net_income: [ProfitLossAttributableToOwnersOfParent]
+          eps: [DilutedEarningsLossPerShare]
+          operating_cash_flow: [CashFlowsFromUsedInOperatingActivities]
+          capex: [PurchaseOfPropertyPlantAndEquipmentIntangibleAssetsOtherThanGoodwillInvestmentPropertyAndOtherNoncurrentAssets]
+          shares: [AdjustedWeightedAverageShares]
+      press:
+        kind: rss
+        url: "https://news.sap.com/feed/"
+        # лента SAP — в основном маркетинг (решение пользователя 2026-11-11): только корпоративные заголовки
+        title_words: [Results, Outlook, Quarter, Quarterly, Guidance, Executive Board, Supervisory Board, Dividend, Buyback, Share Repurchase, Acquisition, Acquire, Acquires, Annual General Meeting]
+    - ticker: SIE
+      name: Siemens
+      symbol: SIE.DE
+      currency: EUR
+      importance: high
+      report_dates:
+        - {date: "2026-11-12", period: "Q4 FY2026", source: "Siemens IR, финансовый календарь"}
+      press:
+        kind: rss
+        url: "https://press.siemens.com/global/en/rss.xml"
+      # Квартальный Excel эмитента (шаг 18, D15): только выручка, Profit Industrial Business, прибыль акционерам,
+      # EPS базовая — квартал и год назад. Таблица — по строке-заголовку на любом листе, строка — по подписи,
+      # столбец — по заголовку периода («Q3» над блоком + «FY 2026»); что-то не нашлось ровно один раз — ошибка.
+      quarterly:
+        page: "https://www.siemens.com/en-us/company/investor-relations/financial-results/"
+        links: ['^(?P<year>\d{4})-q(?P<q>[1-4])-Financial-Results-Excel\.xlsx$']
+        fiscal_year_end: 9 # финансовый год Siemens — до 30 сентября
+        revenue_label: "Revenue"
+        operating_label: "Profit Industrial Business"
+        tables:
+          - anchor: ["Consolidated Statements of Income"]
+            rows:
+              revenue: {labels: ["Revenue"]}
+              net_income: {labels: ["Shareholders of Siemens AG"]}
+              eps: {labels: ["Net income"], section: "Basic earnings per share"}
+          - anchor: ["Overview of Segment figures"]
+            group: "Profit" # первая строка метки группы столбцов («Profit margin» — другая группа)
+            rows:
+              operating_income: {labels: ["Industrial Business"]}
+    - ticker: ALV
+      name: Allianz
+      symbol: ALV.DE
+      currency: EUR
+      importance: high
+      report_dates:
+        - {date: "2026-11-12", period: "Q3 2026", source: "Allianz IR, финансовый календарь",}
+        # пресс-релизы: allianz.com отвечает 403 (Cloudflare) — не обходим
+    - ticker: AIR
+      name: Airbus
+      symbol: AIR.DE
+      currency: EUR
+      importance: high
+      report_dates:
+        - {date: "2027-02-18", period: "FY 2026", source: "Airbus IR, финансовый календарь"}
+      facts:
+        source: esef
+        lei: MINO79WLOO247M1IL051
+        concepts:
+          revenue: [Revenue]
+          operating_income: ["airbus:ProfitLossBeforeFinancialResultAndIncomeTaxes"] # EBIT, тег расширения Airbus
+          net_income: [ProfitLossAttributableToOwnersOfParent]
+          eps: [DilutedEarningsLossPerShare]
+          operating_cash_flow: [CashFlowsFromUsedInOperatingActivities]
+          capex: ["airbus:PurchasesOfIntangibleAssetsPropertyPlantAndEquipmentInvestmentProperty"]
+          # числа акций в ESEF Airbus нет → Δ кап. «—»
+      press:
+        kind: html
+        url: "https://www.airbus.com/en/newsroom/press-releases"
+        item: "article.awx-card"
+        link_pattern: '/en/newsroom/press-releases/\d{4}-\d{2}-'
+        body: "article.node--press-release"
+        exclude: ['share buybacks for week']
+    - ticker: DTE
+      name: Deutsche Telekom
+      symbol: DTE.DE
+      currency: EUR
+      importance: medium
+      report_dates:
+        - {date: "2027-02-25", period: "FY 2026", source: "Deutsche Telekom IR, финансовый календарь"}
+      quarterly:
+        page: "https://www.telekom.com/en/investor-relations/publications/financial-results"
+        # «dt-26q3-backup.xlsx», «dt-26q2-backup-de.xlsx» (2026), «DT 25Q4 Backup.xlsx» (2025); consensus — не берём
+        links: ['(?i)^dt-(?P<year>\d{2})q(?P<q>[1-4])-backup(?:-de)?\.xlsx$', '(?i)^DT (?P<year>\d{2}|\d{4})Q(?P<q>[1-4]) Backup\.xlsx$']
+        revenue_label: "Net revenue"
+        operating_label: "EBIT"
+        tables:
+          - anchor: ["DT CONSOLIDATED INCOME STATEMENT", "AS REPORTED"] # лист adj. — «ADJUSTED FOR SPECIAL FACTORS»
+            rows:
+              revenue: {labels: ["NET REVENUE"]}
+              operating_income: {labels: ["PROFIT (LOSS) FROM OPERATIONS (EBIT)"]}
+              net_income: {labels: ["NET PROFIT (LOSS)"]}
+              # EPS в backup-файле DT нет → «—»
+    - ticker: ENR
+      name: Siemens Energy
+      symbol: ENR.DE
+      currency: EUR
+      importance: medium
+      report_dates:
+        - {date: "2026-11-11", period: "Q4 FY2026", source: "Siemens Energy IR, финансовый календарь"}
+    - ticker: RHM
+      name: Rheinmetall
+      symbol: RHM.DE
+      currency: EUR
+      importance: medium
+      report_dates:
+        - {date: "2027-03-11", period: "FY 2026", source: "Rheinmetall IR, финансовый календарь"}
+    - ticker: MBG
+      name: Mercedes-Benz
+      symbol: MBG.DE
+      currency: EUR
+      importance: medium
+      report_dates:
+        # официальной даты нет; оценка Investing.com (LOOKUP 2026-11-11)
+        - {date: "2027-02-18", period: "FY 2026", estimate: true, source: "Investing.com, оценка"}

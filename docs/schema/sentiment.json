@@ -1,0 +1,987 @@
+{
+  "$defs": {
+    "COTRow": {
+      "additionalProperties": false,
+      "properties": {
+        "am_change": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "am_net": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "am_z": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lev_change": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "lev_net": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "lev_z": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "name": {
+          "type": "string"
+        },
+        "open_interest": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "name",
+        "date",
+        "lev_net",
+        "lev_change",
+        "lev_z",
+        "am_net",
+        "am_change",
+        "am_z",
+        "open_interest"
+      ],
+      "type": "object"
+    },
+    "ChangesRow": {
+      "additionalProperties": false,
+      "properties": {
+        "change_1w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "change_4w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "freq": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "index",
+            "rate",
+            "pct",
+            "bn",
+            "thous",
+            "count",
+            "usd",
+            "ratio",
+            "bp",
+            "px",
+            "usd0",
+            "bn_eur",
+            "eur",
+            "fx"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "level": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quality": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "z": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "label",
+        "date",
+        "freq",
+        "kind",
+        "flags",
+        "quality",
+        "level",
+        "change_1w",
+        "change_4w",
+        "z"
+      ],
+      "type": "object"
+    },
+    "DailyMovesRow": {
+      "additionalProperties": false,
+      "properties": {
+        "best": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "best_value": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "label": {
+          "type": "string"
+        },
+        "values": {
+          "items": {
+            "$ref": "#/$defs/Quantity"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "label",
+        "values",
+        "best",
+        "best_value"
+      ],
+      "type": "object"
+    },
+    "Header": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "iso_week": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/Period"
+        },
+        "region": {
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "sources_failed": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sources_ok": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stale_series": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "region",
+        "agent",
+        "iso_week",
+        "period",
+        "generated_at",
+        "kind",
+        "sources_ok",
+        "sources_failed",
+        "stale_series",
+        "title"
+      ],
+      "type": "object"
+    },
+    "HikeComparison": {
+      "additionalProperties": false,
+      "properties": {
+        "meeting": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "meeting_bp": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "platforms": {
+          "items": {
+            "$ref": "#/$defs/HikePlatform"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "price_date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "meeting",
+        "price_date",
+        "meeting_bp",
+        "platforms"
+      ],
+      "type": "object"
+    },
+    "HikePlatform": {
+      "additionalProperties": false,
+      "properties": {
+        "change_1w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "level": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "level",
+        "change_1w"
+      ],
+      "type": "object"
+    },
+    "MissingSection": {
+      "additionalProperties": false,
+      "properties": {
+        "failures": {
+          "items": {
+            "$ref": "#/$defs/SourceFailure"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stale": {
+          "items": {
+            "$ref": "#/$defs/StaleSeries"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "stale",
+        "failures"
+      ],
+      "type": "object"
+    },
+    "MovesSection": {
+      "additionalProperties": false,
+      "properties": {
+        "configured": {
+          "type": "boolean"
+        },
+        "days": {
+          "items": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/DailyMovesRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "configured",
+        "days",
+        "rows"
+      ],
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "to": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "tz": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "tz"
+      ],
+      "type": "object"
+    },
+    "Positioning": {
+      "additionalProperties": false,
+      "properties": {
+        "contracts": {
+          "items": {
+            "$ref": "#/$defs/COTRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "mmf": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ChangesRow"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contracts",
+        "mmf"
+      ],
+      "type": "object"
+    },
+    "PostSurprise": {
+      "additionalProperties": false,
+      "properties": {
+        "actual": {
+          "type": "string"
+        },
+        "diff": {
+          "type": "string"
+        },
+        "expected": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "actual",
+        "expected",
+        "diff"
+      ],
+      "type": "object"
+    },
+    "PredictionOutcome": {
+      "additionalProperties": false,
+      "properties": {
+        "change_1w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "change_4w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "level": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "level",
+        "change_1w",
+        "change_4w"
+      ],
+      "type": "object"
+    },
+    "PredictionQuestion": {
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "freq": {
+          "type": "string"
+        },
+        "outcomes": {
+          "items": {
+            "$ref": "#/$defs/PredictionOutcome"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "topic",
+        "title",
+        "source",
+        "date",
+        "freq",
+        "outcomes"
+      ],
+      "type": "object"
+    },
+    "Predictions": {
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "hike": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/HikeComparison"
+            }
+          ]
+        },
+        "questions": {
+          "items": {
+            "$ref": "#/$defs/PredictionQuestion"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "enabled",
+        "questions",
+        "hike"
+      ],
+      "type": "object"
+    },
+    "PutCallRow": {
+      "additionalProperties": false,
+      "properties": {
+        "avg_5d": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "avg_5d_week_ago": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "freq": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "index",
+            "rate",
+            "pct",
+            "bn",
+            "thous",
+            "count",
+            "usd",
+            "ratio",
+            "bp",
+            "px",
+            "usd0",
+            "bn_eur",
+            "eur",
+            "fx"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "level": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "quality": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "z": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "label",
+        "date",
+        "freq",
+        "kind",
+        "flags",
+        "quality",
+        "level",
+        "avg_5d",
+        "avg_5d_week_ago",
+        "z"
+      ],
+      "type": "object"
+    },
+    "Quantity": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "percent",
+            "bp",
+            "pp",
+            "usd_bn",
+            "usd",
+            "eur_bn",
+            "eur",
+            "thousands_persons",
+            "count",
+            "index",
+            "ratio",
+            "sigma",
+            "moves_25bp",
+            "correlation",
+            "times"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ],
+      "type": "object"
+    },
+    "RatioRow": {
+      "additionalProperties": false,
+      "properties": {
+        "change_1w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "change_4w": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "level": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "label",
+        "date",
+        "level",
+        "change_1w",
+        "change_4w",
+        "flags"
+      ],
+      "type": "object"
+    },
+    "ReactionEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "labels": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "moves": {
+          "items": {
+            "$ref": "#/$defs/ReactionMove"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "surprises": {
+          "items": {
+            "$ref": "#/$defs/PostSurprise"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "labels",
+        "at",
+        "surprises",
+        "moves"
+      ],
+      "type": "object"
+    },
+    "ReactionMove": {
+      "additionalProperties": false,
+      "properties": {
+        "first": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "full": {
+          "$ref": "#/$defs/Quantity"
+        }
+      },
+      "required": [
+        "first",
+        "full"
+      ],
+      "type": "object"
+    },
+    "ReactionSection": {
+      "additionalProperties": false,
+      "properties": {
+        "close": {
+          "type": "string"
+        },
+        "configured": {
+          "type": "boolean"
+        },
+        "daily": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "no_bars": {
+          "type": "boolean"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/ReactionEvent"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "symbols": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "window_minutes": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "configured",
+        "window_minutes",
+        "symbols",
+        "rows",
+        "no_bars"
+      ],
+      "type": "object"
+    },
+    "Regime": {
+      "additionalProperties": false,
+      "properties": {
+        "corr_days": {
+          "type": "integer"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "r": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "r_week_ago": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "threshold": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "corr_days",
+        "threshold",
+        "date",
+        "r",
+        "r_week_ago"
+      ],
+      "type": "object"
+    },
+    "SentimentReport": {
+      "additionalProperties": false,
+      "properties": {
+        "breadth": {
+          "items": {
+            "$ref": "#/$defs/RatioRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "header": {
+          "$ref": "#/$defs/Header"
+        },
+        "missing": {
+          "$ref": "#/$defs/MissingSection"
+        },
+        "moves": {
+          "$ref": "#/$defs/MovesSection"
+        },
+        "positioning": {
+          "$ref": "#/$defs/Positioning"
+        },
+        "predictions": {
+          "$ref": "#/$defs/Predictions"
+        },
+        "reaction": {
+          "$ref": "#/$defs/ReactionSection"
+        },
+        "regime": {
+          "$ref": "#/$defs/Regime"
+        },
+        "volatility": {
+          "$ref": "#/$defs/Volatility"
+        }
+      },
+      "required": [
+        "header",
+        "reaction",
+        "moves",
+        "regime",
+        "volatility",
+        "breadth",
+        "positioning",
+        "predictions",
+        "missing"
+      ],
+      "type": "object"
+    },
+    "SourceFailure": {
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "since": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "since",
+        "error"
+      ],
+      "type": "object"
+    },
+    "StaleSeries": {
+      "additionalProperties": false,
+      "properties": {
+        "freq": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "last_obs": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "next_date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "next_release": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "last_obs",
+        "freq",
+        "next_release",
+        "next_date"
+      ],
+      "type": "object"
+    },
+    "Volatility": {
+      "additionalProperties": false,
+      "properties": {
+        "put_call": {
+          "items": {
+            "$ref": "#/$defs/PutCallRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "ratio": {
+          "$ref": "#/$defs/RatioRow"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/ChangesRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "rows",
+        "ratio",
+        "put_call"
+      ],
+      "type": "object"
+    }
+  },
+  "$ref": "#/$defs/SentimentReport",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "sentiment"
+}

@@ -1,0 +1,1192 @@
+{
+  "header": {
+    "schema_version": 1,
+    "region": "usa",
+    "agent": "fiscal_liquidity",
+    "iso_week": "2026-W43",
+    "period": {
+      "from": "2026-10-18T16:00:00+02:00",
+      "to": "2026-10-25T16:00:00+01:00",
+      "tz": "Europe/Bratislava"
+    },
+    "generated_at": "2026-10-25T16:00:04+01:00",
+    "kind": "weekly",
+    "sources_ok": [
+      "fred",
+      "treasury"
+    ],
+    "sources_failed": [],
+    "stale_series": [
+      "GFDEGDQ188S",
+      "THREEFYTP10"
+    ],
+    "title": "USA Fiscal & Liquidity — 2026-W43"
+  },
+  "released": [
+    {
+      "at": "2026-10-22T16:30:00-04:00",
+      "timed": true,
+      "name": "H.4.1 Factors Affecting Reserve Balances",
+      "series_id": "WALCL",
+      "kind": "bn",
+      "saar": false,
+      "fact": [
+        {
+          "code": "level",
+          "current": {
+            "value": 7882.979348000001,
+            "unit": "usd_bn"
+          },
+          "previous": {
+            "value": 7874.223681,
+            "unit": "usd_bn"
+          },
+          "previous_first": {
+            "value": null,
+            "unit": "usd_bn"
+          }
+        }
+      ],
+      "has_previous": true,
+      "revised": false,
+      "level_change": {
+        "value": 8.755667000000358,
+        "unit": "usd_bn"
+      }
+    },
+    {
+      "at": "2026-10-22T16:30:00-04:00",
+      "timed": true,
+      "name": "H.4.1 Factors Affecting Reserve Balances",
+      "series_id": "WDTGAL",
+      "kind": "bn",
+      "saar": false,
+      "fact": [
+        {
+          "code": "level",
+          "current": {
+            "value": 1074.253383,
+            "unit": "usd_bn"
+          },
+          "previous": {
+            "value": 1072.320582,
+            "unit": "usd_bn"
+          },
+          "previous_first": {
+            "value": null,
+            "unit": "usd_bn"
+          }
+        }
+      ],
+      "has_previous": true,
+      "revised": false,
+      "level_change": {
+        "value": 1.9328009999999267,
+        "unit": "usd_bn"
+      }
+    },
+    {
+      "at": "2026-10-22T16:30:00-04:00",
+      "timed": true,
+      "name": "H.4.1 Factors Affecting Reserve Balances",
+      "series_id": "WRESBAL",
+      "kind": "bn",
+      "saar": false,
+      "fact": [
+        {
+          "code": "level",
+          "current": {
+            "value": 3582.178548,
+            "unit": "usd_bn"
+          },
+          "previous": {
+            "value": 3576.8188059999998,
+            "unit": "usd_bn"
+          },
+          "previous_first": {
+            "value": null,
+            "unit": "usd_bn"
+          }
+        }
+      ],
+      "has_previous": true,
+      "revised": false,
+      "level_change": {
+        "value": 5.359742000000097,
+        "unit": "usd_bn"
+      }
+    }
+  ],
+  "liquidity": [
+    {
+      "id": "WALCL",
+      "source": "fred",
+      "label": "Fed Balance Sheet",
+      "date": "2026-10-21",
+      "freq": "w",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 7882.979348000001,
+        "unit": "usd_bn"
+      },
+      "change_1w": {
+        "value": 8.755667000000358,
+        "unit": "usd_bn"
+      },
+      "change_4w": {
+        "value": 67.29684400000042,
+        "unit": "usd_bn"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "WDTGAL",
+      "source": "fred",
+      "label": "TGA (Wed)",
+      "date": "2026-10-21",
+      "freq": "w",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 1074.253383,
+        "unit": "usd_bn"
+      },
+      "change_1w": {
+        "value": 1.9328009999999267,
+        "unit": "usd_bn"
+      },
+      "change_4w": {
+        "value": 10.951714000000038,
+        "unit": "usd_bn"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "TGA_DTS",
+      "source": "treasury",
+      "label": "TGA daily (DTS)",
+      "date": "2026-10-22",
+      "freq": "d",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 924.83,
+        "unit": "usd_bn"
+      },
+      "change_1w": {
+        "value": 12.490999999999985,
+        "unit": "usd_bn"
+      },
+      "change_4w": {
+        "value": 2.629000000000019,
+        "unit": "usd_bn"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "RRPONTSYD",
+      "source": "fred",
+      "label": "ON RRP",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 25.572,
+        "unit": "usd_bn"
+      },
+      "change_1w": {
+        "value": -0.08399999999999963,
+        "unit": "usd_bn"
+      },
+      "change_4w": {
+        "value": 0.06199999999999761,
+        "unit": "usd_bn"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "WRESBAL",
+      "source": "fred",
+      "label": "Bank Reserves",
+      "date": "2026-10-21",
+      "freq": "w",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 3582.178548,
+        "unit": "usd_bn"
+      },
+      "change_1w": {
+        "value": 5.359742000000097,
+        "unit": "usd_bn"
+      },
+      "change_4w": {
+        "value": 34.090897999999925,
+        "unit": "usd_bn"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "NET_LIQUIDITY",
+      "source": "derived",
+      "label": "Net Liquidity",
+      "date": "2026-10-21",
+      "freq": "w",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 6783.197965,
+        "unit": "usd_bn"
+      },
+      "change_1w": {
+        "value": 7.1098659999997835,
+        "unit": "usd_bn"
+      },
+      "change_4w": {
+        "value": 56.34613000000081,
+        "unit": "usd_bn"
+      },
+      "z": {
+        "value": 2.1307192327950255,
+        "unit": "sigma"
+      }
+    }
+  ],
+  "funding": [
+    {
+      "id": "SOFR",
+      "source": "fred",
+      "label": "SOFR",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 3.954,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -2.8999999999999915,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 0.6000000000000227,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "IORB",
+      "source": "fred",
+      "label": "IORB",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 3.985,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -5.300000000000038,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": -0.40000000000000036,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "SOFR_IORB",
+      "source": "derived",
+      "label": "SOFR − IORB",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "bp",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": -3.0999999999999694,
+        "unit": "bp"
+      },
+      "change_1w": {
+        "value": 2.4000000000000465,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 1.000000000000023,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "RPONTSYD",
+      "source": "fred",
+      "label": "Standing Repo Facility",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 0,
+        "unit": "usd_bn"
+      },
+      "change_1w": {
+        "value": 0,
+        "unit": "usd_bn"
+      },
+      "change_4w": {
+        "value": 0,
+        "unit": "usd_bn"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    }
+  ],
+  "budget": [
+    {
+      "id": "MTSDS133FMS",
+      "source": "fred",
+      "label": "Federal Deficit/Surplus",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "saar": false,
+      "level": {
+        "value": -192.346077,
+        "unit": "usd_bn"
+      },
+      "change": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "sum_12m": {
+        "value": -2291.4334490000006,
+        "unit": "usd_bn"
+      },
+      "yoy": {
+        "value": 2.331332064062286,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "MTS_RECEIPTS",
+      "source": "treasury",
+      "label": "MTS: receipts",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "saar": false,
+      "level": {
+        "value": 514.900412707,
+        "unit": "usd_bn"
+      },
+      "change": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "sum_12m": {
+        "value": 6072.493340911001,
+        "unit": "usd_bn"
+      },
+      "yoy": {
+        "value": 1.2608604328193218,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "MTS_OUTLAYS",
+      "source": "treasury",
+      "label": "MTS: outlays",
+      "date": "2026-09-01",
+      "freq": "m",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "saar": false,
+      "level": {
+        "value": 515.1978704850001,
+        "unit": "usd_bn"
+      },
+      "change": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "sum_12m": {
+        "value": 6099.369916532,
+        "unit": "usd_bn"
+      },
+      "yoy": {
+        "value": 1.8929432232635879,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "GFDEGDQ188S",
+      "source": "fred",
+      "label": "Debt-to-GDP",
+      "date": "2026-01-01",
+      "freq": "q",
+      "kind": "pct",
+      "flags": [
+        "stale"
+      ],
+      "quality": "official",
+      "saar": false,
+      "level": {
+        "value": 151.947,
+        "unit": "percent"
+      },
+      "change": {
+        "value": 0.4000000000000057,
+        "unit": "pp"
+      },
+      "sum_12m": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "yoy": {
+        "value": null,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "A091RC1Q027SBEA",
+      "source": "fred",
+      "label": "Interest Payments",
+      "date": "2026-04-01",
+      "freq": "q",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "saar": true,
+      "level": {
+        "value": 1467.186,
+        "unit": "usd_bn"
+      },
+      "change": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "sum_12m": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "yoy": {
+        "value": 2.9330444744871453,
+        "unit": "percent"
+      }
+    },
+    {
+      "id": "GCE",
+      "source": "fred",
+      "label": "Government Spending",
+      "date": "2026-04-01",
+      "freq": "q",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "saar": true,
+      "level": {
+        "value": 7019.239,
+        "unit": "usd_bn"
+      },
+      "change": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "sum_12m": {
+        "value": null,
+        "unit": "usd_bn"
+      },
+      "yoy": {
+        "value": 1.6855261615824846,
+        "unit": "percent"
+      }
+    }
+  ],
+  "auction_window": 6,
+  "coupons": [
+    {
+      "date": "2026-10-21",
+      "closing_time": "13:00",
+      "tenor": "20-Year",
+      "auction_kind": "Bond",
+      "reopening": true,
+      "amount": {
+        "value": 13,
+        "unit": "usd_bn"
+      },
+      "high_yield": {
+        "value": 5.469,
+        "unit": "percent"
+      },
+      "tail_bp": {
+        "value": 66.00000000000001,
+        "unit": "bp"
+      },
+      "wait_cmt": false,
+      "btc": {
+        "value": 2.73,
+        "unit": "ratio"
+      },
+      "btc_dev": {
+        "value": 0.13000000000000034,
+        "unit": "ratio"
+      },
+      "indirect": {
+        "value": 58.2,
+        "unit": "percent"
+      },
+      "indirect_dev": {
+        "value": -10.299999999999997,
+        "unit": "pp"
+      },
+      "direct": {
+        "value": 31.6,
+        "unit": "percent"
+      },
+      "direct_dev": {
+        "value": 12.600000000000001,
+        "unit": "pp"
+      },
+      "dealers": {
+        "value": 10.2,
+        "unit": "percent"
+      },
+      "dealers_dev": {
+        "value": -2.3000000000000007,
+        "unit": "pp"
+      }
+    },
+    {
+      "date": "2026-10-22",
+      "closing_time": "13:00",
+      "tenor": "5-Year",
+      "auction_kind": "TIPS",
+      "reopening": false,
+      "amount": {
+        "value": 26,
+        "unit": "usd_bn"
+      },
+      "high_yield": {
+        "value": 2.367,
+        "unit": "percent"
+      },
+      "tail_bp": {
+        "value": null,
+        "unit": "bp"
+      },
+      "wait_cmt": false,
+      "btc": {
+        "value": 2.41,
+        "unit": "ratio"
+      },
+      "btc_dev": {
+        "value": -0.08999999999999986,
+        "unit": "ratio"
+      },
+      "indirect": {
+        "value": 62,
+        "unit": "percent"
+      },
+      "indirect_dev": {
+        "value": -2,
+        "unit": "pp"
+      },
+      "direct": {
+        "value": 32.4,
+        "unit": "percent"
+      },
+      "direct_dev": {
+        "value": 7.399999999999999,
+        "unit": "pp"
+      },
+      "dealers": {
+        "value": 5.6,
+        "unit": "percent"
+      },
+      "dealers_dev": {
+        "value": -5.4,
+        "unit": "pp"
+      }
+    }
+  ],
+  "bills": [
+    {
+      "name": "CMB 10-Day",
+      "count": 1,
+      "amount": {
+        "value": 25,
+        "unit": "usd_bn"
+      },
+      "high_rate": {
+        "value": 3.984,
+        "unit": "percent"
+      },
+      "btc": {
+        "value": 3.87,
+        "unit": "ratio"
+      },
+      "btc_dev": {
+        "value": null,
+        "unit": "ratio"
+      }
+    },
+    {
+      "name": "13W",
+      "count": 1,
+      "amount": {
+        "value": 95,
+        "unit": "usd_bn"
+      },
+      "high_rate": {
+        "value": 4.159999999999999,
+        "unit": "percent"
+      },
+      "btc": {
+        "value": 2.72,
+        "unit": "ratio"
+      },
+      "btc_dev": {
+        "value": 0.07000000000000028,
+        "unit": "ratio"
+      }
+    }
+  ],
+  "supply": {
+    "quarter_start": "2026-10-01",
+    "last_dts": "2026-10-22",
+    "groups": [
+      {
+        "name": "Bills",
+        "issued": [
+          {
+            "value": 460,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 1930,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 7920,
+            "unit": "usd_bn"
+          }
+        ],
+        "redeemed": [
+          {
+            "value": 380,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 1520,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 6270,
+            "unit": "usd_bn"
+          }
+        ],
+        "net": [
+          {
+            "value": 80,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 410,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 1650,
+            "unit": "usd_bn"
+          }
+        ]
+      },
+      {
+        "name": "Купоны (notes, bonds; вкл. TIPS, FRN)",
+        "issued": [
+          {
+            "value": 0,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 70,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 350,
+            "unit": "usd_bn"
+          }
+        ],
+        "redeemed": [
+          {
+            "value": 0,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 50,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 250,
+            "unit": "usd_bn"
+          }
+        ],
+        "net": [
+          {
+            "value": 0,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 20,
+            "unit": "usd_bn"
+          },
+          {
+            "value": 100,
+            "unit": "usd_bn"
+          }
+        ]
+      }
+    ],
+    "total": [
+      {
+        "value": 80,
+        "unit": "usd_bn"
+      },
+      {
+        "value": 430,
+        "unit": "usd_bn"
+      },
+      {
+        "value": 1750,
+        "unit": "usd_bn"
+      }
+    ],
+    "bills_share": [
+      {
+        "value": 75.47169811320755,
+        "unit": "percent"
+      },
+      {
+        "value": 88.82521489971347,
+        "unit": "percent"
+      },
+      {
+        "value": 85.58558558558559,
+        "unit": "percent"
+      }
+    ],
+    "buybacks": [
+      {
+        "date": "2026-10-21",
+        "start_time": "13:40",
+        "type": "Liquidity Support",
+        "security": "TIPS",
+        "bucket": "1Y to 10Y",
+        "par_offered": {
+          "value": 4.751,
+          "unit": "usd_bn"
+        },
+        "par_accepted": {
+          "value": 0.75,
+          "unit": "usd_bn"
+        }
+      }
+    ]
+  },
+  "curve": [
+    {
+      "id": "DGS3MO",
+      "source": "fred",
+      "label": "UST 3M",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 4.035,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -2.0999999999999908,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": -0.8999999999999453,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "DGS2",
+      "source": "fred",
+      "label": "UST 2Y",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 3.575,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -2.9999999999999805,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 0.40000000000000036,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "DGS10",
+      "source": "fred",
+      "label": "UST 10Y",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 4.303,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -0.8000000000000007,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": -0.6999999999999673,
+        "unit": "bp"
+      },
+      "z": {
+        "value": 1.4867809368498588,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "DGS30",
+      "source": "fred",
+      "label": "UST 30Y",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 4.879,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": 2.3999999999999133,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 1.899999999999924,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "DFII10",
+      "source": "fred",
+      "label": "Real Yield 10Y",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 1.84,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": -0.8999999999999897,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 0.40000000000000036,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "THREEFYTP10",
+      "source": "fred",
+      "label": "Term Premium 10Y",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "rate",
+      "flags": [
+        "stale"
+      ],
+      "quality": "official",
+      "level": {
+        "value": 0.823,
+        "unit": "percent"
+      },
+      "change_1w": {
+        "value": 0.6000000000000005,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 0.40000000000000036,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "UST_2S10S",
+      "source": "derived",
+      "label": "2s10s",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "bp",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 72.79999999999998,
+        "unit": "bp"
+      },
+      "change_1w": {
+        "value": 2.1999999999999886,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": -1.099999999999966,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "UST_3M10Y",
+      "source": "derived",
+      "label": "3m10y",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "bp",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 26.79999999999998,
+        "unit": "bp"
+      },
+      "change_1w": {
+        "value": 1.29999999999999,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 0.19999999999997797,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    }
+  ],
+  "derived": [
+    {
+      "id": "NET_LIQUIDITY",
+      "source": "derived",
+      "label": "Net Liquidity",
+      "date": "2026-10-21",
+      "freq": "w",
+      "kind": "bn",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 6783.197965,
+        "unit": "usd_bn"
+      },
+      "change_1w": {
+        "value": 7.1098659999997835,
+        "unit": "usd_bn"
+      },
+      "change_4w": {
+        "value": 56.34613000000081,
+        "unit": "usd_bn"
+      },
+      "z": {
+        "value": 2.1307192327950255,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "SOFR_IORB",
+      "source": "derived",
+      "label": "SOFR − IORB",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "bp",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": -3.0999999999999694,
+        "unit": "bp"
+      },
+      "change_1w": {
+        "value": 2.4000000000000465,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 1.000000000000023,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "UST_2S10S",
+      "source": "derived",
+      "label": "2s10s",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "bp",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 72.79999999999998,
+        "unit": "bp"
+      },
+      "change_1w": {
+        "value": 2.1999999999999886,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": -1.099999999999966,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    },
+    {
+      "id": "UST_3M10Y",
+      "source": "derived",
+      "label": "3m10y",
+      "date": "2026-10-23",
+      "freq": "d",
+      "kind": "bp",
+      "flags": [],
+      "quality": "official",
+      "level": {
+        "value": 26.79999999999998,
+        "unit": "bp"
+      },
+      "change_1w": {
+        "value": 1.29999999999999,
+        "unit": "bp"
+      },
+      "change_4w": {
+        "value": 0.19999999999997797,
+        "unit": "bp"
+      },
+      "z": {
+        "value": null,
+        "unit": "sigma"
+      }
+    }
+  ],
+  "treasury": {
+    "documents": [],
+    "next": [
+      {
+        "title": "Financing Estimates",
+        "at": "2026-11-02T15:00:00-05:00"
+      },
+      {
+        "title": "Refunding Statement",
+        "at": "2026-11-04T08:30:00-05:00"
+      }
+    ]
+  },
+  "missing": {
+    "stale": [
+      {
+        "id": "GFDEGDQ188S",
+        "label": "Debt-to-GDP",
+        "last_obs": "2026-01-01",
+        "freq": "q",
+        "next_release": "Debt to Gross Domestic Product Ratios",
+        "next_date": "2026-10-29"
+      },
+      {
+        "id": "THREEFYTP10",
+        "label": "Term Premium 10Y",
+        "last_obs": "2026-10-23",
+        "freq": "d",
+        "next_release": "",
+        "next_date": null
+      }
+    ],
+    "failures": []
+  }
+}
