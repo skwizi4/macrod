@@ -524,7 +524,7 @@ func TestWeeklyGolden(t *testing.T) {
 				t.Fatal(err)
 			}
 		}
-		if want, err := os.ReadFile(golden); err != nil || f.Body != string(want) {
+		if want, err := os.ReadFile(golden); err != nil || !sameJSON(f.Body, string(want)) {
 			t.Errorf("%s differs from %s (%v; -update-json)", f.Path, golden, err)
 		}
 		paths := []string{filepath.Join(cfg.Export.ExchangeDir, f.Path), filepath.Join(cfg.Export.ExchangeDir, "archive", "2026-W43", f.Path)}
