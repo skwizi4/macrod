@@ -441,11 +441,12 @@ func TestEncodeSegmentMatchesFrontend(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	i18n := filepath.Join(filepath.Dir(app), "i18n.js")
 	inputs := []string{"DGS10", "^VIX", "GC=F", "BTC-USD", "RSP:SPY", "a b/ё.", "2026-W43", "NET_LIQUIDITY"}
 	raw, _ := json.Marshal(inputs)
-	script := `globalThis.window=globalThis;globalThis.location={protocol:"http:"};` +
-		`require(process.argv[1]);console.log(JSON.stringify(` + string(raw) + `.map(window.Macro.enc)))`
-	out, err := exec.Command(node, "-e", script, app).CombinedOutput()
+	script := `globalThis.window=globalThis;globalThis.location={protocol:"http:"};globalThis.document={documentElement:{}};` +
+		`require(process.argv[2]);require(process.argv[1]);console.log(JSON.stringify(` + string(raw) + `.map(window.Macro.enc)))`
+	out, err := exec.Command(node, "-e", script, app, i18n).Output()
 	if err != nil {
 		t.Fatalf("node: %v: %s", err, out)
 	}

@@ -60,6 +60,7 @@ type SourceSeries struct {
 	Key        string   `yaml:"key"`
 	Agent      string   `yaml:"agent"`
 	Label      string   `yaml:"label"`
+	LabelEn    string   `yaml:"label_en"`
 	Frequency  string   `yaml:"frequency"`
 	Units      string   `yaml:"units"`
 	Transforms []string `yaml:"transforms"`

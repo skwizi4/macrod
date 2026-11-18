@@ -104,6 +104,7 @@ type Series struct {
 	ID          string   `yaml:"id"`
 	Agent       string   `yaml:"agent"`
 	Label       string   `yaml:"label"`
+	LabelEn     string   `yaml:"label_en"` // dashboard in English; empty: label
 	Transforms  []string `yaml:"transforms"`
 	Hidden      bool     `yaml:"hidden"`
 	FallbackFor string   `yaml:"fallback_for"`
@@ -115,6 +116,7 @@ type Series struct {
 type Derived struct {
 	Name       string   `yaml:"name"`
 	Label      string   `yaml:"label"` // name in the files; empty: the built-in one, then Name
+	LabelEn    string   `yaml:"label_en"`
 	Formula    string   `yaml:"formula"`
 	Agent      string   `yaml:"agent"`
 	Transforms []string `yaml:"transforms"`
@@ -216,6 +218,7 @@ type YahooSymbol struct {
 	Symbol     string   `yaml:"symbol"`
 	Agent      string   `yaml:"agent"`
 	Label      string   `yaml:"label"`
+	LabelEn    string   `yaml:"label_en"`
 	Transforms []string `yaml:"transforms"`
 	Quality    string   `yaml:"quality"` // official (default), proxy, manual
 	// Interval "1h" reads the history as hourly bars and keeps the last

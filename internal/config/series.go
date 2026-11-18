@@ -33,6 +33,7 @@ var Qualities = []string{QualityOfficial, QualityProxy, QualityManual}
 type SeriesDef struct {
 	Source, ID string
 	Label      string
+	LabelEn    string // the dashboard in English; empty: Label
 	Transforms []string
 	FlagIfGt   *float64
 	Quality    string
@@ -51,13 +52,13 @@ func (s SeriesDef) Ref() string { return s.Source + "/" + s.ID }
 func (c *Config) Series() []SeriesDef {
 	var out []SeriesDef
 	for _, s := range c.FRED.Series {
-		out = append(out, SeriesDef{Source: SourceFRED, ID: s.ID, Label: s.Label, Transforms: s.Transforms, FlagIfGt: s.FlagIfGt, Quality: quality(s.Quality)})
+		out = append(out, SeriesDef{Source: SourceFRED, ID: s.ID, Label: s.Label, LabelEn: s.LabelEn, Transforms: s.Transforms, FlagIfGt: s.FlagIfGt, Quality: quality(s.Quality)})
 	}
 	for _, d := range c.Derived {
-		out = append(out, SeriesDef{Source: SourceDerived, ID: d.Name, Label: d.Label, Transforms: d.Transforms, FlagIfGt: d.FlagIfGt, Quality: quality(d.Quality), ShortHistory: d.ShortHistory})
+		out = append(out, SeriesDef{Source: SourceDerived, ID: d.Name, Label: d.Label, LabelEn: d.LabelEn, Transforms: d.Transforms, FlagIfGt: d.FlagIfGt, Quality: quality(d.Quality), ShortHistory: d.ShortHistory})
 	}
 	for _, y := range c.Yahoo.Symbols {
-		out = append(out, SeriesDef{Source: SourceYahoo, ID: y.Symbol, Label: y.Label, Transforms: y.Transforms, Quality: quality(y.Quality), ShortHistory: y.ShortHistory})
+		out = append(out, SeriesDef{Source: SourceYahoo, ID: y.Symbol, Label: y.Label, LabelEn: y.LabelEn, Transforms: y.Transforms, Quality: quality(y.Quality), ShortHistory: y.ShortHistory})
 	}
 	for _, id := range TreasurySeries {
 		out = append(out, SeriesDef{Source: SourceTreasury, ID: id, Quality: QualityOfficial})
@@ -67,7 +68,7 @@ func (c *Config) Series() []SeriesDef {
 			continue
 		}
 		for _, s := range src.Series {
-			out = append(out, SeriesDef{Source: src.Name, ID: s.ID, Label: s.Label, Transforms: s.Transforms, FlagIfGt: s.FlagIfGt, Quality: quality(s.Quality), Forecast: s.Forecast})
+			out = append(out, SeriesDef{Source: src.Name, ID: s.ID, Label: s.Label, LabelEn: s.LabelEn, Transforms: s.Transforms, FlagIfGt: s.FlagIfGt, Quality: quality(s.Quality), Forecast: s.Forecast})
 		}
 	}
 	for _, s := range c.Manual.Series {
@@ -75,7 +76,7 @@ func (c *Config) Series() []SeriesDef {
 		if q == "" {
 			q = QualityManual
 		}
-		out = append(out, SeriesDef{Source: SourceManual, ID: s.ID, Label: s.Label, Transforms: s.Transforms, FlagIfGt: s.FlagIfGt, Quality: q})
+		out = append(out, SeriesDef{Source: SourceManual, ID: s.ID, Label: s.Label, LabelEn: s.LabelEn, Transforms: s.Transforms, FlagIfGt: s.FlagIfGt, Quality: q})
 	}
 	return out
 }

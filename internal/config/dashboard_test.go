@@ -38,7 +38,7 @@ func TestDashboardPresetLoads(t *testing.T) {
 func TestDashboardValidation(t *testing.T) {
 	cases := []struct{ name, old, new, want string }{
 		{"unknown series", "ref: derived/NET_LIQUIDITY", "ref: derived/NET_LIQUIDTY", `unknown series "derived/NET_LIQUIDTY"`},
-		{"unknown kind", `title: "Спред 2s10s", kind: line`, `title: "Спред 2s10s", kind: pie`, `unknown kind "pie"`},
+		{"unknown kind", `title_en: "2s10s spread", kind: line`, `title_en: "2s10s spread", kind: pie`, `unknown kind "pie"`},
 		{"unknown view", "view: fed_path", "view: fedpath", `unknown view "fedpath"`},
 		{"unknown transform", "transform: sum12m", "transform: sum12", `unknown transform "sum12"`},
 		{"curve without compare", "compare_days: 28", "compare_days: 0", "curve needs compare_days"},

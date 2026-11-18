@@ -12,7 +12,7 @@ A self-hosted Go daemon that collects macro and market data for the US and Europ
 - One static binary pair, no cgo: `macrod` (daemon) and `macroctl` (CLI, dashboard, exports).
 - Runs on a laptop or a small ARM VM with `docker compose up -d`.
 - Regions, agents and their files are configuration, not code: presets for US equities, European equities and rates only.
-- The dashboard, the exported briefings and the agent prompts are in Russian (code, comments and these docs are in English); templates and prompts are plain files you can translate.
+- The dashboard is in English with a Russian switch (`RU` in the top bar; the choice is kept in the browser). Page, chart and series names come from the config: `title` / `label`, with optional English `title_en` / `label_en` (the presets have both). The exported briefings and the agent prompts are in Russian; templates and prompts are plain files you can translate.
 - **The code is open (MIT), the data is not.** You connect your own keys; nothing downloaded is redistributed. See [docs/data-sources.md](docs/data-sources.md).
 
 ## Quick start (Docker, ~15 minutes)

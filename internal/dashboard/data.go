@@ -54,6 +54,7 @@ type Series struct {
 	Source    string  `json:"source"`
 	ID        string  `json:"id"`
 	Label     string  `json:"label"`
+	LabelEn   string  `json:"label_en,omitempty"`
 	Unit      string  `json:"unit"`
 	Frequency string  `json:"frequency"`
 	Transform string  `json:"transform"`
@@ -103,7 +104,7 @@ func (d *Data) Series(ctx context.Context, source, id, code string, from time.Ti
 	if err != nil {
 		return Series{}, fmt.Errorf("dashboard series %s/%s: %w", source, id, err)
 	}
-	return Series{Source: source, ID: id, Label: label, Unit: scale.UnitOf(code), Frequency: in.Freq, Transform: code, Points: pointsOf(points)}, nil
+	return Series{Source: source, ID: id, Label: label, LabelEn: ref.LabelEn, Unit: scale.UnitOf(code), Frequency: in.Freq, Transform: code, Points: pointsOf(points)}, nil
 }
 
 func (d *Data) input(obs []model.Observation, freq string, s export.Scale) transform.Input {
@@ -137,7 +138,7 @@ func (d *Data) ratio(ctx context.Context, ref config.SeriesRef, code string, fro
 		}
 		unit = scale.UnitOf(code)
 	}
-	return Series{Source: ref.Source, ID: ref.ID, Label: ref.Label, Unit: unit, Frequency: "d", Transform: code, Points: pointsOf(points)}, nil
+	return Series{Source: ref.Source, ID: ref.ID, Label: ref.Label, LabelEn: ref.LabelEn, Unit: unit, Frequency: "d", Transform: code, Points: pointsOf(points)}, nil
 }
 
 func pointsOf(obs []model.Observation) []Point {
@@ -170,8 +171,9 @@ type RegionMeta struct {
 
 // KeyRow links a key metrics row (by position) to its series.
 type KeyRow struct {
-	Label string `json:"label"`
-	Ref   string `json:"ref,omitempty"`
+	Label   string `json:"label"`
+	LabelEn string `json:"label_en,omitempty"` // English; empty: label
+	Ref     string `json:"ref,omitempty"`
 	// Transform is the code the row shows; its sparkline draws the same.
 	Transform string `json:"transform,omitempty"`
 	Hidden    bool   `json:"hidden,omitempty"`
@@ -179,15 +181,17 @@ type KeyRow struct {
 
 // PageMeta is a page of the menu.
 type PageMeta struct {
-	ID     string      `json:"id"`
-	Title  string      `json:"title"`
-	Charts []ChartMeta `json:"charts"`
-	Views  []ViewMeta  `json:"views"`
+	ID      string      `json:"id"`
+	Title   string      `json:"title"`
+	TitleEn string      `json:"title_en,omitempty"` // English; empty: title
+	Charts  []ChartMeta `json:"charts"`
+	Views   []ViewMeta  `json:"views"`
 }
 
 // ChartMeta is a chart; Hidden when no line of it may be shown.
 type ChartMeta struct {
 	Title       string       `json:"title"`
+	TitleEn     string       `json:"title_en,omitempty"`
 	Kind        string       `json:"kind"`
 	CompareDays int          `json:"compare_days,omitempty"`
 	Hidden      bool         `json:"hidden,omitempty"`
@@ -200,6 +204,7 @@ type SeriesMeta struct {
 	ID        string `json:"id"`
 	Transform string `json:"transform"`
 	Label     string `json:"label"`
+	LabelEn   string `json:"label_en,omitempty"`
 	Hidden    bool   `json:"hidden,omitempty"`
 	// Part: actual or forecast points of a series published ahead; the page
 	// splits them at generated_at.
@@ -242,13 +247,13 @@ func pagesOf(r *config.Region) []config.DashboardPage {
 	}
 	var out []config.DashboardPage
 	if _, ok := r.Owner(config.ReportKeyMetrics); ok {
-		out = append(out, config.DashboardPage{ID: "overview", Title: "Обзор", Views: []config.PageView{{View: "key_metrics"}, {View: "status"}}})
+		out = append(out, config.DashboardPage{ID: "overview", Title: "Обзор", TitleEn: "Overview", Views: []config.PageView{{View: "key_metrics"}, {View: "status"}}})
 	} else {
-		out = append(out, config.DashboardPage{ID: "overview", Title: "Обзор", Views: []config.PageView{{View: "status"}}})
+		out = append(out, config.DashboardPage{ID: "overview", Title: "Обзор", TitleEn: "Overview", Views: []config.PageView{{View: "status"}}})
 	}
 	return append(out,
-		config.DashboardPage{ID: "calendar", Title: "Календарь", Views: []config.PageView{{View: "calendar"}}},
-		config.DashboardPage{ID: "reports", Title: "Отчёты", Views: []config.PageView{{View: "reports"}}})
+		config.DashboardPage{ID: "calendar", Title: "Календарь", TitleEn: "Calendar", Views: []config.PageView{{View: "calendar"}}},
+		config.DashboardPage{ID: "reports", Title: "Отчёты", TitleEn: "Reports", Views: []config.PageView{{View: "reports"}}})
 }
 
 func (d *Data) keyRows(r *config.Region) []KeyRow {
@@ -259,28 +264,31 @@ func (d *Data) keyRows(r *config.Region) []KeyRow {
 	}
 	for _, row := range owner.Report.Rows {
 		ref, stored := d.Config.KeyRowRef(row)
-		out = append(out, KeyRow{Label: row.Label, Ref: ref, Transform: row.Code, Hidden: !stored && d.Demo || stored && !d.allowed(ref)})
+		out = append(out, KeyRow{Label: row.Label, LabelEn: row.LabelEn, Ref: ref, Transform: row.Code, Hidden: !stored && d.Demo || stored && !d.allowed(ref)})
 	}
 	return out
 }
 
 func (d *Data) pageMeta(r *config.Region, p config.DashboardPage, catalog map[string]config.SeriesRef) PageMeta {
-	pm := PageMeta{ID: p.ID, Title: p.Title, Charts: []ChartMeta{}, Views: []ViewMeta{}}
+	pm := PageMeta{ID: p.ID, Title: p.Title, TitleEn: p.TitleEn, Charts: []ChartMeta{}, Views: []ViewMeta{}}
 	for _, ch := range p.Charts {
-		cm := ChartMeta{Title: ch.Title, Kind: ch.Kind, CompareDays: ch.CompareDays, Hidden: true}
+		cm := ChartMeta{Title: ch.Title, TitleEn: ch.TitleEn, Kind: ch.Kind, CompareDays: ch.CompareDays, Hidden: true}
 		for _, s := range ch.Series {
 			ref := catalog[s.Ref]
 			code := s.Transform
 			if code == "" {
 				code = transform.Level
 			}
-			label := s.Label
+			label, labelEn := s.Label, s.LabelEn
 			if label == "" {
 				label = ref.Label
 			}
+			if labelEn == "" && s.Label == "" {
+				labelEn = ref.LabelEn
+			}
 			hidden := !d.allowed(s.Ref)
 			cm.Hidden = cm.Hidden && hidden
-			cm.Series = append(cm.Series, SeriesMeta{Source: ref.Source, ID: ref.ID, Transform: code, Label: label, Hidden: hidden, Part: s.Part})
+			cm.Series = append(cm.Series, SeriesMeta{Source: ref.Source, ID: ref.ID, Transform: code, Label: label, LabelEn: labelEn, Hidden: hidden, Part: s.Part})
 		}
 		pm.Charts = append(pm.Charts, cm)
 	}

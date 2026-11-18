@@ -106,8 +106,8 @@ regions:
             sentiment_rows: true   # + VIX/VIX3M, put/call акций, RSP/SPY, P(рецессия, Kalshi) — из sentiment.md
             rows:
               - { label: "Net Liquidity", id: NET_LIQUIDITY }
-              - { label: "Fed Funds (эффективная)", id: DFF }
-              - { label: "Траектория ставки (ZQ)", id: FED_PATH }
+              - { label: "Fed Funds (эффективная)", label_en: "Fed Funds (effective)", id: DFF }
+              - { label: "Траектория ставки (ZQ)", label_en: "Rate path (ZQ)", id: FED_PATH }
               - { label: "UST 2Y", id: DGS2 }
               - { label: "UST 10Y", id: DGS10 }
               - { label: "Real Yield 10Y", id: DFII10 }
@@ -116,7 +116,7 @@ regions:
               - { label: "Core CPI 3mA", id: CPILFESL, code: a3m }
               - { label: "Unemployment Rate", id: UNRATE }
               - { label: "Initial Claims", id: ICSA }
-              - { label: "HY-спред", id: BAMLH0A0HYM2 }
+              - { label: "HY-спред", label_en: "HY spread", id: BAMLH0A0HYM2 }
               - { label: "VIX", id: "^VIX" }
               - { label: "MOVE", id: "^MOVE" }
               - { label: "NASDAQ 100", id: "^NDX" }
@@ -126,19 +126,24 @@ regions:
       pages:
         - id: overview
           title: "Обзор"
+          title_en: "Overview"
           views: [{ view: key_metrics }, { view: status }]
         - id: liquidity
           title: "Ликвидность"
+          title_en: "Liquidity"
           charts:
             - { title: "Net Liquidity", kind: line, series: [{ ref: derived/NET_LIQUIDITY }] }
             - title: "Составляющие"
+              title_en: "Components"
               kind: line
               series: [{ ref: fred/WALCL }, { ref: fred/WDTGAL }, { ref: fred/RRPONTSYD }, { ref: fred/WRESBAL }]
             - { title: "SOFR − IORB", kind: line, series: [{ ref: derived/SOFR_IORB }] }
         - id: rates
           title: "Ставки"
+          title_en: "Rates"
           charts:
             - title: "Кривая UST: сейчас и 4 недели назад"
+              title_en: "UST curve: now and 4 weeks ago"
               kind: curve
               compare_days: 28
               series:
@@ -147,54 +152,64 @@ regions:
                 - { ref: fred/DGS10, label: "10Y" }
                 - { ref: fred/DGS30, label: "30Y" }
             - title: "Доходности"
+              title_en: "Yields"
               kind: line
               series: [{ ref: fred/DGS2 }, { ref: fred/DGS10 }, { ref: fred/DFII10 }, { ref: fred/THREEFYTP10 }]
-            - { title: "Спред 2s10s", kind: line, series: [{ ref: derived/UST_2S10S }] }
+            - { title: "Спред 2s10s", title_en: "2s10s spread", kind: line, series: [{ ref: derived/UST_2S10S }] }
           views: [{ view: fed_path }]
         - id: inflation-labor
           title: "Инфляция и труд"
+          title_en: "Inflation & labor"
           charts:
             - title: "Инфляция, YoY"
+              title_en: "Inflation, YoY"
               kind: line
               series:
                 - { ref: fred/CPIAUCSL, transform: yoy, label: "CPI" }
                 - { ref: fred/CPILFESL, transform: yoy, label: "Core CPI" }
                 - { ref: fred/PCEPILFE, transform: yoy, label: "Core PCE" }
             - title: "Инфляция, 3 мес. в годовом выражении"
+              title_en: "Inflation, 3-month annualized"
               kind: line
               series:
                 - { ref: fred/CPILFESL, transform: a3m, label: "Core CPI 3mA" }
                 - { ref: fred/PCEPILFE, transform: a3m, label: "Core PCE 3mA" }
-            - { title: "Безработица", kind: line, series: [{ ref: fred/UNRATE }] }
+            - { title: "Безработица", title_en: "Unemployment", kind: line, series: [{ ref: fred/UNRATE }] }
             - title: "Заявки на пособие"
+              title_en: "Jobless claims"
               kind: line
               series:
                 - { ref: fred/ICSA, label: "Initial Claims" }
-                - { ref: fred/ICSA, transform: avg4w, label: "Initial Claims, 4 нед." }
+                - { ref: fred/ICSA, transform: avg4w, label: "Initial Claims, 4 нед.", label_en: "Initial Claims, 4-wk" }
             - { title: "U/V", kind: line, series: [{ ref: derived/U_V }] }
         - id: fiscal
           title: "Фискал"
+          title_en: "Fiscal"
           charts:
-            - { title: "Дефицит бюджета, сумма за 12 мес.", kind: bar, series: [{ ref: fred/MTSDS133FMS, transform: sum12m }] }
-            - { title: "Процентные выплаты", kind: line, series: [{ ref: fred/A091RC1Q027SBEA }] }
+            - { title: "Дефицит бюджета, сумма за 12 мес.", title_en: "Budget deficit, 12-month sum", kind: bar, series: [{ ref: fred/MTSDS133FMS, transform: sum12m }] }
+            - { title: "Процентные выплаты", title_en: "Interest payments", kind: line, series: [{ ref: fred/A091RC1Q027SBEA }] }
           views: [{ view: supply }, { view: auctions }]
         - id: micro
           title: "Micro"
           views: [{ view: capex }, { view: financials }]
         - id: reactions
           title: "Реакции"
+          title_en: "Reactions"
           views: [{ view: event_reactions }, { view: reactions }, { view: surprises }]
         - id: news-sentiment
           title: "News и Sentiment"
+          title_en: "News & Sentiment"
           charts:
-            - { title: "Волатильность", kind: line, series: [{ ref: "yahoo/^VIX" }, { ref: "yahoo/^MOVE" }] }
-            - { title: "Ширина рынка: RSP/SPY", kind: line, series: [{ ref: "ratio/RSP:SPY" }] }
+            - { title: "Волатильность", title_en: "Volatility", kind: line, series: [{ ref: "yahoo/^VIX" }, { ref: "yahoo/^MOVE" }] }
+            - { title: "Ширина рынка: RSP/SPY", title_en: "Market breadth: RSP/SPY", kind: line, series: [{ ref: "ratio/RSP:SPY" }] }
           views: [{ view: news_feed }, { view: topics }]
         - id: calendar
           title: "Календарь"
+          title_en: "Calendar"
           views: [{ view: calendar }]
         - id: reports
           title: "Отчёты"
+          title_en: "Reports"
           views: [{ view: reports }]
 
 # Статический сайт: ряды, которые macroctl site --demo вправе публиковать (D21, D24).
@@ -306,7 +321,7 @@ fred:
     - { id: CPIAUCSL,   agent: usa_monetary, label: "CPI",                      transforms: [yoy, mom, a3m, a6m] }
     - { id: CPILFESL,   agent: usa_monetary, label: "Core CPI",                 transforms: [yoy, mom, a3m, a6m] }
     - { id: CUSR0000SAH1, agent: usa_monetary, label: "Shelter CPI",            transforms: [yoy, a3m] }
-    - { id: CUSR0000SASL2RS, agent: usa_monetary, label: "Supercore CPI (услуги без жилья)", transforms: [yoy, mom, a3m, a6m] }
+    - { id: CUSR0000SASL2RS, agent: usa_monetary, label: "Supercore CPI (услуги без жилья)", label_en: "Supercore CPI (services ex shelter)", transforms: [yoy, mom, a3m, a6m] }
     - { id: STICKCPIM159SFRBATL, agent: usa_monetary, label: "Sticky CPI",      transforms: [level] }
     - { id: PPIFIS,     agent: usa_monetary, label: "PPI Final Demand",         transforms: [yoy, mom] }
     - { id: PPIFES,     agent: usa_monetary, label: "Core PPI",                 transforms: [yoy, mom] }
@@ -320,8 +335,8 @@ fred:
     - { id: DFF,        agent: usa_monetary, label: "Fed Funds",                transforms: [level] }
     - { id: DGS2,       agent: usa_monetary, label: "UST 2Y",                   transforms: [level, d1w, d4w] }
     - { id: M2SL,       agent: usa_monetary, label: "M2",                       transforms: [yoy, a3m] }
-    - { id: DCOILWTICO, agent: usa_monetary, label: "WTI (FRED, запас)",        transforms: [], fallback_for: "CL=F" }
-    - { id: DHHNGSP,    agent: usa_monetary, label: "Henry Hub (FRED, запас)",  transforms: [], fallback_for: "NG=F" }
+    - { id: DCOILWTICO, agent: usa_monetary, label: "WTI (FRED, запас)", label_en: "WTI (FRED, fallback)",        transforms: [], fallback_for: "CL=F" }
+    - { id: DHHNGSP,    agent: usa_monetary, label: "Henry Hub (FRED, запас)", label_en: "Henry Hub (FRED, fallback)",  transforms: [], fallback_for: "NG=F" }
     # --- USA Fiscal & Liquidity ---
     - { id: WALCL,      agent: usa_fiscal, label: "Fed Balance Sheet",          transforms: [level, d1w, d4w] }
     - { id: WDTGAL,     agent: usa_fiscal, label: "TGA (Wed)",                  transforms: [level, d1w, d4w] }
@@ -340,17 +355,17 @@ fred:
     - { id: DFII10,     agent: usa_fiscal, label: "Real Yield 10Y",             transforms: [level, d1w, d4w] }
     - { id: THREEFYTP10, agent: usa_fiscal, label: "Term Premium 10Y",          transforms: [level, d1w, d4w] }
     # CMT для «≈tail» аукционов (high yield − CMT того же срока за день аукциона; решение 2026-10-24)
-    - { id: DGS3,       agent: usa_fiscal, label: "UST 3Y (для ≈tail)",         transforms: [], hidden: true }
-    - { id: DGS5,       agent: usa_fiscal, label: "UST 5Y (для ≈tail)",         transforms: [], hidden: true }
-    - { id: DGS7,       agent: usa_fiscal, label: "UST 7Y (для ≈tail)",         transforms: [], hidden: true }
-    - { id: DGS20,      agent: usa_fiscal, label: "UST 20Y (для ≈tail)",        transforms: [], hidden: true }
+    - { id: DGS3,       agent: usa_fiscal, label: "UST 3Y (для ≈tail)", label_en: "UST 3Y (for ≈tail)",         transforms: [], hidden: true }
+    - { id: DGS5,       agent: usa_fiscal, label: "UST 5Y (для ≈tail)", label_en: "UST 5Y (for ≈tail)",         transforms: [], hidden: true }
+    - { id: DGS7,       agent: usa_fiscal, label: "UST 7Y (для ≈tail)", label_en: "UST 7Y (for ≈tail)",         transforms: [], hidden: true }
+    - { id: DGS20,      agent: usa_fiscal, label: "UST 20Y (для ≈tail)", label_en: "UST 20Y (for ≈tail)",        transforms: [], hidden: true }
     # --- USA Master (markets) ---
     - { id: BAMLH0A0HYM2, agent: usa_master, label: "HY Spread",                transforms: [level, d1w, d4w, z] }
     - { id: BAMLC0A0CM, agent: usa_master, label: "IG Spread",                  transforms: [level, d1w, d4w] }
-    - { id: DTWEXBGS,   agent: usa_master, label: "Dollar Broad (запас)",       transforms: [], fallback_for: "DX-Y.NYB" }
-    - { id: NASDAQCOM,  agent: usa_master, label: "NASDAQ Composite (запас)",   transforms: [], fallback_for: "^NDX" }
+    - { id: DTWEXBGS,   agent: usa_master, label: "Dollar Broad (запас)", label_en: "Dollar Broad (fallback)",       transforms: [], fallback_for: "DX-Y.NYB" }
+    - { id: NASDAQCOM,  agent: usa_master, label: "NASDAQ Composite (запас)", label_en: "NASDAQ Composite (fallback)",   transforms: [], fallback_for: "^NDX" }
     # --- USA News: sentiment (FIXES_W44 F5, D16) ---
-    - { id: WRMFNS,     agent: usa_news,   label: "Розничные фонды денежного рынка", transforms: [level, d1w, d4w] }
+    - { id: WRMFNS,     agent: usa_news,   label: "Розничные фонды денежного рынка", label_en: "Retail money market funds", transforms: [level, d1w, d4w] }
 
 yahoo:
   # некритичный источник; опрос раз в день после закрытия + в недельный экспорт
@@ -378,10 +393,10 @@ yahoo:
     - { symbol: "QQQ",      agent: usa_news,    label: "QQQ",         transforms: [level, d1w, d4w] }
     - { symbol: "QQEW",     agent: usa_news,    label: "QQEW (NASDAQ-100 equal weight)", transforms: [level, d1w, d4w] }
     - { symbol: "IWM",      agent: usa_news,    label: "IWM (Russell 2000)", transforms: [level, d1w, d4w] }
-    - { symbol: "SMH",      agent: usa_news,    label: "SMH (полупроводники)", transforms: [level, d1w, d4w] }
-    - { symbol: "XLU",      agent: usa_news,    label: "XLU (коммунальные)", transforms: [level, d1w, d4w] }
-    - { symbol: "XLP",      agent: usa_news,    label: "XLP (потреб. товары первой необходимости)", transforms: [level, d1w, d4w] }
-    - { symbol: "XLE",      agent: usa_news,    label: "XLE (энергетика)", transforms: [level, d1w, d4w] }
+    - { symbol: "SMH",      agent: usa_news,    label: "SMH (полупроводники)", label_en: "SMH (semiconductors)", transforms: [level, d1w, d4w] }
+    - { symbol: "XLU",      agent: usa_news,    label: "XLU (коммунальные)", label_en: "XLU (utilities)", transforms: [level, d1w, d4w] }
+    - { symbol: "XLP",      agent: usa_news,    label: "XLP (потреб. товары первой необходимости)", label_en: "XLP (consumer staples)", transforms: [level, d1w, d4w] }
+    - { symbol: "XLE",      agent: usa_news,    label: "XLE (энергетика)", label_en: "XLE (energy)", transforms: [level, d1w, d4w] }
   fed_funds_futures:
     # траектория ставки (замена FedWatch): ближайшие N месячных контрактов
     # ZQ<код месяца CME><YY>.CBT, напр. ZQX26.CBT = ноябрь 2026 (LOOKUP Y3)
@@ -815,13 +830,13 @@ sentiment:
   corr_days: 20               # F2: корреляция дневных доходностей ^NDX и изменений DGS10 за N торговых дней
   regime_threshold: 0.3       # F2: r < −0.3 — «боится инфляции / ставок», r > +0.3 — «боится роста», иначе нейтрально
   ratios:                     # F4: ширина и ротация (отношение цен закрытия), Δ1w / Δ4w в %
-    - { num: RSP,  den: SPY, label: "RSP/SPY (равный вес / S&P 500)" }
-    - { num: QQEW, den: QQQ, label: "QQEW/QQQ (равный вес / NASDAQ-100)" }
-    - { num: IWM,  den: SPY, label: "IWM/SPY (малые / большие)" }
-    - { num: SMH,  den: QQQ, label: "SMH/QQQ (полупроводники / NASDAQ-100)" }
-    - { num: XLU,  den: SPY, label: "XLU/SPY (коммунальные)" }
-    - { num: XLP,  den: SPY, label: "XLP/SPY (товары первой необходимости)" }
-    - { num: XLE,  den: SPY, label: "XLE/SPY (энергетика)" }
+    - { num: RSP,  den: SPY, label: "RSP/SPY (равный вес / S&P 500)", label_en: "RSP/SPY (equal weight / S&P 500)" }
+    - { num: QQEW, den: QQQ, label: "QQEW/QQQ (равный вес / NASDAQ-100)", label_en: "QQEW/QQQ (equal weight / NASDAQ-100)" }
+    - { num: IWM,  den: SPY, label: "IWM/SPY (малые / большие)", label_en: "IWM/SPY (small / large)" }
+    - { num: SMH,  den: QQQ, label: "SMH/QQQ (полупроводники / NASDAQ-100)", label_en: "SMH/QQQ (semiconductors / NASDAQ-100)" }
+    - { num: XLU,  den: SPY, label: "XLU/SPY (коммунальные)", label_en: "XLU/SPY (utilities)" }
+    - { num: XLP,  den: SPY, label: "XLP/SPY (товары первой необходимости)", label_en: "XLP/SPY (consumer staples)" }
+    - { num: XLE,  den: SPY, label: "XLE/SPY (энергетика)", label_en: "XLE/SPY (energy)" }
   reaction:                   # F1: реакция цен на события календаря по 1-минутным барам Yahoo (хранятся keep_days)
     symbols:
       - { symbol: "NQ=F",     label: "NDX (NQ=F)" }

@@ -149,7 +149,7 @@ regions:
             file: key_metrics_eu.md
             title: "EU Key Metrics"
             rows:
-              - { label: "Deposit Rate (ЕЦБ)", id: ECB_DFR }
+              - { label: "Deposit Rate (ЕЦБ)", label_en: "Deposit Rate (ECB)", id: ECB_DFR }
               - { label: "HICP core 3mA", id: HICP_CORE_SA, code: a3m }
               - { label: "Bund 10Y", id: BUND_10Y }
               - { label: "BTP-Bund 10Y", id: BTP_BUND }
@@ -167,44 +167,51 @@ regions:
       pages:
         - id: overview
           title: "Обзор"
+          title_en: "Overview"
           views: [{ view: key_metrics }, { view: status }]
         - id: ecb
           title: "ЕЦБ и инфляция"
+          title_en: "ECB & inflation"
           charts:
-            - { title: "Ставки ЕЦБ", kind: line, series: [{ ref: ecb/ECB_DFR }, { ref: ecb/ESTR }] }
+            - { title: "Ставки ЕЦБ", title_en: "ECB rates", kind: line, series: [{ ref: ecb/ECB_DFR }, { ref: ecb/ESTR }] }
             - title: "HICP, YoY"
               kind: line
               series:
                 - { ref: ecb/HICP, transform: yoy, label: "HICP" }
                 - { ref: ecb/HICP_CORE, transform: yoy, label: "HICP core" }
-                - { ref: ecb/HICP_DE, transform: yoy, label: "HICP Германия" }
-            - { title: "HICP core, 3 мес. в годовом выражении", kind: line, series: [{ ref: ecb/HICP_CORE_SA, transform: a3m, label: "HICP core 3mA" }] }
-            - { title: "Баланс Евросистемы", kind: line, series: [{ ref: ecb/ECB_ASSETS }] }
+                - { ref: ecb/HICP_DE, transform: yoy, label: "HICP Германия", label_en: "HICP Germany" }
+            - { title: "HICP core, 3 мес. в годовом выражении", title_en: "HICP core, 3-month annualized", kind: line, series: [{ ref: ecb/HICP_CORE_SA, transform: a3m, label: "HICP core 3mA" }] }
+            - { title: "Баланс Евросистемы", title_en: "Eurosystem balance sheet", kind: line, series: [{ ref: ecb/ECB_ASSETS }] }
             - title: "HICP по компонентам, YoY"
+              title_en: "HICP by component, YoY"
               kind: line
               series:
-                - { ref: ecb/HICP_SERV, transform: yoy, label: "Услуги" }
-                - { ref: ecb/HICP_NEIG, transform: yoy, label: "Промтовары" }
-                - { ref: ecb/HICP_ENERGY, transform: yoy, label: "Энергия" }
-                - { ref: ecb/HICP_FOOD, transform: yoy, label: "Еда" }
+                - { ref: ecb/HICP_SERV, transform: yoy, label: "Услуги", label_en: "Services" }
+                - { ref: ecb/HICP_NEIG, transform: yoy, label: "Промтовары", label_en: "Industrial goods" }
+                - { ref: ecb/HICP_ENERGY, transform: yoy, label: "Энергия", label_en: "Energy" }
+                - { ref: ecb/HICP_FOOD, transform: yoy, label: "Еда", label_en: "Food" }
             - title: "HICP по странам, YoY"
+              title_en: "HICP by country, YoY"
               kind: line
               series:
-                - { ref: ecb/HICP_DE, transform: yoy, label: "Германия" }
-                - { ref: ecb/HICP_FR, transform: yoy, label: "Франция" }
-                - { ref: ecb/HICP_IT, transform: yoy, label: "Италия" }
-                - { ref: ecb/HICP_ES, transform: yoy, label: "Испания" }
+                - { ref: ecb/HICP_DE, transform: yoy, label: "Германия", label_en: "Germany" }
+                - { ref: ecb/HICP_FR, transform: yoy, label: "Франция", label_en: "France" }
+                - { ref: ecb/HICP_IT, transform: yoy, label: "Италия", label_en: "Italy" }
+                - { ref: ecb/HICP_ES, transform: yoy, label: "Испания", label_en: "Spain" }
             - title: "Инфляционные ожидания"
+              title_en: "Inflation expectations"
               kind: line
-              series: [{ ref: ecb/CES_1Y, label: "Потребители, 12 мес." }, { ref: ecb/CES_3Y, label: "Потребители, 3 года" },
-                       { ref: ecb/SPF_NEXT_YEAR, label: "SPF, следующий год" }, { ref: ecb/SPF_LT, label: "SPF, долгосрок" }]
-            - { title: "PPI еврозоны, YoY", kind: line, series: [{ ref: eurostat/PPI_EA, transform: yoy, label: "PPI" }, { ref: eurostat/PPI_EA_CORE, transform: yoy, label: "PPI без энергии" }] }
-            - { title: "Избыточная ликвидность (≈)", kind: line, series: [{ ref: derived/EXCESS_LIQ }] }
-            - { title: "€STR − ставка по депозитам", kind: line, series: [{ ref: derived/ESTR_DFR }] }
+              series: [{ ref: ecb/CES_1Y, label: "Потребители, 12 мес.", label_en: "Consumers, 12 months" }, { ref: ecb/CES_3Y, label: "Потребители, 3 года", label_en: "Consumers, 3 years" },
+                       { ref: ecb/SPF_NEXT_YEAR, label: "SPF, следующий год", label_en: "SPF, next year" }, { ref: ecb/SPF_LT, label: "SPF, долгосрок", label_en: "SPF, long term" }]
+            - { title: "PPI еврозоны, YoY", title_en: "Euro area PPI, YoY", kind: line, series: [{ ref: eurostat/PPI_EA, transform: yoy, label: "PPI" }, { ref: eurostat/PPI_EA_CORE, transform: yoy, label: "PPI без энергии", label_en: "PPI ex energy" }] }
+            - { title: "Избыточная ликвидность (≈)", title_en: "Excess liquidity (≈)", kind: line, series: [{ ref: derived/EXCESS_LIQ }] }
+            - { title: "€STR − ставка по депозитам", title_en: "€STR − deposit rate", kind: line, series: [{ ref: derived/ESTR_DFR }] }
         - id: bonds
           title: "Облигации"
+          title_en: "Bonds"
           charts:
             - title: "Кривая Bund: сейчас и 4 недели назад"
+              title_en: "Bund curve: now and 4 weeks ago"
               kind: curve
               compare_days: 28
               series:
@@ -212,84 +219,100 @@ regions:
                 - { ref: bundesbank/BUND_5Y, label: "5Y" }
                 - { ref: bundesbank/BUND_10Y, label: "10Y" }
                 - { ref: bundesbank/BUND_30Y, label: "30Y" }
-            - { title: "Спреды к Bund 10Y", kind: line, series: [{ ref: derived/BTP_BUND }, { ref: derived/OAT_BUND }, { ref: derived/UST_BUND }] }
+            - { title: "Спреды к Bund 10Y", title_en: "Spreads to Bund 10Y", kind: line, series: [{ ref: derived/BTP_BUND }, { ref: derived/OAT_BUND }, { ref: derived/UST_BUND }] }
             - { title: "Bund 2s10s", kind: line, series: [{ ref: derived/BUND_2S10S }] }
-            - { title: "Кривые ЕЦБ 10Y: AAA и все эмитенты", kind: line, series: [{ ref: ecb/ECB_YC_AAA_10Y }, { ref: ecb/ECB_YC_ALL_10Y }] }
+            - { title: "Кривые ЕЦБ 10Y: AAA и все эмитенты", title_en: "ECB 10Y curves: AAA and all issuers", kind: line, series: [{ ref: ecb/ECB_YC_AAA_10Y }, { ref: ecb/ECB_YC_ALL_10Y }] }
             - title: "Госдолг, % ВВП"
+              title_en: "Government debt, % of GDP"
               kind: line
-              series: [{ ref: eurostat/EA_DEBT_GDP, label: "Еврозона" }, { ref: eurostat/DE_DEBT_GDP, label: "Германия" }, { ref: eurostat/FR_DEBT_GDP, label: "Франция" },
-                       { ref: eurostat/IT_DEBT_GDP, label: "Италия" }, { ref: eurostat/ES_DEBT_GDP, label: "Испания" }]
-            - { title: "TARGET: Италия и Германия", kind: line, series: [{ ref: ecb/TARGET_IT, label: "Италия" }, { ref: ecb/TARGET_DE, label: "Германия" }] }
+              series: [{ ref: eurostat/EA_DEBT_GDP, label: "Еврозона", label_en: "Euro area" }, { ref: eurostat/DE_DEBT_GDP, label: "Германия", label_en: "Germany" }, { ref: eurostat/FR_DEBT_GDP, label: "Франция", label_en: "France" },
+                       { ref: eurostat/IT_DEBT_GDP, label: "Италия", label_en: "Italy" }, { ref: eurostat/ES_DEBT_GDP, label: "Испания", label_en: "Spain" }]
+            - { title: "TARGET: Италия и Германия", title_en: "TARGET: Italy and Germany", kind: line, series: [{ ref: ecb/TARGET_IT, label: "Италия", label_en: "Italy" }, { ref: ecb/TARGET_DE, label: "Германия", label_en: "Germany" }] }
         - id: economy
           title: "Экономика"
+          title_en: "Economy"
           charts:
             - { title: "ZEW", kind: line, series: [{ ref: zew/ZEW_SENTIMENT }, { ref: zew/ZEW_SITUATION }] }
             # баланс (около нуля) и индекс (около 100) — на разных графиках: на одной оси баланс выглядит плоским
-            - { title: "Промышленное доверие DE (ЕК), баланс", kind: line, series: [{ ref: eurostat/EC_ICI_DE }] }
-            - { title: "Экономические настроения DE (ЕК, ESI), индекс", kind: line, series: [{ ref: eurostat/EC_ESI_DE }] }
+            - { title: "Промышленное доверие DE (ЕК), баланс", title_en: "Industry confidence DE (EC), balance", kind: line, series: [{ ref: eurostat/EC_ICI_DE }] }
+            - { title: "Экономические настроения DE (ЕК, ESI), индекс", title_en: "Economic sentiment DE (EC, ESI), index", kind: line, series: [{ ref: eurostat/EC_ESI_DE }] }
             - title: "Заказы и промпроизводство DE, YoY"
+              title_en: "Orders and industrial production DE, YoY"
               kind: line
               series:
-                - { ref: bundesbank/DE_ORDERS, transform: yoy, label: "Заказы" }
-                - { ref: bundesbank/DE_PRODUCTION, transform: yoy, label: "Промпроизводство" }
+                - { ref: bundesbank/DE_ORDERS, transform: yoy, label: "Заказы", label_en: "Orders" }
+                - { ref: bundesbank/DE_PRODUCTION, transform: yoy, label: "Промпроизводство", label_en: "Industrial production" }
             - title: "Реальный ВВП, YoY"
+              title_en: "Real GDP, YoY"
               kind: bar
-              series: [{ ref: eurostat/GDP_EA, transform: yoy, label: "Еврозона" }, { ref: eurostat/GDP_DE, transform: yoy, label: "Германия" },
-                       { ref: eurostat/GDP_FR, transform: yoy, label: "Франция" }, { ref: eurostat/GDP_IT, transform: yoy, label: "Италия" }, { ref: eurostat/GDP_ES, transform: yoy, label: "Испания" }]
-            - { title: "Промпроизводство и розница еврозоны, YoY", kind: line, series: [{ ref: eurostat/IP_EA, transform: yoy, label: "Промпроизводство" }, { ref: eurostat/RETAIL_EA, transform: yoy, label: "Розница" }] }
-            - { title: "Настроения еврозоны (ЕК)", kind: line, series: [{ ref: eurostat/EC_CONS_EA, label: "Потребители" }, { ref: eurostat/EC_SERV_EA, label: "Услуги" }] }
-            - { title: "ESI еврозоны (ЕК), индекс", kind: line, series: [{ ref: eurostat/EC_ESI_EA }] }
+              series: [{ ref: eurostat/GDP_EA, transform: yoy, label: "Еврозона", label_en: "Euro area" }, { ref: eurostat/GDP_DE, transform: yoy, label: "Германия", label_en: "Germany" },
+                       { ref: eurostat/GDP_FR, transform: yoy, label: "Франция", label_en: "France" }, { ref: eurostat/GDP_IT, transform: yoy, label: "Италия", label_en: "Italy" }, { ref: eurostat/GDP_ES, transform: yoy, label: "Испания", label_en: "Spain" }]
+            - { title: "Промпроизводство и розница еврозоны, YoY", title_en: "Euro area industry and retail, YoY", kind: line, series: [{ ref: eurostat/IP_EA, transform: yoy, label: "Промпроизводство", label_en: "Industrial production" }, { ref: eurostat/RETAIL_EA, transform: yoy, label: "Розница", label_en: "Retail" }] }
+            - { title: "Настроения еврозоны (ЕК)", title_en: "Euro area sentiment (EC)", kind: line, series: [{ ref: eurostat/EC_CONS_EA, label: "Потребители", label_en: "Consumers" }, { ref: eurostat/EC_SERV_EA, label: "Услуги", label_en: "Services" }] }
+            - { title: "ESI еврозоны (ЕК), индекс", title_en: "Euro area ESI (EC), index", kind: line, series: [{ ref: eurostat/EC_ESI_EA }] }
         - id: labor
           title: "Рынок труда"
+          title_en: "Labor market"
           charts:
             - title: "Безработица"
+              title_en: "Unemployment"
               kind: line
-              series: [{ ref: eurostat/UNEMP_EA, label: "Еврозона" }, { ref: eurostat/UNEMP_DE, label: "Германия" }, { ref: eurostat/UNEMP_FR, label: "Франция" },
-                       { ref: eurostat/UNEMP_IT, label: "Италия" }, { ref: eurostat/UNEMP_ES, label: "Испания" }]
-            - { title: "Занятость еврозоны", kind: line, series: [{ ref: eurostat/EMPL_EA }] }
+              series: [{ ref: eurostat/UNEMP_EA, label: "Еврозона", label_en: "Euro area" }, { ref: eurostat/UNEMP_DE, label: "Германия", label_en: "Germany" }, { ref: eurostat/UNEMP_FR, label: "Франция", label_en: "France" },
+                       { ref: eurostat/UNEMP_IT, label: "Италия", label_en: "Italy" }, { ref: eurostat/UNEMP_ES, label: "Испания", label_en: "Spain" }]
+            - { title: "Занятость еврозоны", title_en: "Euro area employment", kind: line, series: [{ ref: eurostat/EMPL_EA }] }
             - title: "Зарплаты и стоимость труда, YoY"
+              title_en: "Wages and labor costs, YoY"
               kind: line
-              series: [{ ref: ecb/NEG_WAGES, label: "Переговорные зарплаты" }, { ref: eurostat/LCI_EA, transform: yoy, label: "Индекс стоимости труда" },
-                       { ref: eurostat/ULC_EA, transform: yoy, label: "Удельные затраты на труд" }]
-            - { title: "Доля вакансий", kind: line, series: [{ ref: eurostat/JOBVAC_EA }] }
-            - { title: "Wage tracker ЕЦБ: факт", kind: line, series: [{ ref: ecb/WAGE_TRACKER, part: actual, label: "Wage tracker, г/г" }] }
-            - { title: "Wage tracker ЕЦБ: прогноз по подписанным договорам", kind: line, series: [{ ref: ecb/WAGE_TRACKER, part: forecast, label: "Прогноз трекера, г/г" }] }
+              series: [{ ref: ecb/NEG_WAGES, label: "Переговорные зарплаты", label_en: "Negotiated wages" }, { ref: eurostat/LCI_EA, transform: yoy, label: "Индекс стоимости труда", label_en: "Labor cost index" },
+                       { ref: eurostat/ULC_EA, transform: yoy, label: "Удельные затраты на труд", label_en: "Unit labor costs" }]
+            - { title: "Доля вакансий", title_en: "Job vacancy rate", kind: line, series: [{ ref: eurostat/JOBVAC_EA }] }
+            - { title: "Wage tracker ЕЦБ: факт", title_en: "ECB wage tracker: actual", kind: line, series: [{ ref: ecb/WAGE_TRACKER, part: actual, label: "Wage tracker, г/г", label_en: "Wage tracker, y/y" }] }
+            - { title: "Wage tracker ЕЦБ: прогноз по подписанным договорам", title_en: "ECB wage tracker: forward-looking (signed agreements)", kind: line, series: [{ ref: ecb/WAGE_TRACKER, part: forecast, label: "Прогноз трекера, г/г", label_en: "Tracker forecast, y/y" }] }
         - id: credit
           title: "Деньги и кредит"
+          title_en: "Money & credit"
           charts:
             - title: "M3 и кредиты, YoY"
+              title_en: "M3 and loans, YoY"
               kind: line
-              series: [{ ref: ecb/M3_YOY, label: "M3" }, { ref: ecb/LOANS_NFC_YOY, label: "Кредиты бизнесу" }, { ref: ecb/LOANS_HH_YOY, label: "Кредиты домохозяйствам" }]
-            - { title: "Стоимость кредита", kind: line, series: [{ ref: ecb/MIR_NFC, label: "Бизнесу" }, { ref: ecb/MIR_HOUSE, label: "Ипотека" }] }
+              series: [{ ref: ecb/M3_YOY, label: "M3" }, { ref: ecb/LOANS_NFC_YOY, label: "Кредиты бизнесу", label_en: "Loans to firms" }, { ref: ecb/LOANS_HH_YOY, label: "Кредиты домохозяйствам", label_en: "Loans to households" }]
+            - { title: "Стоимость кредита", title_en: "Cost of borrowing", kind: line, series: [{ ref: ecb/MIR_NFC, label: "Бизнесу", label_en: "Firms" }, { ref: ecb/MIR_HOUSE, label: "Ипотека", label_en: "Mortgages" }] }
             - title: "Опрос банков (BLS): кредиты бизнесу"
+              title_en: "Bank lending survey (BLS): loans to firms"
               kind: line
-              series: [{ ref: ecb/BLS_NFC_STD, label: "Стандарты (> 0 — ужесточение)" }, { ref: ecb/BLS_NFC_DEM, label: "Спрос" }]
+              series: [{ ref: ecb/BLS_NFC_STD, label: "Стандарты (> 0 — ужесточение)", label_en: "Standards (> 0 = tightening)" }, { ref: ecb/BLS_NFC_DEM, label: "Спрос", label_en: "Demand" }]
             - title: "Опрос банков (BLS): ипотека"
+              title_en: "Bank lending survey (BLS): mortgages"
               kind: line
-              series: [{ ref: ecb/BLS_HH_STD, label: "Стандарты" }, { ref: ecb/BLS_HH_DEM, label: "Спрос" }]
+              series: [{ ref: ecb/BLS_HH_STD, label: "Стандарты", label_en: "Standards" }, { ref: ecb/BLS_HH_DEM, label: "Спрос", label_en: "Demand" }]
         - id: micro
           title: "Micro"
           views: [{ view: issuers }]
         - id: markets
           title: "Рынки"
+          title_en: "Markets"
           charts:
-            - { title: "GER40 и STOXX 50", kind: line, series: [{ ref: "yahoo/^GDAXI" }, { ref: "yahoo/^STOXX50E" }] }
-            - { title: "Волатильность", kind: line, series: [{ ref: stoxx/VDAX_NEW }, { ref: stoxx/VSTOXX }] }
+            - { title: "GER40 и STOXX 50", title_en: "GER40 and STOXX 50", kind: line, series: [{ ref: "yahoo/^GDAXI" }, { ref: "yahoo/^STOXX50E" }] }
+            - { title: "Волатильность", title_en: "Volatility", kind: line, series: [{ ref: stoxx/VDAX_NEW }, { ref: stoxx/VSTOXX }] }
             - { title: "EUR/USD", kind: line, series: [{ ref: "yahoo/EURUSD=X" }] }
-            - { title: "Газ TTF", kind: line, series: [{ ref: "yahoo/TTF=F" }] }
-            - { title: "Индекс системного стресса ЕЦБ (CISS)", kind: line, series: [{ ref: ecb/CISS }] }
-            - { title: "Евро: эффективный курс (EER-40)", kind: line, series: [{ ref: ecb/EUR_NEER }] }
+            - { title: "Газ TTF", title_en: "TTF gas", kind: line, series: [{ ref: "yahoo/TTF=F" }] }
+            - { title: "Индекс системного стресса ЕЦБ (CISS)", title_en: "ECB systemic stress index (CISS)", kind: line, series: [{ ref: ecb/CISS }] }
+            - { title: "Евро: эффективный курс (EER-40)", title_en: "Euro: effective exchange rate (EER-40)", kind: line, series: [{ ref: ecb/EUR_NEER }] }
         - id: reactions
           title: "Реакции"
+          title_en: "Reactions"
           views: [{ view: event_reactions }, { view: surprises }]
         - id: news-sentiment
           title: "News и Sentiment"
+          title_en: "News & Sentiment"
           views: [{ view: news_feed }, { view: topics }]
         - id: calendar
           title: "Календарь"
+          title_en: "Calendar"
           views: [{ view: calendar }]
         - id: reports
           title: "Отчёты"
+          title_en: "Reports"
           views: [{ view: reports }]
 
 metrics:
@@ -319,12 +342,12 @@ derived:
   - { name: UST_BUND,        label: "UST-Bund 10Y",  formula: "DGS10 - BUND_10Y",    agent: eu_fiscal, unit: bp, transforms: [level, d, d1w, d4w] }
   - { name: BUND_2S10S,      label: "2s10s Bund",    formula: "BUND_10Y - BUND_2Y",  agent: eu_fiscal, unit: bp, transforms: [level, d, d1w, d4w] }
   # не спред страны: разница двух кривых ЕЦБ, замена показателя → quality: proxy
-  - { name: ECB_ALL_AAA_10Y, label: "Кривая ЕЦБ: все эмитенты − AAA, 10Y", formula: "ECB_YC_ALL_10Y - ECB_YC_AAA_10Y", agent: eu_fiscal, unit: bp, transforms: [level, d, d1w, d4w], quality: proxy }
+  - { name: ECB_ALL_AAA_10Y, label: "Кривая ЕЦБ: все эмитенты − AAA, 10Y", label_en: "ECB curve: all issuers − AAA, 10Y", formula: "ECB_YC_ALL_10Y - ECB_YC_AAA_10Y", agent: eu_fiscal, unit: bp, transforms: [level, d, d1w, d4w], quality: proxy }
   # отношение индексов, приведено к 100 на первой общей дате; Δ — в процентах
-  - { name: GER40_NDX,       label: "GER40/NDX (нормировано)", formula: "^GDAXI / ^NDX (нормировано)", agent: eu_master, transforms: [level, d1w, d4w] }
-  - { name: ESTR_DFR,   label: "€STR − ставка по депозитам", formula: "ESTR - ECB_DFR", agent: eu_monetary, unit: bp, transforms: [level, d1w, d4w] }
-  - { name: NETEXP_EA,  label: "Чистый экспорт еврозоны",    formula: "EXPORTS_EA - IMPORTS_EA", agent: eu_monetary, transforms: [level, d] }
-  - { name: EXCESS_LIQ, label: "Избыточная ликвидность (≈ текущие счета + депозитный механизм)", formula: "ILM_CURRENT_ACC + ILM_DEPOSIT_FAC", agent: eu_monetary, transforms: [level, d1w, d4w], quality: proxy }
+  - { name: GER40_NDX,       label: "GER40/NDX (нормировано)", label_en: "GER40/NDX (normalized)", formula: "^GDAXI / ^NDX (нормировано)", agent: eu_master, transforms: [level, d1w, d4w] }
+  - { name: ESTR_DFR,   label: "€STR − ставка по депозитам", label_en: "€STR − deposit rate", formula: "ESTR - ECB_DFR", agent: eu_monetary, unit: bp, transforms: [level, d1w, d4w] }
+  - { name: NETEXP_EA,  label: "Чистый экспорт еврозоны", label_en: "Euro area net exports",    formula: "EXPORTS_EA - IMPORTS_EA", agent: eu_monetary, transforms: [level, d] }
+  - { name: EXCESS_LIQ, label: "Избыточная ликвидность (≈ текущие счета + депозитный механизм)", label_en: "Excess liquidity (≈ current accounts + deposit facility)", formula: "ILM_CURRENT_ACC + ILM_DEPOSIT_FAC", agent: eu_monetary, transforms: [level, d1w, d4w], quality: proxy }
 
 yahoo:
   # некритичный источник (D7); опрос — regions[].yahoo_poll, догрузка перед недельным экспортом.
@@ -357,56 +380,56 @@ ecb:
   series:
     - { id: ECB_DFR,        key: "FM/D.U2.EUR.4F.KR.DFR.LEV",            agent: eu_monetary, label: "Deposit Facility Rate",      frequency: d, units: "Percent per Annum", transforms: [level, d] }
     - { id: ESTR,           key: "EST/B.EU000A2X2A25.WT",                agent: eu_monetary, label: "€STR",                       frequency: d, units: "Percent per Annum", transforms: [level, d1w] }
-    - { id: ECB_ASSETS,     key: "ILM/W.U2.C.T000000.Z5.Z01",            agent: eu_monetary, label: "Баланс Евросистемы",         frequency: w, units: "Millions of Euro",  transforms: [level, d1w, d4w] }
+    - { id: ECB_ASSETS,     key: "ILM/W.U2.C.T000000.Z5.Z01",            agent: eu_monetary, label: "Баланс Евросистемы", label_en: "Eurosystem balance sheet",         frequency: w, units: "Millions of Euro",  transforms: [level, d1w, d4w] }
     - { id: HICP,           key: "HICP/M.U2.N.000000.4D0.INX",           agent: eu_monetary, label: "HICP headline",              frequency: m, units: "Index",             transforms: [yoy] }
     - { id: HICP_CORE,      key: "HICP/M.U2.N.XEF000.4D0.INX",           agent: eu_monetary, label: "HICP core",                  frequency: m, units: "Index",             transforms: [yoy] }
     - { id: HICP_SA,        key: "HICP/M.U2.Y.000000.4F0.INX",           agent: eu_monetary, label: "HICP headline (SA)",         frequency: m, units: "Index",             transforms: [mom, a3m] }
     - { id: HICP_CORE_SA,   key: "HICP/M.U2.Y.XEF000.4F0.INX",           agent: eu_monetary, label: "HICP core (SA)",             frequency: m, units: "Index",             transforms: [mom, a3m] }
-    - { id: HICP_DE,        key: "HICP/M.DE.N.000000.4D0.INX",           agent: eu_monetary, label: "HICP Германия (с флешем)",   frequency: m, units: "Index",             transforms: [yoy] }
-    - { id: ECB_YC_AAA_10Y, key: "YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y",  agent: eu_fiscal,   label: "Кривая ЕЦБ AAA 10Y",         frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w] }
-    - { id: ECB_YC_ALL_10Y, key: "YC/B.U2.EUR.4F.G_N_C.SV_C_YM.SR_10Y",  agent: eu_fiscal,   label: "Кривая ЕЦБ все эмитенты 10Y", frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w] }
+    - { id: HICP_DE,        key: "HICP/M.DE.N.000000.4D0.INX",           agent: eu_monetary, label: "HICP Германия (с флешем)", label_en: "HICP Germany (with flash)",   frequency: m, units: "Index",             transforms: [yoy] }
+    - { id: ECB_YC_AAA_10Y, key: "YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y",  agent: eu_fiscal,   label: "Кривая ЕЦБ AAA 10Y", label_en: "ECB AAA curve 10Y",         frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w] }
+    - { id: ECB_YC_ALL_10Y, key: "YC/B.U2.EUR.4F.G_N_C.SV_C_YM.SR_10Y",  agent: eu_fiscal,   label: "Кривая ЕЦБ все эмитенты 10Y", label_en: "ECB all-issuers curve 10Y", frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w] }
     # месячные 10Y по странам (критерий конвергенции): хранятся отдельно, с дневными не склеиваются (D25)
-    - { id: IRS_IT_10Y,     key: "IRS/M.IT.L.L40.CI.0000.EUR.N.Z",       agent: eu_fiscal,   label: "Италия 10Y (ЕЦБ, месяц)",    frequency: m, units: "Percent per Annum", transforms: [level, d] }
-    - { id: IRS_FR_10Y,     key: "IRS/M.FR.L.L40.CI.0000.EUR.N.Z",       agent: eu_fiscal,   label: "Франция 10Y (ЕЦБ, месяц)",   frequency: m, units: "Percent per Annum", transforms: [level, d] }
-    - { id: IRS_DE_10Y,     key: "IRS/M.DE.L.L40.CI.0000.EUR.N.Z",       agent: eu_fiscal,   label: "Германия 10Y (ЕЦБ, месяц)",  frequency: m, units: "Percent per Annum", transforms: [level, d] }
+    - { id: IRS_IT_10Y,     key: "IRS/M.IT.L.L40.CI.0000.EUR.N.Z",       agent: eu_fiscal,   label: "Италия 10Y (ЕЦБ, месяц)", label_en: "Italy 10Y (ECB, monthly)",    frequency: m, units: "Percent per Annum", transforms: [level, d] }
+    - { id: IRS_FR_10Y,     key: "IRS/M.FR.L.L40.CI.0000.EUR.N.Z",       agent: eu_fiscal,   label: "Франция 10Y (ЕЦБ, месяц)", label_en: "France 10Y (ECB, monthly)",   frequency: m, units: "Percent per Annum", transforms: [level, d] }
+    - { id: IRS_DE_10Y,     key: "IRS/M.DE.L.L40.CI.0000.EUR.N.Z",       agent: eu_fiscal,   label: "Германия 10Y (ЕЦБ, месяц)", label_en: "Germany 10Y (ECB, monthly)",  frequency: m, units: "Percent per Annum", transforms: [level, d] }
     # --- батч 11f (LOOKUP 2026-11-12): компоненты и страны HICP, деньги и кредит, BLS, ликвидность, TARGET,
     # зарплаты, ожидания, стресс и курсы. BLS — взвешенный нетто-процент банков (WFNET), > 0 — ужесточение.
-    - { id: HICP_SERV,       key: "HICP/M.U2.N.SERV00.4D0.INX",            agent: eu_monetary, label: "HICP услуги",                  frequency: m, units: "Index",             transforms: [yoy, mom] }
-    - { id: HICP_NEIG,       key: "HICP/M.U2.N.IGXE00.4D0.INX",            agent: eu_monetary, label: "HICP промтовары без энергии",  frequency: m, units: "Index",             transforms: [yoy, mom] }
-    - { id: HICP_ENERGY,     key: "HICP/M.U2.N.NRGY00.4D0.INX",            agent: eu_monetary, label: "HICP энергия",                 frequency: m, units: "Index",             transforms: [yoy, mom] }
-    - { id: HICP_FOOD,       key: "HICP/M.U2.N.FOOD00.4D0.INX",            agent: eu_monetary, label: "HICP еда, алкоголь, табак",    frequency: m, units: "Index",             transforms: [yoy, mom] }
-    - { id: HICP_FR,         key: "HICP/M.FR.N.000000.4D0.INX",            agent: eu_monetary, label: "HICP Франция",                 frequency: m, units: "Index",             transforms: [yoy] }
-    - { id: HICP_IT,         key: "HICP/M.IT.N.000000.4D0.INX",            agent: eu_monetary, label: "HICP Италия",                  frequency: m, units: "Index",             transforms: [yoy] }
-    - { id: HICP_ES,         key: "HICP/M.ES.N.000000.4D0.INX",            agent: eu_monetary, label: "HICP Испания",                 frequency: m, units: "Index",             transforms: [yoy] }
-    - { id: M3_YOY,          key: "BSI/M.U2.Y.V.M30.X.I.U2.2300.Z01.A",     agent: eu_monetary, label: "M3, г/г",                      frequency: m, units: "Percent",           transforms: [level, d] }
-    - { id: LOANS_NFC_YOY,   key: "BSI/M.U2.Y.U.A20T.A.I.U2.2240.Z01.A",    agent: eu_monetary, label: "Кредиты бизнесу, г/г (скорр.)", frequency: m, units: "Percent",          transforms: [level, d] }
-    - { id: LOANS_HH_YOY,    key: "BSI/M.U2.Y.U.A20T.A.I.U2.2250.Z01.A",    agent: eu_monetary, label: "Кредиты домохозяйствам, г/г (скорр.)", frequency: m, units: "Percent",   transforms: [level, d] }
-    - { id: MIR_NFC,         key: "MIR/M.U2.B.A2I.AM.R.A.2240.EUR.N",       agent: eu_monetary, label: "Стоимость кредита бизнесу",    frequency: m, units: "Percent per Annum", transforms: [level, d] }
-    - { id: MIR_HOUSE,       key: "MIR/M.U2.B.A2C.AM.R.A.2250.EUR.N",       agent: eu_monetary, label: "Стоимость ипотеки",            frequency: m, units: "Percent per Annum", transforms: [level, d] }
-    - { id: BLS_NFC_STD,     key: "BLS/Q.U2.ALL.O.E.Z.B3.ST.S.WFNET",       agent: eu_monetary, label: "BLS: стандарты, кредиты бизнесу", frequency: q, units: "Balance",        transforms: [level, d] }
-    - { id: BLS_NFC_DEM,     key: "BLS/Q.U2.ALL.O.E.Z.B3.ZZ.D.WFNET",       agent: eu_monetary, label: "BLS: спрос бизнеса на кредит", frequency: q, units: "Balance",          transforms: [level, d] }
-    - { id: BLS_HH_STD,      key: "BLS/Q.U2.ALL.Z.H.H.B3.ST.S.WFNET",       agent: eu_monetary, label: "BLS: стандарты, ипотека",      frequency: q, units: "Balance",           transforms: [level, d] }
-    - { id: BLS_HH_DEM,      key: "BLS/Q.U2.ALL.Z.H.H.B3.ZZ.D.WFNET",       agent: eu_monetary, label: "BLS: спрос на ипотеку",        frequency: q, units: "Balance",           transforms: [level, d] }
-    - { id: ILM_CURRENT_ACC, key: "ILM/W.U2.C.L020100.U2.EUR",             agent: eu_monetary, label: "Текущие счета банков в Евросистеме", frequency: w, units: "Millions of Euro", transforms: [level, d1w, d4w] }
-    - { id: ILM_DEPOSIT_FAC, key: "ILM/W.U2.C.L020200.U2.EUR",             agent: eu_monetary, label: "Депозитный механизм ЕЦБ",      frequency: w, units: "Millions of Euro",  transforms: [level, d1w, d4w] }
-    - { id: ILM_GOV_DEP,     key: "ILM/W.U2.C.L050100.U2.EUR",             agent: eu_monetary, label: "Депозиты государств в Евросистеме", frequency: w, units: "Millions of Euro", transforms: [level, d1w, d4w] }
-    - { id: TARGET_IT,       key: "TGB/M.IT.N.A094T.U2.EUR.E",             agent: eu_fiscal,   label: "TARGET Италия",                frequency: m, units: "Millions of Euro",  transforms: [level, d] }
-    - { id: TARGET_DE,       key: "TGB/M.DE.N.A094T.U2.EUR.E",             agent: eu_fiscal,   label: "TARGET Германия",              frequency: m, units: "Millions of Euro",  transforms: [level, d] }
-    - { id: NEG_WAGES,       key: "INW/Q.U2.N.INWR.000000.4F0.GY.IX",       agent: eu_monetary, label: "Переговорные зарплаты, г/г",   frequency: q, units: "Percent",           transforms: [level, d] }
+    - { id: HICP_SERV,       key: "HICP/M.U2.N.SERV00.4D0.INX",            agent: eu_monetary, label: "HICP услуги", label_en: "HICP services",                  frequency: m, units: "Index",             transforms: [yoy, mom] }
+    - { id: HICP_NEIG,       key: "HICP/M.U2.N.IGXE00.4D0.INX",            agent: eu_monetary, label: "HICP промтовары без энергии", label_en: "HICP non-energy industrial goods",  frequency: m, units: "Index",             transforms: [yoy, mom] }
+    - { id: HICP_ENERGY,     key: "HICP/M.U2.N.NRGY00.4D0.INX",            agent: eu_monetary, label: "HICP энергия", label_en: "HICP energy",                 frequency: m, units: "Index",             transforms: [yoy, mom] }
+    - { id: HICP_FOOD,       key: "HICP/M.U2.N.FOOD00.4D0.INX",            agent: eu_monetary, label: "HICP еда, алкоголь, табак", label_en: "HICP food, alcohol, tobacco",    frequency: m, units: "Index",             transforms: [yoy, mom] }
+    - { id: HICP_FR,         key: "HICP/M.FR.N.000000.4D0.INX",            agent: eu_monetary, label: "HICP Франция", label_en: "HICP France",                 frequency: m, units: "Index",             transforms: [yoy] }
+    - { id: HICP_IT,         key: "HICP/M.IT.N.000000.4D0.INX",            agent: eu_monetary, label: "HICP Италия", label_en: "HICP Italy",                  frequency: m, units: "Index",             transforms: [yoy] }
+    - { id: HICP_ES,         key: "HICP/M.ES.N.000000.4D0.INX",            agent: eu_monetary, label: "HICP Испания", label_en: "HICP Spain",                 frequency: m, units: "Index",             transforms: [yoy] }
+    - { id: M3_YOY,          key: "BSI/M.U2.Y.V.M30.X.I.U2.2300.Z01.A",     agent: eu_monetary, label: "M3, г/г", label_en: "M3, y/y",                      frequency: m, units: "Percent",           transforms: [level, d] }
+    - { id: LOANS_NFC_YOY,   key: "BSI/M.U2.Y.U.A20T.A.I.U2.2240.Z01.A",    agent: eu_monetary, label: "Кредиты бизнесу, г/г (скорр.)", label_en: "Loans to firms, y/y (adjusted)", frequency: m, units: "Percent",          transforms: [level, d] }
+    - { id: LOANS_HH_YOY,    key: "BSI/M.U2.Y.U.A20T.A.I.U2.2250.Z01.A",    agent: eu_monetary, label: "Кредиты домохозяйствам, г/г (скорр.)", label_en: "Loans to households, y/y (adjusted)", frequency: m, units: "Percent",   transforms: [level, d] }
+    - { id: MIR_NFC,         key: "MIR/M.U2.B.A2I.AM.R.A.2240.EUR.N",       agent: eu_monetary, label: "Стоимость кредита бизнесу", label_en: "Cost of borrowing for firms",    frequency: m, units: "Percent per Annum", transforms: [level, d] }
+    - { id: MIR_HOUSE,       key: "MIR/M.U2.B.A2C.AM.R.A.2250.EUR.N",       agent: eu_monetary, label: "Стоимость ипотеки", label_en: "Cost of mortgages",            frequency: m, units: "Percent per Annum", transforms: [level, d] }
+    - { id: BLS_NFC_STD,     key: "BLS/Q.U2.ALL.O.E.Z.B3.ST.S.WFNET",       agent: eu_monetary, label: "BLS: стандарты, кредиты бизнесу", label_en: "BLS: standards, loans to firms", frequency: q, units: "Balance",        transforms: [level, d] }
+    - { id: BLS_NFC_DEM,     key: "BLS/Q.U2.ALL.O.E.Z.B3.ZZ.D.WFNET",       agent: eu_monetary, label: "BLS: спрос бизнеса на кредит", label_en: "BLS: firms' loan demand", frequency: q, units: "Balance",          transforms: [level, d] }
+    - { id: BLS_HH_STD,      key: "BLS/Q.U2.ALL.Z.H.H.B3.ST.S.WFNET",       agent: eu_monetary, label: "BLS: стандарты, ипотека", label_en: "BLS: standards, mortgages",      frequency: q, units: "Balance",           transforms: [level, d] }
+    - { id: BLS_HH_DEM,      key: "BLS/Q.U2.ALL.Z.H.H.B3.ZZ.D.WFNET",       agent: eu_monetary, label: "BLS: спрос на ипотеку", label_en: "BLS: mortgage demand",        frequency: q, units: "Balance",           transforms: [level, d] }
+    - { id: ILM_CURRENT_ACC, key: "ILM/W.U2.C.L020100.U2.EUR",             agent: eu_monetary, label: "Текущие счета банков в Евросистеме", label_en: "Banks' current accounts at the Eurosystem", frequency: w, units: "Millions of Euro", transforms: [level, d1w, d4w] }
+    - { id: ILM_DEPOSIT_FAC, key: "ILM/W.U2.C.L020200.U2.EUR",             agent: eu_monetary, label: "Депозитный механизм ЕЦБ", label_en: "ECB deposit facility",      frequency: w, units: "Millions of Euro",  transforms: [level, d1w, d4w] }
+    - { id: ILM_GOV_DEP,     key: "ILM/W.U2.C.L050100.U2.EUR",             agent: eu_monetary, label: "Депозиты государств в Евросистеме", label_en: "Government deposits at the Eurosystem", frequency: w, units: "Millions of Euro", transforms: [level, d1w, d4w] }
+    - { id: TARGET_IT,       key: "TGB/M.IT.N.A094T.U2.EUR.E",             agent: eu_fiscal,   label: "TARGET Италия", label_en: "TARGET Italy",                frequency: m, units: "Millions of Euro",  transforms: [level, d] }
+    - { id: TARGET_DE,       key: "TGB/M.DE.N.A094T.U2.EUR.E",             agent: eu_fiscal,   label: "TARGET Германия", label_en: "TARGET Germany",              frequency: m, units: "Millions of Euro",  transforms: [level, d] }
+    - { id: NEG_WAGES,       key: "INW/Q.U2.N.INWR.000000.4F0.GY.IX",       agent: eu_monetary, label: "Переговорные зарплаты, г/г", label_en: "Negotiated wages, y/y",   frequency: q, units: "Percent",           transforms: [level, d] }
     # wage tracker ЕЦБ публикует значения вперёд (по подписанным договорам): forecast: true — в отчёте значение на конец
     # недели как факт и строка «прогноз на <месяц>»; на дашборде — графики part: actual и part: forecast.
-    - { id: WAGE_TRACKER,    key: "EWT/M.U2.N.WT.INWS._T.4F0.GY",          agent: eu_monetary, label: "Wage tracker ЕЦБ, г/г",        frequency: m, units: "Percent",           transforms: [level, d], forecast: true }
-    - { id: CES_1Y,          key: "CES/M.Z18.ALL.T.C1120.NUM_VAR.WM",       agent: eu_monetary, label: "Ожидания инфляции потребителей, 12 мес. (медиана)", frequency: m, units: "Percent", transforms: [level, d] }
-    - { id: CES_3Y,          key: "CES/M.Z18.ALL.T.C1220.NUM_VAR.WM",       agent: eu_monetary, label: "Ожидания инфляции потребителей, 3 года (медиана)",  frequency: m, units: "Percent", transforms: [level, d] }
+    - { id: WAGE_TRACKER,    key: "EWT/M.U2.N.WT.INWS._T.4F0.GY",          agent: eu_monetary, label: "Wage tracker ЕЦБ, г/г", label_en: "ECB wage tracker, y/y",        frequency: m, units: "Percent",           transforms: [level, d], forecast: true }
+    - { id: CES_1Y,          key: "CES/M.Z18.ALL.T.C1120.NUM_VAR.WM",       agent: eu_monetary, label: "Ожидания инфляции потребителей, 12 мес. (медиана)", label_en: "Consumer inflation expectations, 12 months (median)", frequency: m, units: "Percent", transforms: [level, d] }
+    - { id: CES_3Y,          key: "CES/M.Z18.ALL.T.C1220.NUM_VAR.WM",       agent: eu_monetary, label: "Ожидания инфляции потребителей, 3 года (медиана)", label_en: "Consumer inflation expectations, 3 years (median)",  frequency: m, units: "Percent", transforms: [level, d] }
     # SPF на следующий календарный год: ключ с {next_year} — один запрос по всем годам, для каждого квартала опроса берётся
     # прогноз на следующий год (2026-Q4 → 2027). Склейка в клиенте ЕЦБ (батч 11f).
-    - { id: SPF_NEXT_YEAR,   key: "SPF/Q.U2.HICP.POINT.{next_year}.Q.AVG", agent: eu_monetary, label: "SPF: инфляция на следующий год", frequency: q, units: "Percent",       transforms: [level, d] }
-    - { id: SPF_LT,          key: "SPF/Q.U2.HICP.POINT.LT.Q.AVG",          agent: eu_monetary, label: "SPF: инфляция в долгосроке",   frequency: q, units: "Percent",           transforms: [level, d] }
-    - { id: CISS,            key: "CISS/D.U2.Z0Z.4F.EC.SS_CIN.IDX",        agent: eu_master,   label: "CISS — индекс системного стресса ЕЦБ", frequency: d, units: "Index",   transforms: [level, d1w, d4w, z] }
-    - { id: EUR_NEER,        key: "EXR/D.E03.EUR.EN00.A",                  agent: eu_master,   label: "Евро, номинальный эффективный курс (EER-40)", frequency: d, units: "Index", transforms: [level, d1w, d4w] }
-    - { id: EURGBP,          key: "EXR/D.GBP.EUR.SP00.A",                  agent: eu_master,   label: "EUR/GBP (ЕЦБ)",                frequency: d, units: "Exchange Rate",     transforms: [level, d1w, d4w] }
-    - { id: EURJPY,          key: "EXR/D.JPY.EUR.SP00.A",                  agent: eu_master,   label: "EUR/JPY (ЕЦБ)",                frequency: d, units: "Exchange Rate",     transforms: [level, d1w, d4w] }
-    - { id: IRS_ES_10Y,      key: "IRS/M.ES.L.L40.CI.0000.EUR.N.Z",        agent: eu_fiscal,   label: "Испания 10Y (ЕЦБ, месяц)",    frequency: m, units: "Percent per Annum", transforms: [level, d] }
+    - { id: SPF_NEXT_YEAR,   key: "SPF/Q.U2.HICP.POINT.{next_year}.Q.AVG", agent: eu_monetary, label: "SPF: инфляция на следующий год", label_en: "SPF: inflation next year", frequency: q, units: "Percent",       transforms: [level, d] }
+    - { id: SPF_LT,          key: "SPF/Q.U2.HICP.POINT.LT.Q.AVG",          agent: eu_monetary, label: "SPF: инфляция в долгосроке", label_en: "SPF: long-term inflation",   frequency: q, units: "Percent",           transforms: [level, d] }
+    - { id: CISS,            key: "CISS/D.U2.Z0Z.4F.EC.SS_CIN.IDX",        agent: eu_master,   label: "CISS — индекс системного стресса ЕЦБ", label_en: "CISS — ECB systemic stress index", frequency: d, units: "Index",   transforms: [level, d1w, d4w, z] }
+    - { id: EUR_NEER,        key: "EXR/D.E03.EUR.EN00.A",                  agent: eu_master,   label: "Евро, номинальный эффективный курс (EER-40)", label_en: "Euro, nominal effective exchange rate (EER-40)", frequency: d, units: "Index", transforms: [level, d1w, d4w] }
+    - { id: EURGBP,          key: "EXR/D.GBP.EUR.SP00.A",                  agent: eu_master,   label: "EUR/GBP (ЕЦБ)", label_en: "EUR/GBP (ECB)",                frequency: d, units: "Exchange Rate",     transforms: [level, d1w, d4w] }
+    - { id: EURJPY,          key: "EXR/D.JPY.EUR.SP00.A",                  agent: eu_master,   label: "EUR/JPY (ЕЦБ)", label_en: "EUR/JPY (ECB)",                frequency: d, units: "Exchange Rate",     transforms: [level, d1w, d4w] }
+    - { id: IRS_ES_10Y,      key: "IRS/M.ES.L.L40.CI.0000.EUR.N.Z",        agent: eu_fiscal,   label: "Испания 10Y (ЕЦБ, месяц)", label_en: "Spain 10Y (ECB, monthly)",    frequency: m, units: "Percent per Annum", transforms: [level, d] }
 
 bundesbank:
   # Bundesbank, SDMX REST, CSV (BOM, «;», десятичная запятая, день без значения — «.»). LOOKUP 2026-11-09.
@@ -419,8 +442,8 @@ bundesbank:
     - { id: BUND_5Y,       key: "BBSIS/D.I.ZAR.ZI.EUR.S1311.B.A604.R05XX.R.A.A._Z._Z.A", agent: eu_fiscal,   label: "Bund 5Y",  frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w] }
     - { id: BUND_10Y,      key: "BBSIS/D.I.ZAR.ZI.EUR.S1311.B.A604.R10XX.R.A.A._Z._Z.A", agent: eu_fiscal,   label: "Bund 10Y", frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w, z] }
     - { id: BUND_30Y,      key: "BBSIS/D.I.ZAR.ZI.EUR.S1311.B.A604.R30XX.R.A.A._Z._Z.A", agent: eu_fiscal,   label: "Bund 30Y", frequency: d, units: "Percent per Annum", transforms: [level, d1w, d4w] }
-    - { id: DE_ORDERS,     key: "BBDE1/M.DE.Y.AEA1.A2P300000.F.C.I21.A",                 agent: eu_monetary, label: "Заказы промышленности DE (2021=100, SA)", frequency: m, units: "Index", transforms: [level, mom, yoy] }
-    - { id: DE_PRODUCTION, key: "BBDE1/M.DE.Y.BAA1.A2P000000.G.C.I21.A",                 agent: eu_monetary, label: "Промпроизводство DE (2021=100, SA)",      frequency: m, units: "Index", transforms: [level, mom, yoy] }
+    - { id: DE_ORDERS,     key: "BBDE1/M.DE.Y.AEA1.A2P300000.F.C.I21.A",                 agent: eu_monetary, label: "Заказы промышленности DE (2021=100, SA)", label_en: "Industrial orders DE (2021=100, SA)", frequency: m, units: "Index", transforms: [level, mom, yoy] }
+    - { id: DE_PRODUCTION, key: "BBDE1/M.DE.Y.BAA1.A2P000000.G.C.I21.A",                 agent: eu_monetary, label: "Промпроизводство DE (2021=100, SA)", label_en: "Industrial production DE (2021=100, SA)",      frequency: m, units: "Index", transforms: [level, mom, yoy] }
 
 eurostat:
   # Eurostat, JSON-stat 2.0; ключ ряда — <набор>?<измерение>=<код>&…: фильтр на каждое измерение, кроме времени
@@ -430,51 +453,51 @@ eurostat:
   endpoint: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data"
   poll_cron: "15 11 * * *"            # Europe/Bratislava
   series:
-    - { id: GDP_EA,         key: "namq_10_gdp?geo=EA21&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ",          agent: eu_monetary, label: "ВВП еврозоны (EA21), реальный",  frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
-    - { id: GDP_DE,         key: "namq_10_gdp?geo=DE&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ",            agent: eu_monetary, label: "ВВП Германии, реальный",         frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
-    - { id: DE_DEBT_GDP,    key: "gov_10q_ggdebt?geo=DE&unit=PC_GDP&sector=S13&na_item=GD",              agent: eu_fiscal,   label: "Госдолг Германии",               frequency: q, units: "Percent of GDP",   transforms: [level, d] }
-    - { id: IT_DEFICIT_GDP, key: "gov_10q_ggnfa?geo=IT&unit=PC_GDP&sector=S13&na_item=B9&s_adj=SCA",     agent: eu_fiscal,   label: "Баланс бюджета Италии (SCA)",    frequency: q, units: "Percent of GDP",   transforms: [level, d] }
+    - { id: GDP_EA,         key: "namq_10_gdp?geo=EA21&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ",          agent: eu_monetary, label: "ВВП еврозоны (EA21), реальный", label_en: "Euro area GDP (EA21), real",  frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
+    - { id: GDP_DE,         key: "namq_10_gdp?geo=DE&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ",            agent: eu_monetary, label: "ВВП Германии, реальный", label_en: "Germany GDP, real",         frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
+    - { id: DE_DEBT_GDP,    key: "gov_10q_ggdebt?geo=DE&unit=PC_GDP&sector=S13&na_item=GD",              agent: eu_fiscal,   label: "Госдолг Германии", label_en: "Germany government debt",               frequency: q, units: "Percent of GDP",   transforms: [level, d] }
+    - { id: IT_DEFICIT_GDP, key: "gov_10q_ggnfa?geo=IT&unit=PC_GDP&sector=S13&na_item=B9&s_adj=SCA",     agent: eu_fiscal,   label: "Баланс бюджета Италии (SCA)", label_en: "Italy budget balance (SCA)",    frequency: q, units: "Percent of GDP",   transforms: [level, d] }
     # опрос Еврокомиссии (BCS): в key_metrics вместо Ifo (D25)
     - { id: EC_ICI_DE,      key: "ei_bssi_m_r2?geo=DE&indic=BS-ICI-BAL&s_adj=SA",                        agent: eu_monetary, label: "DE industrial confidence (EC)",  frequency: m, units: "Balance",          transforms: [level, d] }
     - { id: EC_ESI_DE,      key: "ei_bssi_m_r2?geo=DE&indic=BS-ESI-I&s_adj=SA",                          agent: eu_monetary, label: "DE Economic Sentiment (EC, ESI)", frequency: m, units: "Index",            transforms: [level, d] }
     # --- батч 11f (LOOKUP 2026-11-12). Еврозона — EA21. Вакансии отстают (последний квартал — 2025-Q4): stale ставится сам.
-    - { id: GDP_EA_NOM,     key: "namq_10_gdp?geo=EA21&unit=CP_MEUR&s_adj=SCA&na_item=B1GQ",            agent: eu_monetary, label: "ВВП еврозоны, номинальный",      frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
-    - { id: GDP_EA_DEFL,    key: "namq_10_gdp?geo=EA21&unit=PD20_EUR&s_adj=SCA&na_item=B1GQ",           agent: eu_monetary, label: "Дефлятор ВВП еврозоны",          frequency: q, units: "Index",            transforms: [yoy] }
-    - { id: CONS_EA,        key: "namq_10_gdp?geo=EA21&unit=CLV20_MEUR&s_adj=SCA&na_item=P31_S14",      agent: eu_monetary, label: "Потребление домохозяйств, реальное", frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
-    - { id: EXPORTS_EA,     key: "namq_10_gdp?geo=EA21&unit=CP_MEUR&s_adj=SCA&na_item=P6",             agent: eu_monetary, label: "Экспорт еврозоны",               frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
-    - { id: IMPORTS_EA,     key: "namq_10_gdp?geo=EA21&unit=CP_MEUR&s_adj=SCA&na_item=P7",             agent: eu_monetary, label: "Импорт еврозоны",                frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
-    - { id: SAVING_EA,      key: "nasq_10_ki?geo=EA21&unit=PC&s_adj=SCA&sector=S14_S15&na_item=SRG_S14_S15",          agent: eu_monetary, label: "Норма сбережений домохозяйств",  frequency: q, units: "Percent",          transforms: [level, d] }
-    - { id: IP_EA,          key: "sts_inpr_m?geo=EA21&nace_r2=B-D&s_adj=SCA&unit=I21",                 agent: eu_monetary, label: "Промпроизводство еврозоны (2021=100)", frequency: m, units: "Index",    transforms: [mom, yoy] }
-    - { id: RETAIL_EA,      key: "sts_trtu_m?geo=EA21&nace_r2=G47&indic_bt=VOL_SLS&s_adj=SCA&unit=I21", agent: eu_monetary, label: "Розничные продажи еврозоны, объём", frequency: m, units: "Index",     transforms: [mom, yoy] }
-    - { id: GDP_FR,         key: "namq_10_gdp?geo=FR&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ",            agent: eu_monetary, label: "ВВП Франции, реальный",          frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
-    - { id: GDP_IT,         key: "namq_10_gdp?geo=IT&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ",            agent: eu_monetary, label: "ВВП Италии, реальный",           frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
-    - { id: GDP_ES,         key: "namq_10_gdp?geo=ES&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ",            agent: eu_monetary, label: "ВВП Испании, реальный",          frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
-    - { id: EC_ESI_EA,      key: "ei_bssi_m_r2?geo=EA21&indic=BS-ESI-I&s_adj=SA",                       agent: eu_monetary, label: "ESI еврозоны (EC)",              frequency: m, units: "Index",            transforms: [level, d] }
-    - { id: EC_CONS_EA,     key: "ei_bssi_m_r2?geo=EA21&indic=BS-CSMCI-BAL&s_adj=SA",                   agent: eu_monetary, label: "Потребительское доверие еврозоны (EC)", frequency: m, units: "Balance", transforms: [level, d] }
-    - { id: EC_SERV_EA,     key: "ei_bssi_m_r2?geo=EA21&indic=BS-SCI-BAL&s_adj=SA",                     agent: eu_monetary, label: "Доверие в услугах еврозоны (EC)", frequency: m, units: "Balance",         transforms: [level, d] }
-    - { id: EC_PRICE_EXP,   key: "ei_bsco_m?geo=EA21&indic=BS-PT-NY&s_adj=SA&unit=BAL",                agent: eu_monetary, label: "Ожидания цен у потребителей, 12 мес. (EC, баланс)", frequency: m, units: "Balance", transforms: [level, d] }
-    - { id: UNEMP_EA,       key: "une_rt_m?geo=EA21&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT",             agent: eu_monetary, label: "Безработица еврозоны",           frequency: m, units: "Percent",          transforms: [level, d] }
-    - { id: UNEMP_DE,       key: "une_rt_m?geo=DE&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT",               agent: eu_monetary, label: "Безработица Германии",           frequency: m, units: "Percent",          transforms: [level, d] }
-    - { id: UNEMP_FR,       key: "une_rt_m?geo=FR&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT",               agent: eu_monetary, label: "Безработица Франции",            frequency: m, units: "Percent",          transforms: [level, d] }
-    - { id: UNEMP_IT,       key: "une_rt_m?geo=IT&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT",               agent: eu_monetary, label: "Безработица Италии",             frequency: m, units: "Percent",          transforms: [level, d] }
-    - { id: UNEMP_ES,       key: "une_rt_m?geo=ES&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT",               agent: eu_monetary, label: "Безработица Испании",            frequency: m, units: "Percent",          transforms: [level, d] }
-    - { id: EMPL_EA,        key: "namq_10_pe?geo=EA21&na_item=EMP_DC&unit=THS_PER&s_adj=SCA",          agent: eu_monetary, label: "Занятость еврозоны",             frequency: q, units: "Thousands of Persons", transforms: [level, d, yoy] }
+    - { id: GDP_EA_NOM,     key: "namq_10_gdp?geo=EA21&unit=CP_MEUR&s_adj=SCA&na_item=B1GQ",            agent: eu_monetary, label: "ВВП еврозоны, номинальный", label_en: "Euro area GDP, nominal",      frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
+    - { id: GDP_EA_DEFL,    key: "namq_10_gdp?geo=EA21&unit=PD20_EUR&s_adj=SCA&na_item=B1GQ",           agent: eu_monetary, label: "Дефлятор ВВП еврозоны", label_en: "Euro area GDP deflator",          frequency: q, units: "Index",            transforms: [yoy] }
+    - { id: CONS_EA,        key: "namq_10_gdp?geo=EA21&unit=CLV20_MEUR&s_adj=SCA&na_item=P31_S14",      agent: eu_monetary, label: "Потребление домохозяйств, реальное", label_en: "Household consumption, real", frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
+    - { id: EXPORTS_EA,     key: "namq_10_gdp?geo=EA21&unit=CP_MEUR&s_adj=SCA&na_item=P6",             agent: eu_monetary, label: "Экспорт еврозоны", label_en: "Euro area exports",               frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
+    - { id: IMPORTS_EA,     key: "namq_10_gdp?geo=EA21&unit=CP_MEUR&s_adj=SCA&na_item=P7",             agent: eu_monetary, label: "Импорт еврозоны", label_en: "Euro area imports",                frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
+    - { id: SAVING_EA,      key: "nasq_10_ki?geo=EA21&unit=PC&s_adj=SCA&sector=S14_S15&na_item=SRG_S14_S15",          agent: eu_monetary, label: "Норма сбережений домохозяйств", label_en: "Household saving rate",  frequency: q, units: "Percent",          transforms: [level, d] }
+    - { id: IP_EA,          key: "sts_inpr_m?geo=EA21&nace_r2=B-D&s_adj=SCA&unit=I21",                 agent: eu_monetary, label: "Промпроизводство еврозоны (2021=100)", label_en: "Euro area industrial production (2021=100)", frequency: m, units: "Index",    transforms: [mom, yoy] }
+    - { id: RETAIL_EA,      key: "sts_trtu_m?geo=EA21&nace_r2=G47&indic_bt=VOL_SLS&s_adj=SCA&unit=I21", agent: eu_monetary, label: "Розничные продажи еврозоны, объём", label_en: "Euro area retail sales, volume", frequency: m, units: "Index",     transforms: [mom, yoy] }
+    - { id: GDP_FR,         key: "namq_10_gdp?geo=FR&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ",            agent: eu_monetary, label: "ВВП Франции, реальный", label_en: "France GDP, real",          frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
+    - { id: GDP_IT,         key: "namq_10_gdp?geo=IT&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ",            agent: eu_monetary, label: "ВВП Италии, реальный", label_en: "Italy GDP, real",           frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
+    - { id: GDP_ES,         key: "namq_10_gdp?geo=ES&unit=CLV20_MEUR&s_adj=SCA&na_item=B1GQ",            agent: eu_monetary, label: "ВВП Испании, реальный", label_en: "Spain GDP, real",          frequency: q, units: "Millions of Euro", transforms: [qoq, yoy] }
+    - { id: EC_ESI_EA,      key: "ei_bssi_m_r2?geo=EA21&indic=BS-ESI-I&s_adj=SA",                       agent: eu_monetary, label: "ESI еврозоны (EC)", label_en: "Euro area ESI (EC)",              frequency: m, units: "Index",            transforms: [level, d] }
+    - { id: EC_CONS_EA,     key: "ei_bssi_m_r2?geo=EA21&indic=BS-CSMCI-BAL&s_adj=SA",                   agent: eu_monetary, label: "Потребительское доверие еврозоны (EC)", label_en: "Euro area consumer confidence (EC)", frequency: m, units: "Balance", transforms: [level, d] }
+    - { id: EC_SERV_EA,     key: "ei_bssi_m_r2?geo=EA21&indic=BS-SCI-BAL&s_adj=SA",                     agent: eu_monetary, label: "Доверие в услугах еврозоны (EC)", label_en: "Euro area services confidence (EC)", frequency: m, units: "Balance",         transforms: [level, d] }
+    - { id: EC_PRICE_EXP,   key: "ei_bsco_m?geo=EA21&indic=BS-PT-NY&s_adj=SA&unit=BAL",                agent: eu_monetary, label: "Ожидания цен у потребителей, 12 мес. (EC, баланс)", label_en: "Consumer price expectations, 12 months (EC, balance)", frequency: m, units: "Balance", transforms: [level, d] }
+    - { id: UNEMP_EA,       key: "une_rt_m?geo=EA21&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT",             agent: eu_monetary, label: "Безработица еврозоны", label_en: "Euro area unemployment",           frequency: m, units: "Percent",          transforms: [level, d] }
+    - { id: UNEMP_DE,       key: "une_rt_m?geo=DE&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT",               agent: eu_monetary, label: "Безработица Германии", label_en: "Germany unemployment",           frequency: m, units: "Percent",          transforms: [level, d] }
+    - { id: UNEMP_FR,       key: "une_rt_m?geo=FR&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT",               agent: eu_monetary, label: "Безработица Франции", label_en: "France unemployment",            frequency: m, units: "Percent",          transforms: [level, d] }
+    - { id: UNEMP_IT,       key: "une_rt_m?geo=IT&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT",               agent: eu_monetary, label: "Безработица Италии", label_en: "Italy unemployment",             frequency: m, units: "Percent",          transforms: [level, d] }
+    - { id: UNEMP_ES,       key: "une_rt_m?geo=ES&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT",               agent: eu_monetary, label: "Безработица Испании", label_en: "Spain unemployment",            frequency: m, units: "Percent",          transforms: [level, d] }
+    - { id: EMPL_EA,        key: "namq_10_pe?geo=EA21&na_item=EMP_DC&unit=THS_PER&s_adj=SCA",          agent: eu_monetary, label: "Занятость еврозоны", label_en: "Euro area employment",             frequency: q, units: "Thousands of Persons", transforms: [level, d, yoy] }
     # JOBVAC_EA: с 2026 Eurostat ведёт вакансии по NACE Rev. 2.1 — набор jvs_q_r21, раздел B-T (= прежний B-S);
     # jvs_q_nace2 заморожен на 2025-Q4 (LOOKUP 2026-11-16).
-    - { id: JOBVAC_EA,      key: "jvs_q_r21?geo=EA21&nace_r2_1=B-T&sizeclas=TOTAL&s_adj=SA&indic_em=JVR", agent: eu_monetary, label: "Доля вакансий еврозоны",     frequency: q, units: "Percent",          transforms: [level, d] }
-    - { id: LCI_EA,         key: "lc_lci_r2_q?geo=EA21&lcstruct=D1_D4_MD5&nace_r2=B-S&s_adj=SCA&unit=I20", agent: eu_monetary, label: "Индекс стоимости труда (2020=100)", frequency: q, units: "Index",  transforms: [yoy] }
-    - { id: ULC_EA,         key: "namq_10_lp_ulc?geo=EA21&na_item=NULC_PER&unit=I20&s_adj=SCA",        agent: eu_monetary, label: "Удельные затраты на труд (на занятого)", frequency: q, units: "Index", transforms: [yoy] }
-    - { id: PROD_EA,        key: "namq_10_lp_ulc?geo=EA21&na_item=RLPR_PER&unit=I20&s_adj=SCA",        agent: eu_monetary, label: "Производительность (на занятого)", frequency: q, units: "Index",      transforms: [yoy] }
-    - { id: PPI_EA,         key: "sts_inppd_m?geo=EA21&nace_r2=B-E36&s_adj=NSA&unit=I21",              agent: eu_monetary, label: "PPI еврозоны, внутренний рынок", frequency: m, units: "Index",            transforms: [yoy, mom] }
-    - { id: PPI_EA_CORE,    key: "sts_inppd_m?geo=EA21&nace_r2=B_C_X_MIG_NRG&s_adj=NSA&unit=I21",      agent: eu_monetary, label: "PPI еврозоны без энергии",       frequency: m, units: "Index",            transforms: [yoy, mom] }
-    - { id: FR_DEBT_GDP,    key: "gov_10q_ggdebt?geo=FR&unit=PC_GDP&sector=S13&na_item=GD",            agent: eu_fiscal,   label: "Госдолг Франции",                frequency: q, units: "Percent of GDP",   transforms: [level] }
-    - { id: ES_DEBT_GDP,    key: "gov_10q_ggdebt?geo=ES&unit=PC_GDP&sector=S13&na_item=GD",            agent: eu_fiscal,   label: "Госдолг Испании",                frequency: q, units: "Percent of GDP",   transforms: [level] }
-    - { id: IT_DEBT_GDP,    key: "gov_10q_ggdebt?geo=IT&unit=PC_GDP&sector=S13&na_item=GD",            agent: eu_fiscal,   label: "Госдолг Италии",                 frequency: q, units: "Percent of GDP",   transforms: [level] }
-    - { id: EA_DEBT_GDP,    key: "gov_10q_ggdebt?geo=EA21&unit=PC_GDP&sector=S13&na_item=GD",          agent: eu_fiscal,   label: "Госдолг еврозоны",               frequency: q, units: "Percent of GDP",   transforms: [level] }
-    - { id: FR_DEFICIT_GDP, key: "gov_10q_ggnfa?geo=FR&unit=PC_GDP&sector=S13&na_item=B9&s_adj=SCA",   agent: eu_fiscal,   label: "Баланс бюджета Франции (SCA)",   frequency: q, units: "Percent of GDP",   transforms: [level] }
-    - { id: ES_DEFICIT_GDP, key: "gov_10q_ggnfa?geo=ES&unit=PC_GDP&sector=S13&na_item=B9&s_adj=SCA",   agent: eu_fiscal,   label: "Баланс бюджета Испании (SCA)",   frequency: q, units: "Percent of GDP",   transforms: [level] }
-    - { id: EA_DEFICIT_GDP, key: "gov_10q_ggnfa?geo=EA21&unit=PC_GDP&sector=S13&na_item=B9&s_adj=SCA", agent: eu_fiscal,   label: "Баланс бюджета еврозоны (SCA)",  frequency: q, units: "Percent of GDP",   transforms: [level] }
-    - { id: EA_INTEREST_GDP, key: "gov_10q_ggnfa?geo=EA21&unit=PC_GDP&sector=S13&na_item=D41PAY&s_adj=NSA", agent: eu_fiscal, label: "Процентные расходы еврозоны (NSA)", frequency: q, units: "Percent of GDP", transforms: [level] }
+    - { id: JOBVAC_EA,      key: "jvs_q_r21?geo=EA21&nace_r2_1=B-T&sizeclas=TOTAL&s_adj=SA&indic_em=JVR", agent: eu_monetary, label: "Доля вакансий еврозоны", label_en: "Euro area job vacancy rate",     frequency: q, units: "Percent",          transforms: [level, d] }
+    - { id: LCI_EA,         key: "lc_lci_r2_q?geo=EA21&lcstruct=D1_D4_MD5&nace_r2=B-S&s_adj=SCA&unit=I20", agent: eu_monetary, label: "Индекс стоимости труда (2020=100)", label_en: "Labor cost index (2020=100)", frequency: q, units: "Index",  transforms: [yoy] }
+    - { id: ULC_EA,         key: "namq_10_lp_ulc?geo=EA21&na_item=NULC_PER&unit=I20&s_adj=SCA",        agent: eu_monetary, label: "Удельные затраты на труд (на занятого)", label_en: "Unit labor costs (per person employed)", frequency: q, units: "Index", transforms: [yoy] }
+    - { id: PROD_EA,        key: "namq_10_lp_ulc?geo=EA21&na_item=RLPR_PER&unit=I20&s_adj=SCA",        agent: eu_monetary, label: "Производительность (на занятого)", label_en: "Productivity (per person employed)", frequency: q, units: "Index",      transforms: [yoy] }
+    - { id: PPI_EA,         key: "sts_inppd_m?geo=EA21&nace_r2=B-E36&s_adj=NSA&unit=I21",              agent: eu_monetary, label: "PPI еврозоны, внутренний рынок", label_en: "Euro area PPI, domestic market", frequency: m, units: "Index",            transforms: [yoy, mom] }
+    - { id: PPI_EA_CORE,    key: "sts_inppd_m?geo=EA21&nace_r2=B_C_X_MIG_NRG&s_adj=NSA&unit=I21",      agent: eu_monetary, label: "PPI еврозоны без энергии", label_en: "Euro area PPI ex energy",       frequency: m, units: "Index",            transforms: [yoy, mom] }
+    - { id: FR_DEBT_GDP,    key: "gov_10q_ggdebt?geo=FR&unit=PC_GDP&sector=S13&na_item=GD",            agent: eu_fiscal,   label: "Госдолг Франции", label_en: "France government debt",                frequency: q, units: "Percent of GDP",   transforms: [level] }
+    - { id: ES_DEBT_GDP,    key: "gov_10q_ggdebt?geo=ES&unit=PC_GDP&sector=S13&na_item=GD",            agent: eu_fiscal,   label: "Госдолг Испании", label_en: "Spain government debt",                frequency: q, units: "Percent of GDP",   transforms: [level] }
+    - { id: IT_DEBT_GDP,    key: "gov_10q_ggdebt?geo=IT&unit=PC_GDP&sector=S13&na_item=GD",            agent: eu_fiscal,   label: "Госдолг Италии", label_en: "Italy government debt",                 frequency: q, units: "Percent of GDP",   transforms: [level] }
+    - { id: EA_DEBT_GDP,    key: "gov_10q_ggdebt?geo=EA21&unit=PC_GDP&sector=S13&na_item=GD",          agent: eu_fiscal,   label: "Госдолг еврозоны", label_en: "Euro area government debt",               frequency: q, units: "Percent of GDP",   transforms: [level] }
+    - { id: FR_DEFICIT_GDP, key: "gov_10q_ggnfa?geo=FR&unit=PC_GDP&sector=S13&na_item=B9&s_adj=SCA",   agent: eu_fiscal,   label: "Баланс бюджета Франции (SCA)", label_en: "France budget balance (SCA)",   frequency: q, units: "Percent of GDP",   transforms: [level] }
+    - { id: ES_DEFICIT_GDP, key: "gov_10q_ggnfa?geo=ES&unit=PC_GDP&sector=S13&na_item=B9&s_adj=SCA",   agent: eu_fiscal,   label: "Баланс бюджета Испании (SCA)", label_en: "Spain budget balance (SCA)",   frequency: q, units: "Percent of GDP",   transforms: [level] }
+    - { id: EA_DEFICIT_GDP, key: "gov_10q_ggnfa?geo=EA21&unit=PC_GDP&sector=S13&na_item=B9&s_adj=SCA", agent: eu_fiscal,   label: "Баланс бюджета еврозоны (SCA)", label_en: "Euro area budget balance (SCA)",  frequency: q, units: "Percent of GDP",   transforms: [level] }
+    - { id: EA_INTEREST_GDP, key: "gov_10q_ggnfa?geo=EA21&unit=PC_GDP&sector=S13&na_item=D41PAY&s_adj=NSA", agent: eu_fiscal, label: "Процентные расходы еврозоны (NSA)", label_en: "Euro area interest expenditure (NSA)", frequency: q, units: "Percent of GDP", transforms: [level] }
 
 stoxx:
   # Текстовые файлы истории индексов STOXX («Date;Symbol;Indexvalue», вся история в одном файле); key — имя файла.

@@ -6,5 +6,5 @@ import "embed"
 
 // FS is the frontend.
 //
-//go:embed index.html style.css app.js views.js markdown.js start.js vendor/echarts.min.js vendor/ECHARTS-LICENSE vendor/ECHARTS-NOTICE vendor/fonts
+//go:embed index.html style.css i18n.js app.js views.js markdown.js start.js vendor/echarts.min.js vendor/ECHARTS-LICENSE vendor/ECHARTS-NOTICE vendor/fonts
 var FS embed.FS

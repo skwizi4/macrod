@@ -164,9 +164,10 @@ type PredictionTopic struct {
 
 // SentimentRatio is one Yahoo price ratio (RSP/SPY).
 type SentimentRatio struct {
-	Num   string `yaml:"num"`
-	Den   string `yaml:"den"`
-	Label string `yaml:"label"`
+	Num     string `yaml:"num"`
+	Den     string `yaml:"den"`
+	Label   string `yaml:"label"`
+	LabelEn string `yaml:"label_en"`
 }
 
 // Defaults of an absent sentiment block: the USA file.

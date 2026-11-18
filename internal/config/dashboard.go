@@ -65,15 +65,17 @@ type RegionDashboard struct {
 
 // DashboardPage is one page: charts and views, in that order.
 type DashboardPage struct {
-	ID     string     `yaml:"id"`
-	Title  string     `yaml:"title"`
-	Charts []Chart    `yaml:"charts"`
-	Views  []PageView `yaml:"views"`
+	ID      string     `yaml:"id"`
+	Title   string     `yaml:"title"`
+	TitleEn string     `yaml:"title_en"` // dashboard in English; empty: title
+	Charts  []Chart    `yaml:"charts"`
+	Views   []PageView `yaml:"views"`
 }
 
 // Chart is one chart of a page.
 type Chart struct {
 	Title       string        `yaml:"title"`
+	TitleEn     string        `yaml:"title_en"`
 	Kind        string        `yaml:"kind"`
 	CompareDays int           `yaml:"compare_days"` // curve: the earlier date
 	Series      []ChartSeries `yaml:"series"`
@@ -84,6 +86,7 @@ type ChartSeries struct {
 	Ref       string `yaml:"ref"`       // source/id
 	Transform string `yaml:"transform"` // default level
 	Label     string `yaml:"label"`     // default: the label of the series
+	LabelEn   string `yaml:"label_en"`  // default: the English label of the series
 	// Part of a series that publishes ahead (forecast: true): actual (up to
 	// today) or forecast (after it); empty: all points.
 	Part string `yaml:"part"`
@@ -97,6 +100,7 @@ type PageView struct {
 // SeriesRef is a series the dashboard may ask for.
 type SeriesRef struct {
 	Source, ID, Label string
+	LabelEn           string // empty: Label
 }
 
 // Ref is the reference of the series in charts and in demo_allow.
@@ -105,8 +109,8 @@ func (s SeriesRef) Ref() string { return s.Source + "/" + s.ID }
 // SeriesCatalog is every series of the config by its reference.
 func (c *Config) SeriesCatalog() map[string]SeriesRef {
 	out := map[string]SeriesRef{}
-	add := func(source, id, label string) {
-		s := SeriesRef{Source: source, ID: id, Label: label}
+	add := func(source, id, label, labelEn string) {
+		s := SeriesRef{Source: source, ID: id, Label: label, LabelEn: labelEn}
 		out[s.Ref()] = s
 	}
 	for _, s := range c.Series() {
@@ -117,10 +121,10 @@ func (c *Config) SeriesCatalog() map[string]SeriesRef {
 		if label == "" {
 			label = s.ID
 		}
-		add(s.Source, s.ID, label)
+		add(s.Source, s.ID, label, s.LabelEn)
 	}
 	for _, r := range c.Sentiment.Ratios {
-		add(SourceRatio, r.Num+":"+r.Den, r.Label)
+		add(SourceRatio, r.Num+":"+r.Den, r.Label, r.LabelEn)
 	}
 	return out
 }

@@ -2,13 +2,13 @@
 // fills its slot; every text goes through Macro.h, which never parses HTML.
 (function () {
   "use strict";
-  var M = window.Macro, h = M.h, q = M.q, fmt = M.fmt;
+  var M = window.Macro, h = M.h, q = M.q, fmt = M.fmt, t = M.t;
   var views = M.views;
 
   M.viewTitles = {
-    key_metrics: "Ключевые показатели", status: "Состояние источников", fed_path: "Траектория ставки (ZQ)",
-    auctions: "Аукционы Treasury", supply: "Чистое размещение", capex: "Capex", financials: "Финансы компаний",
-    reactions: "Реакции на отчёты", issuers: "Компании", event_reactions: "Реакции рынка на события", news_feed: "Новости", surprises: "Сюрпризы", topics: "Темы", calendar: "Календарь", reports: "Отчёты",
+    key_metrics: t("Key metrics"), status: t("Source status"), fed_path: t("Rate path (ZQ)"),
+    auctions: t("Treasury auctions"), supply: t("Net issuance"), capex: "Capex", financials: t("Company financials"),
+    reactions: t("Earnings reactions"), issuers: t("Companies"), event_reactions: t("Market reactions to events"), news_feed: t("News"), surprises: t("Surprises"), topics: t("Topics"), calendar: t("Calendar"), reports: t("Reports"),
   };
 
   function card(title) {
@@ -32,7 +32,7 @@
       }))));
   }
   function wrap(text) { return h("td", { class: "wrap text" }, text); }
-  function empty(title) { return card(title, h("p", { class: "muted" }, "Нет данных за последнюю неделю.")); }
+  function empty(title) { return card(title, h("p", { class: "muted" }, t("No data for the last week."))); }
   function current(slot, route, node) { if (route === M.state.route) slot.replaceChildren(node); }
   function safeLink(url, text) {
     return /^https?:\/\//i.test(url || "") ? h("a", { href: url, target: "_blank", rel: "noopener noreferrer" }, text) : text;
@@ -93,7 +93,7 @@
   var SIDE_TILES = 3; // the rows next to the main chart of the overview
 
   function delta(label, o) { return h("span", null, h("em", null, label), chg(o)); }
-  function staleMark(row) { return row.flags.indexOf("stale") >= 0 ? h("span", { class: "flag" }, " устарел") : null; }
+  function staleMark(row) { return row.flags.indexOf("stale") >= 0 ? h("span", { class: "flag" }, t(" stale")) : null; }
   function refOf(key) {
     if (!key || !key.ref || key.hidden) return null;
     var cut = key.ref.indexOf("/");
@@ -111,12 +111,15 @@
       }));
     }).catch(function () { /* stays without a sparkline */ });
   }
+  // rowName is the shown name of a report row: the English label of its
+  // key row when there is one (rows are matched by the original label).
+  function rowName(row, key) { return key ? M.pick(key, "label") : row.label; }
   function openRow(row, key) {
     var ref = refOf(key);
-    var facts = [["Значение в отчёте", q(row.value)], ["За неделю", chg(row.change_1w)], ["За 4 недели", chg(row.change_4w)]];
-    if (row.z && row.z.value !== null && row.z.value !== undefined) facts.push(["Z-оценка", q(row.z)]);
-    if (row.date) facts.push(["Дата", row.date]);
-    M.inspect({ title: row.label, kind: "line", facts: facts, series: ref ? [Object.assign({ label: row.label }, ref)] : [] });
+    var facts = [[t("Value in the report"), q(row.value)], [t("1-week change"), chg(row.change_1w)], [t("4-week change"), chg(row.change_4w)]];
+    if (row.z && row.z.value !== null && row.z.value !== undefined) facts.push([t("Z-score"), q(row.z)]);
+    if (row.date) facts.push([t("Date"), row.date]);
+    M.inspect({ title: rowName(row, key), kind: "line", facts: facts, series: ref ? [Object.assign({ label: rowName(row, key) }, ref)] : [] });
   }
 
   views.key_metrics = function (slot, v, region, route) {
@@ -132,21 +135,21 @@
         sparkInto(box, byLabel[row.label], value, row);
         M.countUp(value, row.value && row.value.value, row.value && row.value.unit);
         return h("article", Object.assign({ class: "tile tile-link" }, pressable(function () { openRow(row, byLabel[row.label]); })),
-          h("div", { class: "label" }, row.label, staleMark(row)),
+          h("div", { class: "label" }, rowName(row, byLabel[row.label]), staleMark(row)),
           value,
-          h("div", { class: "deltas" }, delta("неделя", row.change_1w), delta("4 недели", row.change_4w)),
+          h("div", { class: "deltas" }, delta(t("week"), row.change_1w), delta(t("4 weeks"), row.change_4w)),
           box);
       });
       var leadValue = h("span", { class: "now" }, q(lead.value));
-      var leadDate = h("span", { class: "asof" }, lead.date ? "на " + lead.date : "");
+      var leadDate = h("span", { class: "asof" }, lead.date ? t("as of {0}", lead.date) : "");
       M.countUp(leadValue, lead.value && lead.value.value, lead.value && lead.value.unit);
       var hero = h("section", { class: "hero" },
         h("article", { class: "hero-main" },
           h("header", { class: "panel-head" }, h("div", null,
-            h("h2", null, lead.label, staleMark(lead)),
+            h("h2", null, rowName(lead, leadKey), staleMark(lead)),
             h("div", { class: "readout big" }, leadValue,
-              h("div", { class: "deltas" }, delta("неделя", lead.change_1w), delta("4 недели", lead.change_4w)))),
-            h("div", { class: "head-right" }, leadDate, M.expandButton(function () { openRow(lead, leadKey); }, lead.label))),
+              h("div", { class: "deltas" }, delta(t("week"), lead.change_1w), delta(t("4 weeks"), lead.change_4w)))),
+            h("div", { class: "head-right" }, leadDate, M.expandButton(function () { openRow(lead, leadKey); }, rowName(lead, leadKey)))),
           chartEl),
         h("div", { class: "hero-side" }, side));
       var restRows = rep.rows.slice(1 + SIDE_TILES);
@@ -154,12 +157,12 @@
         var box = h("div", { class: "sparkbox" });
         var value = h("td", null, q(row.value));
         sparkInto(box, byLabel[row.label], value, row);
-        return [h("td", { class: "text" }, row.label, staleMark(row)), value, chg(row.change_1w), chg(row.change_4w), h("td", null, box)];
+        return [h("td", { class: "text" }, rowName(row, byLabel[row.label]), staleMark(row)), value, chg(row.change_1w), chg(row.change_4w), h("td", null, box)];
       });
-      var watch = rest.length ? h("div", { class: "watch" }, card("Остальные показатели",
-        table(["Показатель", "Значение", "Неделя", "4 недели", "Год"], rest, function (i) { openRow(restRows[i], byLabel[restRows[i].label]); }))) : null;
-      var hidden = region.key_rows.filter(function (k) { return k.hidden; }).map(function (k) { return k.label; });
-      var node = h("div", null, hero, watch, hidden.length ? M.plaque(hidden.join(", ") + ": скрыто в демо-версии (требуется лицензия источника)") : null);
+      var watch = rest.length ? h("div", { class: "watch" }, card(t("Other metrics"),
+        table([t("Metric"), t("Value"), t("Week"), t("4 weeks"), t("Year")], rest, function (i) { openRow(restRows[i], byLabel[restRows[i].label]); }))) : null;
+      var hidden = region.key_rows.filter(function (k) { return k.hidden; }).map(function (k) { return M.pick(k, "label"); });
+      var node = h("div", null, hero, watch, hidden.length ? M.plaque(t("{0}: hidden in the demo (source license required)", hidden.join(", "))) : null);
       current(slot, route, node);
       var ref = refOf(leadKey);
       if (!ref) { chartEl.remove(); return; }
@@ -168,11 +171,11 @@
         // Up to the date of the report, so the headline and the chart agree.
         var points = s.points.filter(function (p) { return !lead.date || p[0] <= lead.date; });
         if (!points.length) { chartEl.remove(); return; }
-        var chart = M.timeChart(chartEl, "line", [{ name: lead.label, unit: s.unit, points: points }]);
+        var chart = M.timeChart(chartEl, "line", [{ name: rowName(lead, leadKey), unit: s.unit, points: points }]);
         M.follow(chart, function (date) {
           var p = date ? points.filter(function (x) { return x[0] <= date; }).pop() : null;
           leadValue.textContent = p ? fmt(p[1], s.unit) : q(lead.value);
-          leadDate.textContent = "на " + (p ? p[0] : lead.date);
+          leadDate.textContent = t("as of {0}", p ? p[0] : lead.date);
         });
       }).catch(function () { chartEl.remove(); });
     });
@@ -187,15 +190,15 @@
         // source: it waits for macroctl input.
         var manual = s.source === "manual";
         var level = s.errors || (s.never && !manual) ? "critical" : s.stale || s.never ? "warning" : "good";
-        var word = { critical: "ошибки", warning: manual && s.never && !s.stale ? "не введено" : "устарели", good: "норма" }[level];
+        var word = { critical: t("errors"), warning: manual && s.never && !s.stale ? t("not entered") : t("stale"), good: t("ok") }[level];
         return [h("td", { class: "text" }, h("span", { class: "dot " + level }), s.source + " · " + word), s.series, s.errors, s.stale, s.never, when(s.last_ok)];
       });
       var problems = st.problems.slice(0, 20).map(function (p) {
-        return [p.source + "/" + p.id, p.last_obs.indexOf("0001") === 0 ? "—" : p.last_obs.slice(0, 10), p.stale ? "устарел" : "", wrap(p.error || "")];
+        return [p.source + "/" + p.id, p.last_obs.indexOf("0001") === 0 ? "—" : p.last_obs.slice(0, 10), p.stale ? t("stale flag") : "", wrap(p.error || "")];
       });
       current(slot, route, h("div", null,
-        card(M.viewTitles.status, table(["Источник", "Рядов", "Ошибки", "Устарели", "Нет данных", "Последний успех"], rows)),
-        problems.length ? card("Ряды с проблемами (" + st.problems.length + ")", table(["Ряд", "Последнее наблюдение", "Флаг", "Ошибка"], problems)) : null));
+        card(M.viewTitles.status, table([t("Source"), t("Series"), t("Errors"), t("Stale"), t("No data"), t("Last success")], rows)),
+        problems.length ? card(t("Series with problems ({0})", st.problems.length), table([t("Series ID"), t("Last observation"), t("Flag"), t("Error")], problems)) : null));
     });
   };
 
@@ -205,7 +208,7 @@
     var shown = Math.round(bp.value);
     var p = Math.min(Math.abs(shown) / 25, 1) * 100;
     if (Math.round(p) === 0) return "0%";
-    return (shown < 0 ? "снижение " : "повышение ") + M.num(p, 0) + "%";
+    return (shown < 0 ? t("cut {0}%", M.num(p, 0)) : t("hike {0}%", M.num(p, 0)));
   }
   views.fed_path = function (slot, v, region, route) {
     return M.report(region.id, v.agent, "monetary").then(function (rep) {
@@ -213,7 +216,7 @@
       var rows = rep.fed_path.rows.map(function (r) {
         return [r.month.slice(0, 7), r.meeting ? r.meeting.slice(0, 10) : "—", q(r.implied), q(r.vs_dff, true), q(r.meeting_bp, true), chance(r.meeting_bp), q(r.week_ago)];
       });
-      current(slot, route, card(M.viewTitles.fed_path, table(["Контракт", "Заседание", "Implied", "К DFF", "За заседание", "Вероятность шага", "Неделю назад"], rows)));
+      current(slot, route, card(M.viewTitles.fed_path, table([t("Contract"), t("Meeting"), "Implied", t("vs DFF"), t("Per meeting"), t("Move probability"), t("Week ago")], rows)));
     });
   };
 
@@ -224,8 +227,8 @@
       var rows = s.groups.map(function (g) {
         return [g.name].concat(g.net.map(function (x) { return q(x, true); }));
       });
-      current(slot, route, card(M.viewTitles.supply + " (чистое, по данным DTS на " + s.last_dts + ")",
-        table(["Группа", "За неделю", "Квартал с " + s.quarter_start, "Прошлый квартал"], rows)));
+      current(slot, route, card(M.viewTitles.supply + t(" (net, DTS as of {0})", s.last_dts),
+        table([t("Group"), t("1-week change"), t("Quarter from {0}", s.quarter_start), t("Last quarter")], rows)));
     });
   };
 
@@ -234,14 +237,14 @@
       if (!rep) return current(slot, route, empty(M.viewTitles.auctions));
       var top = maxOf(rep.coupons || [], function (a) { return a.amount ? a.amount.value : 0; });
       var coupons = (rep.coupons || []).map(function (a) {
-        return [a.date, a.tenor + (a.reopening ? " (reopen)" : ""), bar(q(a.amount), a.amount && a.amount.value, top), q(a.high_yield), a.wait_cmt ? "ждём CMT" : q(a.tail_bp, true), q(a.btc), q(a.indirect), q(a.direct)];
+        return [a.date, a.tenor + (a.reopening ? " (reopen)" : ""), bar(q(a.amount), a.amount && a.amount.value, top), q(a.high_yield), a.wait_cmt ? t("awaiting CMT") : q(a.tail_bp, true), q(a.btc), q(a.indirect), q(a.direct)];
       });
       var bills = (rep.bills || []).map(function (a) {
         return [a.name, a.count, q(a.amount), q(a.high_rate), q(a.btc)];
       });
       current(slot, route, h("div", null,
-        coupons.length ? card("Купонные аукционы", table(["Дата", "Срок", "Объём", "Доходность", "Хвост", "Bid/cover", "Indirect", "Direct"], coupons)) : empty("Купонные аукционы"),
-        bills.length ? card("Векселя", table(["Выпуск", "Аукционов", "Объём", "Ставка", "Bid/cover"], bills)) : null));
+        coupons.length ? card(t("Coupon auctions"), table([t("Date"), t("Tenor"), t("Amount"), t("Yield"), t("Tail"), "Bid/cover", "Indirect", "Direct"], coupons)) : empty(t("Coupon auctions")),
+        bills.length ? card(t("Bills"), table([t("Issue"), t("Auctions"), t("Amount"), t("Rate"), "Bid/cover"], bills)) : null));
     });
   };
 
@@ -257,9 +260,9 @@
         if (cells.length) cells[cells.length - 1] = bar(cells[cells.length - 1], latest(r), top);
         return [r.ticker].concat(cells, [q(r.qoq, true), q(r.yoy, true)]);
       });
-      var node = h("div", null, card("Capex по кварталам, млрд $", el,
-        h("p", { class: "note" }, "Сумма столбца — только компании, уже отчитавшиеся за квартал.")),
-        card(null, table(["Компания"].concat(c.quarters, ["QoQ", "YoY"]), rows)));
+      var node = h("div", null, card(t("Capex by quarter, $ bn"), el,
+        h("p", { class: "note" }, t("A column sums only the companies that have reported the quarter."))),
+        card(null, table([t("Company")].concat(c.quarters, ["QoQ", "YoY"]), rows)));
       current(slot, route, node);
       if (route !== M.state.route) return;
       M.draw(el, {
@@ -285,8 +288,8 @@
       });
       var rpo = (f.rpo || []).map(function (r) { return [r.ticker, r.date, q(r.rpo), q(r.rpo_yoy, true)]; });
       current(slot, route, h("div", null,
-        card(M.viewTitles.financials, table(["Компания", "Квартал", "Выручка", "YoY", "Опер. маржа", "Capex", "FCF", "FCF TTM", "Чистый долг"], rows)),
-        rpo.length ? card("RPO (контрактные обязательства)", table(["Компания", "Дата", "RPO", "YoY"], rpo)) : null));
+        card(M.viewTitles.financials, table([t("Company"), t("Quarter"), t("Revenue"), "YoY", t("Op. margin"), "Capex", "FCF", "FCF TTM", t("Net debt")], rows)),
+        rpo.length ? card(t("RPO (remaining performance obligations)"), table([t("Company"), t("Date"), "RPO", "YoY"], rpo)) : null));
     });
   };
 
@@ -298,36 +301,36 @@
       if (!rep) return current(slot, route, empty(M.viewTitles.issuers));
       var reaction = function (r) {
         if (r.pct && r.pct.value !== null) return q(r.pct, true) + " (" + r.date.slice(5) + ")";
-        return r.waiting_close ? "ждём close " + r.waiting_close.slice(5) : "—";
+        return r.waiting_close ? t("awaiting close {0}", r.waiting_close.slice(5)) : "—";
       };
       var cap = function (r) { return r.pct && r.pct.value !== null && r.cap_change && r.cap_change.value !== null ? "≈ " + q(r.cap_change, true) : "—"; };
-      var when = function (r) { return r.date ? r.date + (r.session === "after_close" ? ", после закрытия" : ", до открытия") + (r.estimate ? " (оценка)" : "") : "нет даты"; };
+      var when = function (r) { return r.date ? r.date + (r.session === "after_close" ? t(", after close") : t(", before open")) + (r.estimate ? t(" (estimate)") : "") : t("no date"); };
       var parts = [];
       if ((rep.reports || []).length) {
-        parts.push(card("Отчёты недели", table(["Компания", "Отчёт", "Период", "Реакция цены", "Δ кап."],
+        parts.push(card(t("Reports this week"), table([t("Company"), t("Report"), t("Period"), t("Price reaction"), t("Δ cap.")],
           rep.reports.map(function (r) { return [r.name, when(r), r.period || "—", reaction(r.reaction), cap(r.reaction)]; }))));
       }
-      parts.push(card("Цены", table(["Компания", "Дата", "Закрытие", "Δ1w", "Δ4w", "Δ1w к " + rep.index_label + ", п.п."],
+      parts.push(card(t("Prices"), table([t("Company"), t("Date"), t("Last close"), "Δ1w", "Δ4w", t("Δ1w vs {0}, pp", rep.index_label)],
         (rep.prices || []).map(function (p) { return [p.name, p.date || "—", q(p.close), q(p.change_1w, true), q(p.change_4w, true), q(p.vs_index, true)]; }))));
-      parts.push(card("Ближайшие отчёты", table(["Компания", "Дата", "Период", "Источник даты"],
+      parts.push(card(t("Upcoming reports"), table([t("Company"), t("Date"), t("Period"), t("Date source")],
         (rep.upcoming || []).map(function (r) { return [r.name, when(r), r.period || "—", r.source || "—"]; }))));
       var withYoY = function (v, yoy) { return v && v.value !== null ? q(v) + (yoy && yoy.value !== null ? " (" + q(yoy, true) + ")" : "") : "—"; };
       if ((rep.annual || []).length) {
-        parts.push(card("Годовые цифры", table(["Компания", "Год", "Выручка", "Опер. прибыль", "Чистая прибыль", "EPS", "FCF", "Источник"],
+        parts.push(card(t("Annual figures"), table([t("Company"), t("Year"), t("Revenue"), t("Op. profit"), t("Net income"), "EPS", "FCF", t("Source")],
           rep.annual.map(function (a) {
             return [a.name, String(a.year) + (a.stale ? " ⚠" : ""), withYoY(a.revenue, a.revenue_yoy), withYoY(a.operating_income, a.operating_yoy),
               withYoY(a.net_income, a.net_yoy), withYoY(a.eps, a.eps_yoy), withYoY(a.fcf, a.fcf_yoy), a.source];
           }))));
       }
       if ((rep.quarterly || []).length) {
-        parts.push(card("Квартальные цифры (Excel эмитента)", table(["Компания", "Квартал", "Выручка", "Опер. прибыль (показатель компании)", "Чистая прибыль", "EPS"],
+        parts.push(card(t("Quarterly figures (issuer Excel)"), table([t("Company"), t("Quarter"), t("Revenue"), t("Op. profit (company measure)"), t("Net income"), "EPS"],
           rep.quarterly.map(function (r) {
             return [r.name, r.quarter, withYoY(r.revenue, r.revenue_yoy), withYoY(r.operating, r.operating_yoy) + " — " + r.operating_label,
               withYoY(r.net_income, r.net_yoy), withYoY(r.eps, r.eps_yoy)];
           }))));
       }
       if ((rep.releases || []).length) {
-        parts.push(card("Пресс-релизы недели", table(["Дата", "Компания", "Релиз"],
+        parts.push(card(t("Press releases this week"), table([t("Date"), t("Company"), t("Release")],
           rep.releases.map(function (r) { return [r.published, r.name, h("td", { class: "wrap text" }, safeLink(r.url, r.title))]; }))));
       }
       current(slot, route, h("div", null, parts));
@@ -341,9 +344,9 @@
         var f = r.files.filter(function (x) { return x.report === "micro"; })[0];
         var rep = f && f.json;
         var list = (rep && rep.week) || [];
-        var picks = M.select({ label: "Неделя", value: r.week, options: r.weeks.map(function (w) { return [w, w]; }), onChange: function (w) { week = w; paint(); } });
+        var picks = M.select({ label: t("Week"), value: r.week, options: r.weeks.map(function (w) { return [w, w]; }), onChange: function (w) { week = w; paint(); } });
         var controls = h("div", { class: "controls" }, picks.el);
-        if (!list.length) return current(slot, route, h("div", null, controls, card(M.viewTitles.reactions, h("p", { class: "muted" }, "За эту неделю компании не отчитывались."))));
+        if (!list.length) return current(slot, route, h("div", null, controls, card(M.viewTitles.reactions, h("p", { class: "muted" }, t("No company reported this week.")))));
         var known = list.filter(function (x) { return x.reaction && !x.reaction.waiting_close && x.reaction.pct && x.reaction.pct.value !== null; })
           .sort(function (a, b) { return b.reaction.pct.value - a.reaction.pct.value; });
         var tiles = null;
@@ -351,29 +354,28 @@
           var mean = known.reduce(function (m, x) { return m + x.reaction.pct.value; }, 0) / known.length;
           var unit = known[0].reaction.pct.unit, best = known[0], worst = known[known.length - 1];
           var tile = function (label, value, sub) { return h("article", { class: "tile" }, h("div", { class: "label" }, label), h("div", { class: "value" }, M.change(fmt(value, unit, true), value)), h("div", { class: "muted" }, sub)); };
-          // Russian plural: 1 компания, 2-4 компании, 5+ компаний (11-14 are "компаний").
-          var n = known.length, d = n % 10, dd = n % 100;
-          var word = d === 1 && dd !== 11 ? "компания" : d >= 2 && d <= 4 && (dd < 12 || dd > 14) ? "компании" : "компаний";
+          var n = known.length;
+          var word = M.plural(n, ["company", "companies"], ["компания", "компании", "компаний"]);
           // With one report there is nothing to average or rank: show it once.
           tiles = n === 1
-            ? h("div", { class: "tiles" }, tile("Реакция на отчёт", best.reaction.pct.value, best.ticker))
+            ? h("div", { class: "tiles" }, tile(t("Earnings reaction"), best.reaction.pct.value, best.ticker))
             : h("div", { class: "tiles" },
-              tile("Средняя реакция", mean, n + " " + word),
-              tile("Лучшая реакция", best.reaction.pct.value, best.ticker),
-              tile("Худшая реакция", worst.reaction.pct.value, worst.ticker));
+              tile(t("Average reaction"), mean, n + " " + word),
+              tile(t("Best reaction"), best.reaction.pct.value, best.ticker),
+              tile(t("Worst reaction"), worst.reaction.pct.value, worst.ticker));
         }
         var rows = list.map(function (x) {
           var re = x.reaction || {};
-          return [x.ticker, x.quarter, x.report_at ? x.report_at.slice(0, 10) : "—", chg(x.revenue_yoy), q(x.eps), re.waiting_close ? "ждём закрытия" : chg(re.pct), chg(re.cap_change)];
+          return [x.ticker, x.quarter, x.report_at ? x.report_at.slice(0, 10) : "—", chg(x.revenue_yoy), q(x.eps), re.waiting_close ? t("awaiting close") : chg(re.pct), chg(re.cap_change)];
         });
-        current(slot, route, h("div", null, controls, tiles, card("Реакция цены на отчётность",
-          table(["Компания", "Квартал", "Отчёт", "Выручка YoY", "EPS", "Реакция цены", "Δ капитализации"], rows))));
+        current(slot, route, h("div", null, controls, tiles, card(t("Price reaction to earnings"),
+          table([t("Company"), t("Quarter"), t("Report"), t("Revenue YoY"), "EPS", t("Price reaction"), t("Δ market cap")], rows))));
       });
     }
     return paint();
   };
 
-  // moved is "30 мин" over "до закрытия": a percent, or ≈ b.p. for a yield.
+  // moved is "30 min" over "to the close": a percent, or ≈ b.p. for a yield.
   function moved(m) {
     if (!m) return h("td", null, "—");
     return h("td", { class: "two" }, h("div", null, chg(m.first)), h("div", { class: "chg-sub" }, chg(m.full)));
@@ -383,13 +385,13 @@
       var r = rep && rep.reaction;
       if (!r || !r.rows || !r.rows.length) return current(slot, route, empty(M.viewTitles.event_reactions));
       var rows = r.rows.map(function (e) {
-        var surprises = (e.surprises || []).map(function (x) { return h("div", { class: "surprise" }, x.label + ": " + x.actual + " при ожидании " + x.expected); });
+        var surprises = (e.surprises || []).map(function (x) { return h("div", { class: "surprise" }, t("{0}: {1} vs expected {2}", x.label, x.actual, x.expected)); });
         return [h("td", { class: "wrap text" }, h("div", { class: "ev-name" }, e.labels.join(", ")), surprises),
           e.at.slice(0, 16).replace("T", " ")].concat(e.moves.map(moved));
       });
       var parts = [card(M.viewTitles.event_reactions,
-        h("p", { class: "muted lead" }, "Верхнее значение — первые " + r.window_minutes + " минут после события, нижнее — до закрытия. Время — ET."),
-        table(["Событие", "Время"].concat(r.symbols), rows))];
+        h("p", { class: "muted lead" }, t("Top: the first {0} minutes after the event; bottom: to the close. Times are ET.", r.window_minutes)),
+        table([t("Event"), t("Time")].concat(r.symbols.map(function (x) { return x.replace("б.п.", t("bp")); })), rows))];
       var w = rep.moves;
       if (w && w.rows && w.rows.length) {
         var dayRows = w.rows.map(function (row) {
@@ -397,8 +399,8 @@
             return h("td", { class: w.days[i] === row.best ? "best" : "" }, chg(x));
           }));
         });
-        parts.push(card("Движение по дням недели", h("p", { class: "muted lead" }, "Выделен день с наибольшим движением."),
-          table(["Инструмент"].concat(w.days.map(function (d) { return d.slice(5); })), dayRows)));
+        parts.push(card(t("Moves by day of week"), h("p", { class: "muted lead" }, t("The day with the largest move is highlighted.")),
+          table([t("Instrument")].concat(w.days.map(function (d) { return d.slice(5); })), dayRows)));
       }
       current(slot, route, h("div", null, parts));
     });
@@ -410,7 +412,7 @@
       var rows = rep.surprises.map(function (s) {
         return [s.date, h("td", { class: "wrap text" }, safeLink(s.url, s.label)), s.expected, s.actual, s.diff];
       });
-      current(slot, route, card(M.viewTitles.surprises, table(["Дата", "Показатель", "Ожидание", "Факт", "Разница"], rows)));
+      current(slot, route, card(M.viewTitles.surprises, table([t("Date"), t("Metric"), t("Expected"), t("Actual"), t("Difference")], rows)));
     });
   };
 
@@ -421,30 +423,30 @@
       var sorted = topics.slice().sort(function (a, b) { return a.now - b.now; });
       var el = h("div", { class: "chart tall" });
       // "now" is the report's week, "before" the week before it.
-      var quiet = topics.every(function (t) { return !t.now; });
-      current(slot, route, h("div", null, card(M.viewTitles.topics + ": упоминания за неделю", h("div", null,
-        quiet ? h("p", { class: "muted" }, "За эту неделю постов с этими темами нет — видна только прошлая неделя.") : null, el)),
-        card(null, table(["Тема", "Эта неделя", "Прошлая неделя"], sorted.slice().reverse().map(function (t) { return [t.name, t.now, t.before]; })))));
+      var quiet = topics.every(function (x) { return !x.now; });
+      current(slot, route, h("div", null, card(M.viewTitles.topics + t(": mentions this week"), h("div", null,
+        quiet ? h("p", { class: "muted" }, t("No posts on these topics this week; only last week is shown.")) : null, el)),
+        card(null, table([t("Topic"), t("This week"), t("Last week")], sorted.slice().reverse().map(function (x) { return [x.name, x.now, x.before]; })))));
       if (route !== M.state.route) return;
       M.draw(el, {
         grid: { left: 8, right: 14, top: 34, bottom: 8, containLabel: true },
         tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
         legend: { top: 0, left: 0 },
-        yAxis: Object.assign({ type: "category", data: sorted.map(function (t) { return t.name; }) }, M.axisStyle(), { splitLine: { show: false } }),
+        yAxis: Object.assign({ type: "category", data: sorted.map(function (x) { return x.name; }) }, M.axisStyle(), { splitLine: { show: false } }),
         xAxis: Object.assign({ type: "value", minInterval: 1 }, M.axisStyle()),
         series: [
-          { name: "Эта неделя", type: "bar", barMaxWidth: 10, data: sorted.map(function (t) { return t.now; }) },
-          { name: "Прошлая неделя", type: "bar", barMaxWidth: 10, data: sorted.map(function (t) { return t.before; }) },
+          { name: t("This week"), type: "bar", barMaxWidth: 10, data: sorted.map(function (x) { return x.now; }) },
+          { name: t("Last week"), type: "bar", barMaxWidth: 10, data: sorted.map(function (x) { return x.before; }) },
         ],
       });
     });
   };
 
-  var IMPORTANCE = [["high", "Высокая"], ["medium", "Средняя"], ["low", "Низкая"]];
+  var IMPORTANCE = [["high", t("High")], ["medium", t("Medium")], ["low", t("Low")]];
   function startOfDay(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
   function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
   function monday(d) { return addDays(d, -((d.getDay() + 6) % 7)); }
-  function dayText(d, opts) { return d.toLocaleDateString("ru-RU", opts); }
+  function dayText(d, opts) { return d.toLocaleDateString(M.locale(), opts); }
 
   views.calendar = function (slot, v, region, route) {
     return M.load(["calendar"], "days=60").then(function (events) {
@@ -461,18 +463,18 @@
           ? dayText(from, { day: "numeric", month: "long", year: "numeric" })
           : dayText(from, { day: "numeric", month: "short" }) + " — " + dayText(addDays(to, -1), { day: "numeric", month: "short", year: "numeric" });
         controls.replaceChildren(
-          h("div", { class: "filters" }, [["day", "День"], ["week", "Неделя"]].map(function (m) {
+          h("div", { class: "filters" }, [["day", t("Day")], ["week", t("Week")]].map(function (m) {
             return h("button", { type: "button", class: mode === m[0] ? "on" : "", onclick: function () { mode = m[0]; paint(); } }, m[1]);
           })),
           h("div", { class: "cal-nav" },
-            h("button", { type: "button", class: "round", "aria-label": "Назад", onclick: function () { move(-1); } }, "‹"),
+            h("button", { type: "button", class: "round", "aria-label": t("Back"), onclick: function () { move(-1); } }, "‹"),
             h("span", { class: "cal-date" }, title),
-            h("button", { type: "button", class: "round", "aria-label": "Вперёд", onclick: function () { move(1); } }, "›")),
-          h("button", { type: "button", class: "today", onclick: function () { day = startOfDay(new Date()); paint(); } }, "Сегодня"),
+            h("button", { type: "button", class: "round", "aria-label": t("Forward"), onclick: function () { move(1); } }, "›")),
+          h("button", { type: "button", class: "today", onclick: function () { day = startOfDay(new Date()); paint(); } }, t("Today")),
           h("div", { class: "imp-pills" }, IMPORTANCE.map(function (x) {
             return h("button", { type: "button", class: "imp-pill " + x[0], "aria-pressed": on[x[0]] ? "true" : "false", onclick: function () { on[x[0]] = !on[x[0]]; paint(); } }, h("i"), x[1]);
           })),
-          h("span", { class: "muted cal-tz" }, "Время браузера"));
+          h("span", { class: "muted cal-tz" }, t("Browser time")));
         var days = new Map();
         events.forEach(function (e) {
           var at = new Date(e.at), level = e.importance || "low";
@@ -481,13 +483,13 @@
           if (!days.has(key)) days.set(key, []);
           days.get(key).push(h("div", { class: "ev" },
             h("i", { class: "ev-dot " + level, title: level }),
-            h("span", { class: "ev-time" }, at.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" })),
+            h("span", { class: "ev-time" }, at.toLocaleTimeString(M.locale(), { hour: "2-digit", minute: "2-digit" })),
             h("span", { class: "ev-name" }, e.name),
-            at < new Date() ? h("span", { class: "ev-done" }, "вышло") : null));
+            at < new Date() ? h("span", { class: "ev-done" }, t("released")) : null));
         });
         var kids = [];
         days.forEach(function (rows, key) { kids.push(h("section", { class: "ev-day" }, h("h3", null, key), rows)); });
-        list.replaceChildren.apply(list, kids.length ? kids : [h("p", { class: "muted ev-none" }, "В этот период событий нет.")]);
+        list.replaceChildren.apply(list, kids.length ? kids : [h("p", { class: "muted ev-none" }, t("No events in this period."))]);
       }
       paint();
       current(slot, route, h("div", null, controls, h("div", { class: "card" }, list)));
@@ -512,25 +514,25 @@
         var el = h("article", { class: "feed-row", tabindex: "0",
           onclick: function (e) { if (e.target.tagName !== "A") body.hidden = !body.hidden; },
           onkeydown: function (e) { if (e.key === "Enter") body.hidden = !body.hidden; } },
-          h("span", { class: "ev-time" }, new Date(p.published).toLocaleDateString("ru-RU", { day: "numeric", month: "short" })),
+          h("span", { class: "ev-time" }, new Date(p.published).toLocaleDateString(M.locale(), { day: "numeric", month: "short" })),
           h("div", { class: "feed-main" },
-            h("div", { class: "feed-meta" }, safeLink(p.url, p.author), p.views ? " · " + M.num(p.views, 0) + " просм." : ""),
+            h("div", { class: "feed-meta" }, safeLink(p.url, p.author), p.views ? " · " + t("{0} views", M.num(p.views, 0)) : ""),
             h("div", { class: "feed-title" }, firstLine(p.text)), body),
-          hot ? h("span", { class: "feed-tag" }, "Резонанс") : null);
+          hot ? h("span", { class: "feed-tag" }, t("Trending")) : null);
         return el;
       }
       function paint() {
         var names = groups().map(function (g) { return g.title; });
         if (names.indexOf(topic) < 0) topic = "";
         bar.replaceChildren(
-          h("div", { class: "filters" }, [["news", "Новости"], ["opinions", "Мнения"]].map(function (k) {
+          h("div", { class: "filters" }, [["news", t("News")], ["opinions", t("Opinions")]].map(function (k) {
             return h("button", { type: "button", class: kind === k[0] ? "on" : "", onclick: function () { kind = k[0]; paint(); } }, k[1]);
           })),
-          M.select({ label: "Тема", value: topic, options: [["", "Все темы"]].concat(names.map(function (n) { return [n, n]; })), onChange: function (t) { topic = t; paint(); } }).el);
+          M.select({ label: t("Topic"), value: topic, options: [["", t("All topics")]].concat(names.map(function (n) { return [n, n]; })), onChange: function (v) { topic = v; paint(); } }).el);
         var posts = [];
         groups().forEach(function (g) { if (!topic || g.title === topic) posts = posts.concat(g.posts); });
         posts.sort(function (a, b) { return a.published < b.published ? 1 : -1; });
-        list.replaceChildren.apply(list, posts.length ? posts.map(row) : [h("p", { class: "muted" }, "Постов нет.")]);
+        list.replaceChildren.apply(list, posts.length ? posts.map(row) : [h("p", { class: "muted" }, t("No posts."))]);
       }
       paint();
       current(slot, route, h("div", null, bar, h("div", { class: "card" }, list)));
@@ -543,12 +545,12 @@
     function paint() {
       return M.load(["reports", region.id, agent, week]).then(function (r) {
         if (route !== M.state.route) return;
-        var agents = M.select({ label: "Агент", value: agent, options: region.agents.map(function (a) { return [a, a]; }),
+        var agents = M.select({ label: t("Agent"), value: agent, options: region.agents.map(function (a) { return [a, a]; }),
           onChange: function (v) { agent = v; week = "latest"; paint(); } });
-        var weeks = M.select({ label: "Неделя", value: r.week, options: r.weeks.map(function (w) { return [w, w]; }),
+        var weeks = M.select({ label: t("Week"), value: r.week, options: r.weeks.map(function (w) { return [w, w]; }),
           onChange: function (v) { week = v; paint(); } });
         var parts = [h("div", { class: "controls" }, agents.el, weeks.el)];
-        if (!r.files.length) parts.push(h("p", { class: "muted" }, "Экспортов за эту неделю нет."));
+        if (!r.files.length) parts.push(h("p", { class: "muted" }, t("No exports this week.")));
         r.files.forEach(function (f) {
           var md = h("div", { class: "md" });
           md.innerHTML = window.MacroMarkdown.render(f.md || ""); // escaped by the renderer
@@ -557,7 +559,7 @@
         if (r.answer) {
           var ans = h("div", { class: "md" });
           ans.innerHTML = window.MacroMarkdown.render(r.answer); // escaped by the renderer
-          parts.push(card("Ответ агента", ans));
+          parts.push(card(t("Agent answer"), ans));
         }
         body.replaceChildren.apply(body, parts);
       });

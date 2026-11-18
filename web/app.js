@@ -2,9 +2,10 @@
 // script on purpose: ES modules do not load from file://.
 window.Macro = (function () {
   "use strict";
+  var I18N = window.MacroI18n, t = I18N.t;
   var isStatic = window.MACRO_MODE === "static";
   var isFile = location.protocol === "file:";
-  var HIDDEN_TEXT = "Скрыто в демо-версии (требуется лицензия источника)";
+  var HIDDEN_TEXT = t("Hidden in the demo (source license required)");
 
   var state = { meta: null, region: null, page: null, range: "3", charts: [], route: 0 };
   var cache = new Map();
@@ -50,7 +51,7 @@ window.Macro = (function () {
       waiting.set(path, resolve);
       var s = document.createElement("script");
       s.src = "data/" + path + ".js";
-      s.onerror = function () { waiting.delete(path); reject(new Error("нет данных")); };
+      s.onerror = function () { waiting.delete(path); reject(new Error("no data")); };
       document.head.appendChild(s);
     });
   }
@@ -96,8 +97,24 @@ window.Macro = (function () {
   // series returns one series from the date, or whole for "". part splits a
   // series published ahead at the data date: "actual" up to it, "forecast"
   // after it (with the last actual point, so the lines meet).
+  // localize puts the English titles and labels of the config (title_en,
+  // label_en) in place of the original ones; key rows keep their label, the
+  // key of the report rows, and are shown through I18N.pick.
+  function localize(meta) {
+    meta.regions.forEach(function (r) {
+      r.pages.forEach(function (p) {
+        p.title = I18N.pick(p, "title");
+        p.charts.forEach(function (c) {
+          c.title = I18N.pick(c, "title");
+          c.series.forEach(function (x) { x.label = I18N.pick(x, "label"); });
+        });
+      });
+    });
+    return meta;
+  }
   function series(source, id, code, from, part) {
     return load(["series", source, id, code], from ? "from=" + from : "").then(function (s) {
+      if (I18N.lang() === "en" && s.label_en) s = Object.assign({}, s, { label: s.label_en });
       var pts = isStatic && from ? s.points.filter(function (p) { return p[0] >= from; }) : s.points;
       if (part) {
         var today = (state.meta.generated_at || new Date().toISOString()).slice(0, 10);
@@ -133,7 +150,7 @@ window.Macro = (function () {
 
   var NB = " ";
   function num(v, dec) {
-    var text = v.toLocaleString("ru-RU", { minimumFractionDigits: dec, maximumFractionDigits: dec });
+    var text = v.toLocaleString(I18N.locale(), { minimumFractionDigits: dec, maximumFractionDigits: dec });
     return /^-[0,]+$/.test(text) ? text.slice(1) : text.replace("-", "−"); // no "−0,00"
   }
   // fmt writes a value with its unit, as the reports do.
@@ -142,20 +159,20 @@ window.Macro = (function () {
     var sign = signed && v > 0 ? "+" : "";
     switch (unit) {
       case "percent": return sign + num(v, Math.abs(v) >= 100 ? 0 : 2) + "%";
-      case "pp": return sign + num(v, 2) + NB + "п.п.";
-      case "bp": return sign + num(v, 0) + NB + "б.п.";
-      case "usd_bn": return sign + num(v, Math.abs(v) >= 100 ? 0 : 1) + NB + "млрд" + NB + "$";
-      case "eur_bn": return sign + num(v, Math.abs(v) >= 100 ? 0 : 1) + NB + "млрд" + NB + "€";
+      case "pp": return sign + num(v, 2) + NB + t("pp");
+      case "bp": return sign + num(v, 0) + NB + t("bp");
+      case "usd_bn": return sign + num(v, Math.abs(v) >= 100 ? 0 : 1) + NB + t("bn") + NB + "$";
+      case "eur_bn": return sign + num(v, Math.abs(v) >= 100 ? 0 : 1) + NB + t("bn") + NB + "€";
       case "eur": return sign + num(v, 2) + NB + "€";
-      case "thousands_persons": return sign + num(v, 0) + NB + "тыс.";
+      case "thousands_persons": return sign + num(v, 0) + NB + t("k");
       case "count": return sign + num(v, 0);
       case "usd": return sign + num(v, 2) + NB + "$";
       case "ratio": return sign + num(v, 2);
       case "z": case "sigma": return sign + num(v, 1) + "σ";
       case "moves_25bp": // positive is cuts, as in the reports
-        if (signed) return sign + num(v, 1) + NB + "шага";
-        if (Math.abs(v) < 0.05) return "без изменений";
-        return "~" + num(Math.abs(v), 1) + NB + (v > 0 ? "снижения" : "повышения");
+        if (signed) return sign + num(v, 1) + NB + t("moves");
+        if (Math.abs(v) < 0.05) return t("no change");
+        return "~" + num(Math.abs(v), 1) + NB + (v > 0 ? t("cuts") : t("hikes"));
     }
     return sign + num(v, Math.abs(v) >= 1000 ? 0 : 2);
   }
@@ -228,7 +245,7 @@ window.Macro = (function () {
       switch (unit) {
         case "percent": return num(v, 1) + "%";
         case "bp": return num(v, 0);
-        case "usd_bn": case "eur_bn": return Math.abs(v) >= 1000 ? num(v / 1000, 1) + NB + "трлн" : num(v, 0);
+        case "usd_bn": case "eur_bn": return Math.abs(v) >= 1000 ? num(v / 1000, 1) + NB + t("tn") : num(v, 0);
         case "thousands_persons": return num(v, 0);
         case "ratio": return num(v, 2);
       }
@@ -377,7 +394,7 @@ window.Macro = (function () {
       var points = data[0].points;
       at = function (date) {
         var i = date ? pointIndex(points, date) : points.length - 1;
-        if (i >= 0) { headline(box, points, data[0].unit, i); asof.textContent = "на " + points[i][0]; }
+        if (i >= 0) { headline(box, points, data[0].unit, i); asof.textContent = t("as of {0}", points[i][0]); }
       };
     } else {
       var row = chips(chart, data.map(function (s) {
@@ -390,7 +407,7 @@ window.Macro = (function () {
           var j = date ? pointIndex(s.points, date) : s.points.length - 1;
           row.set(i, j >= 0 ? fmt(s.points[j][1], s.unit) : "—");
         });
-        asof.textContent = "на " + (date || latest);
+        asof.textContent = t("as of {0}", date || latest);
       };
     }
     at("");
@@ -447,7 +464,7 @@ window.Macro = (function () {
 
   function rangeButtons(current, pick) {
     var box = h("div", { class: "ranges" });
-    [["1", "1 год"], ["3", "3 года"], ["5", "5 лет"], ["all", "Вся история"]].forEach(function (r) {
+    [["1", t("1Y")], ["3", t("3Y")], ["5", t("5Y")], ["all", t("All")]].forEach(function (r) {
       box.appendChild(h("button", { type: "button", class: current === r[0] ? "on" : "", onclick: function () { pick(r[0]); } }, r[1]));
     });
     return box;
@@ -458,10 +475,10 @@ window.Macro = (function () {
     var values = points.map(function (p) { return p[1]; });
     var d = values[values.length - 1] - values[0];
     return [
-      ["Изменение за период", change(fmt(d, s.unit === "percent" ? "pp" : s.unit, true), d)],
-      ["Минимум", fmt(Math.min.apply(null, values), s.unit)],
-      ["Максимум", fmt(Math.max.apply(null, values), s.unit)],
-      ["С даты", points[0][0]],
+      [t("Change over the period"), change(fmt(d, s.unit === "percent" ? "pp" : s.unit, true), d)],
+      [t("Min"), fmt(Math.min.apply(null, values), s.unit)],
+      [t("Max"), fmt(Math.max.apply(null, values), s.unit)],
+      [t("Since"), points[0][0]],
     ];
   }
   function statRow(items) {
@@ -482,7 +499,7 @@ window.Macro = (function () {
         h("header", { class: "sheet-head" },
           h("div", null, h("h2", null, o.title), box),
           h("div", { class: "head-right" }, asof,
-            h("button", { type: "button", class: "close", "aria-label": "Закрыть", onclick: function () { dlg.close(); } }))),
+            h("button", { type: "button", class: "close", "aria-label": t("Close"), onclick: function () { dlg.close(); } }))),
         body,
         o.facts ? statRow(o.facts) : null));
     function drop() { if (chart) { dropChart(chart); chart = null; } }
@@ -498,13 +515,13 @@ window.Macro = (function () {
       Promise.all(series_.map(function (s) { return series(s.source, s.id, s.transform, s.part === "forecast" ? "" : from, s.part); })).then(function (all) {
         if (mine !== token) return;
         var data = all.map(function (s, i) { return { name: series_[i].label, unit: s.unit, points: s.points }; });
-        if (data.every(function (s) { return !s.points.length; })) { el.replaceWith(h("p", { class: "muted" }, "Нет данных за период.")); return; }
+        if (data.every(function (s) { return !s.points.length; })) { el.replaceWith(h("p", { class: "muted" }, t("No data for the period."))); return; }
         chart = timeChart(el, o.kind === "bar" ? "bar" : "line", data);
         wire(chart, data, box, asof, body, el);
         var items = statsOf(data);
         if (items.length) stats.replaceWith(statRow(items));
       }).catch(function () {
-        if (mine === token) el.replaceWith(h("p", { class: "err" }, "Не удалось загрузить данные."));
+        if (mine === token) el.replaceWith(h("p", { class: "err" }, t("Failed to load data.")));
       });
     }
     document.body.appendChild(dlg);
@@ -516,38 +533,38 @@ window.Macro = (function () {
     if (value === null || value === undefined || reducedMotion()) return;
     var start = performance.now(), final = fmt(value, unit);
     (function tick(now) {
-      var t = Math.min((now - start) / MOTION, 1);
-      el.textContent = t < 1 ? fmt(value * (1 - Math.pow(1 - t, 3)), unit) : final;
-      if (t < 1) requestAnimationFrame(tick);
+      var k = Math.min((now - start) / MOTION, 1);
+      el.textContent = k < 1 ? fmt(value * (1 - Math.pow(1 - k, 3)), unit) : final;
+      if (k < 1) requestAnimationFrame(tick);
     })(start);
   }
 
   function expandButton(open, title) {
-    return h("button", { type: "button", class: "expand", "aria-label": "Открыть крупно: " + title, title: "Открыть крупно", onclick: open });
+    return h("button", { type: "button", class: "expand", "aria-label": t("Open large: {0}", title), title: t("Open large"), onclick: open });
   }
   function renderChart(chart, region) {
     if (chart.hidden) return plaque(h("span", null, chart.title + ": " + HIDDEN_TEXT));
     var el = h("div", { class: "chart loading" });
     var note = h("p", { class: "note" });
-    var box = h("div", { class: "readout", title: "Изменение к предыдущему наблюдению" });
+    var box = h("div", { class: "readout", title: t("Change from the previous observation") });
     var asofEl = h("span", { class: "asof" });
     var right = h("div", { class: "head-right" }, asofEl);
     var top = h("header", { class: "panel-head" }, h("div", null, h("h2", null, chart.title), box), right);
     var card = h("section", { class: "card" }, top, el, note);
     var shown = chart.series.filter(function (s) { return !s.hidden; });
     if (chart.kind !== "curve") right.appendChild(expandButton(function () { inspect({ title: chart.title, kind: chart.kind, series: shown }); }, chart.title));
-    if (shown.length < chart.series.length) note.textContent = "Часть рядов скрыта в демо-версии.";
+    if (shown.length < chart.series.length) note.textContent = t("Some series are hidden in the demo.");
     var route = state.route;
     var from = chart.kind === "curve" ? fromDate("1") : fromDate(state.range);
     Promise.all(shown.map(function (s) { return series(s.source, s.id, s.transform, s.part === "forecast" ? "" : from, s.part); })).then(function (all) {
       if (route !== state.route) return;
       var data = all.map(function (s, i) { return { name: shown[i].label, unit: s.unit, points: s.points }; });
-      if (data.every(function (s) { return s.points.length === 0; })) { el.remove(); note.textContent = "Нет данных за период."; return; }
+      if (data.every(function (s) { return s.points.length === 0; })) { el.remove(); note.textContent = t("No data for the period."); return; }
       var ends = data.map(function (s) { return s.points.length ? s.points[s.points.length - 1][0] : ""; }).sort();
       if (chart.kind === "curve") {
         var curve = curveChart(el, chart, data);
         card.insertBefore(chips(curve.chart, curve.names.map(function (n) { return { name: n }; })).el, el);
-        asofEl.textContent = "на " + ends[ends.length - 1];
+        asofEl.textContent = t("as of {0}", ends[ends.length - 1]);
       } else {
         wire(timeChart(el, chart.kind, data), data, box, asofEl, card, el);
       }
@@ -555,7 +572,7 @@ window.Macro = (function () {
       if (route !== state.route) return;
       el.remove();
       note.className = "note err";
-      note.textContent = "Не удалось загрузить данные.";
+      note.textContent = t("Failed to load data.");
     });
     return card;
   }
@@ -564,13 +581,13 @@ window.Macro = (function () {
   // the data (the build date of a static site, today for the live one).
   function dateline() {
     var d = state.meta.generated_at ? new Date(state.meta.generated_at) : new Date();
-    var t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    t.setUTCDate(t.getUTCDate() + 4 - (t.getUTCDay() || 7)); // the Thursday of the week
-    var week = Math.ceil(((t - Date.UTC(t.getUTCFullYear(), 0, 1)) / 864e5 + 1) / 7);
+    var thu = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    thu.setUTCDate(thu.getUTCDate() + 4 - (thu.getUTCDay() || 7)); // the Thursday of the week
+    var week = Math.ceil(((thu - Date.UTC(thu.getUTCFullYear(), 0, 1)) / 864e5 + 1) / 7);
     return h("div", { class: "dateline" },
       h("span", null, state.region.id),
-      h("span", null, "Неделя " + week),
-      h("span", null, d.toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" })));
+      h("span", null, t("Week {0}", week)),
+      h("span", null, d.toLocaleDateString(I18N.locale(), { day: "numeric", month: "long", year: "numeric" })));
   }
 
   function renderPage() {
@@ -584,8 +601,8 @@ window.Macro = (function () {
     var cover = state.meta.demo && first;
     if (cover) {
       main.appendChild(h("section", { class: "intro" }, dateline(),
-        h("h1", null, "Макроэкономика ", h("span", null, "в одном окне")),
-        h("p", null, "Ликвидность, ставки, инфляция, бюджет и отчётность компаний. Данные каждый день собираются из официальных источников."),
+        h("h1", null, t("Macroeconomics "), h("span", null, t("at a glance"))),
+        h("p", null, t("Liquidity, rates, inflation, the budget and company reporting. Collected daily from official sources.")),
         h("div", { class: "rule" })));
     }
     var row = h("div", { class: "head-row" }, h(cover ? "h2" : "h1", { class: "title" }, page.title));
@@ -600,7 +617,7 @@ window.Macro = (function () {
       main.appendChild(slot);
       var route = state.route;
       Promise.resolve().then(function () { return Macro.views[v.view](slot, v, state.region, route); }).catch(function () {
-        if (route === state.route) slot.replaceChildren(h("div", { class: "card err" }, "Не удалось загрузить данные: " + (Macro.viewTitles[v.view] || v.view)));
+        if (route === state.route) slot.replaceChildren(h("div", { class: "card err" }, t("Failed to load data: {0}", Macro.viewTitles[v.view] || v.view)));
       });
     });
   }
@@ -651,7 +668,7 @@ window.Macro = (function () {
 
   function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
-    document.getElementById("theme").textContent = theme === "dark" ? "Светлая" : "Тёмная";
+    document.getElementById("theme").textContent = theme === "dark" ? t("Light") : t("Dark");
   }
 
   // Charts draw on canvas once, so their font has to be ready first; a slow
@@ -670,10 +687,10 @@ window.Macro = (function () {
       var bad = st.sources.filter(function (s) { return s.errors || (s.never && s.source !== "manual"); });
       var stale = st.sources.filter(function (s) { return s.stale || (s.never && s.source === "manual"); });
       var level = bad.length ? "critical" : stale.length ? "warning" : "good";
-      var text = "Все источники в норме";
-      if (bad.length) text = "Ошибки у источников: " + bad.map(function (s) { return s.source.toUpperCase(); }).join(", ");
+      var text = t("All sources OK");
+      if (bad.length) text = t("Source errors: {0}", bad.map(function (s) { return s.source.toUpperCase(); }).join(", "));
       else if (stale.length) text = stale.map(function (s) {
-        return s.source.toUpperCase() + (s.stale ? ": устарели " + s.stale : ": не введено " + s.never) + " из " + s.series + " рядов";
+        return s.source.toUpperCase() + (s.stale ? t(": {0} of {1} series stale", s.stale, s.series) : t(": {0} of {1} series not entered", s.never, s.series));
       }).join("; ");
       var box = document.getElementById("health");
       box.replaceChildren(h("span", { class: "dot " + level }), text);
@@ -693,13 +710,22 @@ window.Macro = (function () {
     });
     var burger = document.getElementById("burger");
     burger.addEventListener("click", function () { setMenuOpen(burger.getAttribute("aria-expanded") !== "true"); });
+    burger.setAttribute("aria-label", t("Menu"));
+    document.documentElement.style.setProperty("--loading-text", JSON.stringify(t("Loading…")));
+    document.getElementById("menu").setAttribute("aria-label", t("Pages"));
+    document.getElementById("region-label").textContent = t("Region");
+    var langButton = document.getElementById("lang");
+    var other = I18N.lang() === "ru" ? "en" : "ru";
+    langButton.textContent = other.toUpperCase();
+    langButton.setAttribute("aria-label", t("Switch language"));
+    langButton.addEventListener("click", function () { I18N.setLang(other); });
     var fitting = 0;
     window.addEventListener("resize", function () {
       if (fitting || !state.region) return;
       fitting = requestAnimationFrame(function () { fitting = 0; fitMenu(); });
     });
     Promise.all([load(["meta"]), fontsReady()]).then(function (ready) {
-      var meta = ready[0];
+      var meta = localize(ready[0]);
       state.meta = meta;
       if (meta.demo) {
         // A page with everything closed is left out of the demo altogether.
@@ -710,7 +736,7 @@ window.Macro = (function () {
         });
       }
       state.regionPick = select({
-        label: "Регион", value: meta.regions[0].id,
+        label: t("Region"), value: meta.regions[0].id,
         options: meta.regions.map(function (r) { return [r.id, r.id.toUpperCase()]; }),
         onChange: function (v) { location.hash = "#/" + v; },
       });
@@ -718,19 +744,21 @@ window.Macro = (function () {
       slot.appendChild(state.regionPick.el);
       slot.parentElement.hidden = meta.regions.length < 2;
       if (meta.demo || isStatic) {
-        document.getElementById("foot").textContent = (meta.demo ? "Демо-версия на открытых данных. Источники: FRED (Federal Reserve Bank of St. Louis), Federal Reserve Board, FRB New York (ON RRP, SOFR), BLS, BEA, U.S. Treasury, SEC EDGAR" + euSources(meta) + ". " : "") +
-          "Данные на " + meta.generated_at.slice(0, 10) + ". This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis.";
+        document.getElementById("foot").textContent = (meta.demo ? t("Demo on open data. Sources: {0}.", "FRED (Federal Reserve Bank of St. Louis), Federal Reserve Board, FRB New York (ON RRP, SOFR), BLS, BEA, U.S. Treasury, SEC EDGAR" + euSources(meta)) + " " : "") +
+          t("Data as of {0}.", meta.generated_at.slice(0, 10)) + " This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis.";
       }
       if (!meta.demo) showHealth();
       window.addEventListener("hashchange", route);
       route();
-    }).catch(function () {
-      document.getElementById("page").appendChild(h("div", { class: "card err" }, "Не удалось загрузить описание страниц."));
+    }).catch(function (err) {
+      if (window.console) console.error(err);
+      document.getElementById("page").appendChild(h("div", { class: "card err" }, t("Failed to load the page list.")));
     });
   }
 
   return {
     start: start, load: load, series: series, report: report, h: h, fmt: fmt, q: q, num: num, draw: draw, plaque: plaque, change: change, timeChart: timeChart, follow: follow, select: select, inspect: inspect, countUp: countUp, expandButton: expandButton,
+    t: t, locale: I18N.locale, lang: I18N.lang, pick: I18N.pick, plural: I18N.plural,
     css: css, axisStyle: axisStyle, axisLabel: axisLabel, tooltipValue: tooltipValue, fromDate: fromDate, state: state, enc: enc, views: {}, viewTitles: {},
   };
 })();

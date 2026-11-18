@@ -180,9 +180,10 @@ func (c *Config) FileLimit(rep *Report) int {
 
 // KeyRow is a row of a key metrics file.
 type KeyRow struct {
-	Label string `yaml:"label"`
-	ID    string `yaml:"id"`
-	Code  string `yaml:"code"` // shown transform; empty: the level
+	Label   string `yaml:"label"`
+	LabelEn string `yaml:"label_en"` // dashboard in English; empty: label
+	ID      string `yaml:"id"`
+	Code    string `yaml:"code"` // shown transform; empty: the level
 }
 
 // ReleasePrevious is the series whose last value stands for a release in the
