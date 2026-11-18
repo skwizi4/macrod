@@ -2,3 +2,4 @@
 # private repository. One path per line, relative to the repository root.
 CLAUDE.md
 SETUP_CHECKLIST.md
+docs/DATA_AUDIT_2026-W46.md
